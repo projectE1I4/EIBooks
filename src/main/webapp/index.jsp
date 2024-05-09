@@ -8,6 +8,6 @@
 </head>
 <body>
 <%@ include file="../common/menu.jsp" %>
-test
+SOS
 </body>
 </html>
