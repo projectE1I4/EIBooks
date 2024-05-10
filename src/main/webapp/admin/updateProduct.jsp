@@ -111,7 +111,7 @@ function previewImage(event) {
 <body>
 
 <%@ include file="../common/menu.jsp" %>
-<h2>제품 등록하기</h2>
+<h2>제품 수정하기</h2>
 <form name="writeForm" enctype="multipart/form-data" method="post" action="<%=request.getContextPath()%>/updateProductProc.bo">
 <input type="hidden" name="book_seq" value="<%=book_seq%>">
 <table border="1" width="60%">
