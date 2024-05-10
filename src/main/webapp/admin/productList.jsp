@@ -35,7 +35,7 @@ function del(book_seq){
 <body>
 
 <%@ include file="../common/menu.jsp" %>
-<h2>Board List</h2>
+<h2>제품 리스트</h2>
 <form  method="get">
 <table border="1" width="90%">
 	<tr>	
