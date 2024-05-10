@@ -29,7 +29,7 @@ int book_seq = Integer.parseInt(sBook_seq);
 
 <%@ include file="../common/menu.jsp" %>
 <h2>글 상세보기 </h2>
-<table border="1" width="90%">
+<table border="1" width="60%">
 	<tr>
 		<td colspan="4"><%=dto.getTitle() %></td>
 	</tr>
@@ -44,17 +44,20 @@ int book_seq = Integer.parseInt(sBook_seq);
 		</div>
 		<div>
 			<tr>
-				<td colspan="3"><%=dto.getPrice() %>원</td>
+				<td colspan="4"><%=dto.getPrice() %>원</td>
 			</tr>
 			<tr>
-				<td>출판사</td><td colspan="2"><%=dto.getPublisher() %></td>
+				<td>도서 분류</td><td colspan="3"><%=dto.getCategory() %></td>
+			</tr>
+			<tr>
+				<td>출판사</td><td width="30%"><%=dto.getPublisher() %></td>
 				<td>출간일</td><td><%=dto.getPubDate() %></td>
 			</tr>
 			<tr>
-				<td>isbn10</td><td><%=dto.getIsbn10() %></td>
-				<td>isbn13</td><td><%=dto.getIsbn13() %></td>
+				<td width="20%">isbn10</td><td><%=dto.getIsbn10() %></td>
+				<td width="20%">isbn13</td><td><%=dto.getIsbn13() %></td>
 			</tr>
-			<tr rowspan="10"><td colspan="3"><%=dto.getDescription() %></td></tr>
+			<tr rowspan="10"><td colspan="4"><%=dto.getDescription() %></td></tr>
 			<tr><td>재고 수량</td><td colspan="3"><%=dto.getStock() %></td></tr>
 			<tr>
 				<td colspan="4">
