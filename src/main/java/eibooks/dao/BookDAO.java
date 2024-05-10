@@ -3,6 +3,7 @@ package eibooks.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -124,113 +125,85 @@ public class BookDAO {
 		return totalCount;
 	}
 	
-	public List<BookDTO> getBooks(int listNum, int offset) {
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;		
-
-		List<BookDTO> bookList = new ArrayList<>();
-
-		try {
-			// 2. connection
-			conn = JDBCConnect.getConnection();			
-			
-			// 3. sql창
-			String sql = "select book_seq, title, author, publisher, category, imageFile, description, price, stock, isbn10, isbn13, pubDate from books ";
-			sql += " limit ? offset ?"; // 2page
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, listNum);
-			pstmt.setInt(2, offset);
-			
-			// 4. execute
-			rs = pstmt.executeQuery();
-			
-			// 5. rs처리 : id값만 list에 저장
-			while(rs.next()) {
-				int book_seq = rs.getInt("book_seq");
-				String title = rs.getString("title");
-				String author = rs.getString("author");
-				String publisher = rs.getString("publisher");
-				String category = rs.getString("category");
-				String imageFile = rs.getString("imageFile");
-				String description = rs.getString("description");
-				int price = rs.getInt("price");
-				int stock = rs.getInt("stock");
-				String isbn10 = rs.getString("isbn10");
-				String isbn13 = rs.getString("isbn13");
-				String pubDate = rs.getString("pubDate");
-				
-				BookDTO dto = new BookDTO(book_seq, title, author, publisher, category, imageFile, description, price, stock, isbn10, isbn13, pubDate);
-				bookList.add(dto);
-			}
-		} catch(Exception e) {
-			e.printStackTrace();
-			
-		} finally {
-			JDBCConnect.close(rs, pstmt, conn);
-			
-		}
-		return bookList;
-	}
-	
-	
-	public BookDTO getBook(BookDTO dto) {
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null; // select , 회원가입은 insert할 것이므로 주석 !
-
-		try {
-			// 2. connection
-			conn = JDBCConnect.getConnection();
-			
-			// 3. sql 창
-			String sql = "select book_seq, title, author, publisher, category, imageFile, description, price, stock, isbn10, isbn13, pubDate from books where book_seq = ? ";
-			pstmt = conn.prepareStatement(sql);
-			// 문자니까 setString, 날짜면 setDate 등등 ...
-			pstmt.setInt(1, dto.getBook_seq());
-			
-			// 4. execute
-			rs = pstmt.executeQuery(); // select
-
-			// 있는지 판단
-			dto = null;
-			if (rs.next()) { // id 존재
-				int book_seq = rs.getInt("book_seq");
-				String title = rs.getString("title");
-				String author = rs.getString("author");
-				String publisher = rs.getString("publisher");
-				String category = rs.getString("category");
-				String imageFile = rs.getString("imageFile");
-				String description = rs.getString("description");
-				int price = rs.getInt("price");
-				int stock = rs.getInt("stock");
-				String isbn10 = rs.getString("isbn10");
-				String isbn13 = rs.getString("isbn13");
-				String pubDate = rs.getString("pubDate");
-				
-				dto = new BookDTO(book_seq, title, author, publisher, category, imageFile, description, price, stock, isbn10, isbn13, pubDate);
-			} 
-
-		} catch (Exception e) {
-			e.printStackTrace();
-			
-		} finally {
-			JDBCConnect.close(rs, pstmt, conn);
-			
-		}
-		return dto;
-	}
-	
-	public void insertBook(BookDTO dto){
+	public void updateViewCount(BookDTO dto) {
 		Connection conn = null;
 	    PreparedStatement pstmt = null;  
-	    
 	    try {
 	       // 2. conn
 	       conn = JDBCConnect.getConnection();
 	       
 	       // 3. sql + 쿼리창
-	       String sql = "insert into books(title, author, publisher, category, imageFile, description, price, stock, isbn10, isbn13, pubDate) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+	       String sql = "update books set viewCount = viewCount + 1 ";
+	       sql += " where book_seq = ?";
+	       pstmt = conn.prepareStatement(sql);
+	       
+	       // 4. ? 세팅
+	       pstmt.setInt(1, dto.getBook_seq());
+	       
+	       // 5. execute 실행
+	       pstmt.executeUpdate();
+	       
+	    } catch (Exception e) {
+	       e.printStackTrace();
+	    }finally {
+	       JDBCConnect.close(pstmt, conn);
+	    }
+	}
+
+	public BookDTO selectView(BookDTO dto) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;				
+
+		String sql = "select title, author, imageFile, price, category, publisher, pubDate, isbn10, isbn13, description, stock ";
+		sql += " from books " ;
+		sql += " where book_seq = ? ";
+		conn = JDBCConnect.getConnection();
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, dto.getBook_seq());
+			rs = pstmt.executeQuery();
+			
+			dto = null;
+			if(rs.next()) {
+				String title = rs.getString("title");
+				String author = rs.getString("author");
+				String imageFile = rs.getString("imageFile");
+				int price = rs.getInt("price");
+				String category = rs.getString("category");
+				String publisher = rs.getString("publisher");
+				String pubDate = rs.getString("pubDate");
+				String isbn10 = rs.getString("isbn10");
+				String isbn13 = rs.getString("isbn13");
+				String description = rs.getString("description");
+				int stock = rs.getInt("stock");
+				dto = new BookDTO(title, author, publisher, category, imageFile,
+		                   description, price, stock, isbn10, isbn13, pubDate);	
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			
+		} finally {
+			JDBCConnect.close(rs, pstmt, conn);
+		}
+		
+		return dto;
+	}
+
+	public int insertProduct(BookDTO dto) {
+		Connection conn = null;
+	    PreparedStatement pstmt = null;  
+	    int rs = 0;
+	    try {
+	       // 2. conn
+	       conn = JDBCConnect.getConnection();
+	       
+	       // 3. sql + 쿼리창
+	       String sql = "insert into books(title, author, publisher, category, imageFile"
+	       		+ ", description, price, stock, isbn10, isbn13, pubDate) "
+	       		+ "values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	       pstmt = conn.prepareStatement(sql);
 	       
 	       // 4. ? 세팅
@@ -247,58 +220,17 @@ public class BookDAO {
 	       pstmt.setString(11, dto.getPubDate());
 	       
 	       // 5. execute 실행
-	       pstmt.executeUpdate();
+	       rs = pstmt.executeUpdate();
 	       
 	    } catch (Exception e) {
 	       e.printStackTrace();
-	       
-	    } finally {
+	    }finally {
 	       JDBCConnect.close(pstmt, conn);
 	    }
-	    
-	}
-	
-	
-	public int update(BookDTO dto) {
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		int rs = 0; 
-
-		try {
-			// 2. connection
-			conn = JDBCConnect.getConnection();
-			
-			// 3. sql 창
-			String sql = "update books set title = ?, author = ?, publisher = ?, category = ?, imageFile = ?, description = ?, price = ?, stock = ?, isbn10 = ?, isbn13 = ?, pubDate = ? where book_seq =? ";
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1,dto.getTitle());
-			pstmt.setString(2,dto.getAuthor());
-			pstmt.setString(3,dto.getPublisher());
-			pstmt.setString(4,dto.getCategory());
-			pstmt.setString(5,dto.getImageFile());
-			pstmt.setString(6,dto.getDescription());
-			pstmt.setInt(7,dto.getPrice());
-			pstmt.setInt(8,dto.getStock());
-			pstmt.setString(9,dto.getIsbn10());
-			pstmt.setString(10,dto.getIsbn13());
-			pstmt.setString(11,dto.getPubDate());
-			pstmt.setInt(12,dto.getBook_seq());
-
-			// 4. execute
-			rs = pstmt.executeUpdate();	// insert, update, delete
-			
-		} catch(Exception e){
-			e.printStackTrace();
-			
-		} finally{
-			JDBCConnect.close(pstmt, conn);
-			
-		}
-		return rs;
+	    return rs;
 	}
 
-	
-	public int delete(BookDTO dto) {
+	public int deleteProduct(BookDTO dto) {
 		int result = 0;
 		
 		Connection conn = null;
@@ -327,8 +259,8 @@ public class BookDAO {
 		
 		return result;
 	}
-	
-	public int viewCount(BookDTO dto) {
+
+	public int updateProduct(BookDTO dto) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		int rs = 0; 
@@ -338,11 +270,21 @@ public class BookDAO {
 			conn = JDBCConnect.getConnection();
 			
 			// 3. sql 창
-			String sql = "update books set viewCount = ? where book_seq =? ";
+			String sql = "update books set title = ?, author = ?, publisher = ?, category = ?, imageFile = ?, "
+					+ "description = ?, price = ?, stock = ?, isbn10 = ?, isbn13 = ?, pubDate = ? where book_seq =? ";
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1,dto.getViewCount());
-			pstmt.setInt(2,dto.getBook_seq());
-	
+			pstmt.setString(1,dto.getTitle());
+			pstmt.setString(2,dto.getAuthor());
+			pstmt.setString(3,dto.getPublisher());
+			pstmt.setString(4,dto.getCategory());
+			pstmt.setString(5,dto.getImageFile());
+			pstmt.setString(6,dto.getDescription());
+			pstmt.setInt(7,dto.getPrice());
+			pstmt.setInt(8,dto.getStock());
+			pstmt.setString(9,dto.getIsbn10());
+			pstmt.setString(10,dto.getIsbn13());
+			pstmt.setString(11,dto.getPubDate());
+			pstmt.setInt(12,dto.getBook_seq());
 
 			// 4. execute
 			rs = pstmt.executeUpdate();	// insert, update, delete
