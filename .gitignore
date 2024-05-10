@@ -21,3 +21,4 @@ mvnw.cmd
 .mvn
 pom.xml
 /src/main/webapp/META-INF/
+/src/test/
