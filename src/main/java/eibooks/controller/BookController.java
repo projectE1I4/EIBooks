@@ -15,6 +15,7 @@ import eibooks.common.PageDTO;
 import eibooks.dao.BookDAO;
 import eibooks.dto.BookDTO;
 
+// ~.bo로 끝나는 경우 여기서 처리함
 @WebServlet("*.bo")
 public class BookController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -36,32 +37,45 @@ public class BookController extends HttpServlet {
 		System.out.println("doProcess");
 		request.setCharacterEncoding("utf-8"); // 한글처리
 
+		// URI 받아옴
 		String uri = request.getRequestURI();
+		// /의 뒤에 있는 내용을 가져옴.
 		String action = uri.substring(uri.lastIndexOf("/"));
+		// uri 출력
 		System.out.println(uri);
 		
 		if(action.equals("/bookList.bo")) {
 			// move. get, 2. forward - reqeust.setAttribute("v","o")			
+			// action에 저장한 값 bookList.bo가 출력되는지 확인
 			System.out.println(action);
 
+			// searchField에 대해서 파라메터 받아옴, searchWord에 대해서 파라메터 받아옴
 			String searchField = request.getParameter("searchField");
 			String searchWord = request.getParameter("searchWord");
 
+			// Map을 통해서 searchField와 searchWord 처리
 			Map<String, String> map = new HashMap<>();
 			map.put("searchField", searchField);
 			map.put("searchWord", searchWord);
 
 			// paging info
+			// paging 정보 10개씩 1페이지
 			int amount = 10;
 			int pageNum = 1;
 			
+			// pageNum에 대해서 sPageNum으로 파라메터로 받아오기 (문자열로 들어옴)
 			String sPageNum = request.getParameter("pageNum");
+			// sPageNum이 null이 아닌 경우 Integer로 변환
 			if(sPageNum != null) pageNum = Integer.parseInt(sPageNum);
+			// offset은 (pageNum-1) * amount
 			int offset = (pageNum-1) * amount;
 
+			// map에 offset 집어넣기
 			map.put("offset", offset+"");
+			// map에 amount 집어넣기
 			map.put("amount", amount+"");
 			
+			// BookDAO 가져옴
 			BookDAO dao = new BookDAO();
 			
 			List<BookDTO> bookList = dao.selectPageList(map);
@@ -76,6 +90,55 @@ public class BookController extends HttpServlet {
 
 			// forward
 			String path =  "./bookList.jsp"; // 1
+			request.getRequestDispatcher(path).forward(request, response);
+		}
+		
+		if(action.equals("/userBookList.bo")) {
+			// move. get, 2. forward - reqeust.setAttribute("v","o")			
+			// action에 저장한 값 bookList.bo가 출력되는지 확인
+			System.out.println(action);
+			
+			// searchField에 대해서 파라메터 받아옴, searchWord에 대해서 파라메터 받아옴
+			String searchField = request.getParameter("searchField");
+			String searchWord = request.getParameter("searchWord");
+			
+			// Map을 통해서 searchField와 searchWord 처리
+			Map<String, String> map = new HashMap<>();
+			map.put("searchField", searchField);
+			map.put("searchWord", searchWord);
+			
+			// paging info
+			// paging 정보 10개씩 1페이지
+			int amount = 10;
+			int pageNum = 1;
+			
+			// pageNum에 대해서 sPageNum으로 파라메터로 받아오기 (문자열로 들어옴)
+			String sPageNum = request.getParameter("pageNum");
+			// sPageNum이 null이 아닌 경우 Integer로 변환
+			if(sPageNum != null) pageNum = Integer.parseInt(sPageNum);
+			// offset은 (pageNum-1) * amount
+			int offset = (pageNum-1) * amount;
+			
+			// map에 offset 집어넣기
+			map.put("offset", offset+"");
+			// map에 amount 집어넣기
+			map.put("amount", amount+"");
+			
+			// BookDAO 가져옴
+			BookDAO dao = new BookDAO();
+			
+			List<BookDTO> bookList = dao.selectPageList(map);
+			int totalCount = dao.selectCount(map);
+			
+			// Paging
+			PageDTO paging = new PageDTO(pageNum, amount, totalCount);
+			
+			request.setAttribute("bookList", bookList);
+			request.setAttribute("paging", paging);
+			request.setAttribute("totalCount", totalCount);
+			
+			// forward
+			String path =  "./userBookList.jsp"; // 1
 			request.getRequestDispatcher(path).forward(request, response);
 		}
 	}
