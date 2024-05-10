@@ -14,3 +14,9 @@
 # Maven
 log/
 /target/
+/src/main/webapp/WEB-INF/
+mvnw
+mvnw.cmd
+.mvn
+pom.xml
+/src/main/webapp/META-INF/
