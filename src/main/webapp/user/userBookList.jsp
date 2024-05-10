@@ -5,9 +5,10 @@
     pageEncoding="UTF-8"%>
 <%
 	// 가져오는 방식에 대해서 고민
+	// 검색 시 얘가 지금 null 값으로 가져오는 중임
 	List<BookDTO> bookList = (List<BookDTO>)request.getAttribute("bookList");
-BookDTO bookdto = new BookDTO();
-PageDTO p = (PageDTO)request.getAttribute("paging");
+	BookDTO bookdto = new BookDTO();
+	PageDTO p = (PageDTO)request.getAttribute("paging");
 // int totalCount = (int)request.getAttribute("totalCount");
 %>
 <!DOCTYPE html>
@@ -22,8 +23,18 @@ PageDTO p = (PageDTO)request.getAttribute("paging");
 <h2>도서 목록 보기</h2>
 
 <!-- 검색창 -->
-<
+<form method="get">
+<table border="1" width="90%">
+	<tr>
+	<td>
+	<input type="text" name="searchWord" />
+	<input type="submit" value="search">
+	</td>
+	</tr>
+</table>
+</form>
 
+<!-- 전체 목록 -->
 <table border="1" width="90%">
 <tr>
 <td colspan="4">&nbsp;<b>카테고리 :<% if(bookdto.getCategory()==null){ %> 전체 <% }else{ %> 카테고리명<% } %></b></td>
@@ -63,7 +74,7 @@ int cnt = 1;
 	<%} %>
 	<%} %>
 <tr>
-<td colspan="6">
+<td colspan="8">
 <%if(p.isPrev()) {%><a href="userBookList.bo?pageNum=1">[First]</a><% } %>
 <%if(p.isPrev()) {%><a href="userBookList.bo?pageNum=<%=p.getStartPage()-1%>">[Prev]</a><% } %>
 <%for(int i=p.getStartPage(); i<= p.getEndPage(); i++) {%>

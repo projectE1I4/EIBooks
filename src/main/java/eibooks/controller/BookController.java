@@ -92,19 +92,18 @@ public class BookController extends HttpServlet {
 			String path =  "./bookList.jsp"; // 1
 			request.getRequestDispatcher(path).forward(request, response);
 		}
-		
-		if(action.equals("/userBookList.bo")) {
+		else if(action.equals("/userBookList.bo")) {
 			// move. get, 2. forward - reqeust.setAttribute("v","o")			
 			// action에 저장한 값 bookList.bo가 출력되는지 확인
 			System.out.println(action);
 			
 			// searchField에 대해서 파라메터 받아옴, searchWord에 대해서 파라메터 받아옴
-			String searchField = request.getParameter("searchField");
 			String searchWord = request.getParameter("searchWord");
+			// 여기까지 넘어오는 거 확인
+			System.out.println("서치워드"+ searchWord);
 			
 			// Map을 통해서 searchField와 searchWord 처리
 			Map<String, String> map = new HashMap<>();
-			map.put("searchField", searchField);
 			map.put("searchWord", searchWord);
 			
 			// paging info
@@ -127,7 +126,7 @@ public class BookController extends HttpServlet {
 			// BookDAO 가져옴
 			BookDAO dao = new BookDAO();
 			
-			List<BookDTO> bookList = dao.selectPageList(map);
+			List<BookDTO> bookList = dao.userSelectPageList(map);
 			int totalCount = dao.selectCount(map);
 			
 			// Paging
