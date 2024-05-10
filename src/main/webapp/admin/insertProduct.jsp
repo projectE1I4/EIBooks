@@ -111,12 +111,12 @@ function previewImage(event) {
 <%@ include file="../common/menu.jsp" %>
 <h2>제품 등록하기</h2>
 <form name="writeForm" enctype="multipart/form-data" method="post" action="<%=request.getContextPath()%>/writeProductProc.bo">
-<table border="1" width="90%">
+<table border="1" width="60%">
 	<tr>
-		<td colspan="4"><input type="text" name="title" style="width:100%" placeholder="도서 명"></td>
+		<td colspan="4"><input type="text" name="title" style="width:90%" placeholder="도서 명"></td>
 	</tr>
 	<tr>
-		<td colspan="4"><input type="text" name="author" style="width:100%" placeholder="저자 명"></td>	
+		<td colspan="4"><input type="text" name="author" style="width:90%" placeholder="저자 명"></td>	
 	</tr>
 	<div>
 		<div >
@@ -129,29 +129,29 @@ function previewImage(event) {
 		</div>
 		<div>
 			<tr>
-				<td colspan="3"><input type="text" name="price" style="width:100%" placeholder="가격"></td>
+				<td colspan="4"><input type="text" name="price" style="width:90%" placeholder="가격"></td>
 			</tr>
 			<tr>
-				<td>도서 분류<input type="text" name="category" style="width:100%"></td>
+				<td colspan="4">도서 분류 &nbsp;<input type="text" name="category"></td>
 			</tr>
 			<tr>
-				<td>출판사<input type="text" name="publisher" style="width:100%"></td>
-				<td>출간일<input type="text" name="pubDate" style="width:100%"></td>
+				<td width="50%">출판사 &nbsp;<input type="text" name="publisher"></td>
+				<td>출간일 &nbsp;<input type="text" name="pubDate"></td>
 			</tr>
-				<td>isbn10<input type="text" name="isbn10" style="width:100%"></td>
-				<td>isbn13<input type="text" name="isbn13" style="width:100%"></td>
+				<td>isbn10 &nbsp;<input type="text" name="isbn10"></td>
+				<td>isbn13 &nbsp;<input type="text" name="isbn13"></td>
 			<tr>
 			</tr>
 			<tr>
-				<td colspan="3">
-					<textarea name="description" style="width:100%; height:100px" placeholder="상세 설명"></textarea>
+				<td colspan="4">
+					<textarea name="description" style="width:90%; height:100px" placeholder="상세 설명"></textarea>
 				</td>
 			</tr>
 			<tr>
-				<td>재고 수량</td>
-				<td colspan="2">
+				<td colspan="3">
+					재고 수량 &nbsp; 
 					<input type="button" value="-" onclick="decrease()">
-					<input type="text" name="stock" style="width:100%">
+					<input type="text" name="stock">
 					<input type="button" value="+" onclick="increase()">
 				</td>
 			</tr>

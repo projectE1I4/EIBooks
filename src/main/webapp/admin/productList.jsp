@@ -57,11 +57,11 @@ function del(book_seq){
 <tr><td colspan="8">&nbsp;<b>전체 <%=totalCount %>개</b></td></tr>
 	<tr>
 		<th width="10%">도서 분류</th>
-		<th width="32%">도서 명</th>
+		<th width="28%">도서 명</th>
 		<th width="20%">저자 명</th>
-		<th width="16%">출판사</th>
-		<th width="14%">출간일</th>
-		<th width="8%">재고 수량</th>
+		<th width="12%">출판사</th>
+		<th width="10%">출간일</th>
+		<th width="10%">재고 수량</th>
 	</tr>
 <% if(bookList.isEmpty()) { %>	
 	<tr><td colspan="8">&nbsp;<b>Data Not Found!!</b></td></tr>
@@ -76,8 +76,8 @@ function del(book_seq){
 			<td align="left"><%=book.getPublisher() %></td>
 			<td><%=book.getPubDate() %></td>
 			<td><%=book.getStock() %></td>
-			<td><a href="updateProduct.bo?book_seq=<%=book.getBook_seq() %>">[수정]</a></td>
-			<td><a href="javascript:del('<%=book.getBook_seq() %>');">[삭제]</a></td>
+			<td width="5%"><a href="updateProduct.bo?book_seq=<%=book.getBook_seq() %>">[수정]</a></td>
+			<td width="5%"><a href="javascript:del('<%=book.getBook_seq() %>');">[삭제]</a></td>
 		</tr>
 	<%} %>
 <%} %>
