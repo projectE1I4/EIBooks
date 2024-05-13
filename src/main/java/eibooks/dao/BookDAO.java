@@ -59,6 +59,7 @@ public class BookDAO {
 				pstmt.setInt(1, Integer.parseInt(map.get("amount"))); // amount 설정
 				pstmt.setInt(2, Integer.parseInt(map.get("offset"))); // offset 설정
 			}
+			System.out.println("searchWord: "+ pstmt);
 			
 			// 쿼리의 결과 등록
 			rs = pstmt.executeQuery();
@@ -100,6 +101,9 @@ public class BookDAO {
 	// 효빈 작업: 서치
 	public List<BookDTO> userSelectPageList(Map<String, String> map) {
 		
+		String selectCategory = map.get("selectCategory");
+		System.out.println("셀렉카테"+selectCategory);
+		
 		// DB 연결
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -112,21 +116,31 @@ public class BookDAO {
 		}	
 		
 		// bookList List 형태로 만들기
-		List<BookDTO> searchBookList = new ArrayList<>();
+		List<BookDTO> bookList = new ArrayList<>();
 		
 		// 모든 책을 불러오는 sql문
 		String sql = "select * from books ";
 		
+		if (map.get("selectCategory") != null && !(map.get("selectCategory").equals("전체"))) {
+			sql += "where category = ? ";
+		}
+		
 		// search 여부가 true일 때
 		if(isSearch) {
 			// sql 문에다가 where 절 추가
-			sql += "where title like ? ";
+			
+			if (map.get("selectCategory") != null && !(map.get("selectCategory").equals("전체"))) {
+				sql += " and ";
+			}
+			
+			sql += " (title like ? ";
 			sql += "or author like ? ";
-			sql += "or publisher like ? ";
+			sql += "or publisher like ? )";
 		}
 		// 페이지 당 얼마나 보여줄 것인지, 정렬 방법에 대해서
 		sql += "order by book_seq desc ";
 		sql += "limit ? offset ? "; // 2page
+		
 		
 		try {
 			
@@ -135,20 +149,36 @@ public class BookDAO {
 			// sql문 할당
 			pstmt = conn.prepareStatement(sql);
 			
+			int num = 1;
 			// search가 true일 경우 아래와 같이 설정
+			if ( map.get("selectCategory") != null && !(map.get("selectCategory").equals("전체"))) {
+				pstmt.setString(num, map.get("selectCategory"));
+				num += 1;
+			}
 			if(isSearch) {
 				// 서치 키워드에서만 만들기 위해서 다음과 같아짐
-				System.out.println("searchWord: "+ map.get("searchWord"));
-				pstmt.setString(1, "%" + map.get("searchWord") + "%"); // searchWord 설정
-				pstmt.setString(2, "%" + map.get("searchWord") + "%"); // searchWord 설정
-				pstmt.setString(3, "%" + map.get("searchWord") + "%"); // searchWord 설정
-				pstmt.setInt(4, Integer.parseInt(map.get("amount"))); // amount 설정
-				pstmt.setInt(5, Integer.parseInt(map.get("offset"))); // offset 설정
+				
+				pstmt.setString(num, "%" + map.get("searchWord") + "%"); // searchWord 설정
+				num += 1;
+				pstmt.setString(num, "%" + map.get("searchWord") + "%"); // searchWord 설정
+				num += 1;
+				pstmt.setString(num, "%" + map.get("searchWord") + "%"); // searchWord 설정
+				num += 1;
+				pstmt.setInt(num, Integer.parseInt(map.get("amount"))); // amount 설정
+				num += 1;
+				pstmt.setInt(num, Integer.parseInt(map.get("offset"))); // offset 설정
+				System.out.println("searchWord: "+ sql);
+				num = 0;
 			} else {
 				// false일 경우 아래와 같아짐
-				pstmt.setInt(1, Integer.parseInt(map.get("amount"))); // amount 설정
-				pstmt.setInt(2, Integer.parseInt(map.get("offset"))); // offset 설정
+				// amount 설정
+				pstmt.setInt(num, Integer.parseInt(map.get("amount"))); // amount 설정
+				num += 1;
+				pstmt.setInt(num, Integer.parseInt(map.get("offset"))); // offset 설정
+				num = 0;
 			}
+			num = 0;
+			System.out.println("pstmt: "+ pstmt);
 			
 			// 쿼리의 결과 등록
 			rs = pstmt.executeQuery();
@@ -171,7 +201,7 @@ public class BookDAO {
 				// bookdto에다가 해당 내용들을 집어넣음
 				BookDTO dto = new BookDTO(book_seq, title, author, publisher, category, imageFile, description, price, stock, isbn10, isbn13, pubDate);
 				// 그에 대한 결과를 bookList에 집어넣음
-				searchBookList.add(dto);
+				bookList.add(dto);
 			}
 			
 		} catch(Exception e) {
@@ -184,9 +214,10 @@ public class BookDAO {
 			
 		}
 		//bookList 반환
-		return searchBookList;
+		return bookList;
 	}
 	
+
 	
 	// selectCount 기능 (총계)
 	public int selectCount(Map<String, String> map) {
@@ -250,6 +281,74 @@ public class BookDAO {
 		// totalCount 리턴
 		return totalCount;
 	}
+	
+public int userSelectCount(Map<String, String> map) {
+		
+		// DB 연결
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;		
+
+		// totalCount 선언
+		int totalCount = 0;
+		// bookList ArrayList로 만들기
+		List<BookDTO> bookList = new ArrayList<>();
+		
+		// search 여부
+		boolean isSearch = false;
+		if(map.get("searchWord") != null && map.get("searchWord").length() != 0) {
+			isSearch = true;
+		}
+		
+		// 기본 sql문 
+		String sql = "select count(book_seq) as cnt from books ";
+		if(isSearch) {
+			//sql += " and " + map.get("searchField") + " like concat('%',?,'%')";
+			
+			//search 시에 들어갈 내용
+			sql += "where title like ? ";
+			sql += "or author like ? ";
+			sql += "or publisher like ? ";
+		}
+
+		try {
+			// 2. connection
+			conn = JDBCConnect.getConnection();
+			
+			// 3. sql창
+			pstmt = conn.prepareStatement(sql);
+			if(isSearch) {
+				//pstmt.setString(1, map.get("searchWord"));
+				// search 내용 합치기 위한 부분
+				pstmt.setString(1, "%" + map.get("searchWord") + "%");
+				pstmt.setString(2, "%" + map.get("searchWord") + "%");
+				pstmt.setString(3, "%" + map.get("searchWord") + "%");
+			}
+			
+			// 4. execute
+			// 결과 내용 내보냄
+			rs = pstmt.executeQuery();
+			
+			// rs의 값이 있을 경우에 totalCount에 적재
+			if(rs.next()) {
+				totalCount = rs.getInt("cnt");
+			}
+			
+			// 에러 메시지 보여줌
+		} catch(Exception e) {
+			e.printStackTrace();
+			
+		} finally {
+			// 연결 닫기
+			JDBCConnect.close(rs, pstmt, conn);
+			
+		}
+		
+		// totalCount 리턴
+		return totalCount;
+	}
+
+
 	
 	// books(전체 책)를 가져오는 내용
 	public List<BookDTO> getBooks(int listNum, int offset) {

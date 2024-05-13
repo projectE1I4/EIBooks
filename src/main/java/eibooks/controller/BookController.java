@@ -52,11 +52,13 @@ public class BookController extends HttpServlet {
 			// searchField에 대해서 파라메터 받아옴, searchWord에 대해서 파라메터 받아옴
 			String searchField = request.getParameter("searchField");
 			String searchWord = request.getParameter("searchWord");
+			
 
 			// Map을 통해서 searchField와 searchWord 처리
 			Map<String, String> map = new HashMap<>();
 			map.put("searchField", searchField);
 			map.put("searchWord", searchWord);
+			
 
 			// paging info
 			// paging 정보 10개씩 1페이지
@@ -92,24 +94,28 @@ public class BookController extends HttpServlet {
 			String path =  "./bookList.jsp"; // 1
 			request.getRequestDispatcher(path).forward(request, response);
 		}
+		
+		// 유저 북 리스트
 		else if(action.equals("/userBookList.bo")) {
 			// move. get, 2. forward - reqeust.setAttribute("v","o")			
 			// action에 저장한 값 bookList.bo가 출력되는지 확인
 			System.out.println(action);
-			
 			// searchField에 대해서 파라메터 받아옴, searchWord에 대해서 파라메터 받아옴
 			String searchWord = request.getParameter("searchWord");
-			// 여기까지 넘어오는 거 확인
-			System.out.println("서치워드"+ searchWord);
+			String selectCategory = request.getParameter("selectCategory");
+			
+			System.out.println("셀카"+selectCategory);
 			
 			// Map을 통해서 searchField와 searchWord 처리
 			Map<String, String> map = new HashMap<>();
 			map.put("searchWord", searchWord);
+			map.put("selectCategory", selectCategory);
 			
 			// paging info
 			// paging 정보 10개씩 1페이지
 			int amount = 10;
 			int pageNum = 1;
+			
 			
 			// pageNum에 대해서 sPageNum으로 파라메터로 받아오기 (문자열로 들어옴)
 			String sPageNum = request.getParameter("pageNum");
@@ -120,6 +126,7 @@ public class BookController extends HttpServlet {
 			
 			// map에 offset 집어넣기
 			map.put("offset", offset+"");
+			// System.out.println("offset"+ offset);
 			// map에 amount 집어넣기
 			map.put("amount", amount+"");
 			
@@ -127,18 +134,21 @@ public class BookController extends HttpServlet {
 			BookDAO dao = new BookDAO();
 			
 			List<BookDTO> bookList = dao.userSelectPageList(map);
-			int totalCount = dao.selectCount(map);
+			int totalCount = dao.userSelectCount(map);
+			// System.out.println("토탈 카운트"+totalCount);
 			
 			// Paging
 			PageDTO paging = new PageDTO(pageNum, amount, totalCount);
 			
 			request.setAttribute("bookList", bookList);
-			request.setAttribute("paging", paging);
+			request.setAttribute("paging", paging); 
+			// pageNum 넘어감 확인
 			request.setAttribute("totalCount", totalCount);
 			
 			// forward
 			String path =  "./userBookList.jsp"; // 1
 			request.getRequestDispatcher(path).forward(request, response);
+//			response.sendRedirect(request.getContextPath() + "/BookController");
 		}
 	}
 }

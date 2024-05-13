@@ -9,36 +9,92 @@
 	List<BookDTO> bookList = (List<BookDTO>)request.getAttribute("bookList");
 	BookDTO bookdto = new BookDTO();
 	PageDTO p = (PageDTO)request.getAttribute("paging");
-// int totalCount = (int)request.getAttribute("totalCount");
+	int totalCount = (int)request.getAttribute("totalCount");
+	
 %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>도서 목록 보기</title>
+<script type="text/javascript">
+function categorySelect(value){
+	console.log(value);
+	var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            // 서버로부터 응답을 받았을 때 실행할 코드
+            document.getElementById("selectCategory").value = value;
+            document.getElementById("categoryInput").value = value;
+            
+        }
+    };
+    xhttp.open("GET", "<%=request.getContextPath()%>/user/userBookList.bo?selectCategory=" + value, true);
+    xhttp.send();
+}	
+
+</script>
+
 </head>
 <body>
 <%@ include file="../common/menu.jsp" %>
 <!-- 제목 --> 
 <h2>도서 목록 보기</h2>
 
+<!-- 카테고리 -->
+<!-- all / 만화 / 소설,시,희곡, / 수험서, 자격증 / 인문학 -->
+<h3>카테고리</h3>
+<form name="cateMenu" enctype="multipart/form-data" method="post" action="<%=request.getContextPath()%>/userBookList.bo">
+<table border="1" width="90%">
+	<tr>
+	<td width="20%"><input name="category" type="button" value="전체" onclick="categorySelect('전체')"></td>
+	<td width="20%"><input name="category" type="button" value="만화" onclick="categorySelect('만화')"></td>
+	<td width="20%"><input name="category" type="button" value="소설/시/희곡" onclick="categorySelect('소설/시/희곡')"></td>
+	<td width="20%"><input name="category" type="button" value="수험서/자격증" onclick="categorySelect('수험서/자격증')"></td>
+	<td width="20%"><input name="category" type="button" value="인문학" onclick="categorySelect('인문학')"></td>
+	</tr>
+</table>
+<input type="text" id="selectCategory" name="selectCategory" value="">
+</form>
 <!-- 검색창 -->
 <form method="get">
 <table border="1" width="90%">
+	
+	<%
+	String searchWord = request.getParameter("searchWord");
+	if (searchWord != null && !searchWord.isEmpty()) {
+    	// 입력 값이 있을 때 실행할 코드
+   	 	%> 
+   	 	<tr>
+	<td>
+   	 	검색어 : '<b><%=searchWord %></b>'
+   	 	</td>
+	</tr>
+   	 	<%
+	} else {
+    	// 입력 값이 없을 때 실행할 코드
+    	%>
+    	<br>
+    	<%
+	}
+%>
+	
 	<tr>
 	<td>
-	<input type="text" name="searchWord" />
-	<input type="submit" value="search">
+		<input type="text" name="searchWord" <%if(searchWord !=null){%> value="<%=searchWord%>" <%} %> placeholder="검색어를 입력하세요.">
+		<input type="submit" value="Search">
 	</td>
 	</tr>
 </table>
 </form>
 
 <!-- 전체 목록 -->
+
+
 <table border="1" width="90%">
 <tr>
-<td colspan="4">&nbsp;<b>카테고리 :<% if(bookdto.getCategory()==null){ %> 전체 <% }else{ %> 카테고리명<% } %></b></td>
-<td colspan="4">&nbsp;<b>전체 :<%=p.getPageNum() %> / <%=p.getTotal() %></b></td>
+<td colspan="4">&nbsp;<b>카테고리 :<% if(bookdto.getCategory()==null){ %> 전체 <% }else{ %> document.getElementById("selectCategory").value<% } %></b></td>
+<td colspan="4">&nbsp;<b>전체 :<%=p.getPageNum() %> / <%=totalCount %></b></td>
 </tr>
 	<tr>
 		<th width="5%">넘버링</th>
@@ -72,10 +128,13 @@ int cnt = 1;
 			</td>
 		</tr>
 	<%} %>
-	<%} %>
+<%} %>
 <tr>
 <td colspan="8">
+<%-- first는 하드 코딩 (1번으로 가기 때문에 당연함) --%>
+<% System.out.print("프리브"+p.isNext()); %>
 <%if(p.isPrev()) {%><a href="userBookList.bo?pageNum=1">[First]</a><% } %>
+<%-- getStartPage는 이전 10개 전으로 돌아감. 수식 확인 필요 --%>
 <%if(p.isPrev()) {%><a href="userBookList.bo?pageNum=<%=p.getStartPage()-1%>">[Prev]</a><% } %>
 <%for(int i=p.getStartPage(); i<= p.getEndPage(); i++) {%>
 	<%if(i == p.getPageNum()){%>
@@ -90,5 +149,6 @@ int cnt = 1;
 </tr>
 
 </table>
+
 </body>
 </html>
