@@ -79,29 +79,32 @@ function validateForm() {
 }
 
 function decrease() {
-	var stockInput = document.getElementsByName("stock")[0];
-    var currentValue = parseInt(stockInput.value);
+	let stockInput = document.getElementsByName("stock")[0];
+    let currentValue = parseInt(stockInput.value);
+    
     if (!isNaN(currentValue) && currentValue > 0) {
       stockInput.value = currentValue - 1;
     }
 }
 
 function increase() {
-	var stockInput = document.getElementsByName("stock")[0];
-    var currentValue = parseInt(stockInput.value);
+	let stockInput = document.getElementsByName("stock")[0];
+    let currentValue = parseInt(stockInput.value);
+    
     if (!isNaN(currentValue)) {
       stockInput.value = currentValue + 1;
     }
 }
 
 function previewImage(event) {
-    var reader = new FileReader();
+    let reader = new FileReader();
+    
     reader.onload = function() {
-      var output = document.getElementById('imagePreview');
+      let output = document.getElementById('imagePreview');
       output.src = reader.result;
     }
     reader.readAsDataURL(event.target.files[0]);
-  }
+}
 
 </script>
 
@@ -132,7 +135,15 @@ function previewImage(event) {
 				<td colspan="4"><input type="text" name="price" style="width:90%" placeholder="가격"></td>
 			</tr>
 			<tr>
-				<td colspan="4">도서 분류 &nbsp;<input type="text" name="category"></td>
+				<td colspan="4">
+					도서 분류 &nbsp;
+					<select name="category">
+						<option value="만화">만화</option>
+						<option value="소설/시/희곡">소설/시/희곡</option>
+						<option value="수험서/자격증">수험서/자격증</option>
+						<option value="인문학">인문학</option>
+					</select>
+				</td>
 			</tr>
 			<tr>
 				<td width="50%">출판사 &nbsp;<input type="text" name="publisher"></td>
