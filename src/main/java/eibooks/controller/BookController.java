@@ -94,11 +94,6 @@ public class BookController extends HttpServlet {
 			dto.setBook_seq(book_seq);
 
 			BookDAO dao = new BookDAO();
-
-			//1. viewCount update
-			dao.updateViewCount(dto); // 5초
-
-			//2. view content
 			dto = dao.selectView(dto);
 
 			request.setAttribute("dto", dto);
