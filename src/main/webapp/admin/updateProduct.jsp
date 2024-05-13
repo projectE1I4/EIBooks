@@ -135,7 +135,15 @@ function previewImage(event) {
 				<td colspan="4"><input type="text" name="price" style="width:90%" value="<%=dto.getPrice() %>"></td>
 			</tr>
 			<tr>
-				<td>도서 분류 &nbsp;<input type="text" name="category" value="<%=dto.getCategory() %>"></td>
+				<td colspan="4">
+					도서 분류 &nbsp;
+					<select name="category">
+						<option value="만화" <% if(dto.getCategory().equals("만화")) { %> selected <% } %>>만화</option>
+						<option value="소설/시/희곡" <% if(dto.getCategory().equals("소설/시/희곡")) { %> selected <% } %>>소설/시/희곡</option>
+						<option value="수험서/자격증" <% if(dto.getCategory().equals("수험서/자격증")) { %> selected <% } %>>수험서/자격증</option>
+						<option value="인문학" <% if(dto.getCategory().equals("인문학")) { %> selected <% } %>>인문학</option>
+					</select>
+				</td>
 			</tr>
 			<tr>
 				<td width="50%">출판사 &nbsp;<input type="text" name="publisher" value="<%=dto.getPublisher() %>"></td>
