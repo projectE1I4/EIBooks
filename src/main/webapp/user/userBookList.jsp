@@ -75,6 +75,8 @@ $(function (){
 <form id="cateMenu" enctype="multipart/form-data">
 <table border="1" width="90%">
 	<tr>
+	<!-- 여기서 if문으로 checked된 전체랑 아닌 전체의 input을 만들어두기. (전체를 넣기 때문에 아닌 경우에 사라지지 않도록)
+	그리고 나서 그 외의 else if문은 checked 값만 포함하도록 하기 -->
 	<td width="20%"><input name="selectCategory" type="radio" value="전체"/>전체</td>
 	<td width="20%"><input name="selectCategory" type="radio" value="만화" />만화</td>
 	<td width="20%"><input name="selectCategory" type="radio" value="소설/시/희곡"/>소설/시/희곡</td>
@@ -82,6 +84,7 @@ $(function (){
 	<td width="20%"><input name="selectCategory" type="radio" value="인문학"/>인문학</td>
 	</tr>
 </table>
+<!-- 여기의 카테고리도 그냥 <%= %> 이걸로 처리 해보기 (그냥 출력)-->
 <input type="text" id="selectCategory" value="">
 </form>
 <!-- 검색창 -->
@@ -105,11 +108,20 @@ $(function (){
 
 
 <table border="1" width="90%">
-<tr><td colspan="4">
+<tr><td colspan="3">
 &nbsp;<b>카테고리 :<% if(bookdto.getCategory()==null){ 
 %> 전체 <% }else{ 
 %> document.getElementById("selectCategory").value<% } %></b></td>
-<td colspan="4">&nbsp;<b>전체 :<%=p.getPageNum() %> / <%=totalCount %></b></td></tr>
+<td colspan="3">&nbsp;<b>전체 :<%=p.getPageNum() %> / <%=totalCount %></b></td>
+<td colspan="2">
+<select >
+	<option value="new">최신순</option>
+	<option value="old">오래된순</option>
+	<option value="popular">인기순</option>
+</select>
+
+</td>
+</tr>
 	<tr>
 		<th width="5%">넘버링</th>
 		<th width="10%">이미지</th>

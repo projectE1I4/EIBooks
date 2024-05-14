@@ -103,6 +103,7 @@ public class BookController extends HttpServlet {
 			// searchField에 대해서 파라메터 받아옴, searchWord에 대해서 파라메터 받아옴
 			String searchWord = request.getParameter("searchWord");
 			String selectCategory = request.getParameter("selectCategory");
+			String sorting = request.getParameter("sorting");
 			
 			System.out.println("셀카"+selectCategory);
 			
@@ -110,6 +111,7 @@ public class BookController extends HttpServlet {
 			Map<String, String> map = new HashMap<>();
 			map.put("searchWord", searchWord);
 			map.put("selectCategory", selectCategory);
+			map.put("sorting", sorting);
 			
 			// paging info
 			// paging 정보 10개씩 1페이지

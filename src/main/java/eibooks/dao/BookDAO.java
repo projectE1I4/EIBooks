@@ -245,7 +245,13 @@ public List<BookDTO> userSortPageList(Map<String, String> map) {
 			sql += "or publisher like ? )";
 		}
 		// 페이지 당 얼마나 보여줄 것인지, 정렬 방법에 대해서
-		sql += "order by book_seq desc ";
+		if(map.get("sorting").equals("new")) {
+			sql += "order by book_seq desc ";
+		} else if (map.get("sorting").equals("old")) {
+			sql += "order by book_seq asc ";
+		} else if (map.get("sorting").equals("popular")) {
+			sql += "order by viewCount desc ";			
+		}
 		sql += "limit ? offset ? "; // 2page
 		
 		
