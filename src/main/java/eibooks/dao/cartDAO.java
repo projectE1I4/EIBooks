@@ -46,6 +46,7 @@ public class cartDAO {
 				cartItem.setBook_seq(rs.getInt("book_seq"));
 				cartItem.setCartICount(rs.getInt("cart_i_count"));
 				
+				
 				BookDTO book = new BookDTO();
 				book.setBook_seq(rs.getInt("book_seq"));
 				book.setImageFile(rs.getString("imageFile"));
@@ -81,7 +82,7 @@ public class cartDAO {
 			conn = JDBCConnect.getConnection();
 			System.out.println("delete conn ok!");
 			
-			String sql = "detele from cart_item where cart_i_seq = ?";
+			String sql = "delete from cart_item where cart_i_seq = ?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, cartISeq);
 			

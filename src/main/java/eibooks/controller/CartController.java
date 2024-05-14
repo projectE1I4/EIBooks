@@ -45,7 +45,8 @@ public class CartController extends HttpServlet {
 		System.out.println(uri);
 		
 		if (action.equals("/customerCart.cc")) {
-            int cusSeq = 2; // 임시로 회원 번호를 지정, 실제로는 세션 등을 통해 로그인한 사용자의 정보를 가져와야 함
+			// 임시로 회원 번호를 지정, 실제로는 세션 등을 통해 로그인한 사용자의 정보를 가져와야 함
+            int cusSeq = 3; 
             
             // 장바구니에 담긴 책 목록 조회
             cartDAO cartDao = new cartDAO();
@@ -61,5 +62,26 @@ public class CartController extends HttpServlet {
             String path = "./customerCart.jsp"; // 장바구니 페이지의 JSP 파일 경로
             request.getRequestDispatcher(path).forward(request, response);
         }
+		else if(action.equals("/deleteCart.cc")) {
+		    int cartISeq = Integer.parseInt(request.getParameter("cartISeq"));
+
+		    cartDAO cartDao = new cartDAO();
+		    // 장바구니에서 항목 삭제
+		    int deleteResult = cartDao.deleteCart(cartISeq);
+
+		    // 삭제 결과에 따라 메시지 설정
+		    String message;
+		    if(deleteResult > 0) {
+		        message = "장바구니 항목이 삭제되었습니다.";
+		    } else {
+		        message = "장바구니 항목 삭제에 실패했습니다.";
+		    }
+
+		    // 삭제 결과 메시지를 request에 저장하여 페이지로 전달
+		    request.setAttribute("message", message);
+		    
+		 // 장바구니 페이지로 리다이렉트
+            response.sendRedirect(request.getContextPath() + "/customer/customerCart.cc");
+		}
     }
 }
