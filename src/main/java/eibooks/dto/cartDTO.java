@@ -7,21 +7,21 @@ public class cartDTO {
 	private int cartISeq; //장바구니 목록 순차번호
 	private int cartSeq; //장바구니 순차번호
 	private int cusSeq; //회원 순차번호
-	private int bookSeq; //도서 순차번호
+	private int book_seq; //도서 순차번호
 	private int cartICount; //장바구니 목록 테이블의 수량(권)
 	private BookDTO bookInfo; // 장바구니에 담긴 도서 정보
 	
-	 public cartDTO() {
-	        
-	    }
-	
-	public cartDTO(int cartISeq, int cartSeq, int cusSeq, int bookSeq, int cartICount) {
+	 public cartDTO() {       
+	 }
+	 
+	public cartDTO(int cartISeq, int cartSeq, int cusSeq, int book_seq, int cartICount, BookDTO bookInfo) {
 		super();
 		this.cartISeq = cartISeq;
 		this.cartSeq = cartSeq;
 		this.cusSeq = cusSeq;
-		this.bookSeq = bookSeq;
+		this.book_seq = book_seq;
 		this.cartICount = cartICount;
+		this.bookInfo = bookInfo;
 	}
 
 	public int getCartISeq() {
@@ -48,13 +48,16 @@ public class cartDTO {
 		this.cusSeq = cusSeq;
 	}
 
-	public int getBookSeq() {
-		return bookSeq;
+	
+	public int getBook_seq() {
+		return book_seq;
 	}
 
-	public void setBookSeq(int bookSeq) {
-		this.bookSeq = bookSeq;
+
+	public void setBook_seq(int book_seq) {
+		this.book_seq = book_seq;
 	}
+
 
 	public int getCartICount() {
 		return cartICount;
@@ -71,7 +74,4 @@ public class cartDTO {
 	public void setBookInfo(BookDTO bookInfo) {
 		this.bookInfo = bookInfo;
 	}
-
-	
-	
 }

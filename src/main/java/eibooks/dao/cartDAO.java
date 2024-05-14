@@ -21,15 +21,19 @@ public class cartDAO {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 
-
 		try {
 			//conn
 			conn = JDBCConnect.getConnection();
 
 			//sql + 쿼리창
-			String sql= "select * from cart_item where cus_seq = ?";
+			String sql= "select * from cart_item i "
+					+ "join cart c "
+					+ "on i.cus_seq = c.cus_seq "
+					+ "join books b "
+					+ "on i.book_seq = b.book_seq "
+					+ "where i.cus_seq = ?";
+			
 			pstmt = conn.prepareStatement(sql);
-
 			pstmt.setInt(1, cusSeq);
 
 			rs = pstmt.executeQuery();
@@ -39,13 +43,21 @@ public class cartDAO {
 				cartItem.setCartISeq(rs.getInt("cart_i_seq"));
 				cartItem.setCartSeq(rs.getInt("cart_seq"));
 				cartItem.setCusSeq(rs.getInt("cus_seq"));
-				cartItem.setBookSeq(rs.getInt("book_seq"));
+				cartItem.setBook_seq(rs.getInt("book_seq"));
 				cartItem.setCartICount(rs.getInt("cart_i_count"));
-
-				// 장바구니에 담긴 각 도서의 정보를 가져와서 추가
-				BookDTO bookInfo = getBookInfo(rs.getInt("book_seq"));
-				cartItem.setBookInfo(bookInfo);
 				
+				BookDTO book = new BookDTO();
+				book.setBook_seq(rs.getInt("book_seq"));
+				book.setImageFile(rs.getString("imageFile"));
+				book.setTitle(rs.getString("title"));
+				book.setPublisher(rs.getString("publisher"));
+				book.setPubDate(rs.getString("pubDate"));
+				book.setIsbn13(rs.getString("isbn13"));
+				book.setPrice(rs.getInt("price"));
+				
+                cartItem.setBookInfo(book);
+                
+				// 장바구니에 담긴 각 도서의 정보를 가져와서 추가
 				cartList.add(cartItem);
 
 			}
@@ -58,40 +70,29 @@ public class cartDAO {
 		return cartList;
 	}
 	
-	// 도서 순차번호로 도서 정보 불러오기
-	private BookDTO getBookInfo(int bookSeq) {
+	//장바구니 리스트 항목 삭제
+	public int deleteCart (int cartISeq) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		BookDTO bookInfo = null;
+		int rs = 0;
 		
 		try {
-            conn = JDBCConnect.getConnection(); // DB 연결
-            
-            // 책 정보 조회 쿼리
-            String sql = "SELECT imageFile, title, publisher, pubDate, isbn13, price FROM books " +
-                         "WHERE book_seq = ?";
-            
-            pstmt = conn.prepareStatement(sql);
-            pstmt.setInt(1, bookSeq);
-            rs = pstmt.executeQuery();
-            
-            // 결과 처리
-            if (rs.next()) {
-                bookInfo = new BookDTO();
-                bookInfo.setTitle(rs.getString("title"));
-                bookInfo.setPublisher(rs.getString("publisher"));
-                bookInfo.setPubDate(rs.getString("pubDate"));
-                bookInfo.setIsbn13(rs.getString("isbn13"));
-                bookInfo.setPrice(rs.getInt("price"));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            JDBCConnect.close(rs, pstmt, conn);
-        }
-        
-        return bookInfo;
-
+			//DB 연결
+			conn = JDBCConnect.getConnection();
+			System.out.println("delete conn ok!");
+			
+			String sql = "detele from cart_item where cart_i_seq = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, cartISeq);
+			
+			rs = pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			JDBCConnect.close(pstmt, conn);
+		}
+		return rs;
 	}
+	
 }

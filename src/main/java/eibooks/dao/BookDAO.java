@@ -187,41 +187,7 @@ public class BookDAO {
 		return searchBookList;
 	}
 	
-	// 혜린 작업 : 데이터 불러오기
-	public BookDTO getBookInfo(int book_seq) {
-		Connection conn = null;
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
-        BookDTO bookInfo = null;
-
-        try {
-            conn = JDBCConnect.getConnection(); // DB 연결
-
-            String sql = "SELECT imageFile, title, publisher, pubDate, isbn13, price FROM books" +
-                         "WHERE book_seq = ?";
-            
-            pstmt = conn.prepareStatement(sql);
-            pstmt.setInt(1, book_seq);
-            rs = pstmt.executeQuery();
-            
-            if (rs.next()) {
-                bookInfo = new BookDTO();
-                bookInfo.setBook_seq(rs.getInt("book_seq"));
-                bookInfo.setImageFile(rs.getString("imageFile"));
-                bookInfo.setTitle(rs.getString("title"));
-                bookInfo.setPublisher(rs.getString("publisher"));
-                bookInfo.setPubDate(rs.getString("pubDate"));
-                bookInfo.setIsbn13(rs.getString("isbn13"));
-                bookInfo.setPrice(rs.getInt("price"));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            JDBCConnect.close(rs, pstmt, conn);
-        }
-        return bookInfo;
-
-	}
+	
 	
 	// selectCount 기능 (총계)
 	public int selectCount(Map<String, String> map) {

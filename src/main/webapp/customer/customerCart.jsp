@@ -6,6 +6,7 @@
 	//장바구니 리스트 가져오기
 	List<cartDTO> cartList =(List<cartDTO>)request.getAttribute("cartList");
 	cartDTO cartdto = new cartDTO();
+	
 %>
 
 <!DOCTYPE html>
@@ -22,8 +23,9 @@
 <!-- 장바구니 목록 -->
 <table border="1" width="90%">
 <tr>
-    <th width="5%">번호</th>
-    <th width="20%">책 제목</th>
+    <th width="8%">도서 번호</th>
+    <th width="17%">도서 이미지</th>
+    <th width="20%">도서 제목</th>
     <th width="15%">출판사</th>
     <th width="10%">출간일</th>
     <th width="10%">ISBN</th>
@@ -31,12 +33,15 @@
 </tr>
 <% 
    if(cartList.isEmpty()) { %>  
-   <tr><td colspan="6">&nbsp; 장바구니에 아무것도 없습니다.</td></tr>
+   <tr><td colspan="8">&nbsp; 장바구니에 아무것도 없습니다.</td></tr>
 <% } else {
    int cnt = 1;
    for(cartDTO cartItem : cartList) {
+	   System.out.println(cartItem);
 %>
 <tr>
+    <td><%=cartItem.getBookInfo().getBook_seq() %></td>
+    <td><img src = "<%=cartItem.getBookInfo().getImageFile() %>"></td>
     <td><%=cartItem.getBookInfo().getTitle() %></td>
     <td><%=cartItem.getBookInfo().getPublisher() %></td>
     <td><%=cartItem.getBookInfo().getPubDate() %></td>

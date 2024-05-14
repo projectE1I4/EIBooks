@@ -67,6 +67,8 @@ public class BookDTO {
 		this.isbn13 = isbn13;
 		this.pubDate = pubDate;
 	}
+    
+    
 
 	public int getBook_seq() {
         return book_seq;

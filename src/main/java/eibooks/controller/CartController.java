@@ -45,20 +45,15 @@ public class CartController extends HttpServlet {
 		System.out.println(uri);
 		
 		if (action.equals("/customerCart.cc")) {
-            int cusSeq = 1; // 임시로 회원 번호를 지정, 실제로는 세션 등을 통해 로그인한 사용자의 정보를 가져와야 함
+            int cusSeq = 2; // 임시로 회원 번호를 지정, 실제로는 세션 등을 통해 로그인한 사용자의 정보를 가져와야 함
             
             // 장바구니에 담긴 책 목록 조회
             cartDAO cartDao = new cartDAO();
             List<cartDTO> cartList = cartDao.getCartList(cusSeq);
+            System.out.println("cart conn ok!");
             
             // 장바구니에 담긴 각 책의 정보를 가져오기
-            BookDAO bookDao = new BookDAO();
-            for (cartDTO cartItem : cartList) {
-                int bookSeq = cartItem.getBookSeq();
-                BookDTO bookInfo = bookDao.getBookInfo(bookSeq);
-                cartItem.setBookInfo(bookInfo);
-            }
-
+            
             // 장바구니 페이지로 전달할 데이터 설정
             request.setAttribute("cartList", cartList);
 
