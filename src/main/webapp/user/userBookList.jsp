@@ -17,22 +17,50 @@
 <head>
 <meta charset="UTF-8">
 <title>도서 목록 보기</title>
+<script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery-3.7.1.min.js"></script>
 <script type="text/javascript">
-function categorySelect(value){
-	console.log(value);
+
+// 주석 안된 것처럼 보이지만 주석처리 됨
+ /*	function categorySelect(value){
 	var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
             // 서버로부터 응답을 받았을 때 실행할 코드
-            document.getElementById("selectCategory").value = value;
-            document.getElementById("categoryInput").value = value;
-            
+            console.log('성공');
+            $('#selectCategory').val(value);
         }
     };
     xhttp.open("GET", "<%=request.getContextPath()%>/user/userBookList.bo?selectCategory=" + value, true);
+	console.log(value);
     xhttp.send();
-}	
+    
+    // 서브밋 되면 새로고침 일어남 서브밋 사용 불가 AJAX 사용해야함
+     // $('#cateMenu').submit();
+}
 
+$(function (){ 
+	// 카테고리 셀렉 함수
+	//$('input:radio').click(function(){
+		//var value = $(this).val();
+		// 기본 checked를 1에 걸어두고
+	// checked 된 라디오 버튼이 없을 경우에
+	var listVar;
+	if(listVar == $('input:radio').val() ){
+		$('input:radio').prop('checked', true);
+		$('input:radio').not(this).prop('checked', false);
+	} else {
+		$('input:radio:first').prop('checked', true);
+	}
+    
+	// 라디오 버튼을 클릭했을 때
+    $('input:radio').click(function(){
+        // 클릭된 라디오 버튼 이외의 다른 라디오 버튼의 checked 속성을 제거
+		listVar = $('input[name=selectCategory]:checked').val();
+    	console.log(listVar);
+		categorySelect(listVar);
+    });	
+})
+*/
 </script>
 
 </head>
@@ -44,17 +72,17 @@ function categorySelect(value){
 <!-- 카테고리 -->
 <!-- all / 만화 / 소설,시,희곡, / 수험서, 자격증 / 인문학 -->
 <h3>카테고리</h3>
-<form name="cateMenu" enctype="multipart/form-data" method="post" action="<%=request.getContextPath()%>/userBookList.bo">
+<form id="cateMenu" enctype="multipart/form-data">
 <table border="1" width="90%">
 	<tr>
-	<td width="20%"><input name="category" type="button" value="전체" onclick="categorySelect('전체')"></td>
-	<td width="20%"><input name="category" type="button" value="만화" onclick="categorySelect('만화')"></td>
-	<td width="20%"><input name="category" type="button" value="소설/시/희곡" onclick="categorySelect('소설/시/희곡')"></td>
-	<td width="20%"><input name="category" type="button" value="수험서/자격증" onclick="categorySelect('수험서/자격증')"></td>
-	<td width="20%"><input name="category" type="button" value="인문학" onclick="categorySelect('인문학')"></td>
+	<td width="20%"><input name="selectCategory" type="radio" value="전체"/>전체</td>
+	<td width="20%"><input name="selectCategory" type="radio" value="만화" />만화</td>
+	<td width="20%"><input name="selectCategory" type="radio" value="소설/시/희곡"/>소설/시/희곡</td>
+	<td width="20%"><input name="selectCategory" type="radio" value="수험서/자격증"/>수험서/자격증</td>
+	<td width="20%"><input name="selectCategory" type="radio" value="인문학"/>인문학</td>
 	</tr>
 </table>
-<input type="text" id="selectCategory" name="selectCategory" value="">
+<input type="text" id="selectCategory" value="">
 </form>
 <!-- 검색창 -->
 <form method="get">
@@ -63,28 +91,13 @@ function categorySelect(value){
 	<%
 	String searchWord = request.getParameter("searchWord");
 	if (searchWord != null && !searchWord.isEmpty()) {
-    	// 입력 값이 있을 때 실행할 코드
-   	 	%> 
-   	 	<tr>
-	<td>
-   	 	검색어 : '<b><%=searchWord %></b>'
-   	 	</td>
-	</tr>
-   	 	<%
-	} else {
-    	// 입력 값이 없을 때 실행할 코드
-    	%>
-    	<br>
-    	<%
-	}
-%>
-	
-	<tr>
-	<td>
+    	// 입력 값이 있을 때 실행할 코드%> 
+   	 	<tr><td>검색어 : '<b><%=searchWord %></b>'</td></tr>
+   	 	<%} else {// 입력 값이 없을 때 실행할 코드%><br><%}%>
+	<tr><td>
 		<input type="text" name="searchWord" <%if(searchWord !=null){%> value="<%=searchWord%>" <%} %> placeholder="검색어를 입력하세요.">
 		<input type="submit" value="Search">
-	</td>
-	</tr>
+	</td></tr>
 </table>
 </form>
 
@@ -92,10 +105,11 @@ function categorySelect(value){
 
 
 <table border="1" width="90%">
-<tr>
-<td colspan="4">&nbsp;<b>카테고리 :<% if(bookdto.getCategory()==null){ %> 전체 <% }else{ %> document.getElementById("selectCategory").value<% } %></b></td>
-<td colspan="4">&nbsp;<b>전체 :<%=p.getPageNum() %> / <%=totalCount %></b></td>
-</tr>
+<tr><td colspan="4">
+&nbsp;<b>카테고리 :<% if(bookdto.getCategory()==null){ 
+%> 전체 <% }else{ 
+%> document.getElementById("selectCategory").value<% } %></b></td>
+<td colspan="4">&nbsp;<b>전체 :<%=p.getPageNum() %> / <%=totalCount %></b></td></tr>
 	<tr>
 		<th width="5%">넘버링</th>
 		<th width="10%">이미지</th>
