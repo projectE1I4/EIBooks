@@ -1,12 +1,14 @@
+<%@page import="eibooks.dao.OrderDAO"%>
+<%@page import="eibooks.common.PageDTO"%>
 <%@page import="eibooks.dto.OrderDTO"%>
 <%@page import="java.util.List"%>
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <%
-    //юЕ╧ы╠╦╢о ╦╝╫╨ф╝ ╟║а╝©ю╠Б
+    //Л·╔К╟■Й╣╛К▀┬ К╕╛Л┼╓М┼╦ Й╟─Л═╦Л≤╓Й╦╟
     List<OrderDTO> orderList = (List<OrderDTO>)request.getAttribute("orderList");
-	OrderDTO cartdto = new OrderDTO();
-	int totalPrice = (int)request.getAttribute("totalPrice");
+	PageDTO p = (PageDTO)request.getAttribute("paging");
+	int totalCount = (int)request.getAttribute("totalCount");
 %>
 <!DOCTYPE html>
 <html>
@@ -17,36 +19,77 @@
 <body>
 
 <%@ include file="../common/menu.jsp" %>
-<!-- а╕╦Я --> 
-<h2>аж╧╝ ╦Я╥о ╨╦╠Б(╟Э╦╝юз)</h2>
+<!-- Л═°К╙╘ --> 
+<h2>Лё╪К╛╦ К╙╘К║² КЁ╢Й╦╟(Й╢─К╕╛Л·░)</h2>
 
-<!-- аж╧╝ ╦Я╥о -->
+<!-- Лё╪К╛╦ К╙╘К║² -->
 <table border="1" width="90%">
 <tr>
-    <th width="8%">аж╧╝ ╧Ьхё</th>
-    <th width="17%">аж╧╝юз ╦М</th>
-    <th width="20%">╣╣╪╜ ╦М</th>
-    <th width="15%">ця ╠щ╬в</th>
-    <th width="10%">аж╧╝юоюз</th>
+    <th width="5%">Лё╪К╛╦ К╡┬М≤╦</th>
+    <th width="10%">Лё╪К╛╦Л·░ К╙┘</th>
+    <th width="25%">К▐└Л└° К╙┘</th>
+    <th width="15%">Л╢² Й╦┬Л∙║</th>
+    <th width="20%">Лё╪К╛╦Л²╪Л·░</th>
 </tr>
 <% 
     if(orderList.isEmpty()) { %>  
-    <tr><td colspan="8">&nbsp; аж╧╝ ╦Я╥оюл ╬Ь╫ю╢о╢ы.</td></tr>
+    <tr><td colspan="8">&nbsp; Лё╪К╛╦ К╙╘К║²Л²╢ Л≈├Л┼╣К▀┬К▀╓.</td></tr>
 <% } else {
-	
+   	OrderDTO prevItem = null;
+   	int cnt = 0;
     for(OrderDTO orderItem : orderList) {
+    	
+    	// Л²╢Л═└ М∙╜К╙╘ЙЁ╪ М≤└Л·╛ М∙╜К╙╘Л²╢ К▐≥Л²╪М∙°Л╖─ М≥∙Л²╦
+        boolean isSameItem = prevItem != null && prevItem.getPur_seq() == orderItem.getPur_seq();
+        if(!isSameItem) { // Л²╢Л═└ М∙╜К╙╘ЙЁ╪ К▀╓К╔╪ Й╡╫Л ╟Л≈░К╖▄ М▒°Л▀°
 %>
 		<tr onclick="">
 		    <td><%=orderItem.getPur_seq() %></td>
 		    <td><%=orderItem.getCustomerInfo().getName() %></td>
-		    <td><%=orderItem.getBookInfo().getTitle() %></td>
-		    <td><%=totalPrice %></td>
+		    <td>
+		    	<%=orderItem.getBookInfo().getTitle() %>
+		    	<% 
+		    		OrderDTO dto = new OrderDTO(); 
+		    		int pur_seq = orderItem.getPur_seq();
+		    		dto.setPur_seq(pur_seq);
+		    		OrderDAO dao = new OrderDAO();
+		    		int titleCnt = dao.selectTitleCount(dto);
+		    		
+		    		if (titleCnt != 0) {
+		    	%>
+		    		Л≥╦ <%=titleCnt %>Й╤▄
+		    	<% } %>
+		    </td>
+		    <td>
+		    <%	
+				int totalPrice = dao.selectTotalPrice(dto); 
+			%>
+			<%=totalPrice %>
+			</td>
 		    <td><%=orderItem.getOrderDate() %></td>
 		</tr>
 <%
+        } // if(!isSameItem)
+
+        prevItem = orderItem; // М≤└Л·╛ М∙╜К╙╘Л²└ Л²╢Л═└ М∙╜К╙╘Л°╪К║° Л└╓Л═∙
     } // for
 } // else
 %>  
+	<tr>
+	<td colspan="6">
+	<%if(p.isPrev()) {%><a href="orderList.or?pageNum=1">[First]</a><% } %>
+	<%if(p.isPrev()) {%><a href="orderList.or?pageNum=<%=p.getStartPage()-1%>">[Prev]</a><% } %>
+	<%for(int i=p.getStartPage(); i<= p.getEndPage(); i++) {%>
+		<%if(i == p.getPageNum()){%>
+			<b>[<%=i %>]</b>
+		<%}else{ %>
+		<a href="orderList.or?pageNum=<%=i%>">[<%=i %>]</a>
+		<%} %>
+	<%} %>
+	<%if(p.isNext()){%><a href="orderList.or?pageNum=<%=p.getEndPage()+1%>">[Next]</a><% } %>
+	<%if(p.isNext()){%><a href="orderList.or?pageNum=<%=p.getRealEnd()%>">[Last]</a><% } %>
+	</td>
+	</tr>
 </table>
 
 </body>

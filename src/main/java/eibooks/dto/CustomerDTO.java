@@ -24,8 +24,21 @@ public class CustomerDTO {
         this.regDate = regDate;
         this.manager = manager;
     }
+    
+    public CustomerDTO(int cus_seq, String cus_id, String name, String tel, String email, String regDate,
+			String manager, AddressDTO addrInfo) {
+		super();
+		this.cus_seq = cus_seq;
+		this.cus_id = cus_id;
+		this.name = name;
+		this.tel = tel;
+		this.email = email;
+		this.regDate = regDate;
+		this.manager = manager;
+		this.addrInfo = addrInfo;
+	}
 
-    public int getCus_seq() {
+	public int getCus_seq() {
         return cus_seq;
     }
 
