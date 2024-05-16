@@ -98,6 +98,74 @@ public class BookDAO {
 		return bookList;
 	}
 	
+// 효빈 작업 AJAX	
+public List<BookDTO> userPageList(Map<String, String> map) {
+		
+		// DB 연결
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;		
+		
+		
+		// bookList List 형태로 만들기
+		List<BookDTO> bookList = new ArrayList<>();	
+		
+		try {	
+			// 모든 책을 불러오는 sql문
+			System.out.println("옾셋>>>>>>>>"+map.get("offset"));
+			String sql = "select * from books ";
+			sql += "order by book_seq desc ";
+			sql += "limit ? offset ? "; // 2page
+			
+			// JDBCConnect에서 Connection 연결
+			conn = JDBCConnect.getConnection();
+			// sql문 할당
+			pstmt = conn.prepareStatement(sql);
+			
+			int num = 1;
+				pstmt.setInt(num, Integer.parseInt(map.get("amount"))); // amount 설정
+				num += 1;
+				pstmt.setInt(num, Integer.parseInt(map.get("offset"))); // offset 설정
+				num = 0;
+			num = 0;
+			System.out.println("pstmt: "+ pstmt);
+			
+			// 쿼리의 결과 등록
+			rs = pstmt.executeQuery();
+			
+			// 결과의 값이 있으면 아래의 반복문 진행
+			while(rs.next()) {
+				int book_seq = rs.getInt("book_seq");
+				String title = rs.getString("title");
+				String author = rs.getString("author");
+				String publisher = rs.getString("publisher");
+				String category = rs.getString("category");
+				String imageFile = rs.getString("imageFile");
+				String description = rs.getString("description");
+				int price = rs.getInt("price");
+				int stock = rs.getInt("stock");
+				String isbn10 = rs.getString("isbn10");
+				String isbn13 = rs.getString("isbn13");
+				String pubDate = rs.getString("pubDate");
+				
+				// bookdto에다가 해당 내용들을 집어넣음
+				BookDTO dto = new BookDTO(book_seq, title, author, publisher, category, imageFile, description, price, stock, isbn10, isbn13, pubDate);
+				// 그에 대한 결과를 bookList에 집어넣음
+				bookList.add(dto);
+			}
+			
+		} catch(Exception e) {
+			// 오류 구문 출력
+			e.printStackTrace();
+			
+		} finally {
+			// JDBCConnect에서 rs, pstmt, conn을 닫아줌
+			JDBCConnect.close(rs, pstmt, conn);
+		}
+		//bookList 반환
+		return bookList;
+	}
+	
 	// 효빈 작업: 서치
 	public List<BookDTO> userSelectPageList(Map<String, String> map) {
 		
@@ -179,7 +247,7 @@ public class BookDAO {
 				num = 0;
 			}
 			num = 0;
-			System.out.println("pstmt: "+ pstmt);
+			System.out.println("1pstmt: "+ pstmt);
 			
 			// 쿼리의 결과 등록
 			rs = pstmt.executeQuery();

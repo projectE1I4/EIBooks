@@ -10,8 +10,18 @@
   	<description></description>
   	<servlet-class>eibooks.controller.BookController</servlet-class>
   </servlet>
+  <servlet>
+  	<servlet-name>UserBookController</servlet-name>
+  	<display-name>UserBookController</display-name>
+  	<description></description>
+  	<servlet-class>eibooks.controller.UserBookController</servlet-class>
+  </servlet>
   <servlet-mapping>
   	<servlet-name>BookController</servlet-name>
   	<url-pattern>/BookController</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>UserBookController</servlet-name>
+  	<url-pattern>/UserBookController</url-pattern>
   </servlet-mapping>
 </web-app>
