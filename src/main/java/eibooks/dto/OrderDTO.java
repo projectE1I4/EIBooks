@@ -11,6 +11,4 @@ public class OrderDTO {
 	private BookDTO bookInfo;
 	private CustomerDTO customerInfo;
 	
-	
-	
 }

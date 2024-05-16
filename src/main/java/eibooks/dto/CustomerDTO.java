@@ -9,8 +9,10 @@ public class CustomerDTO {
     private String email;
     private String regDate;
     private String manager;
+    private AddressDTO addrInfo;
 
     public CustomerDTO() {
+    	
     }
 
     public CustomerDTO(int cus_seq, String cus_id, String name, String tel, String email, String regDate, String manager) {
@@ -78,5 +80,13 @@ public class CustomerDTO {
     public void setManager(String manager) {
         this.manager = manager;
     }
+
+	public AddressDTO getAddrInfo() {
+		return addrInfo;
+	}
+
+	public void setAddrInfo(AddressDTO addrInfo) {
+		this.addrInfo = addrInfo;
+	}
 
 }
