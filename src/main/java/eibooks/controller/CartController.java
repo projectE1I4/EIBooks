@@ -83,5 +83,28 @@ public class CartController extends HttpServlet {
 		 // 장바구니 페이지로 리다이렉트
             response.sendRedirect(request.getContextPath() + "/customer/customerCart.cc");
 		}
-    }
+		else if(action.equals("/deleteSelectedItems.cc")) {
+		    // 선택된 항목들을 받아옴
+		    String[] selectedItems = request.getParameterValues("selectedItems");
+		    if(selectedItems != null && selectedItems.length > 0) {
+		        // 여러 항목 선택 시 동시 삭제를 위해 각 체크박스 값을 받아와서 for문으로 순회하며 삭제함
+		        cartDAO cartDao = new cartDAO();
+		        for(String selectedItem : selectedItems) {
+		        	try {
+		                int cartISeq = Integer.parseInt(selectedItem);
+		                cartDao.deleteCart(cartISeq);
+		            } catch(Exception e) {
+		                // 정수로 변환할 수 없는 값이 있을 경우 처리
+		                e.printStackTrace(); // 또는 로그에 기록
+		            }
+		        }
+		        // 삭제 후, 장바구니 페이지로 리다이렉트
+		        response.sendRedirect(request.getContextPath() + "/customer/customerCart.cc");
+		    } else {
+		        // 선택된 항목이 없을 경우 경고창을 띄우고 페이지를 리다이렉트
+		        response.getWriter().println("<script>alert('선택된 항목이 없습니다.');"
+		                + "location.href='" + request.getContextPath() + "/customer/customerCart.cc';</script>");
+		    }
+		}
+	}
 }
