@@ -74,16 +74,16 @@
 <script>
 
 //전체 선택 체크박스 클릭 시
+var isAllChecked = false;
 document.getElementById("selectAllBtn").addEventListener("click", function() {
     var allItems = document.querySelectorAll("input[name='selectedItems']");
-    var selectAllBtn = document.getElementById("selectAllBtn");
-    console.log(allItems);
+    isAllChecked = !isAllChecked; // 상태를 반전시킴
     allItems.forEach(function(selectBox) {
-    	console.log(selectBox.checked);
-    	selectBox.checked = selectAllBtn.checked;
-        console.log(selectBox);
+        console.log(selectBox.checked);
+        selectBox.checked = isAllChecked; // 모든 체크박스의 상태를 설정
     });
 });
+
 
 
 //항목 개별 선택
