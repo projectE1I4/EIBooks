@@ -236,6 +236,12 @@ public class OrderDAO {
 			PreparedStatement pstmt = null;
 			ResultSet rs = null;
 
+			// search 여부
+			boolean isSearch = false;
+			if(map.get("searchWord") != null && map.get("searchWord").length() != 0) {
+				isSearch = true;
+			}
+			
 			int cus_seq = Integer.parseInt(map.get("cus_seq"));
 			int amount = Integer.parseInt(map.get("amount"));
 			int offset = Integer.parseInt(map.get("offset"));
@@ -253,8 +259,13 @@ public class OrderDAO {
 						+ "on i.book_seq = b.book_seq "
 						+ "join customer c "
 						+ "on i.cus_seq = c.cus_seq "
-						+ "where i.cus_seq = ? "
-						+ "order by i.pur_seq ";
+						+ "where i.cus_seq = ? ";
+				
+				if(isSearch) {
+					sql += "and title like ? ";
+				}
+				
+				sql += "order by i.pur_seq ";
 				
 				if(orderBy != null && orderBy.equals("recent")) {
 					sql += "desc, i.book_seq asc ";
@@ -263,10 +274,18 @@ public class OrderDAO {
 				sql += "limit ? offset ? "; // 2page
 				
 				pstmt = conn.prepareStatement(sql);
-				pstmt.setInt(1, cus_seq);
-				pstmt.setInt(2, amount);
-				pstmt.setInt(3, offset);
-
+				
+				if(isSearch) {
+					pstmt.setInt(1, cus_seq);
+					pstmt.setString(2, "%" + map.get("searchWord") + "%");
+					pstmt.setInt(3, amount);
+					pstmt.setInt(4, offset);
+				} else {
+					pstmt.setInt(1, cus_seq);
+					pstmt.setInt(2, amount);
+					pstmt.setInt(3, offset);
+				}
+				
 				rs = pstmt.executeQuery();
 
 				while(rs.next()) {
