@@ -77,11 +77,11 @@ function goToPage(pur_seq) {
 		    		외 <%=titleCnt %>권
 		    	<% } %>
 		    </td>
-		    <td>
+		    <td align="right">
 		    <%	
 				int totalPrice = dao.selectTotalPrice(dto); 
 			%>
-			<%=totalPrice %>
+			<%=totalPrice %>원
 			</td>
 		    <td><%=orderItem.getOrderDate() %></td>
 		</tr>

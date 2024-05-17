@@ -16,16 +16,30 @@
 <head>
 <meta charset="UTF-8">
 <title>myPage.jsp</title>
+
+<script type="text/javascript">
+function goToPage(pur_seq) {
+	location.href = "myOrderDetail.or?pur_seq=" + pur_seq;
+}
+</script>
+
 </head>
 <body>
 
 <%@ include file="../common/menu.jsp" %>
 <!-- 제목 --> 
 
-
-<!-- CustomerDAO 파일 받오면 수정하기 -->
-<!-- 정렬 -->
-		<h2>마이페이지</h2>
+<h2>마이페이지</h2>
+<form  method="get">
+<table width="80%">
+	<tr>	
+	<td align="right">
+		<input type="text" name="searchWord">
+		<input type="submit" value="Search">
+	</td>
+	</tr>
+</table>
+</form>
 <ul>
 	<li>
 		<a href="myPageUpdate.or">회원정보 수정</a>
@@ -59,10 +73,10 @@
         	 cnt++;
 %>			
 		<tr onclick="goToPage(<%=orderItem.getPur_seq()%>)">
-			<td><%=cnt %></td>
-			<td><%=orderItem.getOrderDate() %></td>
-		    <td><%=orderItem.getPur_seq() %></td>
-		    <td><%=orderItem.getCustomerInfo().getName() %>
+			<td align="center"><%=cnt %></td>
+			<td align="center"><%=orderItem.getOrderDate() %></td>
+		    <td align="center"><%=orderItem.getPur_seq() %></td>
+		    <td align="center"><%=orderItem.getCustomerInfo().getName() %>
 		    <td>
 		    	<%=orderItem.getBookInfo().getTitle() %>
 		    	<% 
@@ -77,7 +91,7 @@
 		    		외 <%=titleCnt %>권
 		    	<% } %>
 		    </td>
-		    <td>
+		    <td align="right">
 		    <%	
 				int totalPrice = dao.selectTotalPrice(dto); 
 			%>

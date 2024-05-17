@@ -140,7 +140,10 @@ public class OrderController extends HttpServlet {
             
 		} else if(action.equals("/myPage.or")) {
 			
+			String searchWord = request.getParameter("searchWord");
+
 			Map<String, String> map = new HashMap<>();
+			map.put("searchWord", searchWord);
 			
 			// paging info
 			int amount = 10;
@@ -154,9 +157,9 @@ public class OrderController extends HttpServlet {
 			map.put("amount", amount + "");
 			
 			// 로그인 사용자로 바꿔야 하는 부분
-			int cus_seq = 1;
+			int cus_seq = 2;
 			OrderDTO dto = new OrderDTO();
-			dto.setCus_seq(1);
+			dto.setCus_seq(2);
 			
 			map.put("cus_seq", cus_seq + "");
             
@@ -174,6 +177,25 @@ public class OrderController extends HttpServlet {
 
             // forward
             String path = "./myPage.jsp"; // 회원 별 주문 목록 페이지의 JSP 파일 경로
+            request.getRequestDispatcher(path).forward(request, response);
+            
+		} else if(action.equals("/myOrderDetail.or")) {
+			
+			String sPur_seq = request.getParameter("pur_seq"); 
+			int pur_seq = Integer.parseInt(sPur_seq);
+			
+			OrderDTO dto = new OrderDTO();
+			dto.setPur_seq(pur_seq);
+            
+            OrderDAO dao = new OrderDAO();
+            OrderDTO order = dao.getCustomerDetail(dto);
+            List<OrderDTO> orderList = dao.getOrderDetail(dto);
+         			
+            request.setAttribute("order", order);
+            request.setAttribute("orderList", orderList);
+
+            // forward
+            String path = "./myOrderDetail.jsp"; // 회원 별 주문 목록 페이지의 JSP 파일 경로
             request.getRequestDispatcher(path).forward(request, response);
             
 		}
