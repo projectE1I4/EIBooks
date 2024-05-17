@@ -56,7 +56,7 @@ public class PageDTO {
 		this.next = this.endPage < realEnd;
 
 		// 확인
-		System.out.println("시작페이지:" + this.startPage + ", 끝페이지:" + this.endPage +", 페이지 넘버:" + this.pageNum); 
+		System.out.println("시작페이지:" + this.startPage + ", 끝페이지:" + this.endPage +", 페이지 넘버:" + this.pageNum + ",리얼엔드:" + this.realEnd); 
 	}
 
 	public int getStartPage() {

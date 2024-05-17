@@ -169,8 +169,6 @@ public List<BookDTO> userPageList(Map<String, String> map) {
 	// 효빈 작업: 서치
 	public List<BookDTO> userSelectPageList(Map<String, String> map) {
 		
-		// String selectCategory = map.get("selectCategory");
-		// System.out.println("셀렉카테"+selectCategory);
 		
 		// DB 연결
 		Connection conn = null;
@@ -189,22 +187,13 @@ public List<BookDTO> userPageList(Map<String, String> map) {
 		// 모든 책을 불러오는 sql문
 		String sql = "select * from books ";
 		
-		/*
-		if (map.get("selectCategory") != null && !(map.get("selectCategory").equals("전체"))) {
-			sql += "where category = ? ";
-		}
-		*/
 		// search 여부가 true일 때
 		if(isSearch) {
 			// sql 문에다가 where 절 추가
-			/*
-			if (map.get("selectCategory") != null && !(map.get("selectCategory").equals("전체"))) {
-				sql += " and ";
-			}*/
 			
-			sql += " where (title like ? ";
+			sql += " where title like ? ";
 			sql += "or author like ? ";
-			sql += "or publisher like ? )";
+			sql += "or publisher like ? ";
 		}
 		// 페이지 당 얼마나 보여줄 것인지, 정렬 방법에 대해서
 		sql += "order by book_seq desc ";
@@ -220,13 +209,8 @@ public List<BookDTO> userPageList(Map<String, String> map) {
 			
 			int num = 1;
 			// search가 true일 경우 아래와 같이 설정
-/*			if ( map.get("selectCategory") != null && !(map.get("selectCategory").equals("전체"))) {
-				pstmt.setString(num, map.get("selectCategory"));
-				num += 1;
-			}*/
 			if(isSearch) {
 				// 서치 키워드에서만 만들기 위해서 다음과 같아짐
-				
 				pstmt.setString(num, "%" + map.get("searchWord") + "%"); // searchWord 설정
 				num += 1;
 				pstmt.setString(num, "%" + map.get("searchWord") + "%"); // searchWord 설정
@@ -242,7 +226,7 @@ public List<BookDTO> userPageList(Map<String, String> map) {
 				// false일 경우 아래와 같아짐
 				// amount 설정
 				pstmt.setInt(num, Integer.parseInt(map.get("amount"))); // amount 설정
-				num += 1;
+				num = 2;
 				pstmt.setInt(num, Integer.parseInt(map.get("offset"))); // offset 설정
 				num = 0;
 			}
@@ -286,115 +270,7 @@ public List<BookDTO> userPageList(Map<String, String> map) {
 		return bookList;
 	}
 	
-	//정렬기능
-public List<BookDTO> userSortPageList(Map<String, String> map) {
-		
-		// DB 연결
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;		
-		
-		// search 여부
-		boolean isSearch = false;
-		if(map.get("searchWord") != null && map.get("searchWord").length() != 0) {
-			isSearch = true;
-		}	
-		
-		// bookList List 형태로 만들기
-		List<BookDTO> bookList = new ArrayList<>();
-		
-		// 모든 책을 불러오는 sql문
-		String sql = "select * from books ";
-		
-		// search 여부가 true일 때
-		if(isSearch) {
-			sql += " where (title like ? ";
-			sql += "or author like ? ";
-			sql += "or publisher like ? )";
-		}
-		// 페이지 당 얼마나 보여줄 것인지, 정렬 방법에 대해서
-		if(map.get("sorting").equals("new")) {
-			sql += "order by book_seq desc ";
-		} else if (map.get("sorting").equals("old")) {
-			sql += "order by book_seq asc ";
-		} else if (map.get("sorting").equals("popular")) {
-			sql += "order by viewCount desc ";			
-		}
-		sql += "limit ? offset ? "; // 2page
-		
-		
-		try {
-			
-			// JDBCConnect에서 Connection 연결
-			conn = JDBCConnect.getConnection();
-			// sql문 할당
-			pstmt = conn.prepareStatement(sql);
-			
-			int num = 1;
-			// search가 true일 경우 아래와 같이 설정
-			if(isSearch) {
-				// 서치 키워드에서만 만들기 위해서 다음과 같아짐
-				
-				pstmt.setString(num, "%" + map.get("searchWord") + "%"); // searchWord 설정
-				num += 1;
-				pstmt.setString(num, "%" + map.get("searchWord") + "%"); // searchWord 설정
-				num += 1;
-				pstmt.setString(num, "%" + map.get("searchWord") + "%"); // searchWord 설정
-				num += 1;
-				pstmt.setInt(num, Integer.parseInt(map.get("amount"))); // amount 설정
-				num += 1;
-				pstmt.setInt(num, Integer.parseInt(map.get("offset"))); // offset 설정
-				System.out.println("searchWord: "+ sql);
-				num = 0;
-			} else {
-				// false일 경우 아래와 같아짐
-				// amount 설정
-				pstmt.setInt(num, Integer.parseInt(map.get("amount"))); // amount 설정
-				num += 1;
-				pstmt.setInt(num, Integer.parseInt(map.get("offset"))); // offset 설정
-				num = 0;
-			}
-			num = 0;
-			System.out.println("pstmt: "+ pstmt);
-			
-			// 쿼리의 결과 등록
-			rs = pstmt.executeQuery();
-			
-			// 결과의 값이 있으면 아래의 반복문 진행
-			while(rs.next()) {
-				int book_seq = rs.getInt("book_seq");
-				String title = rs.getString("title");
-				String author = rs.getString("author");
-				String publisher = rs.getString("publisher");
-				String category = rs.getString("category");
-				String imageFile = rs.getString("imageFile");
-				String description = rs.getString("description");
-				int price = rs.getInt("price");
-				int stock = rs.getInt("stock");
-				String isbn10 = rs.getString("isbn10");
-				String isbn13 = rs.getString("isbn13");
-				String pubDate = rs.getString("pubDate");
-				
-				// bookdto에다가 해당 내용들을 집어넣음
-				BookDTO dto = new BookDTO(book_seq, title, author, publisher, category, imageFile, description, price, stock, isbn10, isbn13, pubDate);
-				// 그에 대한 결과를 bookList에 집어넣음
-				bookList.add(dto);
-			}
-			
-		} catch(Exception e) {
-			// 오류 구문 출력
-			e.printStackTrace();
-			
-		} finally {
-			// JDBCConnect에서 rs, pstmt, conn을 닫아줌
-			JDBCConnect.close(rs, pstmt, conn);
-			
-		}
-		//bookList 반환
-		return bookList;
-	}
-
-	
+	//정렬기능	
 	// selectCount 기능 (총계)
 	public int selectCount(Map<String, String> map) {
 		
@@ -417,8 +293,6 @@ public List<BookDTO> userSortPageList(Map<String, String> map) {
 		// 기본 sql문 
 		String sql = "select count(book_seq) as cnt from books";
 		if(isSearch) {
-			//sql += " and " + map.get("searchField") + " like concat('%',?,'%')";
-			
 			//search 시에 들어갈 내용
 			sql += " where " + map.get("searchField") + " like ? ";
 		}

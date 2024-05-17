@@ -63,7 +63,6 @@ int totalCount = (int)request.getAttribute("totalCount");
 <%} %>
 <tr>
 <td colspan="6">
-<% System.out.print("프리브"+p.isNext()); %>
 <%if(p.isPrev()) {%><a href="bookList.bo?pageNum=1">[First]</a><% } %>
 <%if(p.isPrev()) {%><a href="bookList.bo?pageNum=<%=p.getStartPage()-1%>">[Prev]</a><% } %>
 <%for(int i=p.getStartPage(); i<= p.getEndPage(); i++) {%>
