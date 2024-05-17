@@ -68,6 +68,7 @@
 	            <button type="button" onclick="increaseBtn(<%= cartItem.getCartISeq() %>)">+</button>
 	        </div>
     	</form>
+    	
 	    </td>
 	    <td><%=cartItem.getBookInfo().getPrice()%>원</td>
 	    <td>
@@ -114,12 +115,31 @@ document.getElementById("deleteSelectedBtn").addEventListener("click", function(
 function increaseBtn(cartISeq) {
     var inputField = document.querySelector("#quantity" + cartISeq);
     inputField.stepUp(1);
+    updateCart(cartISeq, inputField.value); // AJAX 요청 보내기
 }
 
 // 수량 감소 함수
 function decreaseBtn(cartISeq) {
     var inputField = document.querySelector("#quantity" + cartISeq);
     inputField.stepDown(1);
+    updateCart(cartISeq, inputField.value); // AJAX 요청 보내기
+}
+
+// AJAX 요청 함수
+function updateCart(cartISeq, cartICount) {
+	//객체 생성
+    var xhr = new XMLHttpRequest();
+	//open()메서드 사용하여 요청 설정
+    xhr.open("POST", "updateCart.cc", true);
+    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    //onreadystatechange => 서버로부터의 응답 처리
+    xhr.onreadystatechange = function() {
+    	 if (xhr.readyState == 4 && xhr.status == 200) {
+    	        var response = JSON.parse(xhr.responseText);
+    	        console.log("변동됨");
+    	    }
+    };
+    xhr.send("cartISeq=" + cartISeq + "&cartICount=" + cartICount);
 }
 
 </script>

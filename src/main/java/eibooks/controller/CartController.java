@@ -111,11 +111,17 @@ public class CartController extends HttpServlet {
 		}
 		else if(action.equals("/updateCart.cc")) {
 			System.out.println(action);
-			
 			request.setCharacterEncoding("utf-8");
-			// 요청에서 cartISeq와 cartICount 파라미터 값을 가져옴
-		    int cartISeq = Integer.parseInt(request.getParameter("cartISeq"));
-		    int cartICount = Integer.parseInt(request.getParameter("cartICount"));
+			
+			int cartISeq = 0;
+		    int cartICount = 0;
+		    try {
+		        // 요청에서 cartISeq와 cartICount 파라미터 값을 가져옴
+		        cartISeq = Integer.parseInt(request.getParameter("cartISeq"));
+		        cartICount = Integer.parseInt(request.getParameter("cartICount"));
+		    } catch (Exception e) {
+		        e.printStackTrace();
+		    }
 
 		    // cartDAO 인스턴스 생성 및 updateCart 메소드 호출하여 수량 업데이트
 		    cartDAO cartDao = new cartDAO();
@@ -136,11 +142,10 @@ public class CartController extends HttpServlet {
 		    // 응답 보내기
 		    response.setContentType("application/json");
 		    response.setCharacterEncoding("UTF-8");
-		    //서블릿에서 클라이언트로 데이터를 보내기 위해 선언함
 		    PrintWriter out = response.getWriter();
 		    out.print(jsonResponse.toString());
 		    out.flush();
-			 
+		    out.close(); // 리소스 해제
 		}
 	}
 }
