@@ -17,21 +17,21 @@
 <script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery-3.7.1.min.js"></script>
 <script type="text/javascript">
 function userPaging(){
-	
+	var searchWord = $('input[name="searchWord"]').val();
 	$.ajax({
         type:'GET',
         url:'<%=request.getContextPath()%>/user/userPaging.uapi',
         dataType:'json',
         data: {
         	pageNum: <%=p.getPageNum()%>, 
-        	searchWord: "<%=searchWord%>"
+        	searchWord: searchWord
         },
         success: function (response) {
-        	//, searchWord
-        	console.log("paging 거침", <%=searchWord%>);
-	       makePaging(response, <%=searchWord%>);  
-	       var newUrl = window.location.pathname + "?pageNum="+ <%=p.getPageNum()%> + '&searchWord=' + "<%=searchWord%>";
+        	//, searchWord를 검색하고 페이지를 넘겨서 다시 받아오는 과정에서 문제 발생
+        	console.log("paging 거침", searchWord);
+	       var newUrl = window.location.pathname + "?pageNum="+ <%=p.getPageNum()%> + '&searchWord=' + encodeURIComponent(searchWord);
        		window.history.pushState({ path: newUrl }, '', newUrl);
+	       makePaging(response, searchWord);  
         },
         error: function (request, status, error) {
             console.log(request, status,error);
@@ -41,59 +41,45 @@ function userPaging(){
 
 function makePaging(data, searchWord){
 	let html = ''; 
-	console.log("데이터", data);
-	console.log("start", <%=p.getStartPage()%>);
-	console.log("E", <%=p.getEndPage()%>);
-	console.log("E", <%=p.getRealEnd()%>);
+	console.log("=====================");
+	console.log(searchWord);
 	<% if(p.isPrev()) {%>
-		html += '<a href="userBookList.bo?pageNum=1&searchWord='
-				+ <%=searchWord%> +'">[First]</a>';
+		html += '<a href="userBookList.bo?pageNum=1&searchWord=<%=searchWord%>'
+			 +'">[First]</a>';
 	<%}%>	
 	<%if(p.isPrev()) {%> 
 		html += '<a href="userBookList.bo?pageNum=' + <%=p.getStartPage()-1%>
-			+ '&searchWord=' + <%=searchWord%> + '">[Prev]</a>'; 
+			+ '&searchWord=<%=searchWord%>' + '">[Prev]</a>'; 
 	<% } %>
-	
-		console.log("for 전");
-		console.log(<%=p.getStartPage()%>);
-		console.log(<%=p.getTotal()%>);
-		console.log(<%=p.getEndPage()%>);
 	<%
-	
-	System.out.println("pageNum: " + p.getPageNum());
-	System.out.println("amount: " + p.getAmount());
-	System.out.println("totalCount: " + totalCount);
-	System.out.println("startPage: " + p.getStartPage());
-	System.out.println("endPage: " + p.getEndPage());
-	System.out.println("realEnd: " + p.getRealEnd());
-	
 	for(int i=p.getStartPage(); i<= p.getEndPage(); i++) {
-		%> console.log("for 들어옴"); // 안들어오고 있음.
+		%>
 		<%if(i == p.getPageNum()){%>
-		console.log("if 들어옴");
 			html += '<b>[' + <%=i %> + ']</b>';
 		<%}else{ %>
 			html += '<a href="userBookList.bo?pageNum=' + <%=i%> 
 				+ '&searchWord=<%=searchWord%>' + '">[' + <%=i %> +']</a>';
-		console.log(html);
 		<%}
 	} 
 	%>
 	<%if(p.isNext()){%>
 		html += '<a href="userBookList.bo?pageNum=' + <%=p.getEndPage()+1%> 
-			+ '&searchWord=' + <%=searchWord%> + '">[Next]</a>';
+			+ '&searchWord=<%=searchWord%>' + '">[Next]</a>';
 	<% } %>
 	<%if(p.isNext()){%>
 		html += '<a href="userBookList.bo?pageNum=' + <%=p.getRealEnd()%>+ 
-			'&searchWord=' + <%=searchWord%> + '">[Last]</a>';
+			'&searchWord=<%=searchWord%>' + '">[Last]</a>';
 	<% } %>
     $('#userPaging').html(html);
+    console.log(html);
+    // 공백됨
+    console.log("<%=searchWord%>");
 }
 
 function userSearch(){
 	// searchWord 1	
-	console.log("search_book_java: ", <%=searchWord %>)
-	var searchWord = "<%=searchWord%>";
+	console.log("search_book_java: ", "<%=searchWord %>");
+	var searchWord = $('input[name="searchWord"]').val();
 	var pageNum = <%=p.getPageNum()%>;
 	// 제일 먼저 실행	
 	$.ajax({
@@ -102,13 +88,13 @@ function userSearch(){
         dataType:'json',
         data: {
         	pageNum: pageNum,
-        	searchWord: "<%=searchWord%>"
+        	searchWord: searchWord
         },
         success: function (response) {
-            makeSearch(response, searchWord); 
-            
-            var newUrl = window.location.pathname + "?pageNum="+ pageNum + '&searchWord=' + "<%=searchWord%>";
+            console.log("===========", searchWord);
+            var newUrl = window.location.pathname + "?pageNum="+ pageNum + '&searchWord=' + encodeURIComponent(searchWord);
             window.history.pushState({ path: newUrl }, '', newUrl);
+            makeSearch(response, searchWord); 
         },
         error: function (request, status, error) {
             console.log(request, status, error);
@@ -141,12 +127,12 @@ $(function(){
 	// var searchWord = urlParams.get('searchWord');
 	// var searchWord = $('input[name="searchWord"]').val();
 		
-	if ("<%=searchWord%>" != null){
-		$('input[name="searchWord"]').val(decodeURIComponent("<%=searchWord%>"));
-	} else {
-		searchWord = '<%= searchWord %>';
-        $('input[name="searchWord"]').val(<%=searchWord%>);
-	}
+	<%if (request.getParameter("searchWord") != null){%>
+		$('input[name="searchWord"]').val("<%=request.getParameter("searchWord")%>");
+		<%} else {%>
+		searchWord = "<%= searchWord %>";
+        $('input[name="searchWord"]').val("<%=searchWord%>");
+        <%	}%>
 	userSearch();
 	userPaging();
 });
@@ -169,10 +155,12 @@ $(function(){
 		<%} else {%> <br> <%}%>
 		<tr>
 			<td>
+			<form>
 				<input type="text" name="searchWord"
 					<%if(searchWord != null && !searchWord.equals("")){%> value="<%=searchWord%>" <%}%>
 				placeholder="검색어를 입력하세요."> 
-				<input type="button" value="Search" onclick="userSearch()">
+				<input type="submit" value="Search" onclick="userSearch()">
+			</form>
 			</td>
 		</tr>
 	</table>
