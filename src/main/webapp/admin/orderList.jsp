@@ -5,7 +5,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
-    //장바구니 리스트 가져오기
+    //주문 목록 리스트 가져오기
     List<OrderDTO> orderList = (List<OrderDTO>)request.getAttribute("orderList");
 	PageDTO p = (PageDTO)request.getAttribute("paging");
 	int totalCount = (int)request.getAttribute("totalCount");

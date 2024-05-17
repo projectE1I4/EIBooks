@@ -60,11 +60,9 @@ public class OrderController extends HttpServlet {
 			map.put("amount", amount + "");
 			map.put("orderBy", orderBy);
 			
-			// 임시로 회원 번호를 지정, 실제로는 세션 등을 통해 로그인한 사용자의 정보를 가져와야 함
 			OrderDTO dto = new OrderDTO();
 			dto.setCus_seq(1);
             
-            // 장바구니에 담긴 책 목록 조회
 			OrderDAO dao = new OrderDAO();
             List<OrderDTO> orderList = dao.getOrderList(map);
             int totalCount = dao.selectCount(dto);
@@ -72,13 +70,12 @@ public class OrderController extends HttpServlet {
             // Paging
  			PageDTO paging = new PageDTO(pageNum, amount, totalCount);
          			
-            // 장바구니 페이지로 전달할 데이터 설정
             request.setAttribute("orderList", orderList);
             request.setAttribute("paging", paging);
 			request.setAttribute("totalCount", totalCount);
 
             // forward
-            String path = "./orderList.jsp"; // 장바구니 페이지의 JSP 파일 경로
+            String path = "./orderList.jsp"; // 전체 주문 목록 페이지의 JSP 파일 경로
             request.getRequestDispatcher(path).forward(request, response);
             
 		} else if(action.equals("/customerOrder.or")) {
@@ -99,7 +96,6 @@ public class OrderController extends HttpServlet {
 			map.put("amount", amount + "");
 			map.put("orderBy", orderBy);
 			
-			// 임시로 회원 번호를 지정, 실제로는 세션 등을 통해 로그인한 사용자의 정보를 가져와야 함
 			String sCus_seq = request.getParameter("cus_seq");
 			int cus_seq = Integer.parseInt(sCus_seq);
 			OrderDTO dto = new OrderDTO();
@@ -107,7 +103,6 @@ public class OrderController extends HttpServlet {
 			
 			map.put("cus_seq", cus_seq + "");
             
-            // 장바구니에 담긴 책 목록 조회
             OrderDAO dao = new OrderDAO();
             List<OrderDTO> orderList = dao.getCustomerOrder(map);
             int totalCount = dao.selectCount(dto);
@@ -115,15 +110,34 @@ public class OrderController extends HttpServlet {
             // Paging
  			PageDTO paging = new PageDTO(pageNum, amount, totalCount);
          			
-            // 장바구니 페이지로 전달할 데이터 설정
  			request.setAttribute("cus_seq", cus_seq);
             request.setAttribute("orderList", orderList);
             request.setAttribute("paging", paging);
 			request.setAttribute("totalCount", totalCount);
 
             // forward
-            String path = "./customerOrder.jsp"; // 장바구니 페이지의 JSP 파일 경로
+            String path = "./customerOrder.jsp"; // 회원 별 주문 목록 페이지의 JSP 파일 경로
             request.getRequestDispatcher(path).forward(request, response);
+            
+		} else if(action.equals("/orderView.or")) {
+			
+			String sPur_seq = request.getParameter("pur_seq"); 
+			int pur_seq = Integer.parseInt(sPur_seq);
+			
+			OrderDTO dto = new OrderDTO();
+			dto.setPur_seq(pur_seq);
+            
+            OrderDAO dao = new OrderDAO();
+            OrderDTO order = dao.getCustomerDetail(dto);
+            List<OrderDTO> orderList = dao.getOrderDetail(dto);
+         			
+            request.setAttribute("order", order);
+            request.setAttribute("orderList", orderList);
+
+            // forward
+            String path = "./orderView.jsp"; // 회원 별 주문 목록 페이지의 JSP 파일 경로
+            request.getRequestDispatcher(path).forward(request, response);
+            
 		}
 	}
 }

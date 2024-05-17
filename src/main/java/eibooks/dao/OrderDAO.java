@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import eibooks.common.JDBCConnect;
+import eibooks.dto.AddressDTO;
 import eibooks.dto.BookDTO;
 import eibooks.dto.CustomerDTO;
 import eibooks.dto.OrderDTO;
@@ -298,6 +299,141 @@ public class OrderDAO {
 			}
 
 			return orderList;
+		}
+
+		// 주문 내역의 도서 정보
+		public List<OrderDTO> getOrderDetail(OrderDTO dto) {
+			List<OrderDTO> orderList = new ArrayList<>();
+
+			//DB연결
+			Connection conn = null;
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			
+			int pur_seq = dto.getPur_seq();
+
+			try {
+				//conn
+				conn = JDBCConnect.getConnection();
+
+				//sql + 쿼리창
+				String sql= "select * from purchase_item i "
+						+ "join purchase p "
+						+ "on i.pur_seq = p.pur_seq "
+						+ "join books b "
+						+ "on i.book_seq = b.book_seq "
+						+ "join customer c "
+						+ "on i.cus_seq = c.cus_seq "
+						+ "join customer_addr a "
+						+ "on i.cus_seq = a.cus_seq "
+						+ "where i.pur_seq = ? "
+						+ "order by pur_i_seq;";
+				
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(1, pur_seq);
+
+				rs = pstmt.executeQuery();
+
+				while(rs.next()) {
+					
+					OrderDTO order = new OrderDTO();
+					order.setPur_i_seq(rs.getInt("pur_i_seq"));
+					order.setPur_seq(rs.getInt("pur_seq"));
+					order.setBook_seq(rs.getInt("book_seq"));
+					order.setCus_seq(rs.getInt("cus_seq"));
+					order.setPur_i_count(rs.getInt("pur_i_count"));
+					order.setOrderDate(rs.getString("orderDate"));
+					
+					BookDTO book = new BookDTO();
+					book.setBook_seq(rs.getInt("book_seq"));
+					book.setImageFile(rs.getString("imageFile"));
+					book.setTitle(rs.getString("title"));
+					book.setPublisher(rs.getString("publisher"));
+					book.setPubDate(rs.getString("pubDate"));
+					book.setIsbn13(rs.getString("isbn13"));
+					book.setPrice(rs.getInt("price"));
+					
+					order.setBookInfo(book);
+	                
+					// 장바구니에 담긴 각 도서의 정보를 가져와서 추가
+					orderList.add(order);
+
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+				
+			} finally {
+				JDBCConnect.close(rs, pstmt, conn);
+			}
+
+			return orderList;
+		}
+		
+		// 주문 내역의 회원 정보
+		public OrderDTO getCustomerDetail(OrderDTO dto) {
+			OrderDTO order = new OrderDTO();
+
+			//DB연결
+			Connection conn = null;
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			
+			int pur_seq = dto.getPur_seq();
+
+			try {
+				//conn
+				conn = JDBCConnect.getConnection();
+
+				//sql + 쿼리창
+				String sql= "select * from purchase_item i "
+						+ "join purchase p "
+						+ "on i.pur_seq = p.pur_seq "
+						+ "join books b "
+						+ "on i.book_seq = b.book_seq "
+						+ "join customer c "
+						+ "on i.cus_seq = c.cus_seq "
+						+ "join customer_addr a "
+						+ "on i.cus_seq = a.cus_seq "
+						+ "where i.pur_seq = ? "
+						+ "order by pur_i_seq;";
+				
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(1, pur_seq);
+
+				rs = pstmt.executeQuery();
+
+				while(rs.next()) {
+					
+					order.setPur_i_seq(rs.getInt("pur_i_seq"));
+					order.setPur_seq(rs.getInt("pur_seq"));
+					order.setBook_seq(rs.getInt("book_seq"));
+					order.setCus_seq(rs.getInt("cus_seq"));
+					order.setPur_i_count(rs.getInt("pur_i_count"));
+					order.setOrderDate(rs.getString("orderDate"));
+
+					AddressDTO addr = new AddressDTO();
+					addr.setPostalCode(rs.getString("postalCode"));
+					addr.setAddr(rs.getString("addr"));
+					addr.setAddr_detail(rs.getString("addr_detail"));
+					
+					CustomerDTO customer = new CustomerDTO();
+					customer.setCus_seq(rs.getInt("cus_seq"));
+					customer.setCus_id(rs.getString("cus_id"));
+					customer.setName(rs.getString("name"));
+					customer.setTel(rs.getString("tel"));
+					customer.setEmail(rs.getString("email"));
+					customer.setAddrInfo(addr);
+					
+					order.setCustomerInfo(customer);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+				
+			} finally {
+				JDBCConnect.close(rs, pstmt, conn);
+			}
+
+			return order;
 		}
 		
 }
