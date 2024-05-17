@@ -46,6 +46,44 @@ public class OrderController extends HttpServlet {
 		
 		if(action.equals("/orderList.or")) {
 			String orderBy = request.getParameter("orderBy");
+			Map<String, String> map = new HashMap<>();
+			
+			// paging info
+			int amount = 10;
+			int pageNum = 1;
+			
+			String sPageNum = request.getParameter("pageNum");
+			if(sPageNum != null) pageNum = Integer.parseInt(sPageNum);
+			int offset = (pageNum-1) * amount;
+
+			map.put("offset", offset + "");
+			map.put("amount", amount + "");
+			map.put("orderBy", orderBy);
+			
+			// 임시로 회원 번호를 지정, 실제로는 세션 등을 통해 로그인한 사용자의 정보를 가져와야 함
+			OrderDTO dto = new OrderDTO();
+			dto.setCus_seq(1);
+            
+            // 장바구니에 담긴 책 목록 조회
+			OrderDAO dao = new OrderDAO();
+            List<OrderDTO> orderList = dao.getOrderList(map);
+            int totalCount = dao.selectCount(dto);
+            
+            // Paging
+ 			PageDTO paging = new PageDTO(pageNum, amount, totalCount);
+         			
+            // 장바구니 페이지로 전달할 데이터 설정
+            request.setAttribute("orderList", orderList);
+            request.setAttribute("paging", paging);
+			request.setAttribute("totalCount", totalCount);
+
+            // forward
+            String path = "./orderList.jsp"; // 장바구니 페이지의 JSP 파일 경로
+            request.getRequestDispatcher(path).forward(request, response);
+            
+		} else if(action.equals("/customerOrder.or")) {
+			
+			String orderBy = request.getParameter("orderBy");
 			System.out.println(orderBy);
 			Map<String, String> map = new HashMap<>();
 			
@@ -63,12 +101,15 @@ public class OrderController extends HttpServlet {
 			
 			// 임시로 회원 번호를 지정, 실제로는 세션 등을 통해 로그인한 사용자의 정보를 가져와야 함
 			OrderDTO dto = new OrderDTO();
-			dto.setPur_seq(1);
+			dto.setCus_seq(1);
+			int cus_seq = 1;
+			
+			map.put("cus_seq", cus_seq + "");
             
             // 장바구니에 담긴 책 목록 조회
             OrderDAO dao = new OrderDAO();
-            List<OrderDTO> orderList = dao.getOrderList(map);
-            int totalCount = dao.selectCount();
+            List<OrderDTO> orderList = dao.getCustomerOrder(map);
+            int totalCount = dao.selectCount(dto);
             
             // Paging
  			PageDTO paging = new PageDTO(pageNum, amount, totalCount);
@@ -79,7 +120,7 @@ public class OrderController extends HttpServlet {
 			request.setAttribute("totalCount", totalCount);
 
             // forward
-            String path = "./orderList.jsp"; // 장바구니 페이지의 JSP 파일 경로
+            String path = "./customerOrder.jsp"; // 장바구니 페이지의 JSP 파일 경로
             request.getRequestDispatcher(path).forward(request, response);
 		}
 	}

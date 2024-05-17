@@ -14,7 +14,7 @@ import eibooks.dto.OrderDTO;
 
 public class OrderDAO {
 
-		//회원 주문 내역 조회
+		// 전체 회원 주문 내역 조회
 		public List<OrderDTO> getOrderList(Map<String, String> map) {
 			List<OrderDTO> orderList = new ArrayList<>();
 
@@ -91,6 +91,7 @@ public class OrderDAO {
 			return orderList;
 		}
 		
+		// 주문 내역 별 총 가격
 		public int selectTotalPrice(OrderDTO dto) {
 			
 			//DB연결
@@ -132,15 +133,22 @@ public class OrderDAO {
 			return totalPrice;
 		}
 
-		public int selectCount() {
+		// 전체 주문 목록 총 개수
+		public int selectCount(OrderDTO dto) {
 			
 			Connection conn = null;
 			PreparedStatement pstmt = null;
 			ResultSet rs = null;		
 
+			int cus_seq = 0;
 			int totalCount = 0;
 			
-			String sql = "select count(pur_seq) as cnt from purchase";
+			String sql = "select count(pur_seq) as cnt from purchase ";
+			
+			if (dto != null) {
+				cus_seq = dto.getCus_seq();
+				sql += "where cus_seq = ? ";
+			}
 
 			try {
 				// 2. connection
@@ -148,6 +156,10 @@ public class OrderDAO {
 				
 				// 3. sql창
 				pstmt = conn.prepareStatement(sql);
+				
+				if (dto != null) {
+					pstmt.setInt(1, cus_seq);
+				}
 				
 				// 4. execute
 				rs = pstmt.executeQuery();
@@ -166,6 +178,7 @@ public class OrderDAO {
 			return totalCount;
 		}
 		
+		// 외 n권 표시 위한 책 제목 카운팅
 		public int selectTitleCount(OrderDTO dto) {
 			
 			//DB연결
@@ -186,7 +199,7 @@ public class OrderDAO {
 						+ "on i.pur_seq = p.pur_seq "
 						+ "join books b "
 						+ "on i.book_seq = b.book_seq "
-						+ "where i.pur_seq = ?";
+						+ "where i.pur_seq = ? ";
 				
 				pstmt = conn.prepareStatement(sql);
 				pstmt.setInt(1, pur_seq);
@@ -205,6 +218,86 @@ public class OrderDAO {
 			}
 			
 			return cnt;
+		}
+		
+		// 회원별 주문 목록 조회
+		public List<OrderDTO> getCustomerOrder(Map<String, String> map) {
+			List<OrderDTO> orderList = new ArrayList<>();
+
+			//DB연결
+			Connection conn = null;
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+
+			int cus_seq = Integer.parseInt(map.get("cus_seq"));
+			int amount = Integer.parseInt(map.get("amount"));
+			int offset = Integer.parseInt(map.get("offset"));
+			String orderBy = map.get("orderBy");
+			
+			try {
+				//conn
+				conn = JDBCConnect.getConnection();
+
+				//sql + 쿼리창
+				String sql= "select * from purchase_item i "
+						+ "join purchase p "
+						+ "on i.pur_seq = p.pur_seq "
+						+ "join books b "
+						+ "on i.book_seq = b.book_seq "
+						+ "join customer c "
+						+ "on i.cus_seq = c.cus_seq "
+						+ "where i.cus_seq = ? "
+						+ "order by orderDate ";
+				
+				if(orderBy != null && orderBy.equals("recent")) {
+					sql += "desc ";
+				}
+				
+				sql += "limit ? offset ? "; // 2page
+				
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(1, cus_seq);
+				pstmt.setInt(2, amount);
+				pstmt.setInt(3, offset);
+
+				rs = pstmt.executeQuery();
+
+				while(rs.next()) {
+					
+					OrderDTO order = new OrderDTO();
+					order.setPur_i_seq(rs.getInt("pur_i_seq"));
+					order.setPur_seq(rs.getInt("pur_seq"));
+					order.setBook_seq(rs.getInt("book_seq"));
+					order.setCus_seq(rs.getInt("cus_seq"));
+					order.setPur_i_count(rs.getInt("pur_i_count"));
+					order.setOrderDate(rs.getString("orderDate"));
+					
+					BookDTO book = new BookDTO();
+					book.setBook_seq(rs.getInt("book_seq"));
+					book.setTitle(rs.getString("title"));
+					book.setPrice(rs.getInt("price"));
+					
+					CustomerDTO customer = new CustomerDTO();
+					customer.setCus_seq(rs.getInt("cus_seq"));
+					customer.setCus_id(rs.getString("cus_id"));
+					customer.setName(rs.getString("name"));
+					
+					order.setBookInfo(book);
+					order.setCustomerInfo(customer);
+	                
+					// 장바구니에 담긴 각 도서의 정보를 가져와서 추가
+					orderList.add(order);
+					System.out.println(order);
+
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+				
+			} finally {
+				JDBCConnect.close(rs, pstmt, conn);
+			}
+
+			return orderList;
 		}
 		
 }
