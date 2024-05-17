@@ -35,10 +35,10 @@ function goToPage(pur_seq) {
 <!-- 정렬 -->
 <ul>
 	<li>
-		<a href="customerOrder.or?orderBy=recent">최신순</a>
+		<a href="customerOrder.or?cus_seq=<%=cus_seq %>&orderBy=recent">최신순</a>
 	</li>
 	<li>
-		<a href="customerOrder.or?orderBy=old">오래된순</a>
+		<a href="customerOrder.or?cus_seq=<%=cus_seq %>&orderBy=old">오래된순</a>
 	</li>
 </ul>
 
