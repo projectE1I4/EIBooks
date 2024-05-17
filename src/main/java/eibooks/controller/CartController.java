@@ -1,6 +1,7 @@
 package eibooks.controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.List;
 
@@ -9,6 +10,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.json.JSONObject;
 
 import eibooks.dao.BookDAO;
 import eibooks.dao.cartDAO;
@@ -105,6 +108,39 @@ public class CartController extends HttpServlet {
 		        response.getWriter().println("<script>alert('선택된 항목이 없습니다.');"
 		                + "location.href='" + request.getContextPath() + "/customer/customerCart.cc';</script>");
 		    }
+		}
+		else if(action.equals("/updateCart.cc")) {
+			System.out.println(action);
+			
+			request.setCharacterEncoding("utf-8");
+			// 요청에서 cartISeq와 cartICount 파라미터 값을 가져옴
+		    int cartISeq = Integer.parseInt(request.getParameter("cartISeq"));
+		    int cartICount = Integer.parseInt(request.getParameter("cartICount"));
+
+		    // cartDAO 인스턴스 생성 및 updateCart 메소드 호출하여 수량 업데이트
+		    cartDAO cartDao = new cartDAO();
+		    int updaters = cartDao.updateCart(cartISeq, cartICount);
+
+		    // 업데이트 결과에 따라 응답 메시지 설정
+		    String message;
+		    if(updaters > 0) {
+		        message = "수량이 업데이트되었습니다.";
+		    } else {
+		        message = "수량 업데이트에 실패했습니다.";
+		    }
+
+		    // 클라이언트에게 JSON 형식의 응답 보내기
+		    JSONObject jsonResponse = new JSONObject();
+		    jsonResponse.put("message", message);
+
+		    // 응답 보내기
+		    response.setContentType("application/json");
+		    response.setCharacterEncoding("UTF-8");
+		    //서블릿에서 클라이언트로 데이터를 보내기 위해 선언함
+		    PrintWriter out = response.getWriter();
+		    out.print(jsonResponse.toString());
+		    out.flush();
+			 
 		}
 	}
 }

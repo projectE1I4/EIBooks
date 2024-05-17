@@ -24,15 +24,16 @@
 
 <!-- 장바구니 목록 -->
 <form id="cartForm" action="deleteSelectedItems.cc" method="post">
-	<table border="1" width="90%">
+	<table border="1" width="95%">
 	<tr>
-		<th width="5%">선택</th>
-	    <th width="8%">도서 번호</th>
-	    <th width="17%">도서 이미지</th>
-	    <th width="20%">도서 제목</th>
-	    <th width="15%">출판사</th>
+		<th width="3%">선택</th>
+	    <th width="7%">도서 번호</th>
+	    <th width="15%">도서 이미지</th>
+	    <th width="15%">도서 제목</th>
+	    <th width="10%">출판사</th>
 	    <th width="10%">출간일</th>
 	    <th width="10%">ISBN</th>
+	    <th width="10%">수량</th>
 	    <th width="10%">가격</th>
 	    <th width="10%">삭제</th>
 	</tr>
@@ -55,12 +56,26 @@
 	    <td><%=cartItem.getBookInfo().getPublisher() %></td>
 	    <td><%=cartItem.getBookInfo().getPubDate() %></td>
 	    <td><%=cartItem.getBookInfo().getIsbn13() %></td>
-	    <td><%=cartItem.getBookInfo().getPrice() %>원</td>
+	    
 	    <td>
-	        <form action="deleteCart.cc" method="post">
-	            <input type="hidden" name="cartISeq" value="<%= cartItem.getCartISeq() %>">
-	            <button type="submit">삭제</button>
-	        </form>
+	    <!-- 수량 업데이트 -->
+	     <form id="updateForm<%= cartItem.getCartISeq() %>" action="updateCart.cc" method="post" style="display: flex; align-items: center;">
+        	<input type="hidden" name="cartISeq" value="<%= cartItem.getCartISeq() %>">
+	        <div style="display: flex; align-items: center;">
+	            <button type="button" onclick="decreaseBtn(<%= cartItem.getCartISeq() %>)">-</button>
+	            <input id="quantity<%= cartItem.getCartISeq() %>" type="number" name="cartICount" value="<%= cartItem.getCartICount() %>"
+	            min="1" readonly style="width: 30px; margin: 0 10px;">
+	            <button type="button" onclick="increaseBtn(<%= cartItem.getCartISeq() %>)">+</button>
+	        </div>
+    	</form>
+	    </td>
+	    <td><%=cartItem.getBookInfo().getPrice()%>원</td>
+	    <td>
+	    <!-- 선택된 항목 삭제 -->
+        <form action="deleteCart.cc" method="post">
+            <input type="hidden" name="cartISeq" value="<%= cartItem.getCartISeq() %>">
+            <button type="submit">삭제</button>
+        </form>
 	    </td>
 	</tr>
 	<%
@@ -71,19 +86,17 @@
 	%>  
 	</table>
 </form>
-<script>
 
-//전체 선택 체크박스 클릭 시
+<script>
+// 전체 선택 토글
 var isAllChecked = false;
 document.getElementById("selectAllBtn").addEventListener("click", function() {
     var allItems = document.querySelectorAll("input[name='selectedItems']");
-    isAllChecked = !isAllChecked; // 상태를 반전시킴
+    isAllChecked = !isAllChecked;
     allItems.forEach(function(selectBox) {
-        console.log(selectBox.checked);
-        selectBox.checked = isAllChecked; // 모든 체크박스의 상태를 설정
+        selectBox.checked = isAllChecked;
     });
 });
-
 
 
 //항목 개별 선택
@@ -95,6 +108,20 @@ document.getElementById("deleteSelectedBtn").addEventListener("click", function(
         document.getElementById("cartForm").submit();
     }
 });
+
+
+//수량 증가 함수
+function increaseBtn(cartISeq) {
+    var inputField = document.querySelector("#quantity" + cartISeq);
+    inputField.stepUp(1);
+}
+
+// 수량 감소 함수
+function decreaseBtn(cartISeq) {
+    var inputField = document.querySelector("#quantity" + cartISeq);
+    inputField.stepDown(1);
+}
+
 </script>
 </body>
 </html>

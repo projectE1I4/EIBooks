@@ -71,7 +71,7 @@ public class cartDAO {
 		return cartList;
 	}
 	
-	//장바구니 리스트 항목 삭제
+	//장바구니 리스트 항목 삭제 
 	public int deleteCart (int cartISeq) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -96,4 +96,29 @@ public class cartDAO {
 		return rs;
 	}
 	
+	
+	//장바구니 리스트 수량 수정
+	public int updateCart (int cartISeq, int cartICount) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		int rs = 0;
+		
+		try {
+			//DB 연결
+	        conn = JDBCConnect.getConnection();
+			
+			String sql = "update cart_item set cart_i_count = ? where cart_i_seq = ?";
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, cartICount);
+			pstmt.setInt(2, cartISeq);
+			
+			rs = pstmt.executeUpdate();
+		} catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			JDBCConnect.close(pstmt, conn);
+		}
+		return rs;
+	}
 }
