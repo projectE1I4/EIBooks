@@ -18,8 +18,9 @@ List<OrderDTO> orderList = (List<OrderDTO>)request.getAttribute("orderList");
 <%@ include file="../common/menu.jsp" %>
 <!-- 제목 --> 
 <h2>주문 내역 상세 보기(관리자)</h2>
-
-<!-- CustomerDAO에서 함수 호출해서 받아올 값 -->님의 배송 정보
+<br>
+<%=order.getCustomerInfo().getCus_id() %>(<%=order.getCustomerInfo().getName() %>)님의 배송 정보
+<br><br>
 <table border="1" width="90%">
 
 		<tr>
@@ -48,7 +49,8 @@ List<OrderDTO> orderList = (List<OrderDTO>)request.getAttribute("orderList");
 </table>
 <br><br>
 
-<!-- CustomerDAO에서 함수 호출해서 받아올 값 -->님의 주문 내역 상세 정보
+<%=order.getCustomerInfo().getCus_id() %>(<%=order.getCustomerInfo().getName() %>)님의 주문 내역 상세 정보
+<br><br>
 <table border="1" width="90%">
 <tr>
     <td width="18%">주문일자</th>

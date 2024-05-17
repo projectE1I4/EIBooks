@@ -30,8 +30,8 @@ function goToPage(pur_seq) {
 <!-- 제목 --> 
 <h2>주문 목록 보기(관리자)</h2>
 
-<!-- CustomerDAO 파일 받오면 넣기 -->
-님의 주문 이력
+<!-- CustomerDAO 파일 받오면 수정하기 -->
+<%=cus_seq %>님의 주문 이력
 <!-- 정렬 -->
 <ul>
 	<li>

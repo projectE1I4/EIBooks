@@ -106,7 +106,7 @@ public class OrderController extends HttpServlet {
             OrderDAO dao = new OrderDAO();
             List<OrderDTO> orderList = dao.getCustomerOrder(map);
             int totalCount = dao.selectCount(dto);
-            
+
             // Paging
  			PageDTO paging = new PageDTO(pageNum, amount, totalCount);
          			
