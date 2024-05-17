@@ -25,10 +25,8 @@
 
 <!-- CustomerDAO 파일 받오면 수정하기 -->
 <!-- 정렬 -->
-<ul>
-	<li>
 		<h2>마이페이지</h2>
-	</li>
+<ul>
 	<li>
 		<a href="myPageUpdate.or">회원정보 수정</a>
 	</li>
@@ -42,10 +40,10 @@
 <tr>
     <th width="10%">NO</th>
     <th width="20%">주문일자</th>
-    <th width="10%">주문번호</th>
+    <th width="15%">주문번호</th>
     <th width="12%">수령인</th>
     <th width="28%">상품 정보</th>
-    <th width="10%">가격</th>
+    <th width="15%">가격</th>
 </tr>
 <% 
     if(orderList.isEmpty()) { %>  
@@ -83,7 +81,7 @@
 		    <%	
 				int totalPrice = dao.selectTotalPrice(dto); 
 			%>
-			<%=totalPrice %>
+			<%=totalPrice %>원
 			</td>
 		</tr>
 <%

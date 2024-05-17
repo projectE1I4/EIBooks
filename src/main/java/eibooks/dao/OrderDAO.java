@@ -40,10 +40,10 @@ public class OrderDAO {
 						+ "on i.book_seq = b.book_seq "
 						+ "join customer c "
 						+ "on i.cus_seq = c.cus_seq "
-						+ "order by orderDate ";
+						+ "order by i.pur_seq ";
 				
 				if(orderBy != null && orderBy.equals("recent")) {
-					sql += "desc ";
+					sql += "desc, i.book_seq asc ";
 				}
 				
 				sql += "limit ? offset ? "; // 2page
@@ -254,10 +254,10 @@ public class OrderDAO {
 						+ "join customer c "
 						+ "on i.cus_seq = c.cus_seq "
 						+ "where i.cus_seq = ? "
-						+ "order by orderDate ";
+						+ "order by i.pur_seq ";
 				
 				if(orderBy != null && orderBy.equals("recent")) {
-					sql += "desc ";
+					sql += "desc, i.book_seq asc ";
 				}
 				
 				sql += "limit ? offset ? "; // 2page
