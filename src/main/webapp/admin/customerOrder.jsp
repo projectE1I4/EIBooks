@@ -6,6 +6,7 @@
     pageEncoding="UTF-8"%>
 <%
     //장바구니 리스트 가져오기
+    int cus_seq = (int)request.getAttribute("cus_seq");
     List<OrderDTO> orderList = (List<OrderDTO>)request.getAttribute("orderList");
 	PageDTO p = (PageDTO)request.getAttribute("paging");
 	int totalCount = (int)request.getAttribute("totalCount");
@@ -29,6 +30,8 @@ function goToPage(pur_seq) {
 <!-- 제목 --> 
 <h2>주문 목록 보기(관리자)</h2>
 
+<!-- CustomerDAO 파일 받오면 넣기 -->
+님의 주문 이력
 <!-- 정렬 -->
 <ul>
 	<li>
@@ -43,7 +46,6 @@ function goToPage(pur_seq) {
 <table border="1" width="90%">
 <tr>
     <th width="10%">주문 번호</th>
-    <th width="10%">주문자 명</th>
     <th width="28%">도서 명</th>
     <th width="12%">총 금액</th>
     <th width="20%">주문일자</th>
@@ -62,7 +64,6 @@ function goToPage(pur_seq) {
 %>
 		<tr onclick="goToPage(<%=orderItem.getPur_seq()%>)">
 		    <td><%=orderItem.getPur_seq() %></td>
-		    <td><%=orderItem.getCustomerInfo().getName() %></td>
 		    <td>
 		    	<%=orderItem.getBookInfo().getTitle() %>
 		    	<% 

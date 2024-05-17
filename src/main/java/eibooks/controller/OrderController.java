@@ -116,6 +116,7 @@ public class OrderController extends HttpServlet {
  			PageDTO paging = new PageDTO(pageNum, amount, totalCount);
          			
             // 장바구니 페이지로 전달할 데이터 설정
+ 			request.setAttribute("cus_seq", cus_seq);
             request.setAttribute("orderList", orderList);
             request.setAttribute("paging", paging);
 			request.setAttribute("totalCount", totalCount);
