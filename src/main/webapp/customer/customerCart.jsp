@@ -70,7 +70,7 @@
     	</form>
     	
 	    </td>
-	    <td><%=cartItem.getBookInfo().getPrice()%>원</td>
+	    <td id="price<%= cartItem.getCartISeq() %>"><%=cartItem.getBookInfo().getPrice() * cartItem.getCartICount()%>원</td>
 	    <td>
 	    <!-- 선택된 항목 삭제 -->
         <form action="deleteCart.cc" method="post">
@@ -137,6 +137,7 @@ function updateCart(cartISeq, cartICount) {
     	 if (xhr.readyState == 4 && xhr.status == 200) {
     	        var response = JSON.parse(xhr.responseText);
     	        console.log("변동됨");
+    	        document.getElementById("price" + cartISeq).innerText = response.totalPrice + "원";
     	    }
     };
     xhr.send("cartISeq=" + cartISeq + "&cartICount=" + cartICount);

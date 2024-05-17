@@ -125,11 +125,14 @@ public class CartController extends HttpServlet {
 
 		    // cartDAO 인스턴스 생성 및 updateCart 메소드 호출하여 수량 업데이트
 		    cartDAO cartDao = new cartDAO();
-		    int updaters = cartDao.updateCart(cartISeq, cartICount);
+		    int updateRs = cartDao.updateCart(cartISeq, cartICount);
+		    
+		    // 장바구니 항목의 총 가격 계산
+		    int totalPrice = cartDao.updatePrice(cartISeq, cartICount);
 
 		    // 업데이트 결과에 따라 응답 메시지 설정
 		    String message;
-		    if(updaters > 0) {
+		    if(updateRs > 0) {
 		        message = "수량이 업데이트되었습니다.";
 		    } else {
 		        message = "수량 업데이트에 실패했습니다.";
@@ -138,6 +141,7 @@ public class CartController extends HttpServlet {
 		    // 클라이언트에게 JSON 형식의 응답 보내기
 		    JSONObject jsonResponse = new JSONObject();
 		    jsonResponse.put("message", message);
+		    jsonResponse.put("totalPrice", totalPrice);
 
 		    // 응답 보내기
 		    response.setContentType("application/json");

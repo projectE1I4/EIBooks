@@ -121,4 +121,35 @@ public class cartDAO {
 		}
 		return rs;
 	}
+
+	//장바구니 리스트 가격
+	public int updatePrice(int cartISeq, int cartICount) {
+		Connection conn = null;
+	    PreparedStatement pstmt = null;
+	    ResultSet rs = null;
+	    int priceRs = 0;
+
+	    try {
+	        conn = JDBCConnect.getConnection();
+
+	        String sql = "SELECT b.price FROM books b "
+	                + "JOIN cart_item i ON b.book_seq = i.book_seq WHERE i.cart_i_seq = ?";
+
+	        pstmt = conn.prepareStatement(sql);
+	        pstmt.setInt(1, cartISeq);
+
+	        rs = pstmt.executeQuery();
+
+	        if (rs.next()) {
+	        	priceRs = rs.getInt("price");
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    } finally {
+	        JDBCConnect.close(rs, pstmt, conn);
+	    }
+
+	    return priceRs * cartICount;
+	}
+
 }
