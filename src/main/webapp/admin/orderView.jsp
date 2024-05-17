@@ -34,9 +34,13 @@ List<OrderDTO> orderList = (List<OrderDTO>)request.getAttribute("orderList");
 		</tr>
 		<tr>
 		    <td width="10%">배송지</th>
-		    <td><%=order.getCustomerInfo().getAddrInfo().getPostalCode() %></td>
-		    <td><%=order.getCustomerInfo().getAddrInfo().getAddr() %></td>
-		    <td><%=order.getCustomerInfo().getAddrInfo().getAddr_detail() %></td>
+		    <td>
+		    	<ul>
+		    		<li><%=order.getCustomerInfo().getAddrInfo().getPostalCode() %></li>
+		    		<li><%=order.getCustomerInfo().getAddrInfo().getAddr() %></li>
+		    		<li><%=order.getCustomerInfo().getAddrInfo().getAddr_detail() %></li>
+		    	</ul>
+		    </td>
 		</tr>
 
 </table>

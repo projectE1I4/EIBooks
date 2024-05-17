@@ -101,6 +101,7 @@ public class OrderDAO {
 			ResultSet rs = null;
 
 			int pur_seq = dto.getPur_seq();
+			List<Integer> total = new ArrayList<Integer>();
 			int totalPrice = 0;
 			
 			try {
@@ -108,20 +109,25 @@ public class OrderDAO {
 				conn = JDBCConnect.getConnection();
 
 				//sql + 쿼리창
-				String sql= "select sum(price) + 3000 as totalPrice from purchase_item i "
+				String sql= "select sum(price * pur_i_count) as totalPrice from purchase_item i "
 						+ "join purchase p "
 						+ "on i.pur_seq = p.pur_seq "
 						+ "join books b "
 						+ "on i.book_seq = b.book_seq "
-						+ "where i.pur_seq = ?";
+						+ "where i.pur_seq = ? "
+						+ "group by i.book_seq ";
 				
 				pstmt = conn.prepareStatement(sql);
 				pstmt.setInt(1, pur_seq);
 
 				rs = pstmt.executeQuery();
 				
-				if(rs.next()) {
-					totalPrice = rs.getInt("totalPrice");
+				while(rs.next()) {
+					total.add(rs.getInt("totalPrice"));
+				}
+				
+				for (int t : total) {
+					totalPrice += t;
 				}
 
 			} catch (Exception e) {
@@ -131,7 +137,7 @@ public class OrderDAO {
 				JDBCConnect.close(rs, pstmt, conn);
 			}
 			
-			return totalPrice;
+			return totalPrice + 3000;
 		}
 
 		// 전체 주문 목록 총 개수
