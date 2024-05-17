@@ -91,7 +91,7 @@ public class BookDAO {
 			isSearch = true;
 		}
 		
-		String sql = "select count(book_seq) as cnt from books";
+		String sql = "select count(book_seq) as cnt from books ";
 		if(isSearch) {
 			//sql += " and " + map.get("searchField") + " like concat('%',?,'%')";
 			sql += " where " + map.get("searchField") + " like ? ";
@@ -203,7 +203,7 @@ public class BookDAO {
 	       // 3. sql + 쿼리창
 	       String sql = "insert into books(title, author, publisher, category, imageFile"
 	       		+ ", description, price, stock, isbn10, isbn13, pubDate) "
-	       		+ "values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+	       		+ "values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ";
 	       pstmt = conn.prepareStatement(sql);
 	       
 	       // 4. ? 세팅
@@ -242,7 +242,7 @@ public class BookDAO {
 			conn = JDBCConnect.getConnection();
 			
 			// 3. sql 창,  탙퇴 처리
-			String	sql = "delete from books where book_seq =?";
+			String	sql = "delete from books where book_seq =? ";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, dto.getBook_seq());
 			// 4. execute
@@ -297,6 +297,38 @@ public class BookDAO {
 			
 		}
 		return rs;
+	}
+
+	public int getBookCount() {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;		
+
+		int bookCnt = 0;
+		
+		try {
+			// 2. connection
+			conn = JDBCConnect.getConnection();
+			
+			String sql = "select count(book_seq) as cnt from books";
+			// 3. sql창
+			pstmt = conn.prepareStatement(sql);
+			
+			// 4. execute
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				bookCnt = rs.getInt("cnt");
+			}
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+			
+		} finally {
+			JDBCConnect.close(rs, pstmt, conn);
+			
+		}
+		return bookCnt;
 	}
 	
 }
