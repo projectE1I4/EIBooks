@@ -4,4 +4,16 @@
 
 <web-app>
   <display-name>Archetype Created Web Application</display-name>
+  <servlet>
+  	<servlet-name>ReviewController</servlet-name>
+  	<display-name>ReviewController</display-name>
+  	<description></description>
+  	<servlet-class>controller.ReviewController</servlet-class>
+  </servlet>
+  <!-- 
+  <servlet-mapping>
+  	<servlet-name>ReviewController</servlet-name>
+  	<url-pattern>*.do</url-pattern>
+  </servlet-mapping>
+   -->
 </web-app>
