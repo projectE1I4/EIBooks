@@ -109,8 +109,8 @@ List<OrderDTO> orderList = (List<OrderDTO>)request.getAttribute("orderList");
 			
 		</ul>
 	</td>
-	<td>총 <%=orderItem.getPur_i_count() %>권</td>
-	<td>총 <%=orderItem.getBookInfo().getPrice() * orderItem.getPur_i_count() %>원</td>
+	<td width="10%">총 <%=orderItem.getPur_i_count() %>권</td>
+	<td width="10%">총 <%=orderItem.getBookInfo().getPrice() * orderItem.getPur_i_count() %>원</td>
 </tr>
 <%
 	  } 
