@@ -100,9 +100,10 @@ public class OrderController extends HttpServlet {
 			map.put("orderBy", orderBy);
 			
 			// 임시로 회원 번호를 지정, 실제로는 세션 등을 통해 로그인한 사용자의 정보를 가져와야 함
+			String sCus_seq = request.getParameter("cus_seq");
+			int cus_seq = Integer.parseInt(sCus_seq);
 			OrderDTO dto = new OrderDTO();
 			dto.setCus_seq(1);
-			int cus_seq = 1;
 			
 			map.put("cus_seq", cus_seq + "");
             
