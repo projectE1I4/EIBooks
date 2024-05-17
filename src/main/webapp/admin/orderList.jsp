@@ -15,6 +15,13 @@
 <head>
 <meta charset="EUC-KR">
 <title>orderList.jsp</title>
+
+<script type="text/javascript">
+function goToPage(pur_seq) {
+	location.href = "orderView.or?pur_seq=" + pur_seq;
+}
+</script>
+
 </head>
 <body>
 
@@ -22,13 +29,23 @@
 <!-- 제목 --> 
 <h2>주문 목록 보기(관리자)</h2>
 
+<!-- 정렬 -->
+<ul>
+	<li>
+		<a href="orderList.or?orderBy=recent">최신순</a>
+	</li>
+	<li>
+		<a href="orderList.or?orderBy=old">오래된순</a>
+	</li>
+</ul>
+
 <!-- 주문 목록 -->
 <table border="1" width="90%">
 <tr>
-    <th width="5%">주문 번호</th>
+    <th width="10%">주문 번호</th>
     <th width="10%">주문자 명</th>
-    <th width="25%">도서 명</th>
-    <th width="15%">총 금액</th>
+    <th width="28%">도서 명</th>
+    <th width="12%">총 금액</th>
     <th width="20%">주문일자</th>
 </tr>
 <% 
@@ -43,7 +60,7 @@
         boolean isSameItem = prevItem != null && prevItem.getPur_seq() == orderItem.getPur_seq();
         if(!isSameItem) { // 이전 항목과 다를 경우에만 표시
 %>
-		<tr onclick="">
+		<tr onclick="goToPage(<%=orderItem.getPur_seq()%>)">
 		    <td><%=orderItem.getPur_seq() %></td>
 		    <td><%=orderItem.getCustomerInfo().getName() %></td>
 		    <td>

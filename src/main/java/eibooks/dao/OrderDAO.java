@@ -15,7 +15,7 @@ import eibooks.dto.OrderDTO;
 public class OrderDAO {
 
 		//회원 주문 내역 조회
-		public List<OrderDTO> getOrderList(Map<String, Integer> map) {
+		public List<OrderDTO> getOrderList(Map<String, String> map) {
 			List<OrderDTO> orderList = new ArrayList<>();
 
 			//DB연결
@@ -23,8 +23,9 @@ public class OrderDAO {
 			PreparedStatement pstmt = null;
 			ResultSet rs = null;
 
-			int amount = map.get("amount");
-			int offset = map.get("offset");
+			int amount = Integer.parseInt(map.get("amount"));
+			int offset = Integer.parseInt(map.get("offset"));
+			String orderBy = map.get("orderBy");
 			
 			try {
 				//conn
@@ -37,7 +38,12 @@ public class OrderDAO {
 						+ "join books b "
 						+ "on i.book_seq = b.book_seq "
 						+ "join customer c "
-						+ "on i.cus_seq = c.cus_seq ";
+						+ "on i.cus_seq = c.cus_seq "
+						+ "order by orderDate ";
+				
+				if(orderBy != null && orderBy.equals("recent")) {
+					sql += "desc ";
+				}
 				
 				sql += "limit ? offset ? "; // 2page
 				
@@ -126,7 +132,7 @@ public class OrderDAO {
 			return totalPrice;
 		}
 
-		public int selectCount(Map<String, Integer> map) {
+		public int selectCount() {
 			
 			Connection conn = null;
 			PreparedStatement pstmt = null;
