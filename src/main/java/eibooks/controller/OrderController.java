@@ -138,6 +138,44 @@ public class OrderController extends HttpServlet {
             String path = "./orderView.jsp"; // 회원 별 주문 목록 페이지의 JSP 파일 경로
             request.getRequestDispatcher(path).forward(request, response);
             
+		} else if(action.equals("/myPage.or")) {
+			
+			Map<String, String> map = new HashMap<>();
+			
+			// paging info
+			int amount = 10;
+			int pageNum = 1;
+			
+			String sPageNum = request.getParameter("pageNum");
+			if(sPageNum != null) pageNum = Integer.parseInt(sPageNum);
+			int offset = (pageNum-1) * amount;
+
+			map.put("offset", offset + "");
+			map.put("amount", amount + "");
+			
+			// 로그인 사용자로 바꿔야 하는 부분
+			int cus_seq = 1;
+			OrderDTO dto = new OrderDTO();
+			dto.setCus_seq(1);
+			
+			map.put("cus_seq", cus_seq + "");
+            
+            OrderDAO dao = new OrderDAO();
+            List<OrderDTO> orderList = dao.getCustomerOrder(map);
+            int totalCount = dao.selectCount(dto);
+
+            // Paging
+ 			PageDTO paging = new PageDTO(pageNum, amount, totalCount);
+         			
+ 			request.setAttribute("cus_seq", cus_seq);
+            request.setAttribute("orderList", orderList);
+            request.setAttribute("paging", paging);
+			request.setAttribute("totalCount", totalCount);
+
+            // forward
+            String path = "./myPage.jsp"; // 회원 별 주문 목록 페이지의 JSP 파일 경로
+            request.getRequestDispatcher(path).forward(request, response);
+            
 		}
 	}
 }
