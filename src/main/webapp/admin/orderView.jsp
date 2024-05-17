@@ -18,6 +18,8 @@ List<OrderDTO> orderList = (List<OrderDTO>)request.getAttribute("orderList");
 <%@ include file="../common/menu.jsp" %>
 <!-- 제목 --> 
 <h2>주문 내역 상세 보기(관리자)</h2>
+
+<!-- CustomerDAO에서 함수 호출해서 받아올 값 -->님의 배송 정보
 <table border="1" width="90%">
 
 		<tr>
@@ -45,18 +47,20 @@ List<OrderDTO> orderList = (List<OrderDTO>)request.getAttribute("orderList");
 
 </table>
 <br><br>
+
+<!-- CustomerDAO에서 함수 호출해서 받아올 값 -->님의 주문 내역 상세 정보
 <table border="1" width="90%">
 <tr>
     <td width="18%">주문일자</th>
-    <td><%=order.getOrderDate() %></td>
+    <td colspan="3"><%=order.getOrderDate() %></td>
 </tr>
 <tr>
 	<td width="18%">주문번호</th>
-    <td><%=order.getPur_seq() %></td>
+    <td colspan="3"><%=order.getPur_seq() %></td>
 </tr>
 <tr>
 	<td width="18%">총 수량 합계</th>
-    <td>
+    <td colspan="3">
     	<%
 	    	OrderDTO dto = new OrderDTO(); 
 			int pur_seq = order.getPur_seq();
@@ -69,7 +73,7 @@ List<OrderDTO> orderList = (List<OrderDTO>)request.getAttribute("orderList");
 </tr>
 <tr>
     <td width="18%">총 상품 금액 합계</th>
-    <td>
+    <td colspan="3">
     	<%
 			int totalPrice = dao.selectTotalPrice(dto);
     	%>
@@ -78,11 +82,11 @@ List<OrderDTO> orderList = (List<OrderDTO>)request.getAttribute("orderList");
 </tr>
 <tr>
     <td width="18%">배송비</th>
-    <td>3000원</td>
+    <td colspan="3">3000원</td>
 </tr>
 <tr>
     <td width="18%">최종 결제 금액</th>
-    <td><%=totalPrice %>원</td>
+    <td colspan="3"><%=totalPrice %>원</td>
 </tr>
 <% 
     if(orderList.isEmpty()) { %>  
