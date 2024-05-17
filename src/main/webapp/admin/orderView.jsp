@@ -21,7 +21,7 @@ List<OrderDTO> orderList = (List<OrderDTO>)request.getAttribute("orderList");
 <br>
 <%=order.getCustomerInfo().getCus_id() %>(<%=order.getCustomerInfo().getName() %>)님의 배송 정보
 <br><br>
-<table border="1" width="90%">
+<table border="1" width="80%">
 
 		<tr>
 		    <td width="5%">수령인</th>
@@ -51,7 +51,7 @@ List<OrderDTO> orderList = (List<OrderDTO>)request.getAttribute("orderList");
 
 <%=order.getCustomerInfo().getCus_id() %>(<%=order.getCustomerInfo().getName() %>)님의 주문 내역 상세 정보
 <br><br>
-<table border="1" width="90%">
+<table border="1" width="80%">
 <tr>
     <td width="10%">주문일자</th>
     <td colspan="3"><%=order.getOrderDate() %></td>

@@ -43,7 +43,7 @@ function goToPage(pur_seq) {
 </ul>
 
 <!-- 주문 목록 -->
-<table border="1" width="90%">
+<table border="1" width="80%">
 <tr>
     <th width="10%">주문 번호</th>
     <th width="28%">도서 명</th>
