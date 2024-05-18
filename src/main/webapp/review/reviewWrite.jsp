@@ -60,15 +60,15 @@ function validateForm() {
 <%} %>
 <tr>
 <td colspan="6">
-<%if(p.isPrev()) {%><a href="reviewList.do?bookNum=<%=bookNum %>&pageNum=<%=p.getStartPage()-1 %>">[이전]</a><%} %>
+<%if(p.isPrev()) {%><a href="reviewWrite.do?bookNum=<%=bookNum %>&pageNum=<%=p.getStartPage()-1 %>">[이전]</a><%} %>
 <%for(int i=p.getStartPage(); i<=p.getEndPage(); i++) {%>
 	<%if(i == p.getPageNum()) {%>
 		<b>[<%=i %>]</b>
 		<%}else {%>
-		<a href="reviewList.do?bookNum=<%=bookNum %>&pageNum=<%=i %>&orderBy=<%=orderBy %>">[<%=i %>]</a>
+		<a href="reviewWrite.do?bookNum=<%=bookNum %>&pageNum=<%=i %>&orderBy=<%=orderBy %>">[<%=i %>]</a>
 		<%} %>
 	<%} %>
-<%if(p.isNext()) {%><a href="reviewList.do?bookNum=<%=bookNum %>&pageNum=<%=p.getEndPage()+1 %>">[다음]</a><%} %>
+<%if(p.isNext()) {%><a href="reviewWrite.do?bookNum=<%=bookNum %>&pageNum=<%=p.getEndPage()+1 %>">[다음]</a><%} %>
 </td>
 </tr>
 </table>
