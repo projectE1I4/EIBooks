@@ -9,6 +9,7 @@
 	int totalCount = (int)request.getAttribute("totalCount");
 	String searchWord = (String)request.getAttribute("searchWord");
 	String category = (String)request.getAttribute("category");
+	String list = (String)request.getAttribute("list");
 %>
 <!DOCTYPE html>
 <html>
@@ -21,6 +22,7 @@ function userPaging(){
 	var searchWord = $('input[name="searchWord"]').val();
 	var category = "<%=(request.getParameter("category") != null && !request.getParameter("category").equals("") ) ? request.getParameter("category") : category%>";
 	console.log("ppcategory_book_java: ", "<%=category %>", category);
+	var list = "<%=list%>";
 	$.ajax({
         type:'GET',
         url:'<%=request.getContextPath()%>/user/userPaging.uapi',
@@ -28,13 +30,14 @@ function userPaging(){
         data: {
         	pageNum: <%=p.getPageNum()%>, 
         	searchWord: searchWord,
-        	category: category
+        	category: category,
+        	order : order
         },
         success: function (response) {
         	//, searchWord를 검색하고 페이지를 넘겨서 다시 받아오는 과정에서 문제 발생
 	       var newUrl = window.location.pathname + "?pageNum="+ <%=p.getPageNum()%> 
         	+ '&searchWord=' + encodeURIComponent(searchWord)
-        	+ '&category=' + encodeURIComponent(category);
+        	+ '&category=' + encodeURIComponent(category) +'&order=' + list;
        		window.history.pushState({ path: newUrl }, '', newUrl);
 	       makePaging(response, searchWord, category);  
         },
@@ -48,11 +51,11 @@ function makePaging(data){
 	let html = ''; 
 	<% if(p.isPrev()) {%>
 		html += '<a href="userBookList.bo?pageNum=1&searchWord=<%=searchWord%>&category=<%=category%>'
-			 +'">[First]</a>';
+			 +'&order=<%=list%>'">[First]</a>';
 	<%}%>	
 	<%if(p.isPrev()) {%> 
 		html += '<a href="userBookList.bo?pageNum=' + <%=p.getStartPage()-1%>
-			+ '&searchWord=<%=searchWord%>&category=<%=category%>' + '">[Prev]</a>'; 
+			+ '&searchWord=<%=searchWord%>&category=<%=category%>' +'&order=<%=list%>'">[Prev]</a>'; 
 	<% } %>
 	<%
 	for(int i=p.getStartPage(); i<= p.getEndPage(); i++) {
@@ -61,17 +64,17 @@ function makePaging(data){
 			html += '<b>[' + <%=i %> + ']</b>';
 		<%}else{ %>
 			html += '<a href="userBookList.bo?pageNum=' + <%=i%> 
-				+ '&searchWord=<%=searchWord%>&category=<%=category%>' + '">[' + <%=i %> +']</a>';
+				+ '&searchWord=<%=searchWord%>&category=<%=category%>' +'&order=<%=list%>'">[' + <%=i %> +']</a>';
 		<%}
 	} 
 	%>
 	<%if(p.isNext()){%>
 		html += '<a href="userBookList.bo?pageNum=' + <%=p.getEndPage()+1%> 
-			+ '&searchWord=<%=searchWord%>&category=<%=category%>' + '">[Next]</a>';
+			+ '&searchWord=<%=searchWord%>&category=<%=category%>' +'&order=<%=list%>'">[Next]</a>';
 	<% } %>
 	<%if(p.isNext()){%>
 		html += '<a href="userBookList.bo?pageNum=' + <%=p.getRealEnd()%>+ 
-			'&searchWord=<%=searchWord%>&category=<%=category%>' + '">[Last]</a>';
+			'&searchWord=<%=searchWord%>&category=<%=category%>' +'&order=<%=list%>'">[Last]</a>';
 	<% } %>
     $('#userPaging').html(html);
     console.log(html);
@@ -84,6 +87,7 @@ function userSearch(){
 	var pageNum = <%=p.getPageNum()%>;
 	var category = "<%=(request.getParameter("category") != null && !request.getParameter("category").equals("") ) ? request.getParameter("category") : category%>";
 	console.log("ssscategory_book_java: ", "<%=category %>", category);
+	var list = "<%=list%>";
 	// 제일 먼저 실행	
 	$.ajax({
         type:'GET',
@@ -92,14 +96,16 @@ function userSearch(){
         data: {
         	pageNum: pageNum,
         	searchWord: searchWord,
-        	category: category
+        	category: category,
+        	order : order
         },
         success: function (response) {
             var newUrl = window.location.pathname + "?pageNum="+ pageNum 
             + '&searchWord=' + encodeURIComponent(searchWord)
-    		+ '&category=' + encodeURIComponent(category);
+    		+ '&category=' + encodeURIComponent(category) +'&order=' + list;
             window.history.pushState({ path: newUrl }, '', newUrl);
             makeSearch(response, searchWord, category); 
+            userPaging();
         },
         error: function (request, status, error) {
             console.log(request, status, error);
@@ -132,6 +138,7 @@ function userCategory(){
 	var pageNum = <%=p.getPageNum()%>;
 	var category = "<%=(request.getParameter("category") != null && !request.getParameter("category").equals("") ) ? request.getParameter("category") : category%>";
 	console.log("ccccategory_book_java: ", "<%=category %>", category);
+	var list = "<%=list%>";
 	$.ajax({
         type:'GET',
         url:'<%=request.getContextPath()%>/user/userCategory.uapi',
@@ -139,12 +146,13 @@ function userCategory(){
         data: {
         	pageNum: pageNum,
         	searchWord: searchWord,
-        	category : category
+        	category : category,
+        	order : order
         },
         success: function (response) {
             var newUrl = window.location.pathname + "?pageNum="+ pageNum 
             		+ '&searchWord=' + encodeURIComponent(searchWord)
-            		+ '&category=' + encodeURIComponent(category);
+            		+ '&category=' + encodeURIComponent(category) +'&order=' + list;
             window.history.pushState({ path: newUrl }, '', newUrl);
             makeCategory(response, searchWord, category); 
         },
@@ -174,8 +182,8 @@ $(function(){
         <%	}%>
         
 	userSearch();
-	userPaging();
 	userCategory();
+	userPaging();
 	console.log("카테", "<%=category%>");
 });
 </script>
@@ -210,11 +218,19 @@ $(function(){
 		<%} else {%> <br> <%}%>
 		<tr>
 			<td>
-			<form>
+				<ul>
+					<li><a href="userBookList.bo?pageNum=<%=p.getPageNum() %>&searchWord=<%=searchWord %>&category=<%=category%>&list=latest"<%list = "latest";%>>최신순</a></li>
+					<li><a href="userBookList.bo?pageNum=<%=p.getPageNum() %>&searchWord=<%=searchWord %>&category=<%=category%>&list=oldest"<%list = "oldest";%>>오래된 순</a></li>
+					<li><a href="userBookList.bo?pageNum=<%=p.getPageNum() %>&searchWord=<%=searchWord %>&category=<%=category%>&list=popular"<%list = "popular";%>>인기순</a></li>					
+				<%request.setAttribute("list", list);%>
+				</ul>
+			</td>
+			<td>
+			<form onsubmit="userSearch();">
 				<input type="text" name="searchWord"
 					<%if(searchWord != null && !searchWord.equals("")){%> value="<%=searchWord%>" <%}%>
 				placeholder="검색어를 입력하세요."> 
-				<input type="submit" value="Search" onclick="userSearch()">
+				<input type="submit" value="Search" >
 			</form>
 			</td>
 		</tr>

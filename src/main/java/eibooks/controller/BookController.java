@@ -107,6 +107,7 @@ public class BookController extends HttpServlet {
 			// 여기 카테고리가 검색 시 null이 들어옴
 			// 이놈이 지금 category 값을 못 가져오는 중임...
 			String category = request.getParameter("category");
+			String list = request.getParameter("list");
 			System.out.println("가져오자마자 userBookList - category Word:" + category);
 			
 			if (searchWord == null || searchWord.trim().equals("")) {
@@ -129,6 +130,7 @@ public class BookController extends HttpServlet {
 			map.put("searchWord", searchWord);
 			// category를 보냄
 			map.put("category", category);
+			map.put("list", list);
 			
 			// paging info
 			// paging 정보 10개씩 1페이지
