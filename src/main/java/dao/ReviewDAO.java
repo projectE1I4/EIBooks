@@ -78,7 +78,7 @@ public class ReviewDAO {
 		
 		int totalCount = 0;
 		
-		String sql = "select count(re_seq) as cnt from review";
+		String sql = "select count(re_seq) as cnt from review ";
 		
 		System.out.println(sql);
 		conn = JDBCConnect.getConnection();

@@ -4,11 +4,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
-List<ReviewDTO> reviewList = (List<ReviewDTO>)request.getAttribute("reviewList");
-int totalCount = (int)request.getAttribute("totalCount");
-String orderBy = (String)request.getAttribute("orderBy");
 String bookNum = (String)request.getAttribute("bookNum");
+List<ReviewDTO> reviewList = (List<ReviewDTO>)request.getAttribute("reviewList");
+String orderBy = (String)request.getAttribute("orderBy");
+int totalCount = (int)request.getAttribute("totalCount");
 PageDTO p = (PageDTO)request.getAttribute("paging");
+System.out.println(p);
 %>
 <!DOCTYPE html>
 <html>
@@ -18,8 +19,8 @@ PageDTO p = (PageDTO)request.getAttribute("paging");
 <script type="text/javascript">
 function validateForm() {
 	const form = document.writeForm;
-	console.dir(form); // input
-	if(form.title.value === ""){
+	console.dir(form); // input 
+	if(form.content.value === ""){
 		alert('내용을 입력해주세요.');
 		form.content.focus();
 		return;
@@ -31,7 +32,7 @@ function validateForm() {
 </head>
 <body>
 <h1>리뷰 작성</h1>
-<form name="writeForm" method="post" action="<%=request.getContextPath() %>/reviewWrite.do">
+<form name="writeForm" method="post" action="/EIBooks/review/reviewWriteProc.do?bookNum=<%=bookNum %>">
 	<table border="1" width="90%">
 		<tr><td>별점<input type="hidden" name="grade" value="5"></td></tr>
 		<td><textarea name="content" style="width:90%; height:100px"></textarea></td>
