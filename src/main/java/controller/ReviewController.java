@@ -76,6 +76,9 @@ public class ReviewController extends HttpServlet {
 			String path = "./reviewList.jsp";
 			request.getRequestDispatcher(path).forward(request, response);
 		}else if(action.equals("/reviewWrite.do")) {
+			String path = "./reviewWrite.do";
+			request.getRequestDispatcher(path).forward(request, response);
+		}else if(action.equals("/reviewWriteProc.do")) {
 			request.setCharacterEncoding("utf-8");
 			int userNum = Integer.parseInt(request.getParameter("userNum"));
 			int bookNum = Integer.parseInt(request.getParameter("bookNum"));
@@ -94,7 +97,7 @@ public class ReviewController extends HttpServlet {
             ReviewDAO dao = new ReviewDAO();
             dao.insertWrite(dto);
             
-            String path = request.getContextPath() + "/reviewWrite.jsp";
+            String path = request.getContextPath() + "./reviewWrite.do";
             response.sendRedirect(path);
 		}
 	}

@@ -33,7 +33,7 @@ function validateForm() {
 <h1>리뷰 작성</h1>
 <form name="writeForm" method="post" action="<%=request.getContextPath() %>/reviewWrite.do">
 	<table border="1" width="90%">
-		<tr><td>별점</td></tr>
+		<tr><td>별점<input type="hidden" name="grade" value="5"></td></tr>
 		<td><textarea name="content" style="width:90%; height:100px"></textarea></td>
 	</table>
 	<input type="button" value="리뷰 등록" onclick="validateForm()">
