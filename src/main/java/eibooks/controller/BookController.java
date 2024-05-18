@@ -104,20 +104,31 @@ public class BookController extends HttpServlet {
 			
 			// searchField에 대해서 파라메터 받아옴, searchWord에 대해서 파라메터 받아옴
 			String searchWord = request.getParameter("searchWord");
-			System.out.println("bc.ubl: "+searchWord);
+			// 여기 카테고리가 검색 시 null이 들어옴
+			// 이놈이 지금 category 값을 못 가져오는 중임...
+			String category = request.getParameter("category");
+			System.out.println("가져오자마자 userBookList - category Word:" + category);
+			
 			if (searchWord == null || searchWord.trim().equals("")) {
 				searchWord = "";
-				// 여기까지 넘어옴 (사실상 출발지)
-				System.out.println("check_searchWord: " + searchWord);
+			}
+			//null 값 들어옴
+			System.out.println("userBookList - category Word:" + category);
+			
+			if (category == null) {
+				category = "";
+				System.out.println("check_category: " + category);
 			}
 
 			request.setAttribute("searchWord", searchWord);
-			System.out.println("userBookList - Search Word:" + searchWord);
+			request.setAttribute("category", category);
 						
 			// Map을 통해서 검색 처리
 			Map<String, String> map = new HashMap<>();
 			// searchWord로 보냄
 			map.put("searchWord", searchWord);
+			// category를 보냄
+			map.put("category", category);
 			
 			// paging info
 			// paging 정보 10개씩 1페이지
@@ -141,8 +152,7 @@ public class BookController extends HttpServlet {
 			
 			List<BookDTO> bookList = dao.userSelectPageList(map);
 			int totalCount = dao.userSelectCount(map);
-			System.out.println("Retrieved book list: " + bookList);
-			System.out.println("Total count: " + totalCount);
+			System.out.println("맵카>>>>>>>>>>>>" + map.get("category"));
 			
 			// Paging
 			PageDTO paging = new PageDTO(pageNum, amount, totalCount);
@@ -153,10 +163,6 @@ public class BookController extends HttpServlet {
 			
 			// forward
 			request.getRequestDispatcher("./userBookList.jsp").forward(request, response);		
-//			String path =  "./userBookList.jsp?pageNum=1&searchWord=" + URLEncoder.encode(searchWord, "UTF-8");
-//			System.out.println(">>>>>"+searchWord);
-//			System.out.println("URL Path: " + path);
-//			request.getRequestDispatcher(path).forward(request, response);
 		}
 	}
 }
