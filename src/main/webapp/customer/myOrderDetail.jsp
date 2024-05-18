@@ -54,7 +54,6 @@ List<OrderDTO> orderList = (List<OrderDTO>)request.getAttribute("orderList");
 </table>
 <br><br>
 
-<br><br>
 <table border="1" width="80%">
 <thead>
 	<th colspan="2" align="left">주문상품</th>
@@ -73,9 +72,7 @@ List<OrderDTO> orderList = (List<OrderDTO>)request.getAttribute("orderList");
 	<td width="16%">
 		<img src="<%=orderItem.getBookInfo().getImageFile() %>" alt="표지이미지">
 	</td>
-	<td>
-		<%=orderItem.getBookInfo().getTitle() %>
-	</td>
+	<td width=50%><%=orderItem.getBookInfo().getTitle() %></td>
 	<td width="10%" align="center"><%=orderItem.getPur_i_count() %>권</td>
 	<td width="10%" align="center"><%=orderItem.getBookInfo().getPrice() * orderItem.getPur_i_count() %>원</td>
 	<td align="center"><a href="#">리뷰 작성</a></td>

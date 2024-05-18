@@ -1,0 +1,99 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%
+int cus_seq = Integer.parseInt(request.getParameter("cus_seq"));
+%>    
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>deleteMyPage.jsp</title>
+
+<script type="text/javascript">
+function validateForm() {
+	const form = document.writeForm;
+	console.dir(form); // input
+	
+	if(form.password.value === "") {
+		alert('비밀 번호 필수값입니다.');
+		form.password.focus();
+		return;
+	}
+	
+	if(form.password_confirm.value === "") {
+		alert('비밀 번호 확인 필수값입니다.');
+		form.password_confirm.focus();
+		return;
+	}
+	
+	if(form.password_confirm.value !== form.password.value) {
+		alert('비밀번호가 일치하지 않습니다.');
+		form.password_confirm.focus();
+		return;
+	} else {
+		form.submit();
+	}
+}
+</script>
+
+<style>
+	.box {
+		border : 1px solid black;
+		width : 500px;
+		height : 320px
+	}
+	.info {
+		padding: 30px 30px 0px 30px;
+	}
+	.info h2 {
+		margin-left: 18px;
+	}
+	.info strong, .info a {
+		margin-left: 18px;
+	}
+	.info input[type=text], input[type=password] {
+		display: block;
+		margin: 5px auto;
+	}
+	
+	.btn_wrap {
+		display: flex;
+		margin-right: 18px;
+	}
+	.info input[type=button] {
+		margin-left: auto; 
+	}
+</style>
+</head>
+<body>
+<%@ include file="../common/menu.jsp" %>
+<h2>마이페이지</h2>
+<ul>
+	<li>
+		<a href="/EIBooks/customer/updateMyPage.cu">회원정보 수정</a>
+	</li>
+	<li>
+		<a href="/EIBooks/customer/myPage.or">나의 주문목록</a>
+	</li>
+</ul>
+
+<form name="writeForm" method="post" action="<%=request.getContextPath() %>/deleteMyPageProc.cu">
+<div class="box">
+	<div class="info">
+		<h2>회원 탈퇴</h2>
+	</div>
+	<div class="info">
+		<strong>비밀번호</strong>
+		<input type="password" name="password" style="width:90%">
+		<input type="password" name="password_confirm" style="width:90%" placeholder="한 번 더 입력해주세요">
+	</div>
+	
+	<div class="info btn_wrap">
+		<input type="hidden" name="cus_seq" value="<%=cus_seq %>">
+		<input type="button" value="탈퇴" onclick="validateForm();">
+	</div>
+</div>
+</form>
+
+</body>
+</html>

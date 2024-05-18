@@ -1,3 +1,5 @@
+<%@page import="eibooks.dao.CustomerDAO"%>
+<%@page import="eibooks.dto.CustomerDTO"%>
 <%@page import="java.util.List"%>
 <%@page import="eibooks.common.PageDTO"%>
 <%@page import="eibooks.dao.OrderDAO"%>
@@ -7,6 +9,11 @@
 <%
     //회원별 주문 목록 리스트 가져오기
     int cus_seq = (int)request.getAttribute("cus_seq");
+	CustomerDTO customer = new CustomerDTO();
+	customer.setCus_seq(cus_seq);
+	CustomerDAO cDao = new CustomerDAO();
+	customer = cDao.getCustomer(customer);
+	
     List<OrderDTO> orderList = (List<OrderDTO>)request.getAttribute("orderList");
 	PageDTO p = (PageDTO)request.getAttribute("paging");
 	int totalCount = (int)request.getAttribute("totalCount");
@@ -27,9 +34,23 @@ function goToPage(pur_seq) {
 <body>
 
 <%@ include file="../common/menu.jsp" %>
-<!-- 제목 --> 
 
+<!-- 로그인 세션 여부 체크하는 걸로 변경해야 함 -->
+<%
+if(customer != null && customer.getDel_YN().equals("N")) {
+%>
+
+<!-- 제목 --> 
 <h2>마이페이지</h2>
+<ul>
+	<li>
+		<a href="/EIBooks/customer/updateMyPage.cu">회원정보 수정</a>
+	</li>
+	<li>
+		<a href="/EIBooks/customer/myPage.or">나의 주문목록</a>
+	</li>
+</ul>
+
 <form  method="get">
 <table width="80%">
 	<tr>	
@@ -40,15 +61,7 @@ function goToPage(pur_seq) {
 	</tr>
 </table>
 </form>
-<ul>
-	<li>
-		<a href="myPageUpdate.or">회원정보 수정</a>
-	</li>
-	<li>
-		<a href="myPage.or">나의 주문목록</a>
-	</li>
-</ul>
-
+<br>
 <!-- 주문 목록 -->
 <table border="1" width="80%">
 <tr>
@@ -121,6 +134,8 @@ function goToPage(pur_seq) {
 	</td>
 	</tr>
 </table>
-
+<% } else { %>
+	<div class="info">로그인 하세요</div>
+<% } %>
 </body>
 </html>

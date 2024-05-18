@@ -157,9 +157,9 @@ public class OrderController extends HttpServlet {
 			map.put("amount", amount + "");
 			
 			// 로그인 사용자로 바꿔야 하는 부분
-			int cus_seq = 2;
+			int cus_seq = 1;
 			OrderDTO dto = new OrderDTO();
-			dto.setCus_seq(2);
+			dto.setCus_seq(1);
 			
 			map.put("cus_seq", cus_seq + "");
             
