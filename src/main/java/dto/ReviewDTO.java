@@ -1,6 +1,8 @@
 package dto;
 
 public class ReviewDTO {
+	private int bookNum;
+	private int userNum;
 	private int grade;
 	private String userId;
 	private String reviewDate;
@@ -15,6 +17,49 @@ public class ReviewDTO {
 		this.userId = userId;
 		this.reviewDate = reviewDate;
 		this.content = content;
+	}
+	
+	public ReviewDTO(int bookNum, int grade, String userId, String reviewDate, String content) {
+		super();
+		this.bookNum = bookNum;
+		this.grade = grade;
+		this.userId = userId;
+		this.reviewDate = reviewDate;
+		this.content = content;
+	}
+
+	public ReviewDTO(int bookNum, int userNum, int grade, String userId, String reviewDate, String content) {
+		super();
+		this.bookNum = bookNum;
+		this.userNum = userNum;
+		this.grade = grade;
+		this.userId = userId;
+		this.reviewDate = reviewDate;
+		this.content = content;
+	}
+	
+	public ReviewDTO(int bookNum, int userNum, int grade, String content) {
+		super();
+		this.bookNum = bookNum;
+		this.userNum = userNum;
+		this.grade = grade;
+		this.content = content;
+	}
+
+	public int getBookNum() {
+		return bookNum;
+	}
+
+	public void setBookNum(int bookNum) {
+		this.bookNum = bookNum;
+	}
+
+	public int getUserNum() {
+		return userNum;
+	}
+
+	public void setUserNum(int userNum) {
+		this.userNum = userNum;
 	}
 
 	public int getGrade() {
@@ -51,8 +96,8 @@ public class ReviewDTO {
 
 	@Override
 	public String toString() {
-		return "ReviewDTO [grade=" + grade + ", userId=" + userId + ", reviewDate=" + reviewDate + ", content="
-				+ content + "]";
+		return "ReviewDTO [bookNum=" + bookNum + ", grade=" + grade + ", userId=" + userId + ", reviewDate="
+				+ reviewDate + ", content=" + content + "]";
 	}
 	
 }

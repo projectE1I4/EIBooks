@@ -41,6 +41,9 @@ public class ReviewController extends HttpServlet {
 			String orderBy = request.getParameter("orderBy");
 			System.out.println("controller로 넘어온 order 값:" + orderBy);
 			
+			String bookNum = request.getParameter("bookNum");
+			System.out.println("controller로 넘어온 bookNum 값:" + bookNum);
+			
 			Map<String, String> map = new HashMap<>();
 			
 			// paging info
@@ -55,8 +58,10 @@ public class ReviewController extends HttpServlet {
 			map.put("amount", amount+"");
 			map.put("orderBy", orderBy);
 			
+			ReviewDTO dto = new ReviewDTO(pageNum, offset, uri, orderBy, sPageNum);
+			if (bookNum != null) dto.setBookNum(Integer.parseInt(bookNum));
 			ReviewDAO dao = new ReviewDAO();
-			List<ReviewDTO> reviewList = dao.selectList(map);
+			List<ReviewDTO> reviewList = dao.selectList(dto, map);
 			int totalCount = dao.selectCount();
 			
 			// paging
@@ -66,9 +71,31 @@ public class ReviewController extends HttpServlet {
 			request.setAttribute("totalCount", totalCount);
 			request.setAttribute("paging", paging);
 			request.setAttribute("orderBy", orderBy);
+			request.setAttribute("bookNum", bookNum);
 			
 			String path = "./reviewList.jsp";
 			request.getRequestDispatcher(path).forward(request, response);
+		}else if(action.equals("/reviewWrite.do")) {
+			request.setCharacterEncoding("utf-8");
+			int userNum = Integer.parseInt(request.getParameter("userNum"));
+			int bookNum = Integer.parseInt(request.getParameter("bookNum"));
+			int grade = Integer.parseInt(request.getParameter("grade"));
+			String content = request.getParameter("content");
+			
+			System.out.println("userNum:" + userNum);
+			System.out.println("bookNum:" + bookNum);
+			System.out.println("grade:" + grade);
+			System.out.println("content" + content);
+			
+			// 임시로 회원,도서 번호를 지정, 실제로는 세션 등을 통해 로그인한 사용자의 정보를 가져와야 함
+            
+			ReviewDTO dto = new ReviewDTO(userNum, bookNum, grade, content);
+            
+            ReviewDAO dao = new ReviewDAO();
+            dao.insertWrite(dto);
+            
+            String path = request.getContextPath() + "/reviewWrite.jsp";
+            response.sendRedirect(path);
 		}
 	}
 

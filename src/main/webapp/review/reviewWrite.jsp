@@ -14,9 +14,30 @@ PageDTO p = (PageDTO)request.getAttribute("paging");
 <html>
 <head>
 <meta charset="UTF-8">
-<title>review/reviewList</title>
+<title>review/reviewWrite</title>
+<script type="text/javascript">
+function validateForm() {
+	const form = document.writeForm;
+	console.dir(form); // input
+	if(form.title.value === ""){
+		alert('내용을 입력해주세요.');
+		form.content.focus();
+		return;
+	}
+	
+	form.submit();
+}
+</script>
 </head>
 <body>
+<h1>리뷰 작성</h1>
+<form name="writeForm" method="post" action="<%=request.getContextPath() %>/reviewWrite.do">
+	<table border="1" width="90%">
+		<tr><td>별점</td></tr>
+		<td><textarea name="content" style="width:90%; height:100px"></textarea></td>
+	</table>
+	<input type="button" value="리뷰 등록" onclick="validateForm()">
+</form>
 <h1>리뷰 전체보기</h1>
 <ul>
 	<li><a href="reviewList.do?bookNum=<%=bookNum %>&pageNum=<%=p.getStartPage() %>&orderBy=latest" <%="latest".equals(orderBy)%>>최신순</a></li>

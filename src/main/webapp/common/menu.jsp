@@ -12,7 +12,8 @@
 <li>관리자 제품 리스트</li>
 <li>장바구니</li>
 <li>관리자 회원리스트</li>
-<li><a href="/EIBooks/review/reviewList.do">리뷰리스트</a></li>
+<li><a href="/EIBooks/review/reviewList.do?bookNum=1">리뷰리스트</a></li>
+<li><a href="/EIBooks/review/reviewWrite.do?bookNum=1">리뷰작성하기</a></li>
 </ul>
 <hr>
 </body>
