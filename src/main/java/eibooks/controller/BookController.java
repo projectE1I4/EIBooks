@@ -79,6 +79,8 @@ public class BookController extends HttpServlet {
 			request.setAttribute("bookList", bookList);
 			request.setAttribute("paging", paging);
 			request.setAttribute("totalCount", totalCount);
+			request.setAttribute("searchField", searchField);
+			request.setAttribute("searchWord", searchWord);
 
 			// forward
 			String path =  "/admin/productList.jsp"; // 1

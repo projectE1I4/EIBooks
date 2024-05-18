@@ -1,6 +1,6 @@
 <%@page import="eibooks.common.PageDTO"%>
-<%@page import="java.util.List"%>
 <%@page import="eibooks.dto.BookDTO"%>
+<%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%

@@ -10,6 +10,7 @@
     List<OrderDTO> orderList = (List<OrderDTO>)request.getAttribute("orderList");
 	PageDTO p = (PageDTO)request.getAttribute("paging");
 	int totalCount = (int)request.getAttribute("totalCount");
+	String orderBy = (String)request.getAttribute("orderBy");
 %>    
 <!DOCTYPE html>
 <html>
@@ -95,17 +96,17 @@ function goToPage(pur_seq) {
 %>  
 	<tr>
 	<td colspan="6">
-	<%if(p.isPrev()) {%><a href="customerOrder.or?pageNum=1">[First]</a><% } %>
-	<%if(p.isPrev()) {%><a href="customerOrder.or?pageNum=<%=p.getStartPage()-1%>">[Prev]</a><% } %>
+	<%if(p.isPrev()) {%><a href="customerOrder.or?pageNum=1<% if(orderBy != null) { %>&orderBy=<%=orderBy %><%}%>">[First]</a><% } %>
+	<%if(p.isPrev()) {%><a href="customerOrder.or?pageNum=<%=p.getStartPage()-1%><% if(orderBy != null) { %>&orderBy=<%=orderBy %><%}%>">[Prev]</a><% } %>
 	<%for(int i=p.getStartPage(); i<= p.getEndPage(); i++) {%>
 		<%if(i == p.getPageNum()){%>
 			<b>[<%=i %>]</b>
 		<%}else{ %>
-		<a href="customerOrder.or?pageNum=<%=i%>">[<%=i %>]</a>
+		<a href="customerOrder.or?pageNum=<%=i%><% if(orderBy != null) { %>&orderBy=<%=orderBy %><%}%>">[<%=i %>]</a>
 		<%} %>
 	<%} %>
-	<%if(p.isNext()){%><a href="customerOrder.or?pageNum=<%=p.getEndPage()+1%>">[Next]</a><% } %>
-	<%if(p.isNext()){%><a href="customerOrder.or?pageNum=<%=p.getRealEnd()%>">[Last]</a><% } %>
+	<%if(p.isNext()){%><a href="customerOrder.or?pageNum=<%=p.getEndPage()+1%><% if(orderBy != null) { %>&orderBy=<%=orderBy %><%}%>">[Next]</a><% } %>
+	<%if(p.isNext()){%><a href="customerOrder.or?pageNum=<%=p.getRealEnd()%><% if(orderBy != null) { %>&orderBy=<%=orderBy %><%}%>">[Last]</a><% } %>
 	</td>
 	</tr>
 </table>

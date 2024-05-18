@@ -73,6 +73,7 @@ public class OrderController extends HttpServlet {
             request.setAttribute("orderList", orderList);
             request.setAttribute("paging", paging);
 			request.setAttribute("totalCount", totalCount);
+			request.setAttribute("orderBy", orderBy);
 
             // forward
             String path = "./orderList.jsp"; // 전체 주문 목록 페이지의 JSP 파일 경로
@@ -114,6 +115,7 @@ public class OrderController extends HttpServlet {
             request.setAttribute("orderList", orderList);
             request.setAttribute("paging", paging);
 			request.setAttribute("totalCount", totalCount);
+			request.setAttribute("orderBy", orderBy);
 
             // forward
             String path = "./customerOrder.jsp"; // 회원 별 주문 목록 페이지의 JSP 파일 경로
@@ -174,6 +176,7 @@ public class OrderController extends HttpServlet {
             request.setAttribute("orderList", orderList);
             request.setAttribute("paging", paging);
 			request.setAttribute("totalCount", totalCount);
+			request.setAttribute("searchWord", searchWord);
 
             // forward
             String path = "./myPage.jsp"; // 회원 별 주문 목록 페이지의 JSP 파일 경로
