@@ -31,13 +31,13 @@ function userPaging(){
         	pageNum: <%=p.getPageNum()%>, 
         	searchWord: searchWord,
         	category: category,
-        	order : order
+        	list : list
         },
         success: function (response) {
         	//, searchWord를 검색하고 페이지를 넘겨서 다시 받아오는 과정에서 문제 발생
 	       var newUrl = window.location.pathname + "?pageNum="+ <%=p.getPageNum()%> 
         	+ '&searchWord=' + encodeURIComponent(searchWord)
-        	+ '&category=' + encodeURIComponent(category) +'&order=' + list;
+        	+ '&category=' + encodeURIComponent(category) +'&order=' + encodeURIComponent(list);
        		window.history.pushState({ path: newUrl }, '', newUrl);
 	       makePaging(response, searchWord, category);  
         },
@@ -64,17 +64,17 @@ function makePaging(data){
 			html += '<b>[' + <%=i %> + ']</b>';
 		<%}else{ %>
 			html += '<a href="userBookList.bo?pageNum=' + <%=i%> 
-				+ '&searchWord=<%=searchWord%>&category=<%=category%>' +'&order=<%=list%>'">[' + <%=i %> +']</a>';
+				+ '&searchWord=<%=searchWord%>&category=<%=category%>' +'&order=<%=list%>">[' + <%=i %> +']</a>';
 		<%}
 	} 
 	%>
 	<%if(p.isNext()){%>
 		html += '<a href="userBookList.bo?pageNum=' + <%=p.getEndPage()+1%> 
-			+ '&searchWord=<%=searchWord%>&category=<%=category%>' +'&order=<%=list%>'">[Next]</a>';
+			+ '&searchWord=<%=searchWord%>&category=<%=category%>' +'&order=<%=list%>">[Next]</a>';
 	<% } %>
 	<%if(p.isNext()){%>
 		html += '<a href="userBookList.bo?pageNum=' + <%=p.getRealEnd()%>+ 
-			'&searchWord=<%=searchWord%>&category=<%=category%>' +'&order=<%=list%>'">[Last]</a>';
+			'&searchWord=<%=searchWord%>&category=<%=category%>' +'&order=<%=list%>">[Last]</a>';
 	<% } %>
     $('#userPaging').html(html);
     console.log(html);
@@ -97,12 +97,12 @@ function userSearch(){
         	pageNum: pageNum,
         	searchWord: searchWord,
         	category: category,
-        	order : order
+        	list : list
         },
         success: function (response) {
             var newUrl = window.location.pathname + "?pageNum="+ pageNum 
             + '&searchWord=' + encodeURIComponent(searchWord)
-    		+ '&category=' + encodeURIComponent(category) +'&order=' + list;
+    		+ '&category=' + encodeURIComponent(category) +'&order=' + encodeURIComponent(list);
             window.history.pushState({ path: newUrl }, '', newUrl);
             makeSearch(response, searchWord, category); 
             userPaging();
@@ -147,12 +147,12 @@ function userCategory(){
         	pageNum: pageNum,
         	searchWord: searchWord,
         	category : category,
-        	order : order
+        	list : list
         },
         success: function (response) {
             var newUrl = window.location.pathname + "?pageNum="+ pageNum 
             		+ '&searchWord=' + encodeURIComponent(searchWord)
-            		+ '&category=' + encodeURIComponent(category) +'&order=' + list;
+            		+ '&category=' + encodeURIComponent(category) +'&order=' + encodeURIComponent(list);
             window.history.pushState({ path: newUrl }, '', newUrl);
             makeCategory(response, searchWord, category); 
         },

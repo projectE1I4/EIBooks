@@ -109,20 +109,25 @@ public class BookController extends HttpServlet {
 			String category = request.getParameter("category");
 			String list = request.getParameter("list");
 			System.out.println("가져오자마자 userBookList - category Word:" + category);
+			System.out.println("가져오자마자 userBookList - list Word:" + list);
 			
 			if (searchWord == null || searchWord.trim().equals("")) {
 				searchWord = "";
 			}
-			//null 값 들어옴
-			System.out.println("userBookList - category Word:" + category);
 			
 			if (category == null) {
 				category = "";
 				System.out.println("check_category: " + category);
 			}
+			
+			if (list == null) {
+				list = "latest";
+				System.out.println("check_list: " + list);
+			}
 
 			request.setAttribute("searchWord", searchWord);
 			request.setAttribute("category", category);
+			request.setAttribute("list", list);
 						
 			// Map을 통해서 검색 처리
 			Map<String, String> map = new HashMap<>();
@@ -154,7 +159,6 @@ public class BookController extends HttpServlet {
 			
 			List<BookDTO> bookList = dao.userSelectPageList(map);
 			int totalCount = dao.userSelectCount(map);
-			System.out.println("맵카>>>>>>>>>>>>" + map.get("category"));
 			
 			// Paging
 			PageDTO paging = new PageDTO(pageNum, amount, totalCount);

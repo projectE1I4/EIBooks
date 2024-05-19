@@ -54,9 +54,11 @@ public class UserBookController extends HttpServlet {
 			String sPageNum = request.getParameter("pageNum");
 			String searchWord = request.getParameter("searchWord");
 			String category = request.getParameter("category");
+			String list = request.getParameter("list");
 			
 			//여기서도 검색 시 이미 빈문자
 			System.out.println("userSearch.uapi-" + category);
+			System.out.println("userSearch.uapi-list" + list);
 			
 			if (searchWord == null) {
 				searchWord = "";
@@ -74,6 +76,7 @@ public class UserBookController extends HttpServlet {
 			
 			map.put("searchWord", searchWord);				
 			map.put("category", category);				
+			map.put("list", list);				
 			
 			List<BookDTO> bookList = dao.userSelectPageList(map);
 			int totalCount = dao.userSelectCount(map);
@@ -83,6 +86,7 @@ public class UserBookController extends HttpServlet {
 			request.setAttribute("totalCount", totalCount);
 			request.setAttribute("searchWord", searchWord);
 			request.setAttribute("category", category);
+			request.setAttribute("list", list);
 			
 			//json
 			Gson gson = new Gson();

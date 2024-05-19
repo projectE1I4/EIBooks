@@ -143,8 +143,17 @@ public class BookDAO {
 		if (isCategory) {
 			sql += "category = ? ";
 		}
+		System.out.println("니여기서뭐들어오니: " + map.get("list"));
 		// 페이지 당 얼마나 보여줄 것인지, 정렬 방법에 대해서
-		sql += "order by ? ? ";
+		if( map.get("list")==null) {
+			sql += "order by book_seq asc ";
+		} else if (map.get("list").equals("latest")) {
+			sql += "order by book_seq asc ";
+		} else if (map.get("list").equals("oldest")) {
+			sql += "order by book_seq desc ";
+		} else if (map.get("list").equals("popular")) {
+			sql += "order by viewCount desc ";
+		}
 		sql += "limit ? offset ? "; // 2page
 
 		System.out.println("sql문");
@@ -174,21 +183,7 @@ public class BookDAO {
 				pstmt.setString(num, map.get("category"));
 				num += 1;
 			}
-			if(map.get("list").equals("latest")) {
-				pstmt.setString(num, "book_seq"); // amount 설정				
-				num += 1;				
-				pstmt.setString(num, "desc"); // amount 설정				
-			} else if (map.get("list").equals("oldest")) {
-				pstmt.setString(num, "book_seq"); // amount 설정				
-				num += 1;				
-				pstmt.setString(num, "asc"); // amount 설정				
-			} else if (map.get("list").equals("popular")) {
-				pstmt.setString(num, "viewcount"); // amount 설정				
-				num += 1;				
-				pstmt.setString(num, "desc"); // amount 설정					
-			}
 			
-			num += 1;
 			pstmt.setInt(num, Integer.parseInt(map.get("amount"))); // amount 설정
 			num += 1;
 			pstmt.setInt(num, Integer.parseInt(map.get("offset"))); // offset 설정
