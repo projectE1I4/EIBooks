@@ -15,9 +15,52 @@ PageDTO p = (PageDTO)request.getAttribute("paging");
 <html>
 <head>
 <meta charset="UTF-8">
-<title>review/reviewList</title>
+<title>review/reviewUpdate</title>
+<script type="text/javascript">
+function validateForm() {
+	const form = document.updateForm;
+	console.dir(form); // input 
+	if(form.content.value === ""){
+		alert('내용을 입력해주세요.');
+		form.content.focus();
+		return;
+	}
+	
+	form.submit();
+}
+
+function limitText(field, maxLength) {
+	if (field.value.length > maxLength) {
+		field.value = field.value.substring(0, maxLength);
+		alert('리뷰는 최대 ' + maxLength + '자까지 작성할 수 있습니다.');
+	}
+}
+
+function goToPage(bookNum, userId) {
+	location.href = "reviewList.do?" + "bookNum=" + bookNum + "&userId=" + userId;
+}
+</script>
 </head>
 <body>
+<h1>리뷰 수정</h1>
+<form name="updateForm" method="post" action="/EIBooks/review/reviewUpdateProc.do?bookNum=<%=bookNum %>">
+	<table border="1" width="90%">
+		<tr>
+		<td>별점
+		<select name="grade">
+			<option name="grade" value="5">5</option>
+			<option name="grade" value="5">4</option>
+			<option name="grade" value="5">3</option>
+			<option name="grade" value="5">2</option>
+			<option name="grade" value="5">1</option>
+		</select>
+		</td>
+		</tr>
+		<td><textarea name="content" style="width:100%; height:100px" placeholder="리뷰 작성 최대 200자" oninput="limitText(this, 200)"></textarea></td>
+	</table>
+	<input type="button" value="리뷰 수정" onclick="validateForm()">
+	<input type="button" value="수정 취소" onclick="goToPage(<%=bookNum %>,<%=userId %>)">
+</form>
 <h1>리뷰 전체보기</h1>
 <ul>
 	<li><a href="reviewList.do?bookNum=<%=bookNum %>&userId=<%=userId %>&pageNum=<%=p.getStartPage() %>&orderBy=latest" <%="latest".equals(orderBy)%>>최신순</a></li>

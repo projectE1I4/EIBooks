@@ -3,6 +3,7 @@ package dto;
 public class ReviewDTO {
 	private int bookNum;
 	private int userNum;
+	private int reviewNum;
 	private int grade;
 	private String userId;
 	private String reviewDate;
@@ -62,6 +63,14 @@ public class ReviewDTO {
 		this.userNum = userNum;
 	}
 
+	public int getReviewNum() {
+		return reviewNum;
+	}
+
+	public void setReviewNum(int reviewNum) {
+		this.reviewNum = reviewNum;
+	}
+
 	public int getGrade() {
 		return grade;
 	}
@@ -96,8 +105,8 @@ public class ReviewDTO {
 
 	@Override
 	public String toString() {
-		return "ReviewDTO [bookNum=" + bookNum + ", grade=" + grade + ", userId=" + userId + ", reviewDate="
-				+ reviewDate + ", content=" + content + "]";
+		return "ReviewDTO [bookNum=" + bookNum + ", userNum=" + userNum + ", reviewNum=" + reviewNum + ", grade="
+				+ grade + ", userId=" + userId + ", reviewDate=" + reviewDate + ", content=" + content + "]";
 	}
-	
+
 }

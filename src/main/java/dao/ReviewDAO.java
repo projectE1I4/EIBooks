@@ -23,7 +23,7 @@ public class ReviewDAO {
 		String orderBy = map.get("orderBy");
 		
 		List<ReviewDTO> reviews = new ArrayList<ReviewDTO>();
-		String sql = "select r.book_seq, r.grade, c.cus_id, r.regDate, r.content from customer c "
+		String sql = "select c.cus_id, r.re_seq, r.book_seq, r.grade, c.cus_id, r.regDate, r.content from customer c "
 				+ " join review r "
 				+ " on c.cus_seq = r.cus_seq "
 				+ " join books b "
@@ -71,24 +71,27 @@ public class ReviewDAO {
 		return reviews;
 	}
 	
-	public int selectCount() {
+	public int selectCount(ReviewDTO dto) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		
 		int totalCount = 0;
 		
-		String sql = "select count(re_seq) as cnt from review ";
+		String sql = "select count(re_seq) as cnt from review "
+				+ " where book_seq = ? " ;
 		
 		System.out.println(sql);
 		conn = JDBCConnect.getConnection();
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, dto.getBookNum());
 			rs = pstmt.executeQuery();
 			
 			if(rs.next()) {
 				totalCount = rs.getInt("cnt");
+				
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -122,6 +125,79 @@ public class ReviewDAO {
 		} finally {
 			JDBCConnect.close(pstmt, conn);
 		}
+		return rs;
+	}
+
+	public int reviewCount(ReviewDTO dto) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		int reviewCount = 0;
+		
+		String sql = "select count(r.re_seq) as reviewCnt from review r "
+				+ " join customer c "
+				+ " on r.cus_seq = c.cus_seq "
+				+ " join books b "
+				+ " on r.book_seq = b.book_seq "
+				+ " where b.book_seq = ? "
+				+ " and c.cus_id = ? ";
+		
+		System.out.println(sql);
+		conn = JDBCConnect.getConnection();
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, dto.getBookNum());
+			pstmt.setString(2, dto.getUserId());
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				reviewCount = rs.getInt("reviewCnt");
+				
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCConnect.close(rs, pstmt, conn);
+		}
+		
+		return reviewCount;
+	}
+	
+	public int updateWrite(ReviewDTO dto) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		int rs = 0;
+		
+		try {
+			conn = JDBCConnect.getConnection();
+			
+			String sql = "update review r "
+					+ " join customer c "
+					+ " on r.cus_seq = c.cus_seq "
+					+ " join books b "
+					+ " on r.book_seq = b.book_seq "
+					+ " set r.grade = ?, r.content = ?"
+					+ " where r.book_seq = ? "
+					+ " and c.cus_id = ? "
+					+ " and re_seq = ? ";
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, dto.getGrade());
+			pstmt.setString(2, dto.getContent());
+			pstmt.setInt(3, dto.getBookNum());
+			pstmt.setString(4, dto.getUserId());
+			pstmt.setInt(5, dto.getReviewNum() );
+			
+			pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			JDBCConnect.close(pstmt, conn);
+		}
+		
 		return rs;
 	}
 }
