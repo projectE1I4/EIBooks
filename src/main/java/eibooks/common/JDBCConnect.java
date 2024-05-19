@@ -43,5 +43,17 @@ public class JDBCConnect {
 			e.printStackTrace();
 		}
 	}
+
+	// 고객정보 변경시 주소 부분때문에 추가
+	public static void close(PreparedStatement addrPstmt, PreparedStatement pstmt, Connection conn) {
+
+		try {
+			if(addrPstmt != null) addrPstmt.close();
+			if(pstmt != null) pstmt.close();
+			if(conn != null) conn.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 	
 }
