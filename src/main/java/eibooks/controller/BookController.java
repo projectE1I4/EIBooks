@@ -170,5 +170,22 @@ public class BookController extends HttpServlet {
 			// forward
 			request.getRequestDispatcher("./userBookList.jsp").forward(request, response);		
 		}
+		else if(action.equals("/userBookDetail.bo")) {
+			System.out.println(action);
+			
+			request.setCharacterEncoding("utf-8");
+			int book_seq = Integer.parseInt(request.getParameter("book_seq"));
+			
+			System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>> : " + book_seq);
+			BookDTO dto = new BookDTO();
+			dto.setBook_seq(book_seq);
+
+			BookDAO dao = new BookDAO();
+			dto = dao.getBook(dto);
+			
+			request.setAttribute("dto", dto);
+						
+			request.getRequestDispatcher("./userBookDetail.jsp").forward(request, response);
+		}
 	}
 }

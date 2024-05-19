@@ -18,6 +18,10 @@
 <title>Product List</title>
 <script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery-3.7.1.min.js"></script>
 <script type="text/javascript">
+function goToPage(book_seq) {
+	location.href = "userBookDetail.bo?book_seq=" + book_seq;
+}
+
 function userPaging(){
 	var searchWord = $('input[name="searchWord"]').val();
 	var category = "<%=(request.getParameter("category") != null && !request.getParameter("category").equals("") ) ? request.getParameter("category") : category%>";
@@ -117,7 +121,7 @@ function makeSearch(data){
 	let html = ''; 
 	let cnt = 0;
     for(b of data){            	
-		html += '<tr>';
+		html += '<tr onclick="goToPage('+ b['book_seq'] + ')">';
     	html += '<td>' + (cnt += 1) + '</td>';
     	html += '<td><img alt="' + b['title'] + '" src="' + b['imageFile'] + '" ></td>';
     	html += '<td>' + b['title'] + '</td>';

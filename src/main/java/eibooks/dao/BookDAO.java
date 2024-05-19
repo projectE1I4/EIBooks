@@ -444,16 +444,16 @@ public class BookDAO {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null; // select , 회원가입은 insert할 것이므로 주석 !
 
+		// 2. connection
+		conn = JDBCConnect.getConnection();
 		try {
-			// 2. connection
-			conn = JDBCConnect.getConnection();
 
 			// 3. sql 창
 			String sql = "select book_seq, title, author, publisher, category, imageFile, description, price, stock, isbn10, isbn13, pubDate from books where book_seq = ? ";
 			pstmt = conn.prepareStatement(sql);
 			// 문자니까 setString, 날짜면 setDate 등등 ...
 			pstmt.setInt(1, dto.getBook_seq());
-
+			
 			// 4. execute
 			rs = pstmt.executeQuery(); // select
 
