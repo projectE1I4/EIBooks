@@ -5,6 +5,7 @@ public class ReviewDTO {
 	private int userNum;
 	private int reviewNum;
 	private int grade;
+	private int depth;
 	private String userId;
 	private String reviewDate;
 	private String content;
@@ -46,6 +47,16 @@ public class ReviewDTO {
 		this.grade = grade;
 		this.content = content;
 	}
+	
+	public ReviewDTO(int bookNum, int userNum, int reviewNum, int grade, String userId, String content) {
+		super();
+		this.bookNum = bookNum;
+		this.userNum = userNum;
+		this.reviewNum = reviewNum;
+		this.grade = grade;
+		this.userId = userId;
+		this.content = content;
+	}
 
 	public int getBookNum() {
 		return bookNum;
@@ -77,6 +88,14 @@ public class ReviewDTO {
 
 	public void setGrade(int grade) {
 		this.grade = grade;
+	}
+
+	public int getDepth() {
+		return depth;
+	}
+
+	public void setDepth(int depth) {
+		this.depth = depth;
 	}
 
 	public String getUserId() {

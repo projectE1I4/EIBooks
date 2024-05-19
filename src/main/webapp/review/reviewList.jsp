@@ -10,12 +10,24 @@ String orderBy = (String)request.getAttribute("orderBy");
 String bookNum = (String)request.getAttribute("bookNum");
 String userId = (String)request.getAttribute("userId");
 PageDTO p = (PageDTO)request.getAttribute("paging");
+String reviewNum = (String)request.getAttribute("reviewNum");
 %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>review/reviewList</title>
+<script>
+	function del(reviewNum){
+		const input = confirm("정말 삭제하시겠습니까?");
+		if(input){
+			location.href = "<%=request.getContextPath()%>/review/reviewDeleteProc.do?bookNum=<%=bookNum %>&userId=<%=userId %>&reviewNum=<%=reviewNum %>";
+		}else{
+			alert("삭제를 취소했습니다.");
+			return;
+		}
+	}
+</script>
 </head>
 <body>
 <h1>리뷰 전체보기</h1>
@@ -41,7 +53,10 @@ PageDTO p = (PageDTO)request.getAttribute("paging");
 </tr>
 <%if(userId != null && userId.equals(dto.getUserId())) {%>
 <tr>
-<td colspan="3">[수정하기] [삭제하기]</td>
+<td colspan="3">
+<a href="reviewUpdate.do?bookNum=<%=bookNum %>&userId=<%=userId %>">[수정하기]</a> 
+<a href="javascript:del('<%=dto.getReviewNum() %>')">[삭제하기]</a>
+</td>
 </tr>
 <%} %>
 <%} %>

@@ -79,7 +79,8 @@ public class ReviewDAO {
 		int totalCount = 0;
 		
 		String sql = "select count(re_seq) as cnt from review "
-				+ " where book_seq = ? " ;
+				+ " where book_seq = ? "
+				+ " and depth = 1 ";
 		
 		System.out.println(sql);
 		conn = JDBCConnect.getConnection();
@@ -165,6 +166,50 @@ public class ReviewDAO {
 		return reviewCount;
 	}
 	
+	public ReviewDTO selectView(ReviewDTO dto) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		String sql = "select r.grade, r.content from review r "
+				+ " join customer c "
+				+ " on r.cus_seq = c.cus_seq "
+				+ " join books b "
+				+ " on r.book_seq = b.book_seq "
+				+ " where r.book_seq = ? "
+				+ " and c.cus_id = ? "
+				+ " and re_seq = ? ";
+		
+		conn = JDBCConnect.getConnection();
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, dto.getBookNum());
+			pstmt.setString(2, dto.getUserId());
+			pstmt.setInt(3, dto.getReviewNum());
+			rs = pstmt.executeQuery();
+			
+			dto = null;
+			
+			if(rs.next()) {
+				int grade = rs.getInt("r.grade");
+				String content = rs.getString("r.content");
+				int userNum = rs.getInt("r.cus_seq");
+				int bookNum = rs.getInt("r.book_seq");
+				String userId = rs.getString("c.cus_id");
+				int reviewNum = rs.getInt("re_seq");
+				dto = new ReviewDTO(bookNum, userNum, reviewNum, grade, userId, content);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCConnect.close(rs, pstmt, conn);
+		}
+		
+		return dto;
+	}
+	
 	public int updateWrite(ReviewDTO dto) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -198,6 +243,38 @@ public class ReviewDAO {
 			JDBCConnect.close(pstmt, conn);
 		}
 		
+		return rs;
+	}
+
+	public int deleteWrite(ReviewDTO dto) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		int rs = 0;
+		
+		try {
+			conn = JDBCConnect.getConnection();
+			
+			String sql = "DELETE r FROM review r "
+					+ " join customer c "
+					+ " on c.cus_seq = r.cus_seq "
+					+ " join books b "
+					+ " on r.book_seq = b.book_seq "
+					+ " where c.cus_id = ? "
+					+ " and r.book_seq = ? "
+					+ " and r.re_seq = ? ";
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, dto.getUserId());
+			pstmt.setInt(2, dto.getBookNum());
+			pstmt.setInt(3, dto.getReviewNum());
+			
+			pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			JDBCConnect.close(pstmt, conn);
+		}
 		return rs;
 	}
 }

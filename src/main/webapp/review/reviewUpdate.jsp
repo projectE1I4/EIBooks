@@ -10,6 +10,7 @@ String orderBy = (String)request.getAttribute("orderBy");
 String bookNum = (String)request.getAttribute("bookNum");
 String userId = (String)request.getAttribute("userId");
 PageDTO p = (PageDTO)request.getAttribute("paging");
+String reviewNum = (String)request.getAttribute("reviewNum");
 %>
 <!DOCTYPE html>
 <html>
@@ -19,7 +20,6 @@ PageDTO p = (PageDTO)request.getAttribute("paging");
 <script type="text/javascript">
 function validateForm() {
 	const form = document.updateForm;
-	console.dir(form); // input 
 	if(form.content.value === ""){
 		alert('내용을 입력해주세요.');
 		form.content.focus();

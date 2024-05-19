@@ -4,14 +4,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
+List<ReviewDTO> reviewList = (List<ReviewDTO>)request.getAttribute("reviewList");
+int totalCount = (int)request.getAttribute("totalCount");
+String orderBy = (String)request.getAttribute("orderBy");
 String bookNum = (String)request.getAttribute("bookNum");
 String userId = (String)request.getAttribute("userId");
-List<ReviewDTO> reviewList = (List<ReviewDTO>)request.getAttribute("reviewList");
-String orderBy = (String)request.getAttribute("orderBy");
-int totalCount = (int)request.getAttribute("totalCount");
 PageDTO p = (PageDTO)request.getAttribute("paging");
 int reviewCount = (int)request.getAttribute("reviewCount");
-System.out.println(p);
+String reviewNum = (String)request.getAttribute("reviewNum");
 %>
 <!DOCTYPE html>
 <html>
@@ -24,7 +24,7 @@ function validateForm(reviewCount) {
 	if(reviewCount > 0){
 		console.log(reviewCount);
 		alert("이미 작성한 리뷰가 있습니다.");
-		location.href = "<%= request.getContextPath() %>/review/reviewUpdate.do?bookNum=" + <%=bookNum %> + "&userId=" + <%=userId %>;
+		location.href = "<%=request.getContextPath() %>/review/reviewUpdate.do?bookNum=<%=bookNum %>&userId=<%=userId %>&reviewNum=<%=reviewNum %>";
 		return;
 	}else if(form.content.value === ""){
 		alert('내용을 입력해주세요.');
@@ -33,7 +33,7 @@ function validateForm(reviewCount) {
 	}
 	
 	form.submit();
-	
+
 }
 
 function limitText(field, maxLength) {
