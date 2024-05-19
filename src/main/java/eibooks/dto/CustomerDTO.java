@@ -4,23 +4,24 @@ public class CustomerDTO {
 
     private int cus_seq;
     private String cus_id;
+    private String password;
     private String name;
     private String tel;
     private String email;
     private String regDate;
-    private String manager;
+    private AddressDTO addrInfo;
 
     public CustomerDTO() {
     }
 
-    public CustomerDTO(int cus_seq, String cus_id, String name, String tel, String email, String regDate, String manager) {
+    public CustomerDTO(int cus_seq, String cus_id, String password, String name, String tel, String email, String regDate) {
         this.cus_seq = cus_seq;
         this.cus_id = cus_id;
+        this.password = password;
         this.name = name;
         this.tel = tel;
         this.email = email;
         this.regDate = regDate;
-        this.manager = manager;
     }
 
     public int getCus_seq() {
@@ -37,6 +38,14 @@ public class CustomerDTO {
 
     public void setCus_id(String cus_id) {
         this.cus_id = cus_id;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getName() {
@@ -71,12 +80,12 @@ public class CustomerDTO {
         this.regDate = regDate;
     }
 
-    public String getManager() {
-        return manager;
+    public AddressDTO getAddrInfo() {
+        return addrInfo;
     }
 
-    public void setManager(String manager) {
-        this.manager = manager;
+    public void setAddrInfo(AddressDTO addrInfo) {
+        this.addrInfo = addrInfo;
     }
 
 }
