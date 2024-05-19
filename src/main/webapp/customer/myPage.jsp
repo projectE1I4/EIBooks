@@ -1,8 +1,8 @@
 <%@page import="eibooks.dao.OrderDAO"%>
-<%@page import="eibooks.common.PageDTO"%>
 <%@page import="eibooks.dto.OrderDTO"%>
 <%@page import="eibooks.dao.CustomerDAO"%>
 <%@page import="eibooks.dto.CustomerDTO"%>
+<%@page import="eibooks.common.PageDTO"%>
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -121,8 +121,8 @@ if(customer != null && customer.getDel_YN().equals("N")) {
 %>  
 	<tr>
 	<td colspan="6">
-	<%if(p.isPrev()) {%><a href="customerOrder.or?pageNum=1<% if(searchWord != null) { %>&searchWord=<%=searchWord %><%}%>">[First]</a><% } %>
-	<%if(p.isPrev()) {%><a href="customerOrder.or?pageNum=<%=p.getStartPage()-1%><% if(searchWord != null) { %>&searchWord=<%=searchWord %><%}%>">[Prev]</a><% } %>
+	<%if(p.isPrev()) {%><a href="customerOrder.or?<% if(searchWord != null) { %>searchWord=<%=searchWord %>&<%}%>pageNum=1">[First]</a><% } %>
+	<%if(p.isPrev()) {%><a href="customerOrder.or?<% if(searchWord != null) { %>searchWord=<%=searchWord %>&<%}%>pageNum=<%=p.getStartPage()-1%>">[Prev]</a><% } %>
 	<%for(int i=p.getStartPage(); i<= p.getEndPage(); i++) {%>
 		<%if(i == p.getPageNum()){%>
 			<b>[<%=i %>]</b>
@@ -130,8 +130,8 @@ if(customer != null && customer.getDel_YN().equals("N")) {
 		<a href="customerOrder.or?<% if(searchWord != null) { %>searchWord=<%=searchWord %>&<%}%>pageNum=<%=i%>">[<%=i %>]</a>
 		<%} %>
 	<%} %>
-	<%if(p.isNext()){%><a href="customerOrder.or?pageNum=<%=p.getEndPage()+1%><% if(searchWord != null) { %>&searchWord=<%=searchWord %><%}%>">[Next]</a><% } %>
-	<%if(p.isNext()){%><a href="customerOrder.or?pageNum=<%=p.getRealEnd()%><% if(searchWord != null) { %>&searchWord=<%=searchWord %><%}%>">[Last]</a><% } %>
+	<%if(p.isNext()){%><a href="customerOrder.or?<% if(searchWord != null) { %>searchWord=<%=searchWord %>&<%}%>pageNum=<%=p.getEndPage()+1%>">[Next]</a><% } %>
+	<%if(p.isNext()){%><a href="customerOrder.or?<% if(searchWord != null) { %>searchWord=<%=searchWord %>&<%}%>pageNum=<%=p.getRealEnd()%>">[Last]</a><% } %>
 	</td>
 	</tr>
 </table>

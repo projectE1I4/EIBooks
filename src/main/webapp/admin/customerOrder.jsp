@@ -1,6 +1,6 @@
 <%@page import="eibooks.dao.OrderDAO"%>
-<%@page import="eibooks.common.PageDTO"%>
 <%@page import="eibooks.dto.OrderDTO"%>
+<%@page import="eibooks.common.PageDTO"%>
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -96,17 +96,17 @@ function goToPage(pur_seq) {
 %>  
 	<tr>
 	<td colspan="6">
-	<%if(p.isPrev()) {%><a href="customerOrder.or?pageNum=1<% if(orderBy != null) { %>&orderBy=<%=orderBy %><%}%>">[First]</a><% } %>
-	<%if(p.isPrev()) {%><a href="customerOrder.or?pageNum=<%=p.getStartPage()-1%><% if(orderBy != null) { %>&orderBy=<%=orderBy %><%}%>">[Prev]</a><% } %>
+	<%if(p.isPrev()) {%><a href="customerOrder.or?<% if(orderBy != null) { %>orderBy=<%=orderBy %>&<%}%>pageNum=1">[First]</a><% } %>
+	<%if(p.isPrev()) {%><a href="customerOrder.or?<% if(orderBy != null) { %>orderBy=<%=orderBy %>&<%}%>pageNum=<%=p.getStartPage()-1%>">[Prev]</a><% } %>
 	<%for(int i=p.getStartPage(); i<= p.getEndPage(); i++) {%>
 		<%if(i == p.getPageNum()){%>
 			<b>[<%=i %>]</b>
 		<%}else{ %>
-		<a href="customerOrder.or?pageNum=<%=i%><% if(orderBy != null) { %>&orderBy=<%=orderBy %><%}%>">[<%=i %>]</a>
+		<a href="customerOrder.or?<% if(orderBy != null) { %>orderBy=<%=orderBy %>&<%}%>pageNum=<%=i%>">[<%=i %>]</a>
 		<%} %>
 	<%} %>
-	<%if(p.isNext()){%><a href="customerOrder.or?pageNum=<%=p.getEndPage()+1%><% if(orderBy != null) { %>&orderBy=<%=orderBy %><%}%>">[Next]</a><% } %>
-	<%if(p.isNext()){%><a href="customerOrder.or?pageNum=<%=p.getRealEnd()%><% if(orderBy != null) { %>&orderBy=<%=orderBy %><%}%>">[Last]</a><% } %>
+	<%if(p.isNext()){%><a href="customerOrder.or?<% if(orderBy != null) { %>orderBy=<%=orderBy %>&<%}%>pageNum=<%=p.getEndPage()+1%>">[Next]</a><% } %>
+	<%if(p.isNext()){%><a href="customerOrder.or?<% if(orderBy != null) { %>orderBy=<%=orderBy %>&<%}%>pageNum=<%=p.getRealEnd()%>">[Last]</a><% } %>
 	</td>
 	</tr>
 </table>

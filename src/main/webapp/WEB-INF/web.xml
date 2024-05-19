@@ -22,6 +22,12 @@
   	<description></description>
   	<servlet-class>eibooks.controller.CustomerController</servlet-class>
   </servlet>
+  <servlet>
+  	<servlet-name>UserController</servlet-name>
+  	<display-name>UserController</display-name>
+  	<description></description>
+  	<servlet-class>eibooks.controller.UserController</servlet-class>
+  </servlet>
   <servlet-mapping>
   	<servlet-name>BookController</servlet-name>
   	<url-pattern>/BookController</url-pattern>
@@ -33,5 +39,9 @@
   <servlet-mapping>
   	<servlet-name>CustomerController</servlet-name>
   	<url-pattern>/CustomerController</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>UserController</servlet-name>
+  	<url-pattern>/UserController</url-pattern>
   </servlet-mapping>
 </web-app>

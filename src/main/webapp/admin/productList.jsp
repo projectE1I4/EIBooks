@@ -85,17 +85,17 @@ function del(book_seq){
 <%} %>
 <tr>
 <td colspan="6">
-<%if(p.isPrev()) {%><a href="productList.bo?pageNum=1<% if(searchWord != null) { %>&searchField=<%=searchField %>&searchWord=<%=searchWord %><%}%>">[First]</a><% } %>
-<%if(p.isPrev()) {%><a href="productList.bo?pageNum=<%=p.getStartPage()-1%><% if(searchWord != null) { %>&searchField=<%=searchField %>&searchWord=<%=searchWord %><%}%>">[Prev]</a><% } %>
+<%if(p.isPrev()) {%><a href="productList.bo?<% if(searchWord != null) { %>searchField=<%=searchField %>&searchWord=<%=searchWord %>&<%}%>pageNum=1">[First]</a><% } %>
+<%if(p.isPrev()) {%><a href="productList.bo?<% if(searchWord != null) { %>searchField=<%=searchField %>&searchWord=<%=searchWord %>&<%}%>pageNum=<%=p.getStartPage()-1%>">[Prev]</a><% } %>
 <%for(int i=p.getStartPage(); i<= p.getEndPage(); i++) {%>
 	<%if(i == p.getPageNum()){%>
 		<b>[<%=i %>]</b>
 	<%}else{ %>
-	<a href="productList.bo?pageNum=<%=i %><% if(searchWord != null) { %>&searchField=<%=searchField %>&searchWord=<%=searchWord %><%}%>">[<%=i %>]</a>
+	<a href="productList.bo?<% if(searchWord != null) { %>searchField=<%=searchField %>&searchWord=<%=searchWord %>&<%}%>pageNum=<%=i %>">[<%=i %>]</a>
 	<%} %>
 <% } %>
-<%if(p.isNext()){%><a href="productList.bo?pageNum=<%=p.getEndPage()+1%><% if(searchWord != null) { %>&searchField=<%=searchField %>&searchWord=<%=searchWord %><%}%>">[Next]</a><% } %>
-<%if(p.isNext()){%><a href="productList.bo?pageNum=<%=p.getRealEnd()%><% if(searchWord != null) { %>&searchField=<%=searchField %>&searchWord=<%=searchWord %><%}%>">[Last]</a><% } %>
+<%if(p.isNext()){%><a href="productList.bo?<% if(searchWord != null) { %>&searchField=<%=searchField %>searchWord=<%=searchWord %>&<%}%>pageNum=<%=p.getEndPage()+1%>">[Next]</a><% } %>
+<%if(p.isNext()){%><a href="productList.bo?<% if(searchWord != null) { %>&searchField=<%=searchField %>searchWord=<%=searchWord %>&<%}%>pageNum=<%=p.getRealEnd()%>">[Last]</a><% } %>
 </td>
 </tr>
 
