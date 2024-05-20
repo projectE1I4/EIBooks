@@ -10,6 +10,7 @@
 	String searchWord = (String)request.getAttribute("searchWord");
 	String category = (String)request.getAttribute("category");
 	String list = (String)request.getAttribute("list");
+	
 %>
 <!DOCTYPE html>
 <html>
@@ -22,11 +23,12 @@ function goToPage(book_seq) {
 	location.href = "userBookDetail.bo?book_seq=" + book_seq;
 }
 
-function userPaging(){
+function userPaging(pageNum){
 	var searchWord = $('input[name="searchWord"]').val();
 	var category = "<%=(request.getParameter("category") != null && !request.getParameter("category").equals("") ) ? request.getParameter("category") : category%>";
 	console.log("ppcategory_book_java: ", "<%=category %>", category);
 	var list = "<%=list%>";
+	var pageNum = <%=p.getPageNum()%>;
 	$.ajax({
         type:'GET',
         url:'<%=request.getContextPath()%>/user/userPaging.uapi',
@@ -39,7 +41,7 @@ function userPaging(){
         },
         success: function (response) {
         	//, searchWord를 검색하고 페이지를 넘겨서 다시 받아오는 과정에서 문제 발생
-	       var newUrl = window.location.pathname + "?pageNum="+ <%=p.getPageNum()%> 
+	       var newUrl = window.location.pathname + "?pageNum="+ pageNum 
         	+ '&searchWord=' + encodeURIComponent(searchWord)
         	+ '&category=' + encodeURIComponent(category) +'&order=' + encodeURIComponent(list);
        		window.history.pushState({ path: newUrl }, '', newUrl);
@@ -231,11 +233,15 @@ $(function(){
 			</td>
 			<td>
 			<form onsubmit="userSearch();">
+				<input type="hidden" name="category"  value="<%=category%>" >
 				<input type="text" name="searchWord"
 					<%if(searchWord != null && !searchWord.equals("")){%> value="<%=searchWord%>" <%}%>
 				placeholder="검색어를 입력하세요."> 
 				<input type="submit" value="Search" >
 			</form>
+			</td>
+			<td>
+				전체 수 : <%=totalCount %>
 			</td>
 		</tr>
 	</table>

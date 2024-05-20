@@ -1,3 +1,4 @@
+<%@page import="eibooks.dao.BookDAO"%>
 <%@page import="eibooks.dto.BookDTO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -6,6 +7,10 @@
 	String sBook_seq = request.getParameter("book_seq");
 	System.out.println("sBook_seq ------------------ : " + sBook_seq);
 	int book_seq = Integer.parseInt(sBook_seq);
+	BookDAO dao = new BookDAO();
+	int viewcount = dto.getViewCount();
+	dao.userGetViewCount(book_seq);
+	viewcount = dao.userViewCount(book_seq);
 %>  
 <!DOCTYPE html>
 <html>
@@ -50,6 +55,14 @@
 				<input type="submit" value="바로구매" />
 				<input type="submit" value="장바구니" />				
 			</td></tr>
+			<tr>
+			<td>
+			조회수: 
+			</td>
+			<td>
+			<%=viewcount %>
+			</td>
+			</tr>
 		</div>
 	</div>
 	
