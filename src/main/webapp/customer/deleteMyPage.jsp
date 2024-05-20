@@ -11,28 +11,47 @@ int cus_seq = Integer.parseInt(request.getParameter("cus_seq"));
 
 <script type="text/javascript">
 function validateForm() {
-	const form = document.writeForm;
-	console.dir(form); // input
-	
-	if(form.password.value === "") {
-		alert('비밀 번호 필수값입니다.');
-		form.password.focus();
-		return;
-	}
-	
-	if(form.password_confirm.value === "") {
-		alert('비밀 번호 확인 필수값입니다.');
-		form.password_confirm.focus();
-		return;
-	}
-	
-	if(form.password_confirm.value !== form.password.value) {
-		alert('비밀번호가 일치하지 않습니다.');
-		form.password_confirm.focus();
-		return;
-	} else {
-		form.submit();
-	}
+    const form = document.writeForm;
+    let isValid = true;
+    const errorMessages = {
+        password: "비밀번호를 입력해주세요.",
+        password_confirm: "비밀번호 확인을 입력해주세요.",
+        password_mismatch: "비밀번호가 일치하지 않습니다."
+    };
+
+    function showError(element, message) {
+        const errorEm = document.createElement('em');
+        errorEm.className = 'error';
+        errorEm.textContent = message;
+        element.parentNode.appendChild(errorEm);
+    }
+
+    function clearErrors() {
+        const errors = document.querySelectorAll('em.error');
+        errors.forEach(error => error.remove());
+    }
+
+    clearErrors();
+
+    if (form.password.value === "") {
+        isValid = false;
+        showError(form.password, errorMessages.password);
+        form.password.focus();
+    }
+
+    if (form.password_confirm.value === "") {
+        isValid = false;
+        showError(form.password_confirm, errorMessages.password_confirm);
+        form.password_confirm.focus();
+    } else if (form.password_confirm.value !== form.password.value) {
+        isValid = false;
+        showError(form.password_confirm, errorMessages.password_mismatch);
+        form.password_confirm.focus();
+    }
+
+    if (isValid) {
+        form.submit();
+    }
 }
 </script>
 
@@ -40,7 +59,7 @@ function validateForm() {
 	.box {
 		border : 1px solid black;
 		width : 500px;
-		height : 320px
+		height : 420px
 	}
 	.info {
 		padding: 30px 30px 0px 30px;
@@ -50,6 +69,9 @@ function validateForm() {
 	}
 	.info strong, .info a {
 		margin-left: 18px;
+	}
+	.info em {
+		color: red;
 	}
 	.info input[type=text], input[type=password] {
 		display: block;
@@ -83,8 +105,11 @@ function validateForm() {
 		<h2>회원 탈퇴</h2>
 	</div>
 	<div class="info">
-		<strong>비밀번호</strong>
+		<strong>비밀번호</strong><em>*</em>
 		<input type="password" name="password" style="width:90%">
+	</div>
+	<div class="info">
+		<strong>비밀번호 확인</strong><em>*</em>
 		<input type="password" name="password_confirm" style="width:90%" placeholder="한 번 더 입력해주세요">
 	</div>
 	

@@ -3,6 +3,8 @@
     pageEncoding="UTF-8"%>
 <%
 CustomerDTO customer = (CustomerDTO)request.getAttribute("customer");
+Boolean isNotNull = false;
+Boolean isNotSame = false;
 %>    
 <!DOCTYPE html>
 <html>
@@ -12,61 +14,78 @@ CustomerDTO customer = (CustomerDTO)request.getAttribute("customer");
 
 <script type="text/javascript">
 function validateForm() {
-	const form = document.writeForm;
-	console.dir(form); // input
-	
-	if(form.cus_id.value === "") {
-		alert('아이디 필수값입니다.');
-		form.cus_id.focus();
-		return;
-	}
-	
-	if(form.name.value === "") {
-		alert('이름 필수값입니다.');
-		form.name.focus();
-		return;
-	}
-	
-	if(form.password.value === "") {
-		alert('비밀 번호 필수값입니다.');
-		form.password.focus();
-		return;
-	}
-	
-	if(form.password_confirm.value === "") {
-		alert('비밀 번호 확인 필수값입니다.');
-		form.password_confirm.focus();
-		return;
-	}
-	
-	
-	
-	if(form.postalCode.value === "") {
-		alert('주소 필수값입니다.');
-		form.postalCode.focus();
-		return;
-	}
-	
-	if(form.addr.value === "") {
-		alert('주소 필수값입니다.');
-		form.addr.focus();
-		return;
-	}
-	
-	if(form.addr_detail.value === "") {
-		alert('주소 필수값입니다.');
-		form.addr_detail.focus();
-		return;
-	}
-	
-	
-	if(form.password_confirm.value !== form.password.value) {
-		alert('비밀번호가 일치하지 않습니다.');
-		form.password_confirm.focus();
-		return;
-	} else {
-		form.submit();
-	}
+    const form = document.writeForm;
+    let isValid = true;
+    const errorMessages = {
+        name: "이름을 입력해주세요.",
+        password: "비밀번호를 입력해주세요.",
+        password_confirm: "비밀번호 확인을 입력해주세요.",
+        tel: "연락처를 입력해주세요.",
+        postalCode: "우편번호를 입력해주세요",
+        addr: "주소를 입력해주세요.",
+        addr_detail: "상세 주소를 입력해주세요.",
+        password_mismatch: "비밀번호가 일치하지 않습니다."
+    };
+
+    function showError(element, message) {
+        const errorEm = document.createElement('em');
+        errorEm.className = 'error';
+        errorEm.textContent = message;
+        element.parentNode.appendChild(errorEm);
+    }
+
+    function clearErrors() {
+        const errors = document.querySelectorAll('em.error');
+        errors.forEach(error => error.remove());
+    }
+
+    clearErrors();
+
+    if (form.name.value === "") {
+        isValid = false;
+        showError(form.name, errorMessages.name);
+        form.name.focus();
+    }
+
+    if (form.password.value === "") {
+        isValid = false;
+        showError(form.password, errorMessages.password);
+        form.password.focus();
+    }
+
+    if (form.password_confirm.value === "") {
+        isValid = false;
+        showError(form.password_confirm, errorMessages.password_confirm);
+        form.password_confirm.focus();
+    } else if (form.password_confirm.value !== form.password.value) {
+        isValid = false;
+        showError(form.password_confirm, errorMessages.password_mismatch);
+        form.password_confirm.focus();
+    }
+
+    if (form.tel.value === "") {
+        isValid = false;
+        showError(form.tel, errorMessages.tel);
+        form.tel.focus();
+    }
+
+    if (form.postalCode.value === "") {
+        isValid = false;
+        showError(form.postalCode, errorMessages.postalCode);
+        form.postalCode.focus();
+    } else if (form.addr.value === "") {
+        isValid = false;
+        showError(form.addr, errorMessages.addr);
+        form.addr.focus();
+    } else if (form.addr_detail.value === "") {
+        isValid = false;
+        showError(form.addr_detail, errorMessages.addr_detail);
+        form.addr_detail.focus();
+    }
+
+    if (isValid) {
+        form.submit();
+    }
 }
 </script>
 
@@ -74,7 +93,7 @@ function validateForm() {
 	.box {
 		border : 1px solid black;
 		width : 500px;
-		height : 730px
+		height : 820px
 	}
 	.info {
 		padding: 30px 30px 0px 30px;
@@ -84,6 +103,9 @@ function validateForm() {
 	}
 	.info strong, .info a {
 		margin-left: 18px;
+	}
+	.info em {
+		color: red;
 	}
 	.info input[type=text], input[type=password] {
 		display: block;
@@ -125,16 +147,19 @@ function validateForm() {
 		<input type="hidden" name="cus_id" value="<%=customer.getCus_id() %>">
 	</div>
 	<div class="info">
-		<strong>이름</strong><br>
+		<strong>이름</strong><em>*</em><br>
 		<input type="text" name="name" style="width:90%" value="<%=customer.getName() %>">
 	</div>
 	<div class="info">
-		<strong>비밀번호</strong>
+		<strong>비밀번호</strong><em>*</em>
 		<input type="password" name="password" style="width:90%" value="<%=customer.getPassword() %>">
+	</div>
+	<div class="info">
+		<strong>비밀번호 확인</strong><em>*</em>
 		<input type="password" name="password_confirm" style="width:90%" placeholder="한 번 더 입력해주세요">
 	</div>
 	<div class="info">
-		<strong>연락처</strong><br>
+		<strong>연락처</strong><em>*</em><br>
 		<input type="text" name="tel" style="width:90%" value="<%=customer.getTel() %>">
 	</div>
 	<div class="info">
@@ -142,7 +167,7 @@ function validateForm() {
 		<input type="text" name="email" style="width:90%" value="<%=customer.getEmail() %>">
 	</div>
 	<div class="info">
-		<strong>주소</strong><br>
+		<strong>주소</strong><em>*</em><br>
 		<input type="text" name="postalCode" style="width:90%" value="<%=customer.getAddrInfo().getPostalCode() %>">
 		<input type="text" name="addr" style="width:90%" value="<%=customer.getAddrInfo().getAddr() %>">
 		<input type="text" name="addr_detail" style="width:90%" value="<%=customer.getAddrInfo().getAddr_detail() %>">

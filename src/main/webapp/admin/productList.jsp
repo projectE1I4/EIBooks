@@ -22,11 +22,11 @@ function goToPage(book_seq) {
 }
 
 function del(book_seq){
-	const input = confirm("정말 삭제 할까요?");
+	const input = confirm("정말 삭제하시겠습니까?");
 	if(input){
 		location.href = "<%=request.getContextPath()%>/deleteProductProc.bo?book_seq="+book_seq;
 	}else{
-		alert('삭제를 취소 했습니다.');
+		alert('삭제를 취소했습니다.');
 		return;
 	}
 	
