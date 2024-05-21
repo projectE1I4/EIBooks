@@ -9,8 +9,41 @@ public class ReviewDTO {
 	private String userId;
 	private String reviewDate;
 	private String content;
+	private int ref_seq;
+	private String ref_YN;
 	
 	public ReviewDTO() {
+	}
+
+	
+	
+	public ReviewDTO(int bookNum, String userId, String content) {
+		super();
+		this.bookNum = bookNum;
+		this.userId = userId;
+		this.content = content;
+	}
+
+
+	public ReviewDTO(int bookNum, int reviewNum, int grade, String userId, String content) {
+		super();
+		this.bookNum = bookNum;
+		this.reviewNum = reviewNum;
+		this.grade = grade;
+		this.userId = userId;
+		this.content = content;
+	}
+
+	
+
+	public ReviewDTO(int bookNum, int reviewNum, int grade, String userId, String reviewDate, String content) {
+		super();
+		this.bookNum = bookNum;
+		this.reviewNum = reviewNum;
+		this.grade = grade;
+		this.userId = userId;
+		this.reviewDate = reviewDate;
+		this.content = content;
 	}
 
 	public ReviewDTO(int grade, String userId, String reviewDate, String content) {
@@ -30,16 +63,6 @@ public class ReviewDTO {
 		this.content = content;
 	}
 
-	public ReviewDTO(int bookNum, int userNum, int grade, String userId, String reviewDate, String content) {
-		super();
-		this.bookNum = bookNum;
-		this.userNum = userNum;
-		this.grade = grade;
-		this.userId = userId;
-		this.reviewDate = reviewDate;
-		this.content = content;
-	}
-	
 	public ReviewDTO(int bookNum, int userNum, int grade, String content) {
 		super();
 		this.bookNum = bookNum;
@@ -121,6 +144,24 @@ public class ReviewDTO {
 	public void setContent(String content) {
 		this.content = content;
 	}
+
+	public int getRef_seq() {
+		return ref_seq;
+	}
+
+	public void setRef_seq(int ref_seq) {
+		this.ref_seq = ref_seq;
+	}
+
+	public String getRef_YN() {
+		return ref_YN;
+	}
+
+	public void setRef_YN(String ref_YN) {
+		this.ref_YN = ref_YN;
+	}
+
+
 
 	@Override
 	public String toString() {

@@ -8,6 +8,5 @@
 </head>
 <body>
 <%@ include file="../common/menu.jsp" %>
-집에 보내주세요
 </body>
 </html>
