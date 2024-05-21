@@ -9,6 +9,7 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -140,6 +141,129 @@ public class CustomerController extends HttpServlet {
 
             System.out.println("실행됨");
             response.sendRedirect("customerList.cs");
+
+        } else if (action.equals("/signup.cs")) { // 회원가입으로 이동
+
+            request.getRequestDispatcher("/auth/signup.jsp").forward(request, response);
+
+        } else if (action.equals("/signupProc.cs")) { // 회원가입 처리 프록시
+
+            // 회원가입 처리
+            String cus_id = request.getParameter("cus_id");
+            String password = request.getParameter("password");
+            String confirmPassword = request.getParameter("confirmPassword");
+            String name = request.getParameter("name");
+            String tel = request.getParameter("tel");
+            String postalCode = request.getParameter("postalCode");
+            String addr = request.getParameter("addr");
+            String addr_detail = request.getParameter("addr_detail");
+            String email = request.getParameter("email");
+
+            // 유효성 검사
+            if (cus_id == null || !cus_id.matches("^[a-zA-Z0-9]{4,12}$")) {
+                request.setAttribute("errorMessage", "아이디는 4글자 이상, 12글자 이하의 영어 또는 숫자만 가능합니다.");
+                request.getRequestDispatcher("/auth/signup.jsp").forward(request, response);
+                return;
+            }
+
+            CustomerDAO dao = new CustomerDAO();
+
+            if (dao.checkIdExists(cus_id)) {
+                request.setAttribute("errorMessage", "이미 존재하는 아이디입니다.");
+                request.getRequestDispatcher("/auth/signup.jsp").forward(request, response);
+                return;
+            }
+
+            if (password == null || !password.matches("^(?=.*[a-zA-Z])(?=.*\\d)(?=.*[!@#$%^&*])[A-Za-z\\d!@#$%^&*]{8,}$")) {
+                request.setAttribute("errorMessage", "비밀번호는 8글자 이상이어야 하며, 영문, 숫자, 특수문자를 포함해야 합니다.");
+                request.getRequestDispatcher("/auth/signup.jsp").forward(request, response);
+                return;
+            }
+
+            if (!password.equals(confirmPassword)) {
+                request.setAttribute("errorMessage", "비밀번호와 비밀번호 확인이 일치하지 않습니다.");
+                request.getRequestDispatcher("/auth/signup.jsp").forward(request, response);
+                return;
+            }
+
+            if (tel == null || !tel.replaceAll("-", "").matches("^\\d{11}$")) {
+                request.setAttribute("errorMessage", "전화번호는 '-'를 제외하고 숫자 11자리여야 합니다.");
+                request.getRequestDispatcher("/auth/signup.jsp").forward(request, response);
+                return;
+            }
+
+            if (postalCode == null || !postalCode.matches("^\\d{5}$")) {
+                request.setAttribute("errorMessage", "우편번호는 숫자 5자리여야 합니다.");
+                request.getRequestDispatcher("/auth/signup.jsp").forward(request, response);
+                return;
+            }
+
+            // 회원정보 담기
+            CustomerDTO customer = new CustomerDTO();
+            customer.setCus_id(cus_id);
+            customer.setPassword(password);
+            customer.setName(name);
+            customer.setTel(tel);
+            customer.setEmail(email);
+
+            // 회원주소 담기
+            AddressDTO addrInfo = new AddressDTO();
+            addrInfo.setPostalCode(postalCode);
+            addrInfo.setAddr(addr);
+            addrInfo.setAddr_detail(addr_detail);
+            customer.setAddrInfo(addrInfo);
+
+            dao.insertCustomer(customer);
+
+            response.sendRedirect("login.cs");
+
+        } else if (action.equals("/login.cs")) { // 로그인 페이지로 이동
+
+            request.getRequestDispatcher("/auth/login.jsp").forward(request, response);
+
+        } else if (action.equals("/loginProc.cs")) {  // 로그인 처리 프록시
+
+            String cus_id = request.getParameter("cus_id");
+            String password = request.getParameter("password");
+
+            CustomerDAO dao = new CustomerDAO();
+            CustomerDTO customer = dao.getCustomerById(cus_id);
+
+            if (customer == null) {
+                // 유효성 검사를 서버에서 처리하는 경우
+                // 아이디가 존재하지 않는 경우
+                request.setAttribute("errorMessageId", "아이디가 존재하지 않습니다.");
+                request.getRequestDispatcher("/auth/login.jsp").forward(request, response);
+            } else if (!customer.getPassword().equals(password)) {
+                // 비밀번호가 일치하지 않는 경우
+                request.setAttribute("errorMessagePw", "비밀번호가 일치하지 않습니다.");
+                request.getRequestDispatcher("/auth/login.jsp").forward(request, response);
+            } else {
+                // 로그인 성공
+                HttpSession session = request.getSession();
+                session.setAttribute("customer", customer);
+                session.setAttribute("cus_id", customer.getCus_id());
+                session.setAttribute("name", customer.getName());
+                response.sendRedirect("/EIBooks/");  // 로그인 후 이동할 페이지로 리다이렉션
+            }
+
+        } else if (action.equals("/checkIdProc.cs")) { // 아이디 중복검사
+
+            String cus_id = request.getParameter("cus_id");
+
+            CustomerDAO dao = new CustomerDAO();
+            boolean exists = dao.checkIdExists(cus_id);
+
+            response.setContentType("application/json");
+            PrintWriter out = response.getWriter();
+            out.print("{\"exists\":" + exists + "}");
+            out.flush();
+            out.close();
+        } else if (action.equals("/logoutProc.cs")) {
+
+            HttpSession session = request.getSession();
+            session.invalidate();
+            response.sendRedirect("/EIBooks/");
 
         }
 

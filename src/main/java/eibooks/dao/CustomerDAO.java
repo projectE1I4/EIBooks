@@ -280,4 +280,114 @@ public class CustomerDAO {
 
     }
 
+    // 고객 회원가입 메서드
+    public void insertCustomer(CustomerDTO customer) {
+
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        PreparedStatement addrPstmt = null;
+
+        String sql = "INSERT INTO customer (cus_id, password, name, tel, email) VALUES (?, ?, ?, ?, ?)";
+        String addrSql = "INSERT INTO customer_addr (cus_seq, postalCode, addr, addr_detail) VALUES (LAST_INSERT_ID(), ?, ?, ?)";
+
+        conn = JDBCConnect.getConnection();
+        try {
+            pstmt = conn.prepareStatement(sql);
+            addrPstmt = conn.prepareStatement(addrSql);
+
+            // 고객정보 삽입
+            pstmt.setString(1, customer.getCus_id());
+            pstmt.setString(2, customer.getPassword());
+            pstmt.setString(3, customer.getName());
+            pstmt.setString(4, customer.getTel());
+            pstmt.setString(5, customer.getEmail());
+            pstmt.executeUpdate();
+
+            // 주소정보 삽입
+            AddressDTO addr = customer.getAddrInfo();
+            addrPstmt.setString(1, addr.getPostalCode());
+            addrPstmt.setString(2, addr.getAddr());
+            addrPstmt.setString(3, addr.getAddr_detail());
+            addrPstmt.executeUpdate();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            JDBCConnect.close(addrPstmt, pstmt, conn);
+        }
+    }
+
+    // 고객 로그인 메서드
+    public CustomerDTO getCustomerById(String cus_id) {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        CustomerDTO customer = null;
+
+        String sql = "SELECT c.cus_seq, c.cus_id, c.password, c.name, c.tel, c.email, c.regDate, " +
+            "a.postalCode, a.addr, a.addr_detail " +
+            "FROM customer c " +
+            "LEFT JOIN customer_addr a ON c.cus_seq = a.cus_seq " +
+            "WHERE c.cus_id = ?";
+
+        try {
+            conn = JDBCConnect.getConnection();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, cus_id);
+            rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                customer = new CustomerDTO();
+                customer.setCus_seq(rs.getInt("cus_seq"));
+                customer.setCus_id(rs.getString("cus_id"));
+                customer.setPassword(rs.getString("password"));
+                customer.setName(rs.getString("name"));
+                customer.setTel(rs.getString("tel"));
+                customer.setEmail(rs.getString("email"));
+                customer.setRegDate(rs.getString("regDate"));
+
+                AddressDTO addr = new AddressDTO();
+                addr.setPostalCode(rs.getString("postalCode"));
+                addr.setAddr(rs.getString("addr"));
+                addr.setAddr_detail(rs.getString("addr_detail"));
+                addr.setCus_seq(rs.getInt("cus_seq"));
+
+                customer.setAddrInfo(addr);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            JDBCConnect.close(rs, pstmt, conn);
+        }
+
+        return customer;
+    }
+
+    // 로그인 유효성 검사 메서드
+    public boolean checkIdExists(String cus_id) {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        boolean exists = false;
+
+        String sql = "SELECT COUNT(*) FROM customer WHERE cus_id = ?";
+
+        try {
+            conn = JDBCConnect.getConnection();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, cus_id);
+            rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                exists = rs.getInt(1) > 0;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            JDBCConnect.close(rs, pstmt, conn);
+        }
+
+        return exists;
+    }
+
 }
