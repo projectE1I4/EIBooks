@@ -49,17 +49,21 @@ public class CartController extends HttpServlet {
 		
 		if (action.equals("/customerCart.cc")) {
 			// 임시로 회원 번호를 지정, 실제로는 세션 등을 통해 로그인한 사용자의 정보를 가져와야 함
-            int cusSeq = 3; 
+            int cusSeq = 3;
+            int cartSeq = 3;
             
             // 장바구니에 담긴 책 목록 조회
             cartDAO cartDao = new cartDAO();
             List<cartDTO> cartList = cartDao.getCartList(cusSeq);
             System.out.println("cart conn ok!");
             
-            // 장바구니에 담긴 각 책의 정보를 가져오기
+            int totalCartPrice = cartDao.totalCartPrice(cusSeq);
             
             // 장바구니 페이지로 전달할 데이터 설정
             request.setAttribute("cartList", cartList);
+            request.setAttribute("cusSeq", cusSeq);
+            request.setAttribute("cartSeq", cartSeq);
+            request.setAttribute("totalCartPrice", totalCartPrice);
 
             // forward
             String path = "./customerCart.jsp"; // 장바구니 페이지의 JSP 파일 경로
@@ -115,10 +119,12 @@ public class CartController extends HttpServlet {
 			
 			int cartISeq = 0;
 		    int cartICount = 0;
+		    int cusSeq = 0;
 		    try {
 		        // 요청에서 cartISeq와 cartICount 파라미터 값을 가져옴
 		        cartISeq = Integer.parseInt(request.getParameter("cartISeq"));
 		        cartICount = Integer.parseInt(request.getParameter("cartICount"));
+		        cusSeq = Integer.parseInt(request.getParameter("cusSeq"));
 		    } catch (Exception e) {
 		        e.printStackTrace();
 		    }
@@ -137,12 +143,16 @@ public class CartController extends HttpServlet {
 		    } else {
 		        message = "수량 업데이트에 실패했습니다.";
 		    }
+		    
+	        int totalCartPrice = cartDao.totalCartPrice(cusSeq);
 
 		    // 클라이언트에게 JSON 형식의 응답 보내기
 		    JSONObject jsonResponse = new JSONObject();
 		    jsonResponse.put("message", message);
 		    jsonResponse.put("totalPrice", totalPrice);
-
+		    jsonResponse.put("totalCartPrice", totalCartPrice);
+		    System.out.println("토탈가격 : "+totalCartPrice);
+		    
 		    // 응답 보내기
 		    response.setContentType("application/json");
 		    response.setCharacterEncoding("UTF-8");
@@ -150,6 +160,45 @@ public class CartController extends HttpServlet {
 		    out.print(jsonResponse.toString());
 		    out.flush();
 		    out.close(); // 리소스 해제
+		}
+		else if(action.equals("/CartPrice.cc")) {
+			System.out.println(action);
+			request.setCharacterEncoding("utf-8");
+			
+			int cusSeq = 0;
+		    int cartSeq = 0;
+		    try {
+		        String cusSeqStr = request.getParameter("cusSeq");
+		        String cartSeqStr = request.getParameter("cartSeq");
+		        
+		        if (cusSeqStr != null && !cusSeqStr.isEmpty()) {
+		            cusSeq = Integer.parseInt(cusSeqStr);
+		        }
+		        
+		        if (cartSeqStr != null && !cartSeqStr.isEmpty()) {
+		            cartSeq = Integer.parseInt(cartSeqStr);
+		        }
+		    } catch (Exception e) {
+		        e.printStackTrace();
+		    }
+		    System.out.println("cusSeq" + cusSeq);
+		    System.out.println("cartSeq" + cartSeq);
+
+	        // totalCartPrice 메소드 호출
+		 	cartDAO cartDao = new cartDAO();
+	        int totalPrice = cartDao.totalCartPrice(cusSeq);
+	        System.out.println("totalPrice: " + totalPrice); // 디버깅 메시지 추가
+	
+	        // 클라이언트에게 JSON 형식의 응답 보내기
+	        JSONObject jsonResponse = new JSONObject();
+	        jsonResponse.put("totalPrice", totalPrice);
+	
+	        response.setContentType("application/json");
+	        response.setCharacterEncoding("UTF-8");
+	        PrintWriter out = response.getWriter();
+	        out.print(jsonResponse.toString());
+	        out.flush();
+	        out.close(); // 리소스 해제
 		}
 	}
 }

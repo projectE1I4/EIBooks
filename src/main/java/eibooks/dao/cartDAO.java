@@ -152,4 +152,43 @@ public class cartDAO {
 	    return priceRs * cartICount;
 	}
 
+	//장바구니 목록 총 가격(배송비 제외)
+	public int totalCartPrice(int cusSeq) {
+	    Connection conn = null;
+	    PreparedStatement pstmt = null;
+	    ResultSet rs = null;
+	    
+	    List<Integer> total = new ArrayList<Integer>();
+	    int totalPrice = 0;
+
+	    try {
+	        conn = JDBCConnect.getConnection();
+	        String sql = "select sum(price * cart_i_count) as totalPrice from cart_item i "
+	                  + "join books b "
+	                  + "on i.book_seq = b.book_seq "
+	                  + "where i.cus_seq = ? "
+	                  + "group by i.book_seq" ;
+	        
+	        pstmt = conn.prepareStatement(sql);
+	        pstmt.setInt(1, cusSeq);
+	        rs = pstmt.executeQuery();
+	        System.out.println("pstmt = " + pstmt);
+
+	        while (rs.next()) {
+	        	total.add(rs.getInt("totalPrice"));
+	        }
+	        for(int t : total) {
+	        	totalPrice += t;
+	        }
+	        
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    } finally {
+	        JDBCConnect.close(rs, pstmt, conn);
+	    }
+
+	    return totalPrice + 3000;
+	}
+	
+
 }

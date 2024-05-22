@@ -6,6 +6,7 @@
     //장바구니 리스트 가져오기
     List<cartDTO> cartList = (List<cartDTO>)request.getAttribute("cartList");
     cartDTO cartdto = new cartDTO();   
+    int totalCartPrice = (int)request.getAttribute("totalCartPrice");
 %>
 
 <!DOCTYPE html>
@@ -14,7 +15,7 @@
 <meta charset="UTF-8">
 <title>회원 장바구니 목록 보기</title>
 </head>
-<body>
+<body data-cus-seq="<%= request.getAttribute("cusSeq") %>" data-cart-seq="<%= request.getAttribute("cartSeq") %>">
 <%@ include file="../common/menu.jsp" %>
 <!-- 제목 --> 
 <h2>회원 장바구니 보기</h2>
@@ -84,9 +85,19 @@
 	        prevItem = cartItem; // 현재 항목을 이전 항목으로 설정
 	    }
 	}
-	%>  
+	%>
+	<tr>
+	
+	</tr>
 	</table>
 </form>
+<!-- 총 가격 표시 -->
+<div>
+    <h3>총 가격: <span id="totalPrice"><%=totalCartPrice - 3000 %></span>원</h3>
+    <h3>배송비: <span>3000</span>원</h3>
+    <h3>총 가격: <span id="totalCartPrice"><%=totalCartPrice %></span>원</h3>
+    <button type="button">주문하기</button>
+</div>
 
 <script>
 // 전체 선택 토글
@@ -138,11 +149,41 @@ function updateCart(cartISeq, cartICount) {
     	        var response = JSON.parse(xhr.responseText);
     	        console.log("변동됨");
     	        document.getElementById("price" + cartISeq).innerText = response.totalPrice + "원";
+    	        document.getElementById("totalPrice").innerText = response.totalCartPrice - 3000;
+    	        document.getElementById("totalCartPrice").innerText = response.totalCartPrice;
     	    }
     };
-    xhr.send("cartISeq=" + cartISeq + "&cartICount=" + cartICount);
+    var cusSeq = document.body.getAttribute('data-cus-seq'); // cusSeq 값을 읽어옵니다.
+    xhr.send("cartISeq=" + cartISeq + "&cartICount=" + cartICount + "&cusSeq=" + cusSeq);
 }
+
+//총 가격 가져오기 함수
+/*
+function getTotalPrice() {
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "CartPrice.cc", true);
+    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhr.onreadystatechange = function() {
+    	if (xhr.readyState == 4 && xhr.status == 200) {
+            var response = JSON.parse(xhr.responseText);
+            
+        } else if (xhr.readyState == 4) {
+            console.error("Error fetching total price:", xhr.responseText);
+        }
+    };
+    var cusSeq = document.body.getAttribute('data-cus-seq'); // cusSeq 값을 읽어옵니다.
+    var cartSeq = document.body.getAttribute('data-cart-seq'); // cartSeq 값을 읽어옵니다.
+    console.log("Sending cusSeq:", cusSeq); // 디버깅을 위해 콘솔에 로그 출력
+    console.log("Sending cartSeq:", cartSeq); // 디버깅을 위해 콘솔에 로그 출력
+    xhr.send("cusSeq=" + cusSeq + "&cartSeq=" + cartSeq);
+}
+/**/
+// 페이지 로드 시 총 가격 가져오기
+window.onload = function() {
+    getTotalPrice();
+};
 
 </script>
 </body>
 </html>
+
