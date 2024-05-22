@@ -272,7 +272,8 @@ public class CustomerController extends HttpServlet {
 
         } else if (action.equals("/updateMyPage.cs")) {
             // 임시 seq
-            int cus_seq = 1;
+        	HttpSession session = request.getSession();
+            int cus_seq =(int)session.getAttribute("cus_seq");
 
             CustomerDTO dto = new CustomerDTO();
             dto.setCus_seq(cus_seq);

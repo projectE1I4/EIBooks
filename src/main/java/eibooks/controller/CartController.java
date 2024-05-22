@@ -10,6 +10,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.json.JSONObject;
 
@@ -48,9 +49,9 @@ public class CartController extends HttpServlet {
 		System.out.println(uri);
 		
 		if (action.equals("/customerCart.cc")) {
-			// 임시로 회원 번호를 지정, 실제로는 세션 등을 통해 로그인한 사용자의 정보를 가져와야 함
-            int cusSeq = 3;
-            int cartSeq = 3;
+			HttpSession session = request.getSession();
+            int cusSeq =(int)session.getAttribute("cus_seq");
+
             
             // 장바구니에 담긴 책 목록 조회
             cartDAO cartDao = new cartDAO();
@@ -62,7 +63,6 @@ public class CartController extends HttpServlet {
             // 장바구니 페이지로 전달할 데이터 설정
             request.setAttribute("cartList", cartList);
             request.setAttribute("cusSeq", cusSeq);
-            request.setAttribute("cartSeq", cartSeq);
             request.setAttribute("totalCartPrice", totalCartPrice);
 
             // forward
