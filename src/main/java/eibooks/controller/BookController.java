@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -82,13 +83,13 @@ public class BookController extends HttpServlet {
 			// forward
 			String path =  "/admin/productList.jsp"; // 1
 			request.getRequestDispatcher(path).forward(request, response);
-			
+
 		} else if(action.equals("/productView.bo")) {
-			// move. get, 2. forward - reqeust.setAttribute("v","o")			
+			// move. get, 2. forward - reqeust.setAttribute("v","o")
 			System.out.println(action);
 
 			request.setCharacterEncoding("utf-8");
-			String sBook_seq = request.getParameter("book_seq"); 
+			String sBook_seq = request.getParameter("book_seq");
 			int book_seq = Integer.parseInt(sBook_seq);
 			BookDTO dto = new BookDTO();
 			dto.setBook_seq(book_seq);
@@ -101,12 +102,12 @@ public class BookController extends HttpServlet {
 			//3. forward
 			String path =  "/admin/productView.jsp"; // 1
 			request.getRequestDispatcher(path).forward(request, response);
-			
+
 		} else if(action.equals("/writeProduct.bo")) {
 			// move : get
 			String path = request.getContextPath() + "/admin/insertProduct.jsp";
 			response.sendRedirect(path);
-			
+
 		} else if(action.equals("/writeProductProc.bo")) {
 			// 1. 값 받기
 			request.setCharacterEncoding("utf-8");
@@ -120,12 +121,12 @@ public class BookController extends HttpServlet {
 			String ext = imageFile.substring(imageFile.lastIndexOf("."));
 			String now = new SimpleDateFormat("yyyyMMdd_HmsS").format(new Date());
 			imageFile = now + ext;
-			
+
 			File file = new File(saveDirectory + File.separator + imageFile);
 			mr.getFile("imageFile").renameTo(file);
-			
+
 			imageFile = "file:///C:/Mid/jspws/EIBooks/src/main/webapp/Uploads/" + imageFile;
-			
+
 			// 1. 값 받기
 			String title = mr.getParameter("title");
 			String author = mr.getParameter("author");
@@ -137,10 +138,10 @@ public class BookController extends HttpServlet {
 			String isbn13 = mr.getParameter("isbn13");
 			String description = mr.getParameter("description");
 			String sStock = mr.getParameter("stock");
-			
+
 			int price = Integer.parseInt(sPrice);
 			int stock = Integer.parseInt(sStock);
-			
+
 			BookDTO dto = new BookDTO(title, author, publisher, category, imageFile,
 	                   description, price, stock, isbn10, isbn13, pubDate);
 
@@ -150,7 +151,7 @@ public class BookController extends HttpServlet {
 			// move
 			String path = request.getContextPath() + "/admin/productList.bo";
 			response.sendRedirect(path);
-			
+
 		} else if(action.equals("/deleteProductProc.bo")) {
 			// 1. 값 받기
 			request.setCharacterEncoding("utf-8");
@@ -159,25 +160,25 @@ public class BookController extends HttpServlet {
 
 
 			// 3. DTO
-			BookDTO dto = new BookDTO();		
+			BookDTO dto = new BookDTO();
 			dto.setBook_seq(book_seq);
 
-			// 4. DAO 
+			// 4. DAO
 			BookDAO dao = new BookDAO();
 			dao.deleteProduct(dto);
 
 			// 5. move : get
 			String path = request.getContextPath() + "/admin/productList.bo";
 			response.sendRedirect(path);
-			
+
 		} else if(action.equals("/updateProduct.bo")) {
-			// move. get, 2. forward - reqeust.setAttribute("v","o")			
+			// move. get, 2. forward - reqeust.setAttribute("v","o")
 			System.out.println(action);
 
 			request.setCharacterEncoding("utf-8");
-			String sBook_seq = request.getParameter("book_seq"); 
+			String sBook_seq = request.getParameter("book_seq");
 			int book_seq = Integer.parseInt(sBook_seq);
-			
+
 			BookDTO dto = new BookDTO();
 			dto.setBook_seq(book_seq);
 
@@ -192,11 +193,11 @@ public class BookController extends HttpServlet {
 			//3. forward
 			String path =  "/admin/updateProduct.jsp"; // 1
 			request.getRequestDispatcher(path).forward(request, response);
-			
+
 		} else if(action.equals("/updateProductProc.bo")) {
 			// 1. 값 받기
 			request.setCharacterEncoding("utf-8");
-			
+
 			request.setCharacterEncoding("utf-8");
 			String saveDirectory = "C:/Mid/jspws/EIBooks/src/main/webapp/Uploads";
 			String encoding = "UTF-8";
@@ -204,10 +205,10 @@ public class BookController extends HttpServlet {
 
 			MultipartRequest mr = new MultipartRequest(request, saveDirectory, maxPostSize, encoding);
 
-			String sBook_seq = mr.getParameter("book_seq"); 
+			String sBook_seq = mr.getParameter("book_seq");
 			int book_seq = Integer.parseInt(sBook_seq);
 			System.out.println(book_seq);
-			
+
 			String title = mr.getParameter("title");
 			System.out.println(title);
 			String author = mr.getParameter("author");
@@ -226,37 +227,37 @@ public class BookController extends HttpServlet {
 			System.out.println(isbn13);
 			String description = mr.getParameter("description");
 			System.out.println(description);
-			String sStock = mr.getParameter("stock");	
+			String sStock = mr.getParameter("stock");
 			System.out.println(sStock);
 
 			int price = Integer.parseInt(sPrice);
 			int stock = Integer.parseInt(sStock);
-			
+
 			BookDTO imageDTO = new BookDTO();
 			imageDTO.setBook_seq(book_seq);
 			BookDAO imageDAO = new BookDAO();
 			imageDTO = imageDAO.selectView(imageDTO);
-			
+
 			String imageFile = mr.getFilesystemName("imageFile");
 			if (imageFile != null) {
 				String ext = imageFile.substring(imageFile.lastIndexOf("."));
 				String now = new SimpleDateFormat("yyyyMMdd_HmsS").format(new Date());
 				imageFile = now + ext;
-				
+
 				File file = new File(saveDirectory + File.separator + imageFile);
 				mr.getFile("imageFile").renameTo(file);
-				
+
 				imageFile = "file:///C:/Mid/jspws/EIBooks/src/main/webapp/Uploads/" + imageFile;
 				System.out.println(imageFile);
 			} else {
 				imageFile = imageDTO.getImageFile();
 			}
-			
-			
+
+
 			BookDTO dto = new BookDTO(book_seq, title, author, publisher, category, imageFile,
-					description, price, stock, isbn10, isbn13, pubDate);	
-			
-			// 4. DAO 
+					description, price, stock, isbn10, isbn13, pubDate);
+
+			// 4. DAO
 			BookDAO dao = new BookDAO();
 			dao.updateProduct(dto);
 
@@ -264,7 +265,99 @@ public class BookController extends HttpServlet {
 			String path = request.getContextPath() + "/admin/productView.bo?book_seq=" + book_seq;
 			response.sendRedirect(path);
 		}
-		
-		
+
+		// 유저 북 리스트
+		else if(action.equals("/userBookList.bo")) {
+			// move. get, 2. forward - reqeust.setAttribute("v","o")
+			// action에 저장한 값 bookList.bo가 출력되는지 확인
+			System.out.println(action);
+
+			// searchField에 대해서 파라메터 받아옴, searchWord에 대해서 파라메터 받아옴
+			String searchWord = request.getParameter("searchWord");
+			// 여기 카테고리가 검색 시 null이 들어옴
+			// 이놈이 지금 category 값을 못 가져오는 중임...
+			String category = request.getParameter("category");
+			String list = request.getParameter("list");
+			System.out.println("가져오자마자 userBookList - category Word:" + category);
+			System.out.println("가져오자마자 userBookList - list Word:" + list);
+
+			if (searchWord == null || searchWord.trim().equals("")) {
+				searchWord = "";
+			}
+
+			if (category == null) {
+				category = "";
+				System.out.println("check_category: " + category);
+			}
+
+			if (list == null) {
+				list = "latest";
+				System.out.println("check_list: " + list);
+			}
+
+			request.setAttribute("searchWord", searchWord);
+			request.setAttribute("category", category);
+			request.setAttribute("list", list);
+
+			// Map을 통해서 검색 처리
+			Map<String, String> map = new HashMap<>();
+			// searchWord로 보냄
+			map.put("searchWord", searchWord);
+			// category를 보냄
+			map.put("category", category);
+			map.put("list", list);
+
+			// paging info
+			// paging 정보 10개씩 1페이지
+			int amount = 10;
+			int pageNum = 1;
+
+			// pageNum에 대해서 sPageNum으로 파라메터로 받아오기 (문자열로 들어옴)
+			String sPageNum = request.getParameter("pageNum");
+			// sPageNum이 null이 아닌 경우 Integer로 변환
+			if(sPageNum != null) pageNum = Integer.parseInt(sPageNum);
+			// offset은 (pageNum-1) * amount
+			int offset = (pageNum-1) * amount;
+
+			// map에 offset 집어넣기
+			map.put("offset", offset+"");
+			// map에 amount 집어넣기
+			map.put("amount", amount+"");
+
+			// BookDAO 가져옴
+			BookDAO dao = new BookDAO();
+
+			List<BookDTO> bookList = dao.userSelectPageList(map);
+			int totalCount = dao.userSelectCount(map);
+
+			// Paging
+			PageDTO paging = new PageDTO(pageNum, amount, totalCount);
+
+			request.setAttribute("bookList", bookList);
+			request.setAttribute("paging", paging);
+			request.setAttribute("totalCount", totalCount);
+
+			// forward
+			request.getRequestDispatcher("./userBookList.jsp").forward(request, response);
+		}
+		else if(action.equals("/userBookDetail.bo")) {
+			System.out.println(action);
+
+			request.setCharacterEncoding("utf-8");
+			int book_seq = Integer.parseInt(request.getParameter("book_seq"));
+
+			System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>> : " + book_seq);
+			BookDTO dto = new BookDTO();
+			dto.setBook_seq(book_seq);
+
+			BookDAO dao = new BookDAO();
+			dto = dao.getBook(dto);
+
+			request.setAttribute("dto", dto);
+
+			request.getRequestDispatcher("./userBookDetail.jsp").forward(request, response);
+		}
+
+
 	}
 }

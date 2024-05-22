@@ -23,8 +23,10 @@ public class PageDTO {
 		//		 ex) 조회하는 페이지 9 -> 끝번호 10
 		//		 ex) 조회하는 페이지 11 -> 끝번호 20
 		//		 공식 = (int)Math.ceil(페이지번호 / 페이지네이션개수) * 페이지네이션개수
+		System.out.println("디스"+ pageNum ); 
+		// pageNum 넘어오는 거 확인
 		this.endPage = (int)Math.ceil(this.pageNum * 0.1) * 10;
-
+		
 		// 2. startPage결정
 		// 공식 = 끝페이지 - 페이지네이션개수 + 1
 		this.startPage = this.endPage - 10 + 1;
@@ -34,6 +36,7 @@ public class PageDTO {
 		//		 만약 게시글이 105개라면 -> 진짜 끝번호 11
 		//		 공식 = (int)Math.ceil(전체게시글수 / 화면에보여질데이터개수)
 		this.realEnd = (int)Math.ceil(this.total / (double)this.amount);
+		System.out.println("엔드"+realEnd + "total"+ total+ "amount" + amount);
 
 		//		 마지막페이지 도달했을 때 보여져야 하는 끝번호가 달라집니다.
 		//		 ex) 131개 게시물
@@ -53,7 +56,7 @@ public class PageDTO {
 		this.next = this.endPage < realEnd;
 
 		// 확인
-		System.out.println("시작페이지:" + this.startPage + ", 끝페이지:" + this.endPage); 
+		System.out.println("시작페이지:" + this.startPage + ", 끝페이지:" + this.endPage +", 페이지 넘버:" + this.pageNum + ",리얼엔드:" + this.realEnd); 
 	}
 
 	public int getStartPage() {
