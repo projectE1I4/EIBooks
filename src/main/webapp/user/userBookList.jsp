@@ -57,11 +57,11 @@ function makePaging(data){
 	let html = ''; 
 	<% if(p.isPrev()) {%>
 		html += '<a href="userBookList.bo?pageNum=1&searchWord=<%=searchWord%>&category=<%=category%>'
-			 +'&order=<%=list%>'">[First]</a>';
+			 +'&order=<%=list%>">[First]</a>';
 	<%}%>	
 	<%if(p.isPrev()) {%> 
 		html += '<a href="userBookList.bo?pageNum=' + <%=p.getStartPage()-1%>
-			+ '&searchWord=<%=searchWord%>&category=<%=category%>' +'&order=<%=list%>'">[Prev]</a>'; 
+			+ '&searchWord=<%=searchWord%>&category=<%=category%>' +'&order=<%=list%>">[Prev]</a>'; 
 	<% } %>
 	<%
 	for(int i=p.getStartPage(); i<= p.getEndPage(); i++) {
