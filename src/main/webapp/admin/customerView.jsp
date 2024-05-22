@@ -79,6 +79,6 @@
     </tbody>
 </table>
 <div><a href="customerList.cs"><p>목록으로 돌아가기</p></a></div>
-
+<div><a href="customerOrder.or?cus_seq=<%=customer.getCus_seq()%>"><p>주문내역 보기</p></a></div>
 </body>
 </html>

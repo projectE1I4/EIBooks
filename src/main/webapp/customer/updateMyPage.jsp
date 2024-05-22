@@ -128,14 +128,14 @@ function validateForm() {
 <h2>마이페이지</h2>
 <ul>
 	<li>
-		<a href="/EIBooks/customer/updateMyPage.cu">회원정보 수정</a>
+		<a href="/EIBooks/customer/updateMyPage.cs">회원정보 수정</a>
 	</li>
 	<li>
 		<a href="/EIBooks/customer/myPage.or">나의 주문목록</a>
 	</li>
 </ul>
 
-<form name="writeForm" method="post" action="<%=request.getContextPath()%>/updateMyPageProc.cu">
+<form name="writeForm" method="post" action="<%=request.getContextPath()%>/updateMyPageProc.cs">
 <div class="box">
 	<div class="info">
 		<h2>회원 정보 수정</h2>

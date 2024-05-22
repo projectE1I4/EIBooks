@@ -139,7 +139,9 @@ public class CustomerController extends HttpServlet {
             int cus_seq = Integer.parseInt(request.getParameter("cus_seq"));
 
             CustomerDAO dao = new CustomerDAO();
-            dao.deleteCustomer(cus_seq);
+            CustomerDTO dto = new CustomerDTO();
+            dto.setCus_seq(cus_seq);
+            dao.deleteCustomer(dto);
 
             System.out.println("실행됨");
             response.sendRedirect("customerList.cs");

@@ -17,7 +17,7 @@ int cusCnt = (int)request.getAttribute("cusCnt");
 <div>
 	<h3>회원 관리</h3>
 	<div>
-		<a href="#">
+		<a href="/EIBooks/admin/customerList.cs">
 			<strong><%=cusCnt %></strong><br>
 			전체 회원
 		</a>

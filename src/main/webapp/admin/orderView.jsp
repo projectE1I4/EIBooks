@@ -53,15 +53,15 @@ List<OrderDTO> orderList = (List<OrderDTO>)request.getAttribute("orderList");
 <br><br>
 <table border="1" width="80%">
 <tr>
-    <td width="10%">주문일자</th>
+    <th width="10%">주문일자</th>
     <td colspan="3"><%=order.getOrderDate() %></td>
 </tr>
 <tr>
-	<td width="10%">주문번호</th>
+	<th width="10%">주문번호</th>
     <td colspan="3"><%=order.getPur_seq() %></td>
 </tr>
 <tr>
-	<td width="10%">총 수량 합계</th>
+	<th width="10%">총 수량 합계</th>
     <td colspan="3">
     	<%
 	    	OrderDTO dto = new OrderDTO(); 
@@ -74,7 +74,7 @@ List<OrderDTO> orderList = (List<OrderDTO>)request.getAttribute("orderList");
     </td>
 </tr>
 <tr>
-    <td width="10%">총 상품 금액 합계</th>
+    <th width="10%">총 상품 금액 합계</th>
     <td colspan="3">
     	<%
 			int totalPrice = dao.selectTotalPrice(dto);
@@ -83,11 +83,11 @@ List<OrderDTO> orderList = (List<OrderDTO>)request.getAttribute("orderList");
     </td>
 </tr>
 <tr>
-    <td width="10%">배송비</th>
+    <th width="10%">배송비</th>
     <td colspan="3">3000원</td>
 </tr>
 <tr>
-    <td width="10%">최종 결제 금액</th>
+    <th width="10%">최종 결제 금액</th>
     <td colspan="3"><%=totalPrice %>원</td>
 </tr>
 <% 
