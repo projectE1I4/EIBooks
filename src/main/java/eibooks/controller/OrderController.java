@@ -10,6 +10,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import eibooks.common.PageDTO;
 import eibooks.dao.OrderDAO;
@@ -157,11 +158,12 @@ public class OrderController extends HttpServlet {
 
 			map.put("offset", offset + "");
 			map.put("amount", amount + "");
-			
+
+			HttpSession session = request.getSession();
 			// 로그인 사용자로 바꿔야 하는 부분
-			int cus_seq = 1;
+			int cus_seq = (int) session.getAttribute("cus_seq");
 			OrderDTO dto = new OrderDTO();
-			dto.setCus_seq(1);
+			dto.setCus_seq(cus_seq);
 			
 			map.put("cus_seq", cus_seq + "");
             

@@ -247,6 +247,7 @@ public class CustomerController extends HttpServlet {
                 HttpSession session = request.getSession();
                 session.setAttribute("customer", customer);
                 session.setAttribute("cus_id", customer.getCus_id());
+                session.setAttribute("cus_seq", customer.getCus_seq());
                 session.setAttribute("name", customer.getName());
                 response.sendRedirect("/EIBooks/");  // 로그인 후 이동할 페이지로 리다이렉션
             }
