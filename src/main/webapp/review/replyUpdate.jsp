@@ -1,6 +1,6 @@
-<%@page import="dao.ReviewDAO"%>
-<%@page import="common.PageDTO"%>
-<%@page import="dto.ReviewDTO"%>
+<%@page import="eibooks.dao.ReviewDAO"%>
+<%@page import="eibooks.common.PageDTO"%>
+<%@page import="eibooks.dto.ReviewDTO"%>
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>

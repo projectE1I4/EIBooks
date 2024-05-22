@@ -1,4 +1,4 @@
-package dto;
+package eibooks.dto;
 
 public class ReviewDTO {
 	private int bookNum;

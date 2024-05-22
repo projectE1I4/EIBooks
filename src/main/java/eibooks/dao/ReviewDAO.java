@@ -1,17 +1,16 @@
-package dao;
+package eibooks.dao;
+import eibooks.common.JDBCConnect;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import common.JDBCConnect;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import dto.ReviewDTO;
+import eibooks.dto.ReviewDTO;
 
 public class ReviewDAO {
 	

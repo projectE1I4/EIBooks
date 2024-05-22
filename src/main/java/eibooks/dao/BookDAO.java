@@ -654,4 +654,71 @@ public class BookDAO {
         }
         return dto;
     }
+    public int userGetViewCount(int book_seq) {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        int rs = 0;
+
+        try {
+            // 2. connection
+            conn = JDBCConnect.getConnection();
+
+            // 3. sql창
+            String sql = "update books set viewCount=viewCount+1 where book_seq = ?";
+            pstmt = conn.prepareStatement(sql);
+
+            BookDTO dto = new BookDTO();
+            pstmt.setInt(1, book_seq);
+
+            // 4. execute
+            rs = pstmt.executeUpdate();
+
+            // 5. rs처리 : id값만 list에 저장
+
+        } catch(Exception e) {
+            e.printStackTrace();
+
+        } finally {
+            JDBCConnect.close(pstmt, conn);
+
+        }
+        return rs;
+    }
+    public int userViewCount(int book_seq) {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        int viewcount = 0;
+        try {
+            // 2. connection
+            conn = JDBCConnect.getConnection();
+
+            // 3. sql창
+            String sql = "select viewCount from books where book_seq = ?";
+            pstmt = conn.prepareStatement(sql);
+
+            BookDTO dto = new BookDTO();
+            pstmt.setInt(1, book_seq);
+            System.out.println("-------------book_seq" + dto.getBook_seq());
+
+            // 4. execute
+            rs = pstmt.executeQuery();
+            // 5. rs처리 : id값만 list에 저장
+
+            if(rs.next()) {
+                viewcount = rs.getInt("viewCount");
+            };
+
+
+        } catch(Exception e) {
+            e.printStackTrace();
+
+        } finally {
+            JDBCConnect.close(pstmt, conn);
+
+        }
+        return viewcount;
+    }
+
 }

@@ -25,7 +25,7 @@ List<OrderDTO> orderList = (List<OrderDTO>)request.getAttribute("orderList");
 		    <td colspan="3"><%=order.getPur_seq() %></td>
 		</tr>
 		<tr>
-		    <td width="10%">주문일자</th>
+		    <td width="10%">주문일자</td>
 		    <td colspan="3"><%=order.getOrderDate() %></td>
 		</tr>
 		<tr>
@@ -74,7 +74,7 @@ List<OrderDTO> orderList = (List<OrderDTO>)request.getAttribute("orderList");
 	<td width=50%><%=orderItem.getBookInfo().getTitle() %></td>
 	<td width="10%" align="center"><%=orderItem.getPur_i_count() %>권</td>
 	<td width="10%" align="center"><%=orderItem.getBookInfo().getPrice() * orderItem.getPur_i_count() %>원</td>
-	<td align="center"><a href="#">리뷰 작성</a></td>
+	<td align="center"><a href="reviewWrite.do?bookNum=<%=orderItem.getBook_seq()%>&userNum=<%=orderItem.getCus_seq()%>">리뷰 작성</a></td>
 </tr>
 <%
 	  } 

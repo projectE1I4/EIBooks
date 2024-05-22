@@ -1,6 +1,6 @@
-<%@page import="dao.ReviewDAO"%>
-<%@page import="common.PageDTO"%>
-<%@page import="dto.ReviewDTO"%>
+<%@page import="eibooks.dao.ReviewDAO"%>
+<%@page import="eibooks.common.PageDTO"%>
+<%@page import="eibooks.dto.ReviewDTO"%>
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -51,7 +51,7 @@ ReviewDTO myReview = (ReviewDTO)request.getAttribute("myReview");
 <h1>리뷰 전체보기</h1>
 <span align="right">전체 리뷰 수: <%=allReviewCount %></span>
 <table border="1" width="90%">
-<% if(reviewList.isEmpty()) { %>	
+<% if(reviewList.isEmpty()) { %>
 	<tr><td colspan="8">&nbsp;<b>리뷰가 없습니다.</b></td></tr>
 <% } else { %>
 <%for(ReviewDTO dto:reviewList) {%>

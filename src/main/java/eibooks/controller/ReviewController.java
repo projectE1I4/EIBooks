@@ -1,4 +1,4 @@
-package controller;
+package eibooks.controller;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -11,9 +11,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import common.PageDTO;
-import dao.ReviewDAO;
-import dto.ReviewDTO;
+import eibooks.common.PageDTO;
+import eibooks.dao.ReviewDAO;
+import eibooks.dto.ReviewDTO;
 
 @WebServlet("*.do")
 public class ReviewController extends HttpServlet {
@@ -146,7 +146,7 @@ public class ReviewController extends HttpServlet {
 			request.setAttribute("myReview", myReview);
 			
 			// forward
-			String path = "./reviewWrite.jsp?" + "bookNum=" + bookNum  + "&userNum=" + userNum;
+			String path = "/review/reviewWrite.jsp?" + "bookNum=" + bookNum  + "&userNum=" + userNum;
 			request.getRequestDispatcher(path).forward(request, response);
 			
 		} else if(action.equals("/reviewWriteProc.do")) {
