@@ -14,70 +14,98 @@ int book_seq = Integer.parseInt(sBook_seq);
 
 <script type="text/javascript">
 function validateForm() {
-	const form = document.writeForm;
-	console.dir(form); // input
-	
-	if(form.title.value === "") {
-		alert('도서 명 필수값입니다.');
-		form.title.focus();
-		return;
-	}
-	
-	if(form.author.value === "") {
-		alert('저자 명 필수값입니다.');
-		form.author.focus();
-		return;
-	}
-	
-	if(form.category.value === "") {
-		alert('도서 분류 필수값입니다.');
-		form.category.focus();
-		return;
-	}
-	
-	if(form.price.value === "") {
-		alert('가격 필수값입니다.');
-		form.price.focus();
-		return;
-	}
-	
-	if(form.publisher.value === "") {
-		alert('출판사 필수값입니다.');
-		form.publisher.focus();
-		return;
-	}
-	
-	if(form.pubDate.value === "") {
-		alert('출간일 필수값입니다.');
-		form.pubDate.focus();
-		return;
-	}
-	
-	if(form.isbn10.value === "") {
-		alert('isbn10 필수값입니다.');
-		form.isbn10.focus();
-		return;
-	}
-	
-	if(form.isbn13.value === "") {
-		alert('isbn13 필수값입니다.');
-		form.isbn13.focus();
-		return;
-	}
-	
-	if(form.description.value === "") {
-		alert('상세 설명 필수값입니다.');
-		form.description.focus();
-		return;
-	}
-	
-	if(form.stock.value === "") {
-		alert('재고 수량 필수값입니다.');
-		form.stock.focus();
-		return;
-	}
-	
-	form.submit();
+	const form = document.forms['writeForm']; // 폼 참조 방식 수정
+    let isValid = true;
+    const errorMessages = {
+        title: "도서 명 필수값입니다.",
+        author: "저자 명 필수값입니다.",
+        category: "도서 분류 필수값입니다.",
+        price: "가격 필수값입니다.",
+        publisher: "출판사 필수값입니다.",
+        pubDate: "출간일 필수값입니다.",
+        isbn10: "isbn10 필수값입니다.",
+        isbn13: "isbn13 필수값입니다.",
+        description: "상세 설명 필수값입니다.",
+        stock: "재고 수량 필수값입니다."
+    };
+
+    function showError(element, message) {
+        const errorEm = document.createElement('em');
+        errorEm.className = 'error';
+        errorEm.textContent = message;
+        element.parentNode.appendChild(errorEm);
+    }
+
+    function clearErrors() {
+        const errors = document.querySelectorAll('em.error');
+        errors.forEach(error => error.remove());
+    }
+
+    clearErrors();
+
+    if (form.title.value === "") {
+        isValid = false;
+        showError(form.title, errorMessages.title);
+        form.title.focus();
+    }
+
+    if (form.author.value === "") {
+        isValid = false;
+        showError(form.author, errorMessages.author);
+        form.author.focus();
+    }
+
+    if (form.category.value === "") {
+        isValid = false;
+        showError(form.category, errorMessages.category);
+        form.category.focus();
+    }
+
+    if (form.price.value === "") {
+        isValid = false;
+        showError(form.price, errorMessages.price);
+        form.price.focus();
+    } 
+    
+    if (form.publisher.value === "") {
+        isValid = false;
+        showError(form.publisher, errorMessages.publisher);
+        form.publisher.focus();
+    }
+
+    if (form.pubDate.value === "") {
+        isValid = false;
+        showError(form.pubDate, errorMessages.pubDate);
+        form.pubDate.focus();
+    }
+
+    if (form.isbn10.value === "") {
+        isValid = false;
+        showError(form.isbn10, errorMessages.isbn10);
+        form.isbn10.focus();
+    } 
+    
+    if (form.isbn13.value === "") {
+        isValid = false;
+        showError(form.isbn13, errorMessages.isbn13);
+        form.isbn13.focus();
+    } 
+    
+    if (form.description.value === "") {
+        isValid = false;
+        showError(form.description, errorMessages.description);
+        form.description.focus();
+    }
+    
+    if (form.stock.value === "") {
+        isValid = false;
+        showError(form.stock, errorMessages.stock);
+        form.stock.focus();
+    }
+
+    if (isValid) {
+        form.submit();
+    }
 }
 
 function decrease() {
@@ -106,7 +134,12 @@ function previewImage(event) {
   }
 
 </script>
-
+<style>
+	em {
+		display: block;
+		color: red;
+	}
+</style>
 </head>
 <body>
 

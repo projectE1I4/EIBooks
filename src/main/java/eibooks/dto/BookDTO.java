@@ -20,7 +20,6 @@ public class BookDTO {
         super();
     }
 
-    // 재고 수량 O
     public BookDTO(String title, String author, String publisher, String category, String imageFile,
                    String description, int price, int stock, String isbn10, String isbn13, String pubDate) {
         super();
@@ -37,7 +36,6 @@ public class BookDTO {
         this.pubDate = pubDate;
     }
     
-    // 재고 수량 X
     public BookDTO(String title, String author, String publisher, String category, String imageFile,
     		String description, int price, String isbn10, String isbn13, String pubDate) {
     	super();
@@ -53,7 +51,6 @@ public class BookDTO {
     	this.pubDate = pubDate;
     }
     
-    // 도서 순차 번호 O
     public BookDTO(int book_seq, String title, String author, String publisher, String category, String imageFile,
 			String description, int price, int stock, String isbn10, String isbn13, String pubDate) {
 		super();
@@ -71,20 +68,7 @@ public class BookDTO {
 		this.pubDate = pubDate;
 	}
     
-   // isbn10 X
-	public BookDTO(String title, String author, String publisher, String imageFile, String description, int price,
-			int stock, String isbn13, String pubDate) {
-		super();
-		this.title = title;
-		this.author = author;
-		this.publisher = publisher;
-		this.imageFile = imageFile;
-		this.description = description;
-		this.price = price;
-		this.stock = stock;
-		this.isbn13 = isbn13;
-		this.pubDate = pubDate;
-	}
+    
 
 	public int getBook_seq() {
         return book_seq;

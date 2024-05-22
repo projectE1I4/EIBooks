@@ -4,9 +4,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <% 
-List<BookDTO> bookList = (List<BookDTO>)request.getAttribute("bookList"); 
-PageDTO p = (PageDTO)request.getAttribute("paging");
-int totalCount = (int)request.getAttribute("totalCount");
+	List<BookDTO> bookList = (List<BookDTO>)request.getAttribute("bookList"); 
+	PageDTO p = (PageDTO)request.getAttribute("paging");
+	int totalCount = (int)request.getAttribute("totalCount");
+	String searchField = (String)request.getAttribute("searchField");
+	String searchWord = (String)request.getAttribute("searchWord");
 %>    
 <!DOCTYPE html>
 <html>
@@ -20,11 +22,11 @@ function goToPage(book_seq) {
 }
 
 function del(book_seq){
-	const input = confirm("정말 삭제 할까요?");
+	const input = confirm("정말 삭제하시겠습니까?");
 	if(input){
 		location.href = "<%=request.getContextPath()%>/deleteProductProc.bo?book_seq="+book_seq;
 	}else{
-		alert('삭제를 취소 했습니다.');
+		alert('삭제를 취소했습니다.');
 		return;
 	}
 	
@@ -41,12 +43,12 @@ function del(book_seq){
 	<tr>	
 	<td>
 		<select name="searchField">
-			<option value="category">도서 분류</option>
-			<option value="title">도서 명</option>
-			<option value="author">저자 명</option>
-			<option value="publisher">출판사</option>
+			<option value="category" <% if(searchField != null && searchField.equals("category")) { %>selected<% } %>>도서 분류</option>
+			<option value="title" <% if(searchField != null && searchField.equals("title")) { %>selected<% } %>>도서 명</option>
+			<option value="author" <% if(searchField != null && searchField.equals("author")) { %>selected<% } %>>저자 명</option>
+			<option value="publisher" <% if(searchField != null && searchField.equals("publisher")) { %>selected<% } %>>출판사</option>
 		</select>
-		<input type="text" name="searchWord">
+		<input type="text" name="searchWord" <% if(searchWord != null) { %>value="<%=searchWord %>"<% } %>>
 		<input type="submit" value="Search">
 	</td>
 	</tr>
@@ -83,17 +85,17 @@ function del(book_seq){
 <%} %>
 <tr>
 <td colspan="6">
-<%if(p.isPrev()) {%><a href="productList.bo?pageNum=1">[First]</a><% } %>
-<%if(p.isPrev()) {%><a href="productList.bo?pageNum=<%=p.getStartPage()-1%>">[Prev]</a><% } %>
+<%if(p.isPrev()) {%><a href="productList.bo?<% if(searchWord != null) { %>searchField=<%=searchField %>&searchWord=<%=searchWord %>&<%}%>pageNum=1">[First]</a><% } %>
+<%if(p.isPrev()) {%><a href="productList.bo?<% if(searchWord != null) { %>searchField=<%=searchField %>&searchWord=<%=searchWord %>&<%}%>pageNum=<%=p.getStartPage()-1%>">[Prev]</a><% } %>
 <%for(int i=p.getStartPage(); i<= p.getEndPage(); i++) {%>
 	<%if(i == p.getPageNum()){%>
 		<b>[<%=i %>]</b>
 	<%}else{ %>
-	<a href="productList.bo?pageNum=<%=i%>">[<%=i %>]</a>
+	<a href="productList.bo?<% if(searchWord != null) { %>searchField=<%=searchField %>&searchWord=<%=searchWord %>&<%}%>pageNum=<%=i %>">[<%=i %>]</a>
 	<%} %>
-<%} %>
-<%if(p.isNext()){%><a href="productList.bo?pageNum=<%=p.getEndPage()+1%>">[Next]</a><% } %>
-<%if(p.isNext()){%><a href="productList.bo?pageNum=<%=p.getRealEnd()%>">[Last]</a><% } %>
+<% } %>
+<%if(p.isNext()){%><a href="productList.bo?<% if(searchWord != null) { %>&searchField=<%=searchField %>searchWord=<%=searchWord %>&<%}%>pageNum=<%=p.getEndPage()+1%>">[Next]</a><% } %>
+<%if(p.isNext()){%><a href="productList.bo?<% if(searchWord != null) { %>&searchField=<%=searchField %>searchWord=<%=searchWord %>&<%}%>pageNum=<%=p.getRealEnd()%>">[Last]</a><% } %>
 </td>
 </tr>
 

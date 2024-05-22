@@ -9,19 +9,47 @@ public class CustomerDTO {
     private String tel;
     private String email;
     private String regDate;
+    private String manager_YN;
+    private String del_YN;
     private AddressDTO addrInfo;
 
     public CustomerDTO() {
     }
 
-    public CustomerDTO(int cus_seq, String cus_id, String password, String name, String tel, String email, String regDate) {
+
+    public CustomerDTO(int cus_seq, String cus_id, String password, String name, String tel, String email) {
+        super();
         this.cus_seq = cus_seq;
         this.cus_id = cus_id;
         this.password = password;
         this.name = name;
         this.tel = tel;
         this.email = email;
+    }
+
+    public CustomerDTO(int cus_seq, String cus_id, String password, String name, String tel, String email,
+                       String del_YN) {
+        super();
+        this.cus_seq = cus_seq;
+        this.cus_id = cus_id;
+        this.password = password;
+        this.name = name;
+        this.tel = tel;
+        this.email = email;
+        this.del_YN = del_YN;
+    }
+
+    public CustomerDTO(int cus_seq, String cus_id, String name, String tel, String email, String regDate,
+                       String manager_YN, AddressDTO addrInfo) {
+        super();
+        this.cus_seq = cus_seq;
+        this.cus_id = cus_id;
+        this.name = name;
+        this.tel = tel;
+        this.email = email;
         this.regDate = regDate;
+        this.manager_YN = manager_YN;
+        this.addrInfo = addrInfo;
     }
 
     public int getCus_seq() {
@@ -80,12 +108,28 @@ public class CustomerDTO {
         this.regDate = regDate;
     }
 
-    public AddressDTO getAddrInfo() {
-        return addrInfo;
-    }
+	public String getManager_YN() {
+		return manager_YN;
+	}
 
-    public void setAddrInfo(AddressDTO addrInfo) {
-        this.addrInfo = addrInfo;
-    }
+	public void setManager_YN(String manager_YN) {
+		this.manager_YN = manager_YN;
+	}
+
+	public String getDel_YN() {
+		return del_YN;
+	}
+
+	public void setDel_YN(String del_YN) {
+		this.del_YN = del_YN;
+	}
+
+	public AddressDTO getAddrInfo() {
+		return addrInfo;
+	}
+
+	public void setAddrInfo(AddressDTO addrInfo) {
+		this.addrInfo = addrInfo;
+	}
 
 }

@@ -19,6 +19,7 @@ import com.oreilly.servlet.MultipartRequest;
 
 import eibooks.common.PageDTO;
 import eibooks.dao.BookDAO;
+import eibooks.dao.CustomerDAO;
 import eibooks.dto.BookDTO;
 
 @WebServlet("*.bo")
@@ -79,6 +80,8 @@ public class BookController extends HttpServlet {
 			request.setAttribute("bookList", bookList);
 			request.setAttribute("paging", paging);
 			request.setAttribute("totalCount", totalCount);
+			request.setAttribute("searchField", searchField);
+			request.setAttribute("searchWord", searchWord);
 
 			// forward
 			String path =  "/admin/productList.jsp"; // 1
@@ -264,6 +267,23 @@ public class BookController extends HttpServlet {
 			// 5. move : get
 			String path = request.getContextPath() + "/admin/productView.bo?book_seq=" + book_seq;
 			response.sendRedirect(path);
+		} else if(action.equals("/main.bo")) {
+			// move. get, 2. forward - reqeust.setAttribute("v","o")
+			System.out.println(action);
+
+
+			BookDAO bDao = new BookDAO();
+			int bookCnt = bDao.getBookCount();
+
+			CustomerDAO cDao = new CustomerDAO();
+			int cusCnt = cDao.getCustomerCount();
+
+			request.setAttribute("bookCnt", bookCnt);
+			request.setAttribute("cusCnt", cusCnt);
+
+			// forward
+			String path =  "/admin/main.jsp"; // 1
+			request.getRequestDispatcher(path).forward(request, response);
 		}
 
 		// 유저 북 리스트

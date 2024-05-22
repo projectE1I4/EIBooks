@@ -3,11 +3,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>인덱스</title>
+<meta charset="EUC-KR">
+<title>Index.jsp</title>
 </head>
 <body>
-<%@ include file="/common/menu.jsp" %>
-지금 진희작업중...
+<%@ include file="../common/menu.jsp" %>
 </body>
 </html>

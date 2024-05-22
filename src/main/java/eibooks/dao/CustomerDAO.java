@@ -248,38 +248,6 @@ public class CustomerDAO {
 
     }
 
-    // 고객 정보 삭제 메서드
-    public void deleteCustomer(int cus_seq) {
-        Connection conn = null;
-        PreparedStatement pstmt = null;
-        PreparedStatement addrPstmt = null;
-
-        String sql = "DELETE FROM customer WHERE cus_seq=?";
-        String addrSql = "DELETE FROM customer_addr WHERE cus_seq=?";
-
-        conn = JDBCConnect.getConnection();
-
-        try {
-
-            // 주소 정보 삭제
-            addrPstmt = conn.prepareStatement(addrSql);
-            addrPstmt.setInt(1, cus_seq);
-            addrPstmt.executeUpdate();
-
-            // 고객 정보 삭제
-            pstmt = conn.prepareStatement(sql);
-            pstmt.setInt(1, cus_seq);
-            pstmt.executeUpdate();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            JDBCConnect.close(addrPstmt, pstmt, conn);
-        }
-
-
-    }
-
     // 고객 회원가입 메서드
     public void insertCustomer(CustomerDTO customer) {
 
@@ -388,6 +356,166 @@ public class CustomerDAO {
         }
 
         return exists;
+    }
+
+    public int getCustomerCount() {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        int cusCnt = 0;
+
+        try {
+            conn = JDBCConnect.getConnection();
+
+            String sql = "select count(cus_seq) as cnt from customer "
+                + "where del_YN = 'N' ";
+
+            pstmt = conn.prepareStatement(sql);
+
+            rs = pstmt.executeQuery();
+
+            if(rs.next()) {
+                cusCnt = rs.getInt("cnt");
+            }
+
+        } catch(Exception e) {
+            e.printStackTrace();
+
+        } finally {
+            JDBCConnect.close(rs, pstmt, conn);
+
+        }
+
+        return cusCnt;
+    }
+
+    public CustomerDTO getCustomer(CustomerDTO dto) {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        try {
+            conn = JDBCConnect.getConnection();
+
+            String sql = "select * from customer c "
+                + "join customer_addr a "
+                + "on c.cus_seq = a.cus_seq "
+                + "where c.cus_seq = ? ";
+
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, dto.getCus_seq());
+
+            rs = pstmt.executeQuery();
+
+            dto = null;
+            if (rs.next()) {
+                int cus_seq = rs.getInt("cus_seq");
+                String cus_id = rs.getString("cus_id");
+                String password = rs.getString("password");
+                String name = rs.getString("name");
+                String tel = rs.getString("tel");
+                String email = rs.getString("email");
+                String del_YN = rs.getString("del_YN");
+
+                AddressDTO addr = new AddressDTO();
+                addr.setPostalCode(rs.getString("postalCode"));
+                addr.setAddr(rs.getString("addr"));
+                addr.setAddr_detail(rs.getString("addr_detail"));
+
+                dto = new CustomerDTO(cus_seq, cus_id, password, name, tel, email, del_YN);
+                dto.setAddrInfo(addr);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        } finally {
+            JDBCConnect.close(rs, pstmt, conn);
+        }
+        return dto;
+    }
+
+    public int updateMyPage(CustomerDTO dto) {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        int rs = 0;
+
+        try {
+            conn = JDBCConnect.getConnection();
+
+            String sql = "update customer "
+                + "set password = ?, name = ?,"
+                + "tel = ?, email = ? "
+                + "where cus_seq =? ";
+
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, dto.getPassword());
+            pstmt.setString(2, dto.getName());
+            pstmt.setString(3, dto.getTel());
+            pstmt.setString(4, dto.getEmail());
+            pstmt.setInt(5, dto.getCus_seq());
+
+            rs = pstmt.executeUpdate();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        } finally {
+            JDBCConnect.close(pstmt, conn);
+        }
+        return rs;
+    }
+
+    public void updateAddress(CustomerDTO dto) {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+
+        try {
+            conn = JDBCConnect.getConnection();
+
+            String sql = "update customer_addr "
+                + "set postalCode = ?, addr = ?,"
+                + "addr_detail = ? "
+                + "where cus_seq =? ";
+
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, dto.getAddrInfo().getPostalCode());
+            pstmt.setString(2, dto.getAddrInfo().getAddr());
+            pstmt.setString(3, dto.getAddrInfo().getAddr_detail());
+            pstmt.setInt(4, dto.getCus_seq());
+
+            pstmt.executeUpdate();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        } finally {
+            JDBCConnect.close(pstmt, conn);
+        }
+    }
+
+    public void deleteCustomer(CustomerDTO dto) {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null; // select
+
+        try {
+            conn = JDBCConnect.getConnection();
+
+            String sql = "update customer set del_YN = 'Y' "
+                + "where cus_seq = ? ";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, dto.getCus_seq());
+
+            pstmt.executeUpdate();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        } finally {
+            JDBCConnect.close(pstmt, conn);
+        }
     }
 
 }
