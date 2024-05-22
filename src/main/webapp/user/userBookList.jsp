@@ -119,20 +119,39 @@ function userSearch(){
     });
 }
 
+//수량 증가 함수
+function increaseBtn(cartISeq) {
+    var inputField = document.querySelector("#quantity" + cartISeq);
+    inputField.stepUp(1);
+}
+
+// 수량 감소 함수
+function decreaseBtn(cartISeq) {
+    var inputField = document.querySelector("#quantity" + cartISeq);
+    inputField.stepDown(1);
+}
+
 function makeSearch(data){
 	let html = ''; 
 	let cnt = 0;
     for(b of data){            	
-		html += '<tr onclick="goToPage('+ b['book_seq'] + ')">';
+		html += '<tr>';
     	html += '<td>' + (cnt += 1) + '</td>';
-    	html += '<td><img alt="' + b['title'] + '" src="' + b['imageFile'] + '" ></td>';
-    	html += '<td>' + b['title'] + '</td>';
+    	html += '<td  onclick="goToPage('+ b['book_seq'] + ')"><img alt="' + b['title'] + '" src="' + b['imageFile'] + '" ></td>';
+    	html += '<td  onclick="goToPage('+ b['book_seq'] + ')">' + b['title'] + '</td>';
     	html += '<td>' + b['author'] + '</td>';
     	html += '<td>' + b['publisher'] + '</td>';
     	html += '<td>' + b['pubDate'] + '</td>';
     	html += '<td>' + b['description'] + '</td>';
     	html += '<td>' + b['price'] + '</td>';
-    	html += '<td><button type="button">주문하기</button></td>';
+    	html += '<td>' 
+	       	+ '<div>'
+            + '<button type="button" onclick="decreaseBtn(1)">-</button>'
+            + '<input id="quantity'+ b['book_seq'] +'" type="number" name="cartICount" value="1"'
+            + 'min="1" readonly>'
+            + '<button type="button" onclick="increaseBtn(1)">+</button>'
+        + '</div>'
+		+ '<button type="button" onclick="buying()">주문하기</button></td>';
     	html += '<td><button type="button">장바구니</button></td>';
     	html += '</tr>';         
     }
@@ -192,6 +211,13 @@ $(function(){
 	userPaging();
 	console.log("카테", "<%=category%>");
 });
+
+
+function buying(){
+	// 주문하기를 통해서 넘겨줄 내용들 적기
+	// 책 번호, 수량
+	// 이거 완성하면 detail에도 반영
+}
 </script>
 </head>
 <body>
