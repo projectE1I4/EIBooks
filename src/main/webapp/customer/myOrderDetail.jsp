@@ -9,7 +9,7 @@ List<OrderDTO> orderList = (List<OrderDTO>)request.getAttribute("orderList");
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="EUC-KR">
+<meta charset="UTF-8">
 <title>myOrderDetail.jsp</title>
 </head>
 <body>

@@ -9,7 +9,7 @@ int book_seq = Integer.parseInt(sBook_seq);
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="EUC-KR">
+<meta charset="UTF-8">
 <title>updateProduct.jsp</title>
 
 <script type="text/javascript">

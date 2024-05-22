@@ -7,7 +7,7 @@ BookDTO dto = (BookDTO)request.getAttribute("dto");
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="EUC-KR">
+<meta charset="UTF-8">
 <title>insertProduct.jsp</title>
 
 <script type="text/javascript">
