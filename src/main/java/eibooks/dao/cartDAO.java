@@ -71,7 +71,7 @@ public class cartDAO {
 		return cartList;
 	}
 	
-	//장바구니 리스트 항목 삭제
+	//장바구니 리스트 항목 삭제 
 	public int deleteCart (int cartISeq) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -96,4 +96,99 @@ public class cartDAO {
 		return rs;
 	}
 	
+	
+	//장바구니 리스트 수량 수정
+	public int updateCart (int cartISeq, int cartICount) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		int rs = 0;
+		
+		try {
+			//DB 연결
+	        conn = JDBCConnect.getConnection();
+			
+			String sql = "update cart_item set cart_i_count = ? where cart_i_seq = ?";
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, cartICount);
+			pstmt.setInt(2, cartISeq);
+			
+			rs = pstmt.executeUpdate();
+		} catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			JDBCConnect.close(pstmt, conn);
+		}
+		return rs;
+	}
+
+	//장바구니 리스트 가격
+	public int updatePrice(int cartISeq, int cartICount) {
+		Connection conn = null;
+	    PreparedStatement pstmt = null;
+	    ResultSet rs = null;
+	    int priceRs = 0;
+
+	    try {
+	        conn = JDBCConnect.getConnection();
+
+	        String sql = "SELECT b.price FROM books b "
+	                + "JOIN cart_item i ON b.book_seq = i.book_seq WHERE i.cart_i_seq = ?";
+
+	        pstmt = conn.prepareStatement(sql);
+	        pstmt.setInt(1, cartISeq);
+
+	        rs = pstmt.executeQuery();
+
+	        if (rs.next()) {
+	        	priceRs = rs.getInt("price");
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    } finally {
+	        JDBCConnect.close(rs, pstmt, conn);
+	    }
+
+	    return priceRs * cartICount;
+	}
+
+	//장바구니 목록 총 가격(배송비 제외)
+	public int totalCartPrice(int cusSeq) {
+	    Connection conn = null;
+	    PreparedStatement pstmt = null;
+	    ResultSet rs = null;
+	    
+	    List<Integer> total = new ArrayList<Integer>();
+	    int totalPrice = 0;
+
+	    try {
+	        conn = JDBCConnect.getConnection();
+	        String sql = "select sum(price * cart_i_count) as totalPrice from cart_item i "
+	                  + "join books b "
+	                  + "on i.book_seq = b.book_seq "
+	                  + "where i.cus_seq = ? "
+	                  + "group by i.book_seq" ;
+	        
+	        pstmt = conn.prepareStatement(sql);
+	        pstmt.setInt(1, cusSeq);
+	        rs = pstmt.executeQuery();
+	        System.out.println("pstmt = " + pstmt);
+
+	        while (rs.next()) {
+	        	total.add(rs.getInt("totalPrice"));
+	        }
+	        for(int t : total) {
+	        	totalPrice += t;
+	        }
+	        
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    } finally {
+	        JDBCConnect.close(rs, pstmt, conn);
+	    }
+
+	    return totalPrice + 3000;
+	}
+	
+
 }
