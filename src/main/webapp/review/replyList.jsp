@@ -1,3 +1,5 @@
+<%@page import="eibooks.dao.BookDAO"%>
+<%@page import="eibooks.dto.BookDTO"%>
 <%@page import="eibooks.dao.ReviewDAO"%>
 <%@page import="eibooks.common.PageDTO"%>
 <%@page import="eibooks.dto.ReviewDTO"%>
@@ -59,8 +61,14 @@ ReviewDTO myReview = (ReviewDTO)request.getAttribute("myReview");
 		<td width="5%"><%=dto.getGrade() %></td>
 		<td width="5%"><%=dto.getUserId() %></td>
 		<td width="25%"><%=dto.getReviewDate() %></td>
-		<td width="30%"><%=dto.getBookNum() %></td>
-		<td width="20%">주문 내역 버튼</td>
+		<%
+		BookDTO bDto = new BookDTO();
+		BookDAO bDao = new BookDAO();
+		bDto.setBook_seq(dto.getBookNum());
+		bDto = bDao.selectView(bDto);
+		%>
+		<td width="30%"><a href="/EIBooks/user/userBookDetail.bo?book_seq=<%=dto.getBookNum()%>"><%=bDto.getTitle() %></a></td>
+		<td width="20%"><a href="#">상세 주문 내역</a></td>
 	</tr>
 	<tr>
 		<td colspan="5" class="content"><%=dto.getContent() %></td>

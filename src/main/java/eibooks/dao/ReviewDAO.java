@@ -415,6 +415,7 @@ public class ReviewDAO {
 				int bookNum = rs.getInt("r.book_seq");
 				int grade = rs.getInt("r.grade");
 				int reviewNum = rs.getInt("re_seq");
+				int userNum = rs.getInt("cus_seq");
 				String userId = rs.getString("c.cus_id");
 				String reviewDate = rs.getString("r.regDate");
 				String content = rs.getString("r.content");
@@ -424,6 +425,7 @@ public class ReviewDAO {
 				ReviewDTO dtos = new ReviewDTO(bookNum, reviewNum, grade, userId, reviewDate, content);
 				dtos.setRef_YN(refYN); 
 				dtos.setRef_seq(ref_seq);
+				dtos.setUserNum(userNum);
 				reviews.add(dtos);
 			}
 		} catch (SQLException e) {
