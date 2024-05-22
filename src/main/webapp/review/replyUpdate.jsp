@@ -149,7 +149,7 @@ window.onload = function() {
 		</tr>
 		<% } %>
 		<%
-	if (reply.getContent() != null) { // 댓글내용이 있으면 무조건 보여줘
+	if (reply.getContent() != null && reply.getReviewNum() != reviewNum) { // 댓글내용이 있으면 무조건 보여줘
 	%>
 		<%if(reviewNum != dto.getReviewNum()) {%> <%// 현재 보고 있는 답글이 아닌 경우에만 표시 %>
 			<% if(userNum != reply.getUserNum()) { %> <%// 현재 사용자가 해당 답글의 작성자가 아닌 경우에만 표시 %>

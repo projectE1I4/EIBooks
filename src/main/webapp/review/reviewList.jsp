@@ -58,11 +58,6 @@ ReviewDTO myReview = (ReviewDTO)request.getAttribute("myReview");
 	<tr><td colspan="8">&nbsp;<b>리뷰가 없습니다.</b></td></tr>
 <% } else { %>
 <%for(ReviewDTO dto:reviewList) {%>
-	<%
-	ReviewDAO dao = new ReviewDAO();
-	ReviewDTO reply = dao.selectReply(dto);
-	if (reply.getContent() != null) {
-	%>
 	<tr>
 		<td width="30%"><%=dto.getGrade() %></td>
 		<td width="30%"><%=dto.getUserId() %></td>
@@ -79,6 +74,11 @@ ReviewDTO myReview = (ReviewDTO)request.getAttribute("myReview");
 </td>
 </tr>
 <%} %>
+	<%
+	ReviewDAO dao = new ReviewDAO();
+	ReviewDTO reply = dao.selectReply(dto);
+	if (reply.getContent() != null) {
+	%>
 	<tr class="reply">
 		<td width="30%">관리자</td>
 		<td width="30%" colspan="2"><%=reply.getReviewDate() %></td>
@@ -96,7 +96,7 @@ ReviewDTO myReview = (ReviewDTO)request.getAttribute("myReview");
 	<%if(i == p.getPageNum()) {%>
 		<b>[<%=i %>]</b>
 		<%}else {%>
-		<a href="reviewList.do?bookNum=<%=bookNum %>&userNum=<%=userNum %>&reviewNum=<%=myReview.getReviewNum() %>&pageNum=<%=i %>&orderBy=<%=orderBy %>">[<%=i %>]</a>
+		<a href="reviewList.do?bookNum=<%=bookNum %>&userNum=<%=userNum %>&pageNum=<%=i %>&orderBy=<%=orderBy %>">[<%=i %>]</a>
 		<%} %>
 	<%} %>
 <%if(p.isNext()) {%><a href="reviewList.do?bookNum=<%=bookNum %>&userNum=<%=userNum %>&pageNum=<%=p.getEndPage()+1 %>&orderBy=<%=orderBy %>">[다음]</a><%} %>
