@@ -69,11 +69,11 @@ ReviewDTO myReview = (ReviewDTO)request.getAttribute("myReview");
 		<tr>
 		<td colspan="5">
 		<% if(dto.getRef_YN().equals("Y")) { %>
-			[답글 달기]
+			 [답글 달기]
 		<% } else { %>
 			<a href="replyWrite.do?bookNum=<%=dto.getBookNum() %>&userNum=<%=userNum%>&reviewNum=<%=dto.getReviewNum() %>&isReply=1">[답글 달기]</a> 
 		<% } %>
-		<a href="javascript:del('<%=dto.getReviewNum() %>')">[회원 리뷰 삭제]</a>
+		<a href="javascript:del('<%=dto.getReviewNum() %>')">[리뷰 삭제]</a>
 		</td>
 		</tr>
 	<%} %>
@@ -102,7 +102,7 @@ ReviewDTO myReview = (ReviewDTO)request.getAttribute("myReview");
 <%} %>
 <tr>
 <td colspan="6">
-<%if(p.isPrev()) {%><a href="replyList.do?userNum=<%=userNum%>&pageNum=<%=p.getStartPage() %>">[처음]</a><% } %>
+<%if(p.isPrev()) {%><a href="replyList.do?userNum=<%=userNum%>&pageNum=1">[처음]</a><% } %>
 <%if(p.isPrev()) {%><a href="replyList.do?userNum=<%=userNum%>&pageNum=<%=p.getStartPage()-1 %>">[이전]</a><%} %>
 <%for(int i=p.getStartPage(); i<=p.getEndPage(); i++) {%>
 	<%if(i == p.getPageNum()) {%>
@@ -112,7 +112,7 @@ ReviewDTO myReview = (ReviewDTO)request.getAttribute("myReview");
 		<%} %>
 	<%} %>
 <%if(p.isNext()) {%><a href="replyList.do?userNum=<%=userNum%>&pageNum=<%=p.getEndPage()+1 %>">[다음]</a><%} %>
-<%if(p.isNext()) {%><a href="replyList.do?userNum=<%=userNum%>&pageNum=<%=p.getEndPage() %>">[마지막]</a><% } %>
+<%if(p.isNext()) {%><a href="replyList.do?userNum=<%=userNum%>&pageNum=<%=p.getRealEnd() %>">[마지막]</a><% } %>
 </td>
 </tr>
 <%} %>

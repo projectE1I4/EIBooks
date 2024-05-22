@@ -54,11 +54,12 @@ function limitText(field, maxLength) {
 function del(reviewNum){
 	const input = confirm("정말 삭제하시겠습니까?");
 	if(input){
-		location.href = "<%=request.getContextPath()%>/review/depthOneDeleteProc.do?userNum=<%=userNum %><% if(myReview != null) { %>&reviewNum=<%=myReview.getReviewNum() %><% } %>";
+		location.href = "<%=request.getContextPath()%>/review/depthOneDeleteProc.do?userNum=<%=userNum%>&reviewNum=" + reviewNum;
 	}else{
 		alert("삭제를 취소했습니다.");
 		return;
 	}
+	location.href = "<%=request.getContextPath()%>/review/replyWrite.do?bookNum=<%=bookNum %>&userNum=<%=userNum%>&reviewNum=<%=reviewNum%>&isReply=1"
 }
 
 function delReply(reviewNum){
@@ -97,7 +98,7 @@ window.onload = function() {
 		height: 60px;
 	}
 	.insert {
-		background-color: skyblue;
+		background-color: #E8F2FE;
 	}
 </style>
 </head>
@@ -123,26 +124,30 @@ window.onload = function() {
 <tr>
 	<td colspan="5" class="content"><%=dto.getContent() %></td>
 </tr>
+<%if(!(userNum == dto.getUserNum())) {%>
+		<tr>
+		<td colspan="5">
+		<% if(reviewNum == dto.getReviewNum()) { %>
+			 [답글 달기]
+		<% } else if(reviewNum != dto.getReviewNum()) { %>
+			<a href="replyWrite.do?bookNum=<%=dto.getBookNum() %>&userNum=<%=userNum%>&reviewNum=<%=dto.getReviewNum() %>&isReply=1">[답글 달기]</a> 
+		<% } %>
+		<a href="javascript:del('<%=dto.getReviewNum() %>')">[리뷰 삭제]</a>
+		</td>
+		</tr>
+	<%} %>
 <% if (reviewNum == dto.getReviewNum() && isReply == 1) { %>
 <tr>
 	<td colspan="5" class="insert">
 		<form name="writeForm" method="post" action="/EIBooks/review/replyWriteProc.do?bookNum=<%=bookNum %>&userNum=<%=userNum%>&reviewNum=<%=reviewNum%>">
 			관리자
 			<textarea name="content" style="width:100%; height:100px" placeholder="답글 작성 최대 200자" oninput="limitText(this, 200)"></textarea>
-			<input type="button" value="답글 등록" onclick="validateForm('<%=dto.getRef_YN() %>')">
+			<input type="button" value="등록 확인" onclick="validateForm('<%=dto.getRef_YN() %>')">
 			<input type="button" value="답글 취소" onclick="goToPage()">
 	</form>
 	</td>
 </tr>
 <% } %>
-<%if(!(userNum == dto.getUserNum())) {%>
-		<tr>
-		<td colspan="5">
-		<a>[답글 달기]</a> 
-		<a>[회원 리뷰 삭제]</a>
-		</td>
-		</tr>
-	<%} %>
 	<%
 	ReviewDAO dao = new ReviewDAO();
 	ReviewDTO reply = dao.selectReply(dto);
@@ -167,17 +172,17 @@ window.onload = function() {
 <%} %>
 <tr>
 <td colspan="6">
-<%if(p.isPrev()) {%><a href="replyWrite.do?userNum=<%=userNum %>&pageNum=<%=p.getStartPage() %>">[처음]</a><% } %>
+<%if(p.isPrev()) {%><a href="replyWrite.do?userNum=<%=userNum %>&pageNum=1">[처음]</a><% } %>
 <%if(p.isPrev()) {%><a href="replyWrite.do?userNum=<%=userNum %>&pageNum=<%=p.getStartPage()-1 %>">[이전]</a><%} %>
 <%for(int i=p.getStartPage(); i<=p.getEndPage(); i++) {%>
 	<%if(i == p.getPageNum()) {%>
 		<b>[<%=i %>]</b>
 		<%}else {%>
-		<a href="replyWrite.do?userNum=<%=userNum %>&pageNum=<%=i %>">[<%=i %>]</a>
+		<a href="replyWrite.do?userNum=<%=userNum %>&reviewNum=<%=reviewNum %>&isReply=<%=isReply %>&pageNum=<%=i %>">[<%=i %>]</a>
 		<%} %>
 	<%} %>
 <%if(p.isNext()) {%><a href="replyWrite.do?userNum=<%=userNum %>&pageNum=<%=p.getEndPage()+1 %>">[다음]</a><%} %>
-<%if(p.isNext()) {%><a href="replyWrite.do?userNum=<%=userNum %>&pageNum=<%=p.getEndPage() %>">[마지막]</a><% } %>
+<%if(p.isNext()) {%><a href="replyWrite.do?userNum=<%=userNum %>&pageNum=<%=p.getRealEnd() %>">[마지막]</a><% } %>
 </td>
 </tr>
 <%} %>

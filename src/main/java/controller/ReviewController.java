@@ -52,7 +52,7 @@ public class ReviewController extends HttpServlet {
 			System.out.println("bookNum 값:" + bookNum);
 			
 			// 페이징
-			int amount = 10;
+			int amount = 5;
 			int pageNum = 1;
 			
 			String sPageNum = request.getParameter("pageNum");
@@ -104,7 +104,7 @@ public class ReviewController extends HttpServlet {
 			int userNum = Integer.parseInt(sUserNum);
 			
 			// 페이징
-			int amount = 10;
+			int amount = 5;
 			int pageNum = 1;
 			
 			String sPageNum = request.getParameter("pageNum");
@@ -166,7 +166,7 @@ public class ReviewController extends HttpServlet {
             rDao.insertWrite(rDto);
 			
 			// 페이징
-			int amount = 10;
+			int amount = 5;
 			int pageNum = 1;
 			
 			String sPageNum = request.getParameter("pageNum");
@@ -208,7 +208,7 @@ public class ReviewController extends HttpServlet {
 			request.setAttribute("myReview", myReview);
             
 			// forward
-            String path = "/EIBooks/review/reviewWrite.do?" + "bookNum=" + bookNum  + "&userNum=" + userNum;
+            String path = "/EIBooks/review/reviewList.do?" + "bookNum=" + bookNum  + "&userNum=" + userNum;
             response.sendRedirect(path);
 		} else if(action.equals("/reviewUpdate.do")) {
 			request.setCharacterEncoding("utf-8"); // 한글 처리
@@ -223,7 +223,7 @@ public class ReviewController extends HttpServlet {
 			String orderBy = request.getParameter("orderBy");
 			
 			// 페이징
-			int amount = 10;
+			int amount = 5;
 			int pageNum = 1;
 			
 			String sPageNum = request.getParameter("pageNum");
@@ -293,7 +293,7 @@ public class ReviewController extends HttpServlet {
 			Map<String, String> map = new HashMap<>();
 			
 			// paging info
-			int amount = 10;
+			int amount = 5;
 			int pageNum = 1;
 			
 			String sPageNum = request.getParameter("pageNum");
@@ -357,7 +357,7 @@ public class ReviewController extends HttpServlet {
 			Map<String, String> map = new HashMap<>();
 
 			// paging info
-			int amount = 10;
+			int amount = 5;
 			int pageNum = 1;
 
 			String sPageNum = request.getParameter("pageNum");
@@ -412,7 +412,7 @@ public class ReviewController extends HttpServlet {
 			}
 			
 			// 페이징
-			int amount = 10;
+			int amount = 5;
 			int pageNum = 1;
 			
 			String sPageNum = request.getParameter("pageNum");
@@ -460,7 +460,7 @@ public class ReviewController extends HttpServlet {
 			int reviewNum = Integer.parseInt(sReviewNum);
 			
 			// 페이징
-			int amount = 10;
+			int amount = 5;
 			int pageNum = 1;
 			
 			String sPageNum = request.getParameter("pageNum");
@@ -526,7 +526,7 @@ public class ReviewController extends HttpServlet {
             dao.updateRefYn(uDto);
             
 			// 페이징
-			int amount = 10;
+			int amount = 5;
 			int pageNum = 1;
 			
 			String sPageNum = request.getParameter("pageNum");
@@ -568,7 +568,7 @@ public class ReviewController extends HttpServlet {
 			int reviewNum = Integer.parseInt(sReviewNum);
 			
 			// 페이징
-			int amount = 10;
+			int amount = 5;
 			int pageNum = 1;
 			
 			String sPageNum = request.getParameter("pageNum");
@@ -630,7 +630,7 @@ public class ReviewController extends HttpServlet {
             dao.updateRefYn(uDto);
             
 			// 페이징
-			int amount = 10;
+			int amount = 5;
 			int pageNum = 1;
 			
 			String sPageNum = request.getParameter("pageNum");

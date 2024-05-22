@@ -23,8 +23,8 @@ public class ReviewDAO {
 		String orderBy = map.get("orderBy");
 		
 		List<ReviewDTO> reviews = new ArrayList<ReviewDTO>();
-		String sql = "select c.cus_id, r.re_seq, r.book_seq, r.grade, c.cus_id, r.regDate, r.content, r.cus_seq from customer c "
-				+ " join review r "
+		String sql = "select * from review r "
+				+ " join customer c "
 				+ " on c.cus_seq = r.cus_seq "
 				+ " join books b "
 				+ " on r.book_seq = b.book_seq "
@@ -365,11 +365,7 @@ public class ReviewDAO {
 		
 		int allReviews = 0;
 		
-		String sql = "select count(r.re_seq) as allReviewCnt from review r "
-				+ " join customer c "
-				+ " on r.cus_seq = c.cus_seq "
-				+ " join books b "
-				+ " on r.book_seq = b.book_seq "
+		String sql = "select count(re_seq) as allReviewCnt from review "
 				+ " where depth = 1 ";
 		
 		System.out.println(sql);
@@ -397,27 +393,15 @@ public class ReviewDAO {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		
-		String orderBy = map.get("orderBy");
-		
 		List<ReviewDTO> reviews = new ArrayList<ReviewDTO>();
-		String sql = "select * from customer c "
-				+ " join review r "
+		String sql = "select * from review r "
+				+ " join customer c "
 				+ " on c.cus_seq = r.cus_seq "
 				+ " join books b "
 				+ " on r.book_seq = b.book_seq "
-				+ " where depth = 1 ";
-		if (orderBy != null && orderBy.equals("latest")) {
-			sql += " order by r.regDate desc ";
-		} else if (orderBy != null && orderBy.equals("oldest")) {
-			sql += " order by r.regDate asc ";
-		} else if (orderBy != null && orderBy.equals("highest")) {
-			sql += " order by r.grade desc, r.regDate desc ";
-		} else if (orderBy != null && orderBy.equals("lowest")) {
-			sql += " order by r.grade asc, r.regDate desc ";
-		} else {
-			sql += " order by r.regDate desc "; // 디폴트 정렬
-		}
-		sql += " limit ? offset ? ";
+				+ " where depth = 1 "
+				+ " order by r.regDate desc "
+				+ " limit ? offset ? ";
 		
 		System.out.println(sql);
 		conn = JDBCConnect.getConnection();
