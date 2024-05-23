@@ -5,6 +5,7 @@ import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -68,7 +69,33 @@ public class CartController extends HttpServlet {
             // forward
             String path = "./customerCart.jsp"; // 장바구니 페이지의 JSP 파일 경로
             request.getRequestDispatcher(path).forward(request, response);
-        }
+        } 
+		else if (action.equals("/customerCartInsert.cc")) {
+			HttpSession session = request.getSession();
+            int cusSeq =(int)session.getAttribute("cus_seq");
+
+            // 장바구니에 책 집어넣기
+            
+            // 가져온 책
+            int book_seq = Integer.parseInt(request.getParameter("book_seq"));
+            
+            System.out.println(book_seq + "-----------");
+            		
+            cartDAO cartDao = new cartDAO();
+            List<cartDTO> cartList = cartDao.getCartList(cusSeq);
+            System.out.println("cart conn ok!");
+            
+            int totalCartPrice = cartDao.totalCartPrice(cusSeq);
+            
+            // 장바구니 페이지로 전달할 데이터 설정
+            request.setAttribute("cartList", cartList);
+            request.setAttribute("cusSeq", cusSeq);
+            request.setAttribute("totalCartPrice", totalCartPrice);
+
+            // forward
+            String path = "./customerCart.jsp"; // 장바구니 페이지의 JSP 파일 경로
+            request.getRequestDispatcher(path).forward(request, response);
+        }       	
 		else if(action.equals("/deleteCart.cc")) {
 		    int cartISeq = Integer.parseInt(request.getParameter("cartISeq"));
 
@@ -200,44 +227,36 @@ public class CartController extends HttpServlet {
 	        out.flush();
 	        out.close(); // 리소스 해제
 		}
-		else if(action.equals("/customerBuyOrder.cc")) {
-			System.out.println(action);
-			request.setCharacterEncoding("utf-8");
-			
-			int cusSeq = 0;
-		    int cartSeq = 0;
-		    try {
-		        String cusSeqStr = request.getParameter("cusSeq");
-		        String cartSeqStr = request.getParameter("cartSeq");
-		        
-		        if (cusSeqStr != null && !cusSeqStr.isEmpty()) {
-		            cusSeq = Integer.parseInt(cusSeqStr);
-		        }
-		        
-		        if (cartSeqStr != null && !cartSeqStr.isEmpty()) {
-		            cartSeq = Integer.parseInt(cartSeqStr);
-		        }
-		    } catch (Exception e) {
-		        e.printStackTrace();
-		    }
-		    System.out.println("cusSeq" + cusSeq);
-		    System.out.println("cartSeq" + cartSeq);
+		
+		else if (action.equals("/customerBuyOrder.cc")) {
+		    System.out.println(action);
+		    request.setCharacterEncoding("utf-8");
+		    HttpSession session = request.getSession();
 
-	        // totalCartPrice 메소드 호출
-		 	cartDAO cartDao = new cartDAO();
-	        int totalPrice = cartDao.totalCartPrice(cusSeq);
-	        System.out.println("totalPrice: " + totalPrice); // 디버깅 메시지 추가
-	
-	        // 클라이언트에게 JSON 형식의 응답 보내기
-	        JSONObject jsonResponse = new JSONObject();
-	        jsonResponse.put("totalPrice", totalPrice);
-	
-	        response.setContentType("application/json");
-	        response.setCharacterEncoding("UTF-8");
-	        PrintWriter out = response.getWriter();
-	        out.print(jsonResponse.toString());
-	        out.flush();
-	        out.close(); // 리소스 해제
+		    int cusSeq = (Integer) session.getAttribute("cus_seq");
+		    String bookSeqStr = request.getParameter("book_seq");
+		    String cartICountStr = request.getParameter("cartICount");
+		    String priceStr = request.getParameter("totalCartPrice");
+
+		    // 파라미터 값이 null인지 확인하고 처리
+		    if (bookSeqStr == null || cartICountStr == null || priceStr == null) {
+		        System.out.println("필수 파라미터가 누락되었습니다.");
+		        response.sendError(HttpServletResponse.SC_BAD_REQUEST, "필수 파라미터가 누락되었습니다.");
+		        return;
+		    }
+
+		    int book_seq = Integer.parseInt(bookSeqStr);
+		    int cartICount = Integer.parseInt(cartICountStr);
+		    int price = Integer.parseInt(priceStr);
+
+
+		    request.setAttribute("book_seq", book_seq);
+		    request.setAttribute("cartICount", cartICount);
+		    request.setAttribute("totalCartPrice", price);
+
+		    RequestDispatcher dispatcher = request.getRequestDispatcher("customer/customerBuyOrder.jsp");
+		    dispatcher.forward(request,response);
 		}
+
 	}
 }

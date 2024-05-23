@@ -147,7 +147,7 @@ function makeSearch(data){
     	html += '<td>' + b['publisher'] + '</td>';
     	html += '<td>' + b['pubDate'] + '</td>';
     	html += '<td>' + b['description'] + '</td>';
-    	html += '<td>' + b['price'] + '</td>';
+    	html += '<td class="price'+ b['book_seq'] + '">' + b['price'] + '</td>';
     	html += '<td>' 
 	       	+ '<div>'
             + '<button type="button" onclick="decreaseBtn('+ b['book_seq'] +')">-</button>'
@@ -156,7 +156,7 @@ function makeSearch(data){
             + '<button type="button" onclick="increaseBtn('+ b['book_seq'] +')">+</button>'
         + '</div>'
 		+ '<button type="button" onclick="buying('+ b['book_seq'] + ');">주문하기</button></td>';
-    	html += '<td><button type="button">장바구니</button></td>';
+    	html += '<td><button type="button" onclick="goToCustomerCart('+b['book_seq'] +');">장바구니</button></td>';
     	html += '</tr>';         
     }
     $('#userBooks').html(html);
@@ -216,31 +216,28 @@ $(function(){
 	console.log("카테", "<%=category%>");
 });
 
-
+//  주문하기 버튼 클릭 시 주문하기 페이지로 이동
 function buying(book_seq){
-	console.log("buying");
+   console.log("buying");
     var cartICount = $('input[name="cartICount"]').val();
     console.log(cartICount);
     var cus_seq = "<%=session.getAttribute("cus_seq")%>"
     console.log(cus_seq);
-    $.ajax({
-        url: '<%=request.getContextPath()%>/user/customerOrder.uapi',
-        method: 'POST', // 또는 'GET'
-        data: {
-            book_seq: book_seq,
-            cartICount: cartICount,
-            cus_seq: cus_seq,
-        },
-        success: function(response) {
-            // 성공 시 처리 (예: 다른 페이지로 이동)
-            location.href = "<%=request.getContextPath()%>/customerBuyOrder.cc";
-        },
-        error: function(error) {
-            console.error('에러 발생:', error);
-        }
-    });
-	                                                                                                                                                                                                                                                                                                                                                                                                       
+    var priceClass = 'price' + book_seq;
+    var price = $('.' + priceClass).text(); 
+    
+    location.href = "<%=request.getContextPath()%>/customerBuyOrder.cc?"
+          + "book_seq=" +book_seq
+          + '&cartICount=' + cartICount
+          + '&totalCartPrice=' + (price*cartICount);
+                                                                                                                                                                                                                                                                                                                                                                                                          
 }
+
+function goToCustomerCart(book_seq){
+	location.href = "<%=request.getContextPath()%>/customerCartInsert.cc?"
+			+ "book_seq=" +book_seq;
+}
+
 </script>
 </head>
 <body>
