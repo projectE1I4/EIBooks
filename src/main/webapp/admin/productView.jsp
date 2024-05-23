@@ -69,6 +69,5 @@ int book_seq = Integer.parseInt(sBook_seq);
 	</div>
 	
 </table>
-
 </body>
 </html>

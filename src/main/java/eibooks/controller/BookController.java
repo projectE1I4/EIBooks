@@ -20,7 +20,9 @@ import com.oreilly.servlet.MultipartRequest;
 import eibooks.common.PageDTO;
 import eibooks.dao.BookDAO;
 import eibooks.dao.CustomerDAO;
+import eibooks.dao.ReviewDAO;
 import eibooks.dto.BookDTO;
+import eibooks.dto.ReviewDTO;
 
 @WebServlet("*.bo")
 public class BookController extends HttpServlet {
@@ -372,6 +374,14 @@ public class BookController extends HttpServlet {
 
 			BookDAO dao = new BookDAO();
 			dto = dao.getBook(dto);
+			
+			// 리뷰 연결 및 개수 추가
+			ReviewDTO rDto = new ReviewDTO();
+			rDto.setBookNum(book_seq);
+			ReviewDAO rDao = new ReviewDAO();
+			int reviewCount = rDao.selectCount(rDto);
+			request.setAttribute("reviewCount", reviewCount);
+			
 
 			request.setAttribute("dto", dto);
 
