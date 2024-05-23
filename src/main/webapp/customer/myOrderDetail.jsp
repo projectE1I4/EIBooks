@@ -1,3 +1,5 @@
+<%@page import="eibooks.dao.ReviewDAO"%>
+<%@page import="eibooks.dto.ReviewDTO"%>
 <%@page import="eibooks.dto.OrderDTO"%>
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -21,7 +23,7 @@ List<OrderDTO> orderList = (List<OrderDTO>)request.getAttribute("orderList");
 <table border="1" width="80%">
 
 		<tr>
-			<td width="10%">주문번호</th>
+			<td width="10%">주문번호</td>
 		    <td colspan="3"><%=order.getPur_seq() %></td>
 		</tr>
 		<tr>
@@ -29,19 +31,19 @@ List<OrderDTO> orderList = (List<OrderDTO>)request.getAttribute("orderList");
 		    <td colspan="3"><%=order.getOrderDate() %></td>
 		</tr>
 		<tr>
-		    <td width="5%">수령인</th>
+		    <td width="5%">수령인</td>
 		    <td><%=order.getCustomerInfo().getName() %></td>
 		</tr>
 		<tr>
-			<td width="5%">연락처</th>
+			<td width="5%">연락처</td>
 		    <td><%=order.getCustomerInfo().getTel() %></td>
 		</tr>
 		<tr>
-			<td width="5%">이메일</th>
+			<td width="5%">이메일</td>
 		    <td><%=order.getCustomerInfo().getEmail() %></td>
 		</tr>
 		<tr>
-		    <td width="5%">배송지</th>
+		    <td width="5%">배송지</td>
 		    <td>
 		    	<ul>
 		    		<li><%=order.getCustomerInfo().getAddrInfo().getAddr() %></li>
@@ -74,7 +76,13 @@ List<OrderDTO> orderList = (List<OrderDTO>)request.getAttribute("orderList");
 	<td width=50%><%=orderItem.getBookInfo().getTitle() %></td>
 	<td width="10%" align="center"><%=orderItem.getPur_i_count() %>권</td>
 	<td width="10%" align="center"><%=orderItem.getBookInfo().getPrice() * orderItem.getPur_i_count() %>원</td>
-	<td align="center"><a href="reviewWrite.do?bookNum=<%=orderItem.getBook_seq()%>&userNum=<%=orderItem.getCus_seq()%>">리뷰 작성</a></td>
+	<% 
+		ReviewDTO dto = new ReviewDTO();
+		ReviewDAO dao = new ReviewDAO();
+		dto = dao.selectView(dto);
+		System.out.println(dto);
+	%>
+	<td align="center"><a href="./reviewWrite.do?bookNum=<%=orderItem.getBook_seq()%>&pur_seq=<%=orderItem.getPur_seq()%>&pur_i_seq=<%=orderItem.getPur_i_seq()%>">리뷰 작성</a></td>
 </tr>
 <%
 	  } 

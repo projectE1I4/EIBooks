@@ -44,7 +44,7 @@ int cusCnt = (int)request.getAttribute("cusCnt");
 </div>
 
 <div>
-	<a href="/EIBooks/review/replyList.do?userNum=1">전체 리뷰 확인</a>
+	<a href="/EIBooks/review/replyList.do">전체 리뷰 확인</a>
 </div>
 
 </body>

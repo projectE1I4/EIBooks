@@ -49,6 +49,9 @@ public class OrderController extends HttpServlet {
 			String orderBy = request.getParameter("orderBy");
 			Map<String, String> map = new HashMap<>();
 			
+			HttpSession session = request.getSession();
+			int cus_seq = (int)session.getAttribute("cus_seq");
+			
 			// paging info
 			int amount = 10;
 			int pageNum = 1;
@@ -62,7 +65,7 @@ public class OrderController extends HttpServlet {
 			map.put("orderBy", orderBy);
 			
 			OrderDTO dto = new OrderDTO();
-			dto.setCus_seq(1);
+			dto.setCus_seq(cus_seq);
             
 			OrderDAO dao = new OrderDAO();
             List<OrderDTO> orderList = dao.getOrderList(map);
@@ -98,10 +101,10 @@ public class OrderController extends HttpServlet {
 			map.put("amount", amount + "");
 			map.put("orderBy", orderBy);
 			
-			String sCus_seq = request.getParameter("cus_seq");
-			int cus_seq = Integer.parseInt(sCus_seq);
+			HttpSession session = request.getSession();
+			int cus_seq = (int)session.getAttribute("cus_seq");
 			OrderDTO dto = new OrderDTO();
-			dto.setCus_seq(1);
+			dto.setCus_seq(cus_seq);
 			
 			map.put("cus_seq", cus_seq + "");
             
@@ -112,7 +115,6 @@ public class OrderController extends HttpServlet {
             // Paging
  			PageDTO paging = new PageDTO(pageNum, amount, totalCount);
          			
- 			request.setAttribute("cus_seq", cus_seq);
             request.setAttribute("orderList", orderList);
             request.setAttribute("paging", paging);
 			request.setAttribute("totalCount", totalCount);

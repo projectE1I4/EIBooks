@@ -3,83 +3,56 @@ package eibooks.dto;
 public class ReviewDTO {
 	private int bookNum;
 	private int userNum;
+	private int pur_seq;
+	private int pur_i_seq;
 	private int reviewNum;
 	private int grade;
-	private int depth;
-	private String userId;
-	private String reviewDate;
 	private String content;
+	private String reviewDate;
+	private int depth;
 	private int ref_seq;
 	private String ref_YN;
+	private String del_YN;
+	private CustomerDTO cusInfo;
 	
 	public ReviewDTO() {
 	}
-
 	
 	
-	public ReviewDTO(int bookNum, String userId, String content) {
-		super();
-		this.bookNum = bookNum;
-		this.userId = userId;
-		this.content = content;
-	}
 
-
-	public ReviewDTO(int bookNum, int reviewNum, int grade, String userId, String content) {
-		super();
-		this.bookNum = bookNum;
-		this.reviewNum = reviewNum;
-		this.grade = grade;
-		this.userId = userId;
-		this.content = content;
-	}
-
-	
-
-	public ReviewDTO(int bookNum, int reviewNum, int grade, String userId, String reviewDate, String content) {
-		super();
-		this.bookNum = bookNum;
-		this.reviewNum = reviewNum;
-		this.grade = grade;
-		this.userId = userId;
-		this.reviewDate = reviewDate;
-		this.content = content;
-	}
-
-	public ReviewDTO(int grade, String userId, String reviewDate, String content) {
-		super();
-		this.grade = grade;
-		this.userId = userId;
-		this.reviewDate = reviewDate;
-		this.content = content;
-	}
-	
-	public ReviewDTO(int bookNum, int grade, String userId, String reviewDate, String content) {
-		super();
-		this.bookNum = bookNum;
-		this.grade = grade;
-		this.userId = userId;
-		this.reviewDate = reviewDate;
-		this.content = content;
-	}
-
-	public ReviewDTO(int bookNum, int userNum, int grade, String content) {
+	public ReviewDTO(int bookNum, int userNum, int pur_seq, int pur_i_seq, int grade, String content) {
 		super();
 		this.bookNum = bookNum;
 		this.userNum = userNum;
+		this.pur_seq = pur_seq;
+		this.pur_i_seq = pur_i_seq;
 		this.grade = grade;
 		this.content = content;
 	}
-	
-	public ReviewDTO(int bookNum, int userNum, int reviewNum, int grade, String userId, String content) {
+
+	public ReviewDTO(int bookNum, int pur_i_seq, int reviewNum, int grade, String content) {
+		super();
+		this.bookNum = bookNum;
+		this.pur_i_seq = pur_i_seq;
+		this.reviewNum = reviewNum;
+		this.grade = grade;
+		this.content = content;
+	}
+
+
+	public ReviewDTO(int bookNum, int userNum, int pur_seq, int pur_i_seq, int reviewNum, int grade, String content,
+			String reviewDate) {
 		super();
 		this.bookNum = bookNum;
 		this.userNum = userNum;
+		this.pur_seq = pur_seq;
+		this.pur_i_seq = pur_i_seq;
 		this.reviewNum = reviewNum;
 		this.grade = grade;
-		this.userId = userId;
 		this.content = content;
+		this.reviewDate = reviewDate;
 	}
+
 
 	public int getBookNum() {
 		return bookNum;
@@ -95,6 +68,22 @@ public class ReviewDTO {
 
 	public void setUserNum(int userNum) {
 		this.userNum = userNum;
+	}
+
+	public int getPur_seq() {
+		return pur_seq;
+	}
+
+	public void setPur_seq(int pur_seq) {
+		this.pur_seq = pur_seq;
+	}
+
+	public int getPur_i_seq() {
+		return pur_i_seq;
+	}
+
+	public void setPur_i_seq(int pur_i_seq) {
+		this.pur_i_seq = pur_i_seq;
 	}
 
 	public int getReviewNum() {
@@ -119,14 +108,6 @@ public class ReviewDTO {
 
 	public void setDepth(int depth) {
 		this.depth = depth;
-	}
-
-	public String getUserId() {
-		return userId;
-	}
-
-	public void setUserId(String userId) {
-		this.userId = userId;
 	}
 
 	public String getReviewDate() {
@@ -161,12 +142,32 @@ public class ReviewDTO {
 		this.ref_YN = ref_YN;
 	}
 
+	public String getDel_YN() {
+		return del_YN;
+	}
+
+	public void setDel_YN(String del_YN) {
+		this.del_YN = del_YN;
+	}
+
+	public CustomerDTO getCusInfo() {
+		return cusInfo;
+	}
+
+	public void setCusInfo(CustomerDTO cusInfo) {
+		this.cusInfo = cusInfo;
+	}
+
 
 
 	@Override
 	public String toString() {
-		return "ReviewDTO [bookNum=" + bookNum + ", userNum=" + userNum + ", reviewNum=" + reviewNum + ", grade="
-				+ grade + ", userId=" + userId + ", reviewDate=" + reviewDate + ", content=" + content + "]";
+		return "ReviewDTO [bookNum=" + bookNum + ", userNum=" + userNum + ", pur_seq=" + pur_seq + ", pur_i_seq="
+				+ pur_i_seq + ", reviewNum=" + reviewNum + ", grade=" + grade + ", content=" + content + ", reviewDate="
+				+ reviewDate + ", depth=" + depth + ", ref_seq=" + ref_seq + ", ref_YN=" + ref_YN + ", del_YN=" + del_YN
+				+ ", cusInfo=" + cusInfo + "]";
 	}
+
+
 
 }
