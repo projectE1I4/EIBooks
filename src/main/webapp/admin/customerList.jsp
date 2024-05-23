@@ -79,11 +79,12 @@
         <th width="10%">이름</th>
         <th width="15%">전화번호</th>
         <th width="20%">이메일</th>
-        <th width="20%">가입일자</th>
+        <th width="10%">가입일자</th>
+        <th width="5%">탈퇴여부</th>
     </tr>
     <% if (customerList.isEmpty()) { %>
     <tr>
-        <td colspan="8">&nbsp;<b>Data Not Found!!</b></td>
+        <td colspan="10">&nbsp;<b>Data Not Found!!</b></td>
     </tr>
     <% } else { %>
     <% for (CustomerDTO customer : customerList) { %>
@@ -101,6 +102,8 @@
         <td><%=customer.getEmail() %>
         </td>
         <td><%=customer.getRegDate() %>
+        </td>
+        <td><%=customer.getDel_YN() %>
         </td>
         <td width="5%"><a href="updateCustomer.cs?cus_seq=<%=customer.getCus_seq() %>" onclick="event.stopPropagation();">[수정]</a></td>
         <td width="5%"><a href="javascript:void(0);" onclick="del('<%=customer.getCus_seq() %>', event);">[삭제]</a></td>
