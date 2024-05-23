@@ -39,18 +39,20 @@ public class CustomerDTO {
         this.del_YN = del_YN;
     }
 
-    public CustomerDTO(int cus_seq, String cus_id, String name, String tel, String email, String regDate,
-                       String manager_YN, AddressDTO addrInfo) {
+    public CustomerDTO(int cus_seq, String cus_id, String password, String name, String tel, String email, String regDate,
+                       String del_YN, String manager_YN) {
         super();
         this.cus_seq = cus_seq;
         this.cus_id = cus_id;
+        this.password = password;
         this.name = name;
         this.tel = tel;
         this.email = email;
         this.regDate = regDate;
+        this.del_YN = del_YN;
         this.manager_YN = manager_YN;
-        this.addrInfo = addrInfo;
     }
+
 
     public int getCus_seq() {
         return cus_seq;
@@ -108,28 +110,28 @@ public class CustomerDTO {
         this.regDate = regDate;
     }
 
-	public String getManager_YN() {
-		return manager_YN;
-	}
+    public String getManager_YN() {
+        return manager_YN;
+    }
 
-	public void setManager_YN(String manager_YN) {
-		this.manager_YN = manager_YN;
-	}
+    public void setManager_YN(String manager_YN) {
+        this.manager_YN = manager_YN;
+    }
 
-	public String getDel_YN() {
-		return del_YN;
-	}
+    public String getDel_YN() {
+        return del_YN;
+    }
 
-	public void setDel_YN(String del_YN) {
-		this.del_YN = del_YN;
-	}
+    public void setDel_YN(String del_YN) {
+        this.del_YN = del_YN;
+    }
 
-	public AddressDTO getAddrInfo() {
-		return addrInfo;
-	}
+    public AddressDTO getAddrInfo() {
+        return addrInfo;
+    }
 
-	public void setAddrInfo(AddressDTO addrInfo) {
-		this.addrInfo = addrInfo;
-	}
+    public void setAddrInfo(AddressDTO addrInfo) {
+        this.addrInfo = addrInfo;
+    }
 
 }

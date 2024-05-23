@@ -120,15 +120,19 @@ function userSearch(){
 }
 
 //수량 증가 함수
-function increaseBtn(cartISeq) {
-    var inputField = document.querySelector("#quantity" + cartISeq);
-    inputField.stepUp(1);
+function increaseBtn(bookSeq) {
+	 var quantityInput = $('#quantity' + bookSeq);
+	 var currentQuantity = parseInt(quantityInput.val());
+	 quantityInput.val(currentQuantity + 1);
 }
 
 // 수량 감소 함수
-function decreaseBtn(cartISeq) {
-    var inputField = document.querySelector("#quantity" + cartISeq);
-    inputField.stepDown(1);
+function decreaseBtn(bookSeq) {
+	var quantityInput = $('#quantity' + bookSeq);
+    var currentQuantity = parseInt(quantityInput.val());
+    if (currentQuantity > 1) {
+        quantityInput.val(currentQuantity - 1);
+    }
 }
 
 function makeSearch(data){
@@ -146,12 +150,12 @@ function makeSearch(data){
     	html += '<td>' + b['price'] + '</td>';
     	html += '<td>' 
 	       	+ '<div>'
-            + '<button type="button" onclick="decreaseBtn(1)">-</button>'
+            + '<button type="button" onclick="decreaseBtn('+ b['book_seq'] +')">-</button>'
             + '<input id="quantity'+ b['book_seq'] +'" type="number" name="cartICount" value="1"'
             + 'min="1" readonly>'
-            + '<button type="button" onclick="increaseBtn(1)">+</button>'
+            + '<button type="button" onclick="increaseBtn('+ b['book_seq'] +')">+</button>'
         + '</div>'
-		+ '<button type="button" onclick="buying()">주문하기</button></td>';
+		+ '<button type="button" onclick="buying('+ b['book_seq'] + ');">주문하기</button></td>';
     	html += '<td><button type="button">장바구니</button></td>';
     	html += '</tr>';         
     }
@@ -213,10 +217,29 @@ $(function(){
 });
 
 
-function buying(){
-	// 주문하기를 통해서 넘겨줄 내용들 적기
-	// 책 번호, 수량
-	// 이거 완성하면 detail에도 반영
+function buying(book_seq){
+	console.log("buying");
+    var cartICount = $('input[name="cartICount"]').val();
+    console.log(cartICount);
+    var cus_seq = "<%=session.getAttribute("cus_seq")%>"
+    console.log(cus_seq);
+    $.ajax({
+        url: '<%=request.getContextPath()%>/user/customerOrder.uapi',
+        method: 'POST', // 또는 'GET'
+        data: {
+            book_seq: book_seq,
+            cartICount: cartICount,
+            cus_seq: cus_seq,
+        },
+        success: function(response) {
+            // 성공 시 처리 (예: 다른 페이지로 이동)
+            location.href = "<%=request.getContextPath()%>/customerBuyOrder.cc";
+        },
+        error: function(error) {
+            console.error('에러 발생:', error);
+        }
+    });
+	                                                                                                                                                                                                                                                                                                                                                                                                       
 }
 </script>
 </head>

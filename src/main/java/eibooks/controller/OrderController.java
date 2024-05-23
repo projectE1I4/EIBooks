@@ -124,6 +124,7 @@ public class OrderController extends HttpServlet {
             String path = "./customerOrder.jsp"; // 회원 별 주문 목록 페이지의 JSP 파일 경로
             request.getRequestDispatcher(path).forward(request, response);
             
+            
 		} else if(action.equals("/orderView.or")) {
 			
 			String sPur_seq = request.getParameter("pur_seq"); 

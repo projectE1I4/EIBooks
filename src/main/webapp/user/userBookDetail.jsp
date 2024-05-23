@@ -1,3 +1,5 @@
+<%@page import="eibooks.dto.ReviewDTO"%>
+<%@page import="java.util.List"%>
 <%@page import="eibooks.dao.BookDAO"%>
 <%@page import="eibooks.dto.BookDTO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -68,5 +70,19 @@
 	
 </table>
 
+<h2>도서 리뷰 별점평균/5</h2>
+<%int reviewCount = (int)request.getAttribute("reviewCount"); %>
+<a href="/EIBooks/review/reviewList.do?bookNum=<%=book_seq%>">전체보기(<%=reviewCount %>)</a>
+<ul>
+<%// for() %>
+	<li>
+		<ul>
+			<li>별점</li>
+			<li>회원ID</li>
+			<li>리뷰 작성일</li>
+			<li>리뷰 내용</li>
+		</ul>
+	</li>
+</ul>
 </body>
 </html>
