@@ -78,7 +78,7 @@ ReviewDTO myReview = (ReviewDTO)request.getAttribute("myReview");
 		<tr>
 			<td colspan="3">
 				<a href="reviewUpdate.do?bookNum=<%=dto.getBookNum() %>&pur_i_seq=<%=dto.getPur_i_seq() %>&reviewNum=<%=dto.getReviewNum() %>">[수정하기]</a> 
-				<a href="javascript:del('<%=dto.getReviewNum() %>, '<%=dto.getRef_YN() %>')">[삭제하기]</a>
+				<a href="javascript:del('<%=dto.getReviewNum() %>', '<%=dto.getRef_YN() %>')">[삭제하기]</a>
 			</td>
 		<%} %> <!-- userNum -->
 	<% } else { %>
