@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import eibooks.dto.CustomerDTO;
 import eibooks.dto.ReviewDTO;
 
 public class ReviewDAO {
@@ -25,8 +26,8 @@ public class ReviewDAO {
 		String sql = "select * from review r "
 				+ " join customer c "
 				+ " on c.cus_seq = r.cus_seq "
-				+ " join books b "
-				+ " on r.book_seq = b.book_seq "
+				+ " join purchase_item i "
+				+ " on r.pur_i_seq = i.pur_i_seq "
 				+ " where r.book_seq = ? and depth = 1 ";
 		if (orderBy != null && orderBy.equals("latest")) {
 			sql += " order by r.regDate desc ";
@@ -54,14 +55,23 @@ public class ReviewDAO {
 			while(rs.next()) {
 				int bookNum = rs.getInt("r.book_seq");
 				int userNum = rs.getInt("r.cus_seq");
+				int pur_seq = rs.getInt("r.pur_seq");
+				int pur_i_seq = rs.getInt("r.pur_i_seq");
 				int grade = rs.getInt("r.grade");
 				int reviewNum = rs.getInt("re_seq");
-				String userId = rs.getString("c.cus_id");
 				String reviewDate = rs.getString("r.regDate");
 				String content = rs.getString("r.content");
+				String del_YN = rs.getString("r.del_YN");
+				String ref_YN = rs.getString("ref_YN");
 				
-				ReviewDTO dtos = new ReviewDTO(bookNum, reviewNum, grade, userId, reviewDate, content);
-				dtos.setUserNum(userNum);
+				String cus_id = rs.getString("c.cus_id");
+				CustomerDTO cDto = new CustomerDTO();
+				cDto.setCus_id(cus_id);
+				
+				ReviewDTO dtos = new ReviewDTO(bookNum, userNum, pur_seq, pur_i_seq, reviewNum, grade, content, reviewDate);
+				dtos.setCusInfo(cDto);
+				dtos.setDel_YN(del_YN);
+				dtos.setRef_YN(ref_YN);
 				reviews.add(dtos);
 			}
 		} catch (SQLException e) {
@@ -104,6 +114,7 @@ public class ReviewDAO {
 			if(rs.next()) {
 				int bookNum = rs.getInt("book_seq");
 				int userNum = rs.getInt("cus_seq");
+				int pur_i_seq = rs.getInt("pur_i_seq");
 				String reviewDate = rs.getString("r.regDate");
 				// 재밌어서 넣었어요
 				System.out.println("소름 돋아요..." + reviewDate);
@@ -113,6 +124,7 @@ public class ReviewDAO {
 				
 				review.setBookNum(bookNum);
 				review.setUserNum(userNum);
+				review.setPur_i_seq(pur_i_seq);
 				review.setReviewDate(reviewDate);
 				review.setContent(content);
 				review.setReviewNum(reviewNum);
@@ -168,13 +180,15 @@ public class ReviewDAO {
 		try {
 			conn = JDBCConnect.getConnection();
 			
-			String sql = "INSERT INTO review (cus_seq, book_seq, content, grade) VALUES (?, ?, ?, ?)";
+			String sql = "INSERT INTO review (cus_seq, book_seq, pur_seq, pur_i_seq, content, grade) VALUES (?, ?, ?, ?, ?, ?)";
 			pstmt = conn.prepareStatement(sql);
 			
 			pstmt.setInt(1, dto.getUserNum());
 			pstmt.setInt(2, dto.getBookNum());
-			pstmt.setString(3, dto.getContent());
-			pstmt.setInt(4, dto.getGrade());
+			pstmt.setInt(3, dto.getPur_seq());
+			pstmt.setInt(4, dto.getPur_i_seq());
+			pstmt.setString(5, dto.getContent());
+			pstmt.setInt(6, dto.getGrade());
 			
 			pstmt.executeUpdate();
 			
@@ -193,21 +207,15 @@ public class ReviewDAO {
 		
 		int reviewCount = 0;
 		
-		String sql = "select count(r.re_seq) as reviewCnt from review r "
-				+ " join customer c "
-				+ " on r.cus_seq = c.cus_seq "
-				+ " join books b "
-				+ " on r.book_seq = b.book_seq "
-				+ " where b.book_seq = ? "
-				+ " and r.cus_seq = ? ";
+		String sql = "select count(re_seq) as reviewCnt from review "
+				+ " where pur_i_seq = ? and depth = 1 and del_YN = 'N' ";
 		
 		System.out.println(sql);
 		conn = JDBCConnect.getConnection();
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, dto.getBookNum());
-			pstmt.setInt(2, dto.getUserNum());
+			pstmt.setInt(1, dto.getPur_i_seq());
 			rs = pstmt.executeQuery();
 			
 			if(rs.next()) {
@@ -228,23 +236,18 @@ public class ReviewDAO {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		
-		int dBookNum = dto.getBookNum();
-		int userNum = dto.getUserNum();
-		
 		String sql = "select * from review r "
 				+ " join customer c "
 				+ " on r.cus_seq = c.cus_seq "
-				+ " join books b "
-				+ " on r.book_seq = b.book_seq "
-				+ " where r.book_seq = ? "
-				+ " and r.cus_seq = ? ";
+				+ " join purchase_item i "
+				+ " on r.pur_i_seq = i.pur_i_seq "
+				+ " where r.pur_i_seq = ? and depth = 1 and r.del_YN = 'N' ";
 		
 		conn = JDBCConnect.getConnection();
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, dBookNum);
-			pstmt.setInt(2, userNum);
+			pstmt.setInt(1, dto.getPur_i_seq());
 			rs = pstmt.executeQuery();
 			
 			dto = null;
@@ -253,9 +256,15 @@ public class ReviewDAO {
 				int grade = rs.getInt("r.grade");
 				String content = rs.getString("r.content");
 				int bookNum = rs.getInt("r.book_seq");
-				String userId = rs.getString("c.cus_id");
 				int reviewNum = rs.getInt("re_seq");
-				dto = new ReviewDTO(bookNum, reviewNum, grade, userId, content);
+				int pur_i_seq = rs.getInt("pur_i_seq");
+				
+				String cus_id = rs.getString("cus_id");
+				CustomerDTO cDto = new CustomerDTO();
+				cDto.setCus_id(cus_id);
+				
+				dto = new ReviewDTO(bookNum, pur_i_seq, reviewNum, grade, content);
+				dto.setCusInfo(cDto);
 			}
 			
 		} catch (SQLException e) {
@@ -275,20 +284,14 @@ public class ReviewDAO {
 		try {
 			conn = JDBCConnect.getConnection();
 			
-			String sql = "update review r "
-					+ " join customer c "
-					+ " on r.cus_seq = c.cus_seq "
-					+ " join books b "
-					+ " on r.book_seq = b.book_seq "
-					+ " set r.grade = ?, r.content = ?"
-					+ " where r.book_seq = ? "
-					+ " and r.cus_seq = ? ";
+			String sql = "update review "
+					+ " set grade = ?, content = ?"
+					+ " where re_seq = ? and del_YN = 'N' ";
 			pstmt = conn.prepareStatement(sql);
 			
 			pstmt.setInt(1, dto.getGrade());
 			pstmt.setString(2, dto.getContent());
-			pstmt.setInt(3, dto.getBookNum());
-			pstmt.setInt(4, dto.getUserNum());
+			pstmt.setInt(3, dto.getReviewNum());
 			
 			pstmt.executeUpdate();
 			
@@ -309,17 +312,11 @@ public class ReviewDAO {
 		try {
 			conn = JDBCConnect.getConnection();
 			
-			String sql = "DELETE r FROM review r "
-					+ " join customer c "
-					+ " on c.cus_seq = r.cus_seq "
-					+ " join books b "
-					+ " on r.book_seq = b.book_seq "
-					+ " where r.cus_seq = ? "
-					+ " and r.book_seq = ? ";
+			String sql = "update review set del_YN = 'Y' "
+					+ " where re_seq = ? and del_YN = 'N' ";
 			pstmt = conn.prepareStatement(sql);
 			
-			pstmt.setInt(1, dto.getUserNum());
-			pstmt.setInt(2, dto.getBookNum());
+			pstmt.setInt(1, dto.getReviewNum());
 			
 			pstmt.executeUpdate();
 			
@@ -365,7 +362,7 @@ public class ReviewDAO {
 		int allReviews = 0;
 		
 		String sql = "select count(re_seq) as allReviewCnt from review "
-				+ " where depth = 1 ";
+				+ " where depth = 1 and del_YN = 'N' ";
 		
 		System.out.println(sql);
 		conn = JDBCConnect.getConnection();
@@ -396,8 +393,8 @@ public class ReviewDAO {
 		String sql = "select * from review r "
 				+ " join customer c "
 				+ " on c.cus_seq = r.cus_seq "
-				+ " join books b "
-				+ " on r.book_seq = b.book_seq "
+				+ " join purchase_item i "
+				+ " on r.pur_i_seq = i.pur_i_seq "
 				+ " where depth = 1 "
 				+ " order by r.regDate desc "
 				+ " limit ? offset ? ";
@@ -412,20 +409,28 @@ public class ReviewDAO {
 			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
-				int bookNum = rs.getInt("r.book_seq");
-				int grade = rs.getInt("r.grade");
 				int reviewNum = rs.getInt("re_seq");
+				int bookNum = rs.getInt("book_seq");
 				int userNum = rs.getInt("cus_seq");
-				String userId = rs.getString("c.cus_id");
+				int pur_seq = rs.getInt("pur_seq");
+				int pur_i_seq = rs.getInt("pur_i_seq");
+				
+				int grade = rs.getInt("grade");
 				String reviewDate = rs.getString("r.regDate");
-				String content = rs.getString("r.content");
+				String content = rs.getString("content");
 				String refYN = rs.getString("ref_YN");
 				int ref_seq = rs.getInt("ref_seq");
+				String del_YN = rs.getString("r.del_YN");
+
+				String cus_id = rs.getString("c.cus_id");
+				CustomerDTO cDto = new CustomerDTO();
+				cDto.setCus_id(cus_id);
 				
-				ReviewDTO dtos = new ReviewDTO(bookNum, reviewNum, grade, userId, reviewDate, content);
+				ReviewDTO dtos = new ReviewDTO(bookNum, userNum, pur_seq, pur_i_seq, reviewNum, grade, content, reviewDate);
 				dtos.setRef_YN(refYN); 
 				dtos.setRef_seq(ref_seq);
-				dtos.setUserNum(userNum);
+				dtos.setDel_YN(del_YN);
+				dtos.setCusInfo(cDto);
 				reviews.add(dtos);
 			}
 		} catch (SQLException e) {
@@ -447,8 +452,8 @@ public class ReviewDAO {
 		String sql = "select * from review r "
 				+ " join customer c "
 				+ " on r.cus_seq = c.cus_seq "
-				+ " join books b "
-				+ " on r.book_seq = b.book_seq "
+				+ " join purchase_item i "
+				+ " on r.pur_i_seq = i.pur_i_seq "
 				+ " where re_seq = ? ";
 		
 		conn = JDBCConnect.getConnection();
@@ -461,15 +466,24 @@ public class ReviewDAO {
 			myReview = null;
 			
 			if(rs.next()) {
-				int grade = rs.getInt("r.grade");
-				String content = rs.getString("r.content");
-				int bookNum = rs.getInt("r.book_seq");
-				String userId = rs.getString("c.cus_id");
 				int reviewNum = rs.getInt("re_seq");
+				int bookNum = rs.getInt("book_seq");
+				int userNum = rs.getInt("cus_seq");
+				int pur_seq = rs.getInt("pur_seq");
+				int pur_i_seq = rs.getInt("pur_i_seq");
+				int grade = rs.getInt("grade");
+				String content = rs.getString("content");
+				String reviewDate = rs.getString("r.regDate");
 				int ref_seq = rs.getInt("ref_seq");
-				myReview = new ReviewDTO(bookNum, reviewNum, grade, userId, content);
-				myReview.setRef_seq(ref_seq);
+
 				
+				String cus_id = rs.getString("cus_id");
+				CustomerDTO cDto = new CustomerDTO();
+				cDto.setCus_id(cus_id);
+				
+				myReview = new ReviewDTO(bookNum, userNum, pur_seq, pur_i_seq, reviewNum, grade, content, reviewDate);
+				myReview.setRef_seq(ref_seq);
+				myReview.setCusInfo(cDto);
 			}
 			
 		} catch (SQLException e) {
@@ -548,6 +562,5 @@ public class ReviewDAO {
 		}
 	}
 
-	
 	
 }

@@ -8,7 +8,7 @@
     pageEncoding="UTF-8"%>
 <%
     //회원별 주문 목록 리스트 가져오기
-    int cus_seq = (int)request.getAttribute("cus_seq");
+   	int cus_seq = (int)session.getAttribute("cus_seq");
 	CustomerDTO customer = new CustomerDTO();
 	customer.setCus_seq(cus_seq);
 	CustomerDAO cDao = new CustomerDAO();
