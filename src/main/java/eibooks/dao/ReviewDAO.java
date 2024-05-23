@@ -62,6 +62,7 @@ public class ReviewDAO {
 				String reviewDate = rs.getString("r.regDate");
 				String content = rs.getString("r.content");
 				String del_YN = rs.getString("r.del_YN");
+				String ref_YN = rs.getString("ref_YN");
 				
 				String cus_id = rs.getString("c.cus_id");
 				CustomerDTO cDto = new CustomerDTO();
@@ -70,6 +71,7 @@ public class ReviewDAO {
 				ReviewDTO dtos = new ReviewDTO(bookNum, userNum, pur_seq, pur_i_seq, reviewNum, grade, content, reviewDate);
 				dtos.setCusInfo(cDto);
 				dtos.setDel_YN(del_YN);
+				dtos.setRef_YN(ref_YN);
 				reviews.add(dtos);
 			}
 		} catch (SQLException e) {
@@ -334,15 +336,13 @@ public class ReviewDAO {
 		try {
 			conn = JDBCConnect.getConnection();
 			
-			String sql = " INSERT INTO review (cus_seq, book_seq, pur_seq, pur_i_seq, content, depth, ref_seq) VALUES (?, ?, ?, ?, ?, 2, ?);";
+			String sql = " INSERT INTO review (cus_seq, book_seq, content, depth, ref_seq) VALUES (?, ?, ?, 2, ?);";
 			pstmt = conn.prepareStatement(sql);
 			
 			pstmt.setInt(1, dto.getUserNum());
 			pstmt.setInt(2, dto.getBookNum());
-			pstmt.setInt(3, dto.getPur_seq());
-			pstmt.setInt(4, dto.getPur_i_seq());
-			pstmt.setString(5, dto.getContent());
-			pstmt.setInt(6, dto.getRef_seq());
+			pstmt.setString(3, dto.getContent());
+			pstmt.setInt(4, dto.getRef_seq());
 			
 			pstmt.executeUpdate();
 			

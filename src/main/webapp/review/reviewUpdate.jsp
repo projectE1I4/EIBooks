@@ -50,10 +50,10 @@ function goToPage() {
 	location.href = "<%=request.getContextPath()%>/review/reviewList.do?bookNum=<%=bookNum%>";
 }
 
-function del(reviewNum){
+function del(reviewNum, ref_YN){
 	const input = confirm("정말 삭제하시겠습니까?");
 	if(input){
-		location.href = "<%=request.getContextPath()%>/review/reviewDeleteProc.do?bookNum=<%=bookNum %><% if(myReview != null) { %>&reviewNum=<%=myReview.getReviewNum() %><% } %>";
+		location.href = "<%=request.getContextPath()%>/review/reviewDeleteProc.do?bookNum=<%=bookNum %>&reviewNum=" + reviewNum + "&ref_YN=" + ref_YN;
 	}else{
 		alert("삭제를 취소했습니다.");
 		return;
@@ -116,7 +116,7 @@ function del(reviewNum){
 <tr>
 <td colspan="3">
 <a href="reviewUpdate.do?bookNum=<%=bookNum %>&reviewNum=<%=dto.getReviewNum() %>">[수정하기]</a> 
-<a href="javascript:del('<%=dto.getReviewNum() %>')">[삭제하기]</a>
+<a href="javascript:del('<%=dto.getReviewNum() %>', '<%=dto.getRef_YN() %>')">[삭제하기]</a>
 </td>
 <%} %>
 <% } else { %>

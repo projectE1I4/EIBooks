@@ -11,10 +11,7 @@ List<ReviewDTO> reviewList = (List<ReviewDTO>)request.getAttribute("reviewList")
 String sBookNum = request.getParameter("bookNum");
 int bookNum = Integer.parseInt(sBookNum);
 int userNum = (int)session.getAttribute("cus_seq");
-String sPur_seq = request.getParameter("pur_seq");
-int pur_seq = Integer.parseInt(sPur_seq);
-String sPur_i_seq = request.getParameter("pur_i_seq");
-int pur_i_seq = Integer.parseInt(sPur_i_seq);
+
 PageDTO p = (PageDTO)request.getAttribute("paging");
 int allReviewCount = (int)request.getAttribute("allReviewCount");
 String sReviewNum = request.getParameter("reviewNum");
@@ -63,7 +60,7 @@ function del(reviewNum, pur_seq, pur_i_seq, bookNum){
 		alert("삭제를 취소했습니다.");
 		return;
 	}
-	location.href = "<%=request.getContextPath()%>/review/replyWrite.do?bookNum=" + bookNum + "&pur_seq=" + pur_seq +  "&pur_i_seq=" + pur_i_seq +  "reviewNum=" + reviewNum + "&isReply=1"
+	location.href = "<%=request.getContextPath()%>/review/replyWrite.do?bookNum=" + bookNum + "&reviewNum=" + reviewNum + "&isReply=1"
 }
 
 function delReply(reviewNum){
@@ -112,7 +109,7 @@ window.onload = function() {
 <h1>답글 작성</h1>
  
 <h1>리뷰 전체보기</h1>
-<span align="right">전체 리뷰 수: <%=allReviewCount %></span>
+<span align="right">회원 전체 리뷰 수: <%=allReviewCount %></span>
 <table border="1" width="90%">
 <% if(reviewList.isEmpty()) { %>	
 	<tr><td colspan="8">&nbsp;<b>리뷰가 없습니다.</b></td></tr>
@@ -141,7 +138,7 @@ window.onload = function() {
 					<% if(reviewNum == dto.getReviewNum()) { %>
 						 [답글 달기]
 					<% } else if(reviewNum != dto.getReviewNum()) { %>
-						<a href="replyWrite.do?bookNum=<%=dto.getBookNum() %>&pur_seq=<%=dto.getPur_seq() %>&pur_i_seq=<%=dto.getPur_i_seq() %>&reviewNum=<%=dto.getReviewNum() %>&isReply=1">[답글 달기]</a> 
+						<a href="replyWrite.do?bookNum=<%=dto.getBookNum() %>&reviewNum=<%=dto.getReviewNum() %>&isReply=1">[답글 달기]</a> 
 					<% } %>
 					<a href="javascript:del('<%=dto.getReviewNum() %>', '<%=dto.getPur_seq() %>', '<%=dto.getPur_i_seq() %>', '<%=dto.getBookNum() %>')">[리뷰 삭제]</a>
 				</td>
@@ -153,7 +150,7 @@ window.onload = function() {
 <% if (reviewNum == dto.getReviewNum() && isReply == 1) { %>
 <tr>
 	<td colspan="5" class="insert">
-		<form name="writeForm" method="post" action="/EIBooks/review/replyWriteProc.do?bookNum=<%=bookNum %>&pur_seq=<%=dto.getPur_i_seq() %>&pur_i_seq=<%=dto.getPur_i_seq() %>&reviewNum=<%=reviewNum%>">
+		<form name="writeForm" method="post" action="/EIBooks/review/replyWriteProc.do?bookNum=<%=bookNum %>&reviewNum=<%=reviewNum%>">
 			관리자
 			<textarea name="content" style="width:100%; height:100px" placeholder="답글 작성 최대 200자" oninput="limitText(this, 200)"></textarea>
 			<input type="button" value="등록 확인" onclick="validateForm('<%=dto.getRef_YN() %>')">
@@ -186,17 +183,17 @@ window.onload = function() {
 <%} %>
 <tr>
 <td colspan="6">
-<%if(p.isPrev()) {%><a href="replyWrite.do?bookNum=<%=bookNum %>&pur_seq=<%=pur_seq %>&pur_i_seq=<%=pur_i_seq %>&reviewNum=<%=reviewNum %>&isReply=<%=isReply %>&pageNum=1">[처음]</a><% } %>
-<%if(p.isPrev()) {%><a href="replyWrite.do?bookNum=<%=bookNum %>&pur_seq=<%=pur_seq %>&pur_i_seq=<%=pur_i_seq %>&reviewNum=<%=reviewNum %>&isReply=<%=isReply %>&pageNum=<%=p.getStartPage()-1 %>">[이전]</a><%} %>
+<%if(p.isPrev()) {%><a href="replyWrite.do?bookNum=<%=bookNum %>&reviewNum=<%=reviewNum %>&isReply=<%=isReply %>&pageNum=1">[처음]</a><% } %>
+<%if(p.isPrev()) {%><a href="replyWrite.do?bookNum=<%=bookNum %>&reviewNum=<%=reviewNum %>&isReply=<%=isReply %>&pageNum=<%=p.getStartPage()-1 %>">[이전]</a><%} %>
 <%for(int i=p.getStartPage(); i<=p.getEndPage(); i++) {%>
 	<%if(i == p.getPageNum()) {%>
 		<b>[<%=i %>]</b>
 		<%}else {%>
-		<a href="replyWrite.do?bookNum=<%=bookNum %>&pur_seq=<%=pur_seq %>&pur_i_seq=<%=pur_i_seq %>&reviewNum=<%=reviewNum %>&isReply=<%=isReply %>&pageNum=<%=i %>">[<%=i %>]</a>
+		<a href="replyWrite.do?bookNum=<%=bookNum %>&reviewNum=<%=reviewNum %>&isReply=<%=isReply %>&pageNum=<%=i %>">[<%=i %>]</a>
 		<%} %>
 	<%} %>
-<%if(p.isNext()) {%><a href="replyWrite.do?bookNum=<%=bookNum %>&pur_seq=<%=pur_seq %>&pur_i_seq=<%=pur_i_seq %>&reviewNum=<%=reviewNum %>&isReply=<%=isReply %>&pageNum=<%=p.getEndPage()+1 %>">[다음]</a><%} %>
-<%if(p.isNext()) {%><a href="replyWrite.do?bookNum=<%=bookNum %>&pur_seq=<%=pur_seq %>&pur_i_seq=<%=pur_i_seq %>&reviewNum=<%=reviewNum %>&isReply=<%=isReply %>&pageNum=<%=p.getRealEnd() %>">[마지막]</a><% } %>
+<%if(p.isNext()) {%><a href="replyWrite.do?bookNum=<%=bookNum %>&reviewNum=<%=reviewNum %>&isReply=<%=isReply %>&pageNum=<%=p.getEndPage()+1 %>">[다음]</a><%} %>
+<%if(p.isNext()) {%><a href="replyWrite.do?bookNum=<%=bookNum %>&reviewNum=<%=reviewNum %>&isReply=<%=isReply %>&pageNum=<%=p.getRealEnd() %>">[마지막]</a><% } %>
 </td>
 </tr>
 <%} %>

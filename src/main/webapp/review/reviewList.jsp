@@ -31,10 +31,10 @@ ReviewDTO myReview = (ReviewDTO)request.getAttribute("myReview");
 <meta charset="UTF-8">
 <title>review/reviewList</title>
 <script>
-	function del(reviewNum){
+	function del(reviewNum, ref_YN){
 		const input = confirm("정말 삭제하시겠습니까?");
 		if(input){
-			location.href = "<%=request.getContextPath()%>/review/reviewDeleteProc.do?bookNum=<%=bookNum %>&pur_seq=<%=pur_seq%>&pur_i_seq=<%=pur_i_seq%>&reviewNum=" + reviewNum;
+			location.href = "<%=request.getContextPath()%>/review/reviewDeleteProc.do?bookNum=<%=bookNum %>&reviewNum=" + reviewNum + "&ref_YN=" + ref_YN;
 		}else{
 			alert("삭제를 취소했습니다.");
 			return;
@@ -78,7 +78,7 @@ ReviewDTO myReview = (ReviewDTO)request.getAttribute("myReview");
 		<tr>
 			<td colspan="3">
 				<a href="reviewUpdate.do?bookNum=<%=dto.getBookNum() %>&pur_i_seq=<%=dto.getPur_i_seq() %>&reviewNum=<%=dto.getReviewNum() %>">[수정하기]</a> 
-				<a href="javascript:del('<%=dto.getReviewNum() %>')">[삭제하기]</a>
+				<a href="javascript:del('<%=dto.getReviewNum() %>, '<%=dto.getRef_YN() %>')">[삭제하기]</a>
 			</td>
 		<%} %> <!-- userNum -->
 	<% } else { %>

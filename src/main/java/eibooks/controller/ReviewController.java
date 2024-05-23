@@ -378,12 +378,9 @@ public class ReviewController extends HttpServlet {
 
 			HttpSession session = request.getSession();
 			int userNum = (int)session.getAttribute("cus_seq");
-			/*
-			String sPur_seq = request.getParameter("pur_seq");
-			int pur_seq = Integer.parseInt(sPur_seq);
-			String sPur_i_seq = request.getParameter("pur_i_seq");
-			int pur_i_seq = Integer.parseInt(sPur_i_seq);
-			/**/
+
+			String ref_YN = request.getParameter("ref_YN");
+			
 			String sReviewNum = request.getParameter("reviewNum");
 			int reviewNum = Integer.parseInt(sReviewNum);
 			
@@ -413,14 +410,13 @@ public class ReviewController extends HttpServlet {
 			// 리뷰 delete dao
 			ReviewDTO dDto = new ReviewDTO();
 			dDto.setReviewNum(reviewNum);
-			int deleteReview = dao.deleteWrite(dDto);
 			
-			// reviewNum 가져오기
-			/*
-			ReviewDTO myReview = new ReviewDTO();
-			myReview.setPur_i_seq(pur_i_seq);
-			myReview = dao.selectView(myReview);
-			/**/
+			if (ref_YN.equals("Y")) {
+				dao.deleteWrite(dDto);
+			} else {
+				dao.deleteReply(dDto);
+			}
+			
 
 			request.setAttribute("reviewList", reviewList);
 			request.setAttribute("totalCount", totalCount);
@@ -481,11 +477,6 @@ public class ReviewController extends HttpServlet {
 			HttpSession session = request.getSession();
 			int userNum = (int)session.getAttribute("cus_seq");
 			
-			String sPur_seq = request.getParameter("pur_seq");
-			int pur_seq = Integer.parseInt(sPur_seq);
-			String sPur_i_seq = request.getParameter("pur_i_seq");
-			int pur_i_seq = Integer.parseInt(sPur_i_seq);
-			
 			String sReviewNum = request.getParameter("reviewNum");
 			int reviewNum = Integer.parseInt(sReviewNum);
 			
@@ -516,7 +507,7 @@ public class ReviewController extends HttpServlet {
 			request.setAttribute("allReviewCount", allReviewCount);
 			
 			// forward
-			String path = "./replyWrite.jsp?bookNum=" + bookNum + "&pur_seq=" + pur_seq + "&pur_i_seq" + pur_i_seq + "&reviewNum=" + reviewNum;
+			String path = "./replyWrite.jsp?bookNum=" + bookNum + "&reviewNum=" + reviewNum;
 			request.getRequestDispatcher(path).forward(request, response);
 			
 		} else if(action.equals("/replyWriteProc.do")) {
@@ -533,11 +524,6 @@ public class ReviewController extends HttpServlet {
 			String sReviewNum = request.getParameter("reviewNum");
 			int reviewNum = Integer.parseInt(sReviewNum);
 			
-			String sPur_seq = request.getParameter("pur_seq");
-			int pur_seq = Integer.parseInt(sPur_seq);
-			String sPur_i_seq = request.getParameter("pur_i_seq");
-			int pur_i_seq = Integer.parseInt(sPur_i_seq);
-			
 			// 폼 값
 			String content = request.getParameter("content");
 			
@@ -545,8 +531,6 @@ public class ReviewController extends HttpServlet {
             ReviewDTO rDto = new ReviewDTO();
             rDto.setBookNum(bookNum);
             rDto.setUserNum(userNum);
-            rDto.setPur_seq(pur_seq);
-            rDto.setPur_i_seq(pur_i_seq);
             rDto.setContent(content);
             rDto.setRef_seq(reviewNum);
             ReviewDAO rDao = new ReviewDAO();
@@ -585,7 +569,7 @@ public class ReviewController extends HttpServlet {
 			request.setAttribute("allReviewCount", allReviewCount);
             
 			// forward
-            String path = "/EIBooks/review/replyList.do";
+            String path = "/EIBooks/review/replyList.do?bookNum=" + bookNum;
             response.sendRedirect(path);
 		} else if(action.equals("/replyUpdate.do")) {
 			// 값 받기
@@ -688,15 +672,20 @@ public class ReviewController extends HttpServlet {
 			String sReviewNum = request.getParameter("reviewNum");
 			int reviewNum = Integer.parseInt(sReviewNum);
 			int ref_seq = Integer.parseInt(request.getParameter("ref_seq"));
+			String del_YN = request.getParameter("del_YN");
 			
 			ReviewDAO dao = new ReviewDAO();
-			
-			// 리뷰 delete dao
 			ReviewDTO uDto = new ReviewDTO();
 			uDto.setReviewNum(ref_seq);
-			System.out.println("ref_seq"+ref_seq);
-			uDto.setRef_YN("N");
-			dao.updateRefYn(uDto);
+			
+			// 리뷰 delete dao
+			if (del_YN.equals("N")) {
+				uDto.setRef_YN("N");
+				dao.updateRefYn(uDto);
+				
+			} else {
+				dao.deleteReply(uDto);
+			}
 			
 			ReviewDTO dto = new ReviewDTO();
 			dto.setReviewNum(reviewNum);

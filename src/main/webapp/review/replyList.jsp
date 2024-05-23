@@ -27,10 +27,10 @@ PageDTO p = (PageDTO)request.getAttribute("paging");
 			return;
 		}
 	}
-	function delReply(reviewNum, ref_seq){
+	function delReply(reviewNum, ref_seq, del_YN){
 		const input = confirm("정말 삭제하시겠습니까?");
 		if(input){
-			location.href = "<%=request.getContextPath()%>/review/replyDeleteProc.do?reviewNum=" + reviewNum + "&ref_seq=" + ref_seq;
+			location.href = "<%=request.getContextPath()%>/review/replyDeleteProc.do?reviewNum=" + reviewNum + "&ref_seq=" + ref_seq + "&del_YN=" + del_YN;
 		}else{
 			alert("삭제를 취소했습니다.");
 			return;
@@ -49,7 +49,7 @@ PageDTO p = (PageDTO)request.getAttribute("paging");
 <body>
 <%@ include file="../common/menu.jsp" %>
 <h1>리뷰 전체보기</h1>
-<span align="right">전체 리뷰 수: <%=allReviewCount %></span>
+<span align="right">회원 전체 리뷰 수: <%=allReviewCount %></span>
 <table border="1" width="90%">
 <% if(reviewList.isEmpty()) { %>
 	<tr><td colspan="8">&nbsp;<b>리뷰가 없습니다.</b></td></tr>
@@ -78,7 +78,7 @@ PageDTO p = (PageDTO)request.getAttribute("paging");
 					<% if(dto.getRef_YN().equals("Y")) { %>
 						 [답글 달기]
 					<% } else { %>
-						<a href="replyWrite.do?bookNum=<%=dto.getBookNum() %>&pur_seq=<%=dto.getPur_seq() %>&pur_i_seq=<%=dto.getPur_i_seq() %>&reviewNum=<%=dto.getReviewNum() %>&isReply=1">[답글 달기]</a> 
+						<a href="replyWrite.do?bookNum=<%=dto.getBookNum() %>&reviewNum=<%=dto.getReviewNum() %>&isReply=1">[답글 달기]</a> 
 					<% } %>
 					<a href="javascript:del('<%=dto.getReviewNum() %>')">[리뷰 삭제]</a>
 				</td>
@@ -104,7 +104,7 @@ PageDTO p = (PageDTO)request.getAttribute("paging");
 			<tr class="reply">
 			<td colspan="5">
 			<a href="replyUpdate.do?reviewNum=<%=reply.getReviewNum() %>&isReply=1">[답글 수정]</a> 
-			<a href="javascript:delReply('<%=reply.getReviewNum() %>', '<%=reply.getRef_seq()%>')">[답글 삭제]</a>
+			<a href="javascript:delReply('<%=reply.getReviewNum() %>', '<%=reply.getRef_seq()%>', '<%=dto.getDel_YN() %>')">[답글 삭제]</a>
 			</td>
 			</tr>
 		<%} %>

@@ -66,7 +66,7 @@ function del(reviewNum){
 function delReply(reviewNum){
 	const input = confirm("정말 삭제하시겠습니까?");
 	if(input){
-		location.href = "<%=request.getContextPath()%>/review/replyDeleteProc.do?reviewNum=" + reviewNum;
+		location.href = "<%=request.getContextPath()%>/review/replyDeleteProc.do?reviewNum=" + reviewNum + "&ref_seq=" + ref_seq + "&del_YN=" + del_YN;
 	}else{
 		alert("삭제를 취소했습니다.");
 		return;
@@ -109,7 +109,7 @@ window.onload = function() {
 <%@ include file="../common/menu.jsp" %>
  
 <h1>전체리뷰 보기</h1>
-<span align="right">전체 리뷰 수: <%=allReviewCount %></span>
+<span align="right">회원 전체 리뷰 수: <%=allReviewCount %></span>
 <table border="1" width="90%">
 <% if(reviewList.isEmpty()) { %>	
 	<tr><td colspan="8">&nbsp;<b>리뷰가 없습니다.</b></td></tr>
@@ -175,7 +175,7 @@ window.onload = function() {
 		<tr class="reply">
 		<td colspan="5">
 			<a href="replyUpdate.do?reviewNum=<%=reply.getReviewNum() %>&isReply=1">[답글 수정]</a> 
-			<a href="javascript:delReply('<%=reply.getReviewNum() %>', '<%=reply.getRef_seq()%>')">[답글 삭제]</a>
+			<a href="javascript:delReply('<%=reply.getReviewNum() %>', '<%=reply.getRef_seq()%>', '<%=dto.getDel_YN() %>')">[답글 삭제]</a>
 			</td>
 			</tr>
 		<%} %>
