@@ -175,20 +175,6 @@ public class UserBookController extends HttpServlet {
 			PrintWriter out = response.getWriter();
 			out.print(page);
 		}
-		else if (action.equals("/customerOrder.uapi")) {
-			
-			HttpSession session = request.getSession();
-			
-			String book_seq = request.getParameter("book_seq");
-			String cartICount = request.getParameter("cartICount");
-			int cus_seq = (int) session.getAttribute("cus_seq");
-			System.out.println("-------------------");
-			System.out.println(book_seq);
-			System.out.println(cartICount);
-			
-			String redirectURL = request.getContextPath() + "/customer/customerBuyOrder.cc?book_seq=" + book_seq + "&cartICount=" + cartICount + "&cus_seq=" + cus_seq;
-		    response.sendRedirect(redirectURL);
-		}
 		
 	}
 
