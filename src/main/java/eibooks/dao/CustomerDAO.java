@@ -29,11 +29,11 @@ public class CustomerDAO {
         List<CustomerDTO> customerList = new ArrayList<>();
 
         // 조회에 사용될 쿼리문
-        String sql = "select * from customer ";
+        String sql = "select * from customer where manager_YN = 'N' ";
 
         // 검색 한다면 where절조건
         if (isSearch) {
-            sql += "where " + map.get("searchField") + " like ? ";
+            sql += "and " + map.get("searchField") + " like ? ";
         }
         sql += "order by cus_seq desc ";
 
@@ -63,8 +63,10 @@ public class CustomerDAO {
                 String tel = rs.getString("tel");
                 String email = rs.getString("email");
                 String regDate = rs.getString("regDate");
+                String del_YN = rs.getString("del_YN");
+                String manager_YN = rs.getString("manager_YN");
 
-                CustomerDTO dto = new CustomerDTO(cus_seq, cus_id, password, name, tel, email, regDate);
+                CustomerDTO dto = new CustomerDTO(cus_seq,cus_id,password,name,tel,email,regDate,del_YN,manager_YN);
                 customerList.add(dto);
             }
 
@@ -94,11 +96,11 @@ public class CustomerDAO {
             isSearch = true;
         }
         // 쿼리문
-        String sql = "select count(cus_seq) as cnt from customer";
+        String sql = "select count(cus_seq) as cnt from customer where manager_YN = 'N' ";
 
         // 만약 검색을 진행했다면?
         if (isSearch) {
-            sql += " where " + map.get("searchField") + " like ? ";
+            sql += "and " + map.get("searchField") + " like ? ";
         }
 
         conn = JDBCConnect.getConnection();
@@ -137,7 +139,7 @@ public class CustomerDAO {
         int totalCustomerCount = 0;
 
         // 쿼리문
-        String sql = "select count(cus_seq) as cnt from customer";
+        String sql = "select count(cus_seq) as cnt from customer where manager_YN = 'N'";
 
         conn = JDBCConnect.getConnection();
         try {
@@ -168,7 +170,7 @@ public class CustomerDAO {
 
         CustomerDTO customer = null;
 
-        String sql = "SELECT c.cus_seq, c.cus_id, c.password, c.name, c.tel, c.email, c.regDate, " +
+        String sql = "SELECT c.cus_seq, c.cus_id, c.password, c.name, c.tel, c.email, c.regDate, c.del_YN, " +
             "a.postalCode, a.addr, a.addr_detail " +
             "FROM customer c " +
             "LEFT JOIN customer_addr a ON c.cus_seq = a.cus_seq " +
@@ -191,6 +193,7 @@ public class CustomerDAO {
                 customer.setTel(rs.getString("tel"));
                 customer.setEmail(rs.getString("email"));
                 customer.setRegDate(rs.getString("regDate"));
+                customer.setDel_YN(rs.getString("del_YN"));
 
                 AddressDTO addr = new AddressDTO();
                 addr.setPostalCode(rs.getString("postalCode"));
@@ -375,11 +378,11 @@ public class CustomerDAO {
 
             rs = pstmt.executeQuery();
 
-            if(rs.next()) {
+            if (rs.next()) {
                 cusCnt = rs.getInt("cnt");
             }
 
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
 
         } finally {

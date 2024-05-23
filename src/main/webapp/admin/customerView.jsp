@@ -76,6 +76,10 @@
         <td>가입일자</td>
         <td><%= customer != null ? customer.getRegDate() : "" %></td>
     </tr>
+    <tr>
+        <td>탈퇴여부</td>
+        <td><%= customer != null ? customer.getDel_YN() : "" %></td>
+    </tr>
     </tbody>
 </table>
 <div><a href="customerList.cs"><p>목록으로 돌아가기</p></a></div>
