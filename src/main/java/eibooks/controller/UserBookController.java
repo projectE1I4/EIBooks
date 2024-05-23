@@ -6,11 +6,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
 
@@ -173,7 +175,20 @@ public class UserBookController extends HttpServlet {
 			PrintWriter out = response.getWriter();
 			out.print(page);
 		}
-
+		else if (action.equals("/customerOrder.uapi")) {
+			
+			HttpSession session = request.getSession();
+			
+			String book_seq = request.getParameter("book_seq");
+			String cartICount = request.getParameter("cartICount");
+			int cus_seq = (int) session.getAttribute("cus_seq");
+			System.out.println("-------------------");
+			System.out.println(book_seq);
+			System.out.println(cartICount);
+			
+			String redirectURL = request.getContextPath() + "/customer/customerBuyOrder.cc?book_seq=" + book_seq + "&cartICount=" + cartICount + "&cus_seq=" + cus_seq;
+		    response.sendRedirect(redirectURL);
+		}
 		
 	}
 
