@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
-<%@include file="/auth/sessionCheck.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -116,8 +115,8 @@
             <a href="signup.cs" class="btn">회원가입</a>
         </form>
         <div class="extra-links">
-            <a href="#">아이디 찾기</a>
-            <a href="#">비밀번호 재설정</a>
+            <a href="findId.cs">아이디 찾기</a>
+            <a href="verification.cs">비밀번호 재설정</a>
         </div>
     </div>
 </div>

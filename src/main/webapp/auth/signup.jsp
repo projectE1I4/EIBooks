@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
-<%@include file="/auth/sessionCheck.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -61,6 +60,7 @@
             var password = document.getElementById("password").value;
             var confirmPassword = document.getElementById("confirmPassword").value;
             var tel = document.getElementById("tel").value;
+            var name = document.getElementById("name").value;
             var postalCode = document.getElementById("postalCode").value;
 
             // ID 유효성 검사
@@ -81,6 +81,13 @@
             if (password !== confirmPassword) {
                 alert("비밀번호와 비밀번호 확인이 일치하지 않습니다.");
                 return false;
+            }
+
+            // 이름 유효성 검사
+            var nameRegex = /^[a-zA-Z가-힣\s]+$/;
+            if (!nameRegex.test(name)) {
+                alert("이름에는 특수문자가 포함될 수 없습니다.");
+                return;
             }
 
             // 전화번호 유효성 검사

@@ -288,14 +288,14 @@ public class CustomerDAO {
         }
     }
 
-    // 고객 로그인 메서드
+    // 로그인 메서드
     public CustomerDTO getCustomerById(String cus_id) {
         Connection conn = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         CustomerDTO customer = null;
 
-        String sql = "SELECT c.cus_seq, c.cus_id, c.password, c.name, c.tel, c.email, c.regDate, " +
+        String sql = "SELECT c.cus_seq, c.cus_id, c.password, c.name, c.tel, c.email, c.regDate, c.manager_YN, " +
             "a.postalCode, a.addr, a.addr_detail " +
             "FROM customer c " +
             "LEFT JOIN customer_addr a ON c.cus_seq = a.cus_seq " +
@@ -316,6 +316,7 @@ public class CustomerDAO {
                 customer.setTel(rs.getString("tel"));
                 customer.setEmail(rs.getString("email"));
                 customer.setRegDate(rs.getString("regDate"));
+                customer.setManager_YN(rs.getString("manager_YN"));
 
                 AddressDTO addr = new AddressDTO();
                 addr.setPostalCode(rs.getString("postalCode"));
@@ -325,6 +326,7 @@ public class CustomerDAO {
 
                 customer.setAddrInfo(addr);
             }
+
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -359,6 +361,37 @@ public class CustomerDAO {
         }
 
         return exists;
+    }
+
+    // 회원이름,전화번호 조회후 고객 아이디 찾기 메서드
+    public CustomerDTO findCustomerId(String name,String tel) {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        CustomerDTO customer = null;
+
+        String sql = "SELECT * FROM customer WHERE name = ? AND tel = ?";
+        conn = JDBCConnect.getConnection();
+        try {
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, name);
+            pstmt.setString(2, tel);
+            rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                customer = new CustomerDTO();
+                customer.setCus_id(rs.getString("cus_id"));
+                customer.setName(rs.getString("name"));
+                customer.setTel(rs.getString("tel"));
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            JDBCConnect.close(rs, pstmt, conn);
+        }
+
+        return customer;
     }
 
     public int getCustomerCount() {

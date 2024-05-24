@@ -4,6 +4,7 @@ import eibooks.common.PageDTO;
 import eibooks.dao.CustomerDAO;
 import eibooks.dto.AddressDTO;
 import eibooks.dto.CustomerDTO;
+import org.json.JSONObject;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -33,7 +34,7 @@ public class CustomerController extends HttpServlet {
 
         String uri = request.getRequestURI();
         String action = uri.substring(uri.lastIndexOf("/"));
-        System.out.println(uri);
+//        System.out.println(uri);
 
         if (action.equals("/customerList.cs")) {
 
@@ -190,6 +191,12 @@ public class CustomerController extends HttpServlet {
                 return;
             }
 
+            if (name == null || !name.matches("/^[a-zA-Z가-힣\\s]+$/")) {
+                request.setAttribute("errorMessage", "이름에는 특수문자가 포함될 수 없습니다.");
+                request.getRequestDispatcher("/auth/signup.jsp").forward(request, response);
+                return;
+            }
+
             if (tel == null || !tel.replaceAll("-", "").matches("^\\d{11}$")) {
                 request.setAttribute("errorMessage", "전화번호는 '-'를 제외하고 숫자 11자리여야 합니다.");
                 request.getRequestDispatcher("/auth/signup.jsp").forward(request, response);
@@ -249,7 +256,14 @@ public class CustomerController extends HttpServlet {
                 session.setAttribute("cus_id", customer.getCus_id());
                 session.setAttribute("cus_seq", customer.getCus_seq());
                 session.setAttribute("name", customer.getName());
-                response.sendRedirect("/EIBooks/");  // 로그인 후 이동할 페이지로 리다이렉션
+                session.setAttribute("manager_YN", customer.getManager_YN());
+
+                if ("Y".equals(session.getAttribute("manager_YN"))) {
+                    System.out.println("관리자 접속");
+                    response.sendRedirect("/EIBooks/admin/main.bo");
+                } else {
+                    response.sendRedirect("/EIBooks/");
+                }
             }
 
         } else if (action.equals("/checkIdProc.cs")) { // 아이디 중복검사
@@ -264,6 +278,48 @@ public class CustomerController extends HttpServlet {
             out.print("{\"exists\":" + exists + "}");
             out.flush();
             out.close();
+
+        } else if (action.equals("/findId.cs")) { // 아이디 찾기 페이지로 이동
+
+            request.getRequestDispatcher("/auth/findId.jsp").forward(request, response);
+
+        } else if (action.equals("/findIdProc.cs")) { // 아이디 찾기 프록시
+
+            String name = request.getParameter("name");
+            String tel = request.getParameter("tel");
+
+            CustomerDAO dao = new CustomerDAO();
+            CustomerDTO customer = dao.findCustomerId(name, tel);
+
+            // proc주소 노출방지를 위해 ajax 통신으로 출력
+            response.setContentType("application/json;charset=UTF-8");
+            PrintWriter out = response.getWriter();
+
+            JSONObject jsonResponse = new JSONObject();
+            if (customer != null) {
+                String message = customer.getName() + " 회원님의 아이디는 " + customer.getCus_id() + " 입니다.";
+                jsonResponse.put("success", true);
+                jsonResponse.put("message", message);
+            } else {
+                jsonResponse.put("success", false);
+                jsonResponse.put("message", "존재하지 않는 정보입니다.");
+            }
+
+            out.print(jsonResponse.toString());
+            out.close();
+
+        } else if (action.equals("/verification.cs")) { // 비밀번호 변경 전 본인인증페이지 이동
+
+            request.getRequestDispatcher("/auth/verification.jsp").forward(request, response);
+
+        } else if (action.equals("/verificationProc.cs")) {
+
+            String cus_id = request.getParameter("cus_id");
+            String tel = request.getParameter("tel");
+
+            CustomerDAO dao = new CustomerDAO();
+
+
         } else if (action.equals("/logoutProc.cs")) {
 
             HttpSession session = request.getSession();
@@ -271,9 +327,9 @@ public class CustomerController extends HttpServlet {
             response.sendRedirect("/EIBooks/");
 
         } else if (action.equals("/updateMyPage.cs")) {
-            // 임시 seq
-        	HttpSession session = request.getSession();
-            int cus_seq =(int)session.getAttribute("cus_seq");
+
+            HttpSession session = request.getSession();
+            int cus_seq = (int) session.getAttribute("cus_seq");
 
             CustomerDTO dto = new CustomerDTO();
             dto.setCus_seq(cus_seq);
