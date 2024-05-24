@@ -70,32 +70,7 @@ public class CartController extends HttpServlet {
             String path = "./customerCart.jsp"; // 장바구니 페이지의 JSP 파일 경로
             request.getRequestDispatcher(path).forward(request, response);
         } 
-		else if (action.equals("/customerCartInsert.cc")) {
-			HttpSession session = request.getSession();
-            int cusSeq =(int)session.getAttribute("cus_seq");
-
-            // 장바구니에 책 집어넣기
-            
-            // 가져온 책
-            int book_seq = Integer.parseInt(request.getParameter("book_seq"));
-            
-            System.out.println(book_seq + "-----------");
-            		
-            cartDAO cartDao = new cartDAO();
-            List<cartDTO> cartList = cartDao.getCartList(cusSeq);
-            System.out.println("cart conn ok!");
-            
-            int totalCartPrice = cartDao.totalCartPrice(cusSeq);
-            
-            // 장바구니 페이지로 전달할 데이터 설정
-            request.setAttribute("cartList", cartList);
-            request.setAttribute("cusSeq", cusSeq);
-            request.setAttribute("totalCartPrice", totalCartPrice);
-
-            // forward
-            String path = "./customerCart.jsp"; // 장바구니 페이지의 JSP 파일 경로
-            request.getRequestDispatcher(path).forward(request, response);
-        }       	
+		 	
 		else if(action.equals("/deleteCart.cc")) {
 		    int cartISeq = Integer.parseInt(request.getParameter("cartISeq"));
 
@@ -257,6 +232,31 @@ public class CartController extends HttpServlet {
 		    RequestDispatcher dispatcher = request.getRequestDispatcher("customer/customerBuyOrder.jsp");
 		    dispatcher.forward(request,response);
 		}
+		else if (action.equals("/customerCartInsert.cc")) {
+			HttpSession session = request.getSession();
+            int cusSeq =(int)session.getAttribute("cus_seq");
 
+            // 장바구니에 책 집어넣기
+            
+            // 가져온 책
+            int book_seq = Integer.parseInt(request.getParameter("book_seq"));
+            
+            System.out.println(book_seq + "-----------");
+            		
+            cartDAO cartDao = new cartDAO();
+            List<cartDTO> cartList = cartDao.getCartList(cusSeq);
+            System.out.println("cart conn ok!");
+            
+            int totalCartPrice = cartDao.totalCartPrice(cusSeq);
+            
+            // 장바구니 페이지로 전달할 데이터 설정
+            request.setAttribute("cartList", cartList);
+            request.setAttribute("cusSeq", cusSeq);
+            request.setAttribute("totalCartPrice", totalCartPrice);
+
+            // forward
+            String path = "./customer/customerCart.jsp"; // 장바구니 페이지의 JSP 파일 경로
+            request.getRequestDispatcher(path).forward(request, response);
+        }      
 	}
 }

@@ -218,11 +218,8 @@ $(function(){
 
 //  주문하기 버튼 클릭 시 주문하기 페이지로 이동
 function buying(book_seq){
-   console.log("buying");
     var cartICount = $('input[name="cartICount"]').val();
-    console.log(cartICount);
     var cus_seq = "<%=session.getAttribute("cus_seq")%>"
-    console.log(cus_seq);
     var priceClass = 'price' + book_seq;
     var price = $('.' + priceClass).text(); 
     
@@ -233,9 +230,10 @@ function buying(book_seq){
                                                                                                                                                                                                                                                                                                                                                                                                           
 }
 
-function goToCustomerCart(book_seq){
+function goToCustomerCart(book_seq, title){
 	location.href = "<%=request.getContextPath()%>/customerCartInsert.cc?"
-			+ "book_seq=" +book_seq;
+			+ "book_seq=" +book_seq
+			+ "title = " + title;
 }
 
 </script>
