@@ -1,5 +1,6 @@
 package eibooks.dao;
 
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -27,8 +28,6 @@ public class cartDAO {
 
 			//sql + 쿼리창
 			String sql= "select * from cart_item i "
-					+ "join cart c "
-					+ "on i.cus_seq = c.cus_seq "
 					+ "join books b "
 					+ "on i.book_seq = b.book_seq "
 					+ "where i.cus_seq = ?";
@@ -37,6 +36,7 @@ public class cartDAO {
 			pstmt.setInt(1, cusSeq);
 
 			rs = pstmt.executeQuery();
+			System.out.println("회원 seq는 잘 불러왔니? = " + cusSeq);
 
 			while(rs.next()) {
 				cartDTO cartItem = new cartDTO();
@@ -60,6 +60,8 @@ public class cartDAO {
                 
 				// 장바구니에 담긴 각 도서의 정보를 가져와서 추가
 				cartList.add(cartItem);
+				
+				System.out.println("cartItem: " + cartItem.toString());
 
 			}
 		} catch (Exception e) {

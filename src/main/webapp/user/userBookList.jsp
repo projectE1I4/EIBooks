@@ -232,8 +232,7 @@ function buying(book_seq){
 
 function goToCustomerCart(book_seq, title){
 	location.href = "<%=request.getContextPath()%>/customerCartInsert.cc?"
-			+ "book_seq=" +book_seq
-			+ "title = " + title;
+			+ "book_seq=" + book_seq;
 }
 
 </script>

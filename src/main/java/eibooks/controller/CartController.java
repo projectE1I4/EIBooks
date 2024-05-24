@@ -38,7 +38,6 @@ public class CartController extends HttpServlet {
 	}
 
 	protected void doProcess(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		/// join.jsp? login.jsp? joinProc?
 		System.out.println("doProcess");
 		request.setCharacterEncoding("utf-8"); // 한글처리
 
