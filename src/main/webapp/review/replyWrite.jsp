@@ -63,10 +63,10 @@ function del(reviewNum, pur_seq, pur_i_seq, bookNum){
 	location.href = "<%=request.getContextPath()%>/review/replyWrite.do?bookNum=" + bookNum + "&reviewNum=" + reviewNum + "&isReply=1"
 }
 
-function delReply(reviewNum){
+function delReply(reviewNum, ref_seq){
 	const input = confirm("정말 삭제하시겠습니까?");
 	if(input){
-		location.href = "<%=request.getContextPath()%>/review/replyDeleteProc.do?reviewNum=" + reviewNum;
+		location.href = "<%=request.getContextPath()%>/review/replyDeleteProc.do?reviewNum=" + reviewNum + "&ref_seq=" + ref_seq;
 	}else{
 		alert("삭제를 취소했습니다.");
 		return;
@@ -116,7 +116,6 @@ window.onload = function() {
 <% } else { %>
 <%for(ReviewDTO dto:reviewList) {%>
 	<tr class="review">
-	<% if(dto.getDel_YN().equals("N")) { %>
 		<td width="10%"><%=dto.getGrade() %></td>
 		<td width="10%"><%=dto.getCusInfo().getCus_id() %></td>
 		<td width="15%"><%=dto.getReviewDate() %></td>
@@ -143,9 +142,6 @@ window.onload = function() {
 					<a href="javascript:del('<%=dto.getReviewNum() %>', '<%=dto.getPur_seq() %>', '<%=dto.getPur_i_seq() %>', '<%=dto.getBookNum() %>')">[리뷰 삭제]</a>
 				</td>
 		<%}  %>
-	<% } else { %>
-	<td colspan="5" height="80px">삭제된 댓글입니다.</td>
-	<% } %>
 	</tr>
 <% if (reviewNum == dto.getReviewNum() && isReply == 1) { %>
 <tr>

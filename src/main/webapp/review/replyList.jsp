@@ -27,10 +27,10 @@ PageDTO p = (PageDTO)request.getAttribute("paging");
 			return;
 		}
 	}
-	function delReply(reviewNum, ref_seq, del_YN){
+	function delReply(reviewNum, ref_seq){
 		const input = confirm("정말 삭제하시겠습니까?");
 		if(input){
-			location.href = "<%=request.getContextPath()%>/review/replyDeleteProc.do?reviewNum=" + reviewNum + "&ref_seq=" + ref_seq + "&del_YN=" + del_YN;
+			location.href = "<%=request.getContextPath()%>/review/replyDeleteProc.do?reviewNum=" + reviewNum + "&ref_seq=" + ref_seq;
 		}else{
 			alert("삭제를 취소했습니다.");
 			return;
@@ -56,7 +56,6 @@ PageDTO p = (PageDTO)request.getAttribute("paging");
 <% } else { %>
 <%for(ReviewDTO dto:reviewList) {%>
 	<tr>
-	<% if(dto.getDel_YN().equals("N")) { %>
 		<td width="10%"><%=dto.getGrade() %></td>
 		<td width="10%"><%=dto.getCusInfo().getCus_id() %></td>
 		<td width="15%"><%=dto.getReviewDate() %></td>
@@ -83,9 +82,6 @@ PageDTO p = (PageDTO)request.getAttribute("paging");
 					<a href="javascript:del('<%=dto.getReviewNum() %>')">[리뷰 삭제]</a>
 				</td>
 		<% } %>
-	<% } else { %>
-		<td colspan="5" height="80px">삭제된 댓글입니다.</td>
-	<% } %>
 	</tr>
 	<%
 	ReviewDAO dao = new ReviewDAO();
@@ -104,7 +100,7 @@ PageDTO p = (PageDTO)request.getAttribute("paging");
 			<tr class="reply">
 			<td colspan="5">
 			<a href="replyUpdate.do?reviewNum=<%=reply.getReviewNum() %>&isReply=1">[답글 수정]</a> 
-			<a href="javascript:delReply('<%=reply.getReviewNum() %>', '<%=reply.getRef_seq()%>', '<%=dto.getDel_YN() %>')">[답글 삭제]</a>
+			<a href="javascript:delReply('<%=reply.getReviewNum() %>', '<%=reply.getRef_seq()%>')">[답글 삭제]</a>
 			</td>
 			</tr>
 		<%} %>

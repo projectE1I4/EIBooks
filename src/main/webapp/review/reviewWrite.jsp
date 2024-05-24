@@ -49,10 +49,10 @@ function limitText(field, maxLength) {
 	}
 }
 
-function del(reviewNum, ref_YN){
+function del(reviewNum){
 	const input = confirm("정말 삭제하시겠습니까?");
 	if(input){
-		location.href = "<%=request.getContextPath()%>/review/reviewDeleteProc.do?bookNum=<%=bookNum %>&reviewNum=" + reviewNum + "&ref_YN=" + ref_YN;
+		location.href = "<%=request.getContextPath()%>/review/reviewDeleteProc.do?bookNum=<%=bookNum %>&reviewNum=" + reviewNum;
 	}else{
 		alert("삭제를 취소했습니다.");
 		return;
@@ -102,7 +102,6 @@ function del(reviewNum, ref_YN){
 <% } else { %>
 <%for(ReviewDTO dto:reviewList) {%>
 	<tr>
-	<% if(dto.getDel_YN().equals("N")) { %>
 			<td width="30%"><%=dto.getGrade() %></td>
 			<td width="30%"><%=dto.getCusInfo().getCus_id() %></td>
 			<td width="30%"><%=dto.getReviewDate() %></td>
@@ -114,12 +113,9 @@ function del(reviewNum, ref_YN){
 		<tr>
 		<td colspan="3">
 		<a href="../review/reviewUpdate.do?bookNum=<%=bookNum %>&pur_seq=<%=pur_seq%>&pur_i_seq=<%=pur_i_seq%>&reviewNum=<%=dto.getReviewNum() %>">[수정하기]</a> 
-		<a href="javascript:del('<%=dto.getReviewNum() %>', '<%=dto.getRef_YN() %>')">[삭제하기]</a>
+		<a href="javascript:del('<%=dto.getReviewNum() %>')">[삭제하기]</a>
 		</td>
 		<% } %> <!-- userNum 체크 -->
-	<% } else { %>
-			<td colspan="5" height="80px">삭제된 댓글입니다.</td>
-	<% } %>
 	</tr>
 	<%
 	ReviewDAO dao = new ReviewDAO();

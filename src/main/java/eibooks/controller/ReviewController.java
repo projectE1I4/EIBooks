@@ -379,8 +379,6 @@ public class ReviewController extends HttpServlet {
 			HttpSession session = request.getSession();
 			int userNum = (int)session.getAttribute("cus_seq");
 
-			String ref_YN = request.getParameter("ref_YN");
-			
 			String sReviewNum = request.getParameter("reviewNum");
 			int reviewNum = Integer.parseInt(sReviewNum);
 			
@@ -410,18 +408,12 @@ public class ReviewController extends HttpServlet {
 			// 리뷰 delete dao
 			ReviewDTO dDto = new ReviewDTO();
 			dDto.setReviewNum(reviewNum);
-			
-			if (ref_YN.equals("Y")) {
-				dao.deleteWrite(dDto);
-			} else {
-				dao.deleteReply(dDto);
-			}
-			
+			dao.deleteWrite(dDto);
+			dao.deleteReply(dDto);
 
 			request.setAttribute("reviewList", reviewList);
 			request.setAttribute("totalCount", totalCount);
 			request.setAttribute("paging", paging);
-			//request.setAttribute("myReview", myReview);
 
 			String path = "/EIBooks/review/reviewList.do?" + "bookNum=" + bookNum;
 			response.sendRedirect(path);
@@ -672,24 +664,16 @@ public class ReviewController extends HttpServlet {
 			String sReviewNum = request.getParameter("reviewNum");
 			int reviewNum = Integer.parseInt(sReviewNum);
 			int ref_seq = Integer.parseInt(request.getParameter("ref_seq"));
-			String del_YN = request.getParameter("del_YN");
 			
 			ReviewDAO dao = new ReviewDAO();
 			ReviewDTO uDto = new ReviewDTO();
 			uDto.setReviewNum(ref_seq);
-			
-			// 리뷰 delete dao
-			if (del_YN.equals("N")) {
-				uDto.setRef_YN("N");
-				dao.updateRefYn(uDto);
-				
-			} else {
-				dao.deleteReply(uDto);
-			}
+			uDto.setRef_YN("N");
+			dao.updateRefYn(uDto);
 			
 			ReviewDTO dto = new ReviewDTO();
 			dto.setReviewNum(reviewNum);
-			dao.deleteReply(dto);
+			dao.deleteWrite(dto);
 			
 			String path = "/EIBooks/review/replyList.do";
 			response.sendRedirect(path);
@@ -709,6 +693,7 @@ public class ReviewController extends HttpServlet {
 			ReviewDTO dto = new ReviewDTO();
 			dto.setReviewNum(reviewNum);
 			dao.deleteWrite(dto);
+			dao.deleteReply(dto);
 			
 			String path = "/EIBooks/review/replyList.do?userNum=" + userNum;
 			response.sendRedirect(path);
