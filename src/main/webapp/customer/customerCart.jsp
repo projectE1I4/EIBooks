@@ -96,7 +96,8 @@
     <h3>총 가격: <span id="totalPrice"><%=totalCartPrice - 3000 %></span>원</h3>
     <h3>배송비: <span>3000</span>원</h3>
     <h3>총 가격: <span id="totalCartPrice"><%=totalCartPrice %></span>원</h3>
-    <button type="button">주문하기</button>
+    <button id="orderBtn" type="button">주문하기</button>
+
 </div>
 
 <script>
@@ -120,7 +121,6 @@ document.getElementById("deleteSelectedBtn").addEventListener("click", function(
         document.getElementById("cartForm").submit();
     }
 });
-
 
 //수량 증가 함수
 function increaseBtn(cartISeq) {
@@ -157,9 +157,11 @@ function updateCart(cartISeq, cartICount) {
     xhr.send("cartISeq=" + cartISeq + "&cartICount=" + cartICount + "&cusSeq=" + cusSeq);
 }
 
+
+
 // 페이지 로드 시 총 가격 가져오기
 window.onload = function() {
-    getTotalPrice();
+	totalCartPrice();
 };
 
 </script>

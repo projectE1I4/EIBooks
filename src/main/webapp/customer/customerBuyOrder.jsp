@@ -1,3 +1,6 @@
+<%@page import="eibooks.dto.AddressDTO"%>
+<%@page import="eibooks.dto.CustomerDTO"%>
+<%@page import="eibooks.dao.CustomerDAO"%>
 <%@page import="eibooks.dao.BookDAO"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="eibooks.dto.BookDTO"%>
@@ -7,6 +10,15 @@
     pageEncoding="UTF-8"%>  
 <%
     out.print("왔냐?");
+
+	// 주문한 고객 정보 불러오기
+	int cus_seq = (int)session.getAttribute("cus_seq");
+	
+	CustomerDAO customerDAO = new CustomerDAO();
+	CustomerDTO customer = customerDAO.getCustomerDetails(cus_seq);
+	AddressDTO addrInfo = customer.getAddrInfo();
+
+	// 장바구니에 담은 책 정보 불러오기
     cartDTO cartdto = new cartDTO();
     List<BookDTO> bookList = new ArrayList<>();
     BookDTO book = new BookDTO();
@@ -21,6 +33,7 @@
 <head>
 <meta charset="UTF-8">
 <title>customerOrder</title>
+
 </head>
 <body data-cus-seq="<%= request.getAttribute("cusSeq") %>" data-cart-seq="<%= request.getAttribute("cartSeq") %>">
 <%@ include file="../common/menu.jsp" %>
@@ -29,8 +42,26 @@
 <form id="cartForm" action="customerBuyOrder.cc" method="post">
     <table border="1" width="95%">
         <tr>
-            <h3> [ 주문 상품 ]
+            <th>수령자명</th>
+            <td><%= customer.getName() %></td>
         </tr>
+        <tr>
+            <th>연락처</th>
+            <td><%= customer.getTel() %></td>
+        </tr>
+        <tr>
+            <th>이메일</th>
+            <td><%= customer.getEmail() %></td>
+        </tr>
+        <tr>
+            <th>배송지</th>
+            <td>
+                <%= addrInfo.getPostalCode() %><br>
+                <%= addrInfo.getAddr() %><br>
+                <%= addrInfo.getAddr_detail() %>
+            </td>
+        </tr>
+        
         <tr>
         	<th width="20%">이미지</th>
         	<th width="20%">도서명</th>
@@ -46,9 +77,9 @@
            	<td>
 				<img src="<%=resultBook.getImageFile() %>">
 			</td>
-               <td>book_title: <%=resultBook.getTitle() %></td>
-               <td>cartICount: <%=request.getAttribute("cartICount") %></td>
-               <td>totalCartPrice: <%=request.getAttribute("totalCartPrice") %></td>               
+               <td><%=resultBook.getTitle() %></td>
+               <td><%=request.getAttribute("cartICount") %>권</td>
+               <td><%=(int)request.getAttribute("totalCartPrice") -3000 %>원</td>               
            </tr>
            <%} %>
     </table>
@@ -58,13 +89,10 @@
 	<h3>총 가격: <span id="totalPrice"><%=(int)request.getAttribute("totalCartPrice") - 3000 %></span>원</h3>
     <h3>배송비: <span>3000</span>원</h3>
     <h3>총 가격: <span id="totalCartPrice"><%=(int)request.getAttribute("totalCartPrice") %></span>원</h3>
-    <button type="button">결제하기</button>
+    <button type="button" onclick="location.href='./customer/customerOrderComplete.jsp'">결제하기</button>
+
 
 </div>
-
-<!-- 총 가격 표시 -->
-
-
 
 </body>
 </html>
