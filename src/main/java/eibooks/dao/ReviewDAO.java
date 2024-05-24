@@ -61,7 +61,6 @@ public class ReviewDAO {
 				int reviewNum = rs.getInt("re_seq");
 				String reviewDate = rs.getString("r.regDate");
 				String content = rs.getString("r.content");
-				String del_YN = rs.getString("r.del_YN");
 				String ref_YN = rs.getString("ref_YN");
 				
 				String cus_id = rs.getString("c.cus_id");
@@ -70,7 +69,6 @@ public class ReviewDAO {
 				
 				ReviewDTO dtos = new ReviewDTO(bookNum, userNum, pur_seq, pur_i_seq, reviewNum, grade, content, reviewDate);
 				dtos.setCusInfo(cDto);
-				dtos.setDel_YN(del_YN);
 				dtos.setRef_YN(ref_YN);
 				reviews.add(dtos);
 			}
@@ -208,7 +206,7 @@ public class ReviewDAO {
 		int reviewCount = 0;
 		
 		String sql = "select count(re_seq) as reviewCnt from review "
-				+ " where pur_i_seq = ? and depth = 1 and del_YN = 'N' ";
+				+ " where pur_i_seq = ? and depth = 1 ";
 		
 		System.out.println(sql);
 		conn = JDBCConnect.getConnection();
@@ -241,7 +239,7 @@ public class ReviewDAO {
 				+ " on r.cus_seq = c.cus_seq "
 				+ " join purchase_item i "
 				+ " on r.pur_i_seq = i.pur_i_seq "
-				+ " where r.pur_i_seq = ? and depth = 1 and r.del_YN = 'N' ";
+				+ " where r.pur_i_seq = ? and depth = 1 ";
 		
 		conn = JDBCConnect.getConnection();
 		
@@ -286,7 +284,7 @@ public class ReviewDAO {
 			
 			String sql = "update review "
 					+ " set grade = ?, content = ?"
-					+ " where re_seq = ? and del_YN = 'N' ";
+					+ " where re_seq = ? ";
 			pstmt = conn.prepareStatement(sql);
 			
 			pstmt.setInt(1, dto.getGrade());
@@ -312,8 +310,8 @@ public class ReviewDAO {
 		try {
 			conn = JDBCConnect.getConnection();
 			
-			String sql = "update review set del_YN = 'Y' "
-					+ " where re_seq = ? and del_YN = 'N' ";
+			String sql = "delete from review "
+					+ " where re_seq = ? ";
 			pstmt = conn.prepareStatement(sql);
 			
 			pstmt.setInt(1, dto.getReviewNum());
@@ -362,7 +360,7 @@ public class ReviewDAO {
 		int allReviews = 0;
 		
 		String sql = "select count(re_seq) as allReviewCnt from review "
-				+ " where depth = 1 and del_YN = 'N' ";
+				+ " where depth = 1 ";
 		
 		System.out.println(sql);
 		conn = JDBCConnect.getConnection();
@@ -420,7 +418,6 @@ public class ReviewDAO {
 				String content = rs.getString("content");
 				String refYN = rs.getString("ref_YN");
 				int ref_seq = rs.getInt("ref_seq");
-				String del_YN = rs.getString("r.del_YN");
 
 				String cus_id = rs.getString("c.cus_id");
 				CustomerDTO cDto = new CustomerDTO();
@@ -429,7 +426,6 @@ public class ReviewDAO {
 				ReviewDTO dtos = new ReviewDTO(bookNum, userNum, pur_seq, pur_i_seq, reviewNum, grade, content, reviewDate);
 				dtos.setRef_YN(refYN); 
 				dtos.setRef_seq(ref_seq);
-				dtos.setDel_YN(del_YN);
 				dtos.setCusInfo(cDto);
 				reviews.add(dtos);
 			}
@@ -548,7 +544,7 @@ public class ReviewDAO {
 		try {
 			conn = JDBCConnect.getConnection();
 			
-			String sql = "delete from review where re_seq = ? ";
+			String sql = "delete from review where ref_seq = ? ";
 			pstmt = conn.prepareStatement(sql);
 			
 			pstmt.setInt(1, dto.getReviewNum());
