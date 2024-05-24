@@ -36,11 +36,6 @@ function goToPage(pur_seq) {
 
 <%@ include file="../common/menu.jsp" %>
 
-<!-- 로그인 세션 여부 체크하는 걸로 변경해야 함 -->
-<%
-if(customer != null && customer.getDel_YN().equals("N")) {
-%>
-
 <!-- 제목 --> 
 <h2>마이페이지</h2>
 <ul>
@@ -135,8 +130,5 @@ if(customer != null && customer.getDel_YN().equals("N")) {
 	</td>
 	</tr>
 </table>
-<% } else { %>
-	<div class="info">로그인 하세요</div>
-<% } %>
 </body>
 </html>
