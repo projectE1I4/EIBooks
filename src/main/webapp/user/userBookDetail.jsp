@@ -70,19 +70,31 @@
 	
 </table>
 
-<h2>도서 리뷰 별점평균/5</h2>
-<%int reviewCount = (int)request.getAttribute("reviewCount"); %>
+<%
+// 리뷰 개수
+int reviewCount = (int)request.getAttribute("reviewCount");
+// 별점 평균
+double reviewAvg = Math.round((double)request.getAttribute("reviewAvg") * 10) / 10.0;
+// 리뷰 4개 연결
+List<ReviewDTO> topReviews = (List<ReviewDTO>)request.getAttribute("topReviews");
+%>
+<h2>도서 리뷰 <%=reviewAvg %>/5</h2>
 <a href="/EIBooks/review/reviewList.do?bookNum=<%=book_seq%>">전체보기(<%=reviewCount %>)</a>
 <ul>
-<%// for() %>
-	<li>
-		<ul>
-			<li>별점</li>
-			<li>회원ID</li>
-			<li>리뷰 작성일</li>
-			<li>리뷰 내용</li>
-		</ul>
-	</li>
+<% if(topReviews.isEmpty()) { %>	
+<b>리뷰가 없습니다.</b>
+<% } else { %>
+	<%for(ReviewDTO rDto:topReviews) {%>
+		<li>
+			<ul>
+				<li><%=rDto.getGrade() %></li>
+				<li><%=rDto.getCusInfo().getCus_id() %></li>
+				<li><%=rDto.getReviewDate() %></li>
+				<li><%=rDto.getContent() %></li>
+			</ul>
+		</li>
+	<%} %>
+<%} %>
 </ul>
 </body>
 </html>

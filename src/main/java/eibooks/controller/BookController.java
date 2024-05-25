@@ -381,6 +381,10 @@ public class BookController extends HttpServlet {
 			ReviewDAO rDao = new ReviewDAO();
 			int reviewCount = rDao.selectCount(rDto);
 			request.setAttribute("reviewCount", reviewCount);
+			double reviewAvg = rDao.reviewAvg(rDto);
+			request.setAttribute("reviewAvg", reviewAvg);
+			List<ReviewDTO> topReviews = rDao.selectTopList(rDto);
+			request.setAttribute("topReviews", topReviews);
 			
 
 			request.setAttribute("dto", dto);
