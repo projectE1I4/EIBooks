@@ -71,18 +71,15 @@
 </table>
 
 <%
-// 리뷰 개수
-int reviewCount = (int)request.getAttribute("reviewCount");
-// 별점 평균
-double reviewAvg = Math.round((double)request.getAttribute("reviewAvg") * 10) / 10.0;
-// 리뷰 4개 연결
-List<ReviewDTO> topReviews = (List<ReviewDTO>)request.getAttribute("topReviews");
+int reviewCount = (int)request.getAttribute("reviewCount"); // 리뷰 개수
+double reviewAvg = Math.round((double)request.getAttribute("reviewAvg") * 10) / 10.0; // 별점 평균
+List<ReviewDTO> topReviews = (List<ReviewDTO>)request.getAttribute("topReviews"); // 리뷰 4개 연결
 %>
 <h2>도서 리뷰 <%=reviewAvg %>/5</h2>
-<a href="/EIBooks/review/reviewList.do?bookNum=<%=book_seq%>">전체보기(<%=reviewCount %>)</a>
+<a href="/EIBooks/review/reviewList.do?bookNum=<%=book_seq%>">전체보기 (<%=reviewCount %>개)</a>
 <ul>
 <% if(topReviews.isEmpty()) { %>	
-<b>리뷰가 없습니다.</b>
+<li><b>리뷰가 없습니다.</b></li>
 <% } else { %>
 	<%for(ReviewDTO rDto:topReviews) {%>
 		<li>
