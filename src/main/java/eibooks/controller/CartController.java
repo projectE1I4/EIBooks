@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -239,20 +240,34 @@ public class CartController extends HttpServlet {
             
             // 가져온 책
             int book_seq = Integer.parseInt(request.getParameter("book_seq"));
+            int cartICount = Integer.parseInt(request.getParameter("cartICount"));
             
-            System.out.println(book_seq + "-----------");
-            		
             cartDAO cartDao = new cartDAO();
             List<cartDTO> cartList = cartDao.getCartList(cusSeq);
             System.out.println("cart conn ok!");
             
+            cartDTO cartdto = new cartDTO(book_seq);
             int totalCartPrice = cartDao.totalCartPrice(cusSeq);
-            
+
             // 장바구니 페이지로 전달할 데이터 설정
             request.setAttribute("cartList", cartList);
             request.setAttribute("cusSeq", cusSeq);
             request.setAttribute("totalCartPrice", totalCartPrice);
-
+            request.setAttribute("book_seq", book_seq);
+            request.setAttribute("cartICount", cartICount);
+            
+            
+            cartList.add(cartdto);
+            request.setAttribute("cartList", cartList);
+            
+            Map<String, Object> map = new HashMap<>();
+            map.put("cusSeq", session.getAttribute("cus_seq"));
+            map.put("cartISeq", session.getAttribute("cart_I_seq"));
+            map.put("cart_i_count", cartICount);
+            map.put("cart_seq", cartdto.getCartSeq());
+            map.put("book_seq", request.getParameter("book_seq"));
+            cartDao.insertCart(map);
+            
             // forward
             String path = "./customer/customerCart.jsp"; // 장바구니 페이지의 JSP 파일 경로
             request.getRequestDispatcher(path).forward(request, response);

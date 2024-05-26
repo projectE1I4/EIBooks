@@ -32,7 +32,7 @@
 		<td colspan="4"><%=dto.getAuthor()%></td>	
 	</tr>
 	<div>
-		<div >
+		<div>
 			<tr>
 				<td><img src="<%=dto.getImageFile() %>" alt="표지이미지" width=200></td>
 			</tr>

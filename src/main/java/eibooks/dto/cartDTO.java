@@ -1,5 +1,6 @@
 package eibooks.dto;
 
+import eibooks.dao.BookDAO;
 import eibooks.dto.BookDTO;
 
 public class cartDTO {
@@ -22,6 +23,17 @@ public class cartDTO {
 		this.book_seq = book_seq;
 		this.cartICount = cartICount;
 		this.bookInfo = bookInfo;
+	}
+
+	public cartDTO(int book_seq) {
+		this.book_seq = book_seq;
+		
+		BookDTO dto = new BookDTO();
+		BookDAO dao = new BookDAO();
+		
+		dto.setBook_seq(book_seq);
+		BookDTO bookData = dao.getBook(dto);
+		this.bookInfo = bookData;
 	}
 
 	public int getCartISeq() {

@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import eibooks.common.JDBCConnect;
 import eibooks.dto.BookDTO;
@@ -72,6 +73,38 @@ public class cartDAO {
 
 		return cartList;
 	}
+	
+	//장바구니 리스트 수량 수정
+		public int insertCart (Map<String, Object> map) {
+			Connection conn = null;
+			PreparedStatement pstmt = null;
+			int rs = 0;
+			System.out.println("insertCart 출력");
+			try {
+				//DB 연결
+		        conn = JDBCConnect.getConnection();
+				String sql = "insert into cart(cus_seq) values(?); \n";
+				sql += "insert into cart_item(book_seq, cart_i_count, cart_seq, cus_seq) values(?,?, (select cart_seq from cart where cus_seq=?), ?);";
+				pstmt = conn.prepareStatement(sql);
+				
+				pstmt.setInt(1, Integer.parseInt(map.get("cusSeq").toString()));
+				pstmt.setInt(2, Integer.parseInt((String) map.get("book_seq")));
+				System.out.println("cart_i_count" + map.get("cart_i_count"));
+				pstmt.setInt(3, Integer.parseInt(map.get("cart_i_count").toString()));
+				System.out.println("cart_seq" + map.get("cart_seq"));
+				pstmt.setInt(4, Integer.parseInt(map.get("cusSeq").toString()));
+				pstmt.setInt(5, Integer.parseInt(map.get("cusSeq").toString()));
+				
+				System.out.println("rs" + pstmt);
+				rs = pstmt.executeUpdate();
+				
+			} catch(Exception e) {
+				e.printStackTrace();
+			}finally {
+				JDBCConnect.close(pstmt, conn);
+			}
+			return rs;
+		}
 	
 	//장바구니 리스트 항목 삭제 
 	public int deleteCart (int cartISeq) {

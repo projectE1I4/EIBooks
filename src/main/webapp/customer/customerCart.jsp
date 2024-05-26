@@ -7,6 +7,11 @@
     List<cartDTO> cartList = (List<cartDTO>)request.getAttribute("cartList");
     cartDTO cartdto = new cartDTO();   
     int totalCartPrice = (int)request.getAttribute("totalCartPrice");
+    int book_seq = Integer.parseInt(request.getParameter("book_seq"));
+    int cartICount = Integer.parseInt(request.getParameter("cartICount"));
+    String title = request.getParameter("title");
+    out.print(book_seq);
+    out.print(cartList);
 %>
 
 <!DOCTYPE html>
@@ -21,7 +26,6 @@
 <h2>회원 장바구니 보기</h2>
 <button id="selectAllBtn" type="button">전체 </button>
 <button id="deleteSelectedBtn" type="button"> 선택 삭제 </button>
-
 
 <!-- 장바구니 목록 -->
 <form id="cartForm" action="deleteSelectedItems.cc" method="post">
@@ -161,7 +165,7 @@ function updateCart(cartISeq, cartICount) {
 
 // 페이지 로드 시 총 가격 가져오기
 window.onload = function() {
-	totalCartPrice();
+	//totalCartPrice();
 };
 
 </script>

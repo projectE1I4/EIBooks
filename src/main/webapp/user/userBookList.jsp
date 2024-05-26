@@ -83,7 +83,6 @@ function makePaging(data){
 			'&searchWord=<%=searchWord%>&category=<%=category%>' +'&order=<%=list%>">[Last]</a>';
 	<% } %>
     $('#userPaging').html(html);
-    console.log(html);
 }
 
 function userSearch(){
@@ -92,7 +91,6 @@ function userSearch(){
 	var searchWord = $('input[name="searchWord"]').val();
 	var pageNum = <%=p.getPageNum()%>;
 	var category = "<%=(request.getParameter("category") != null && !request.getParameter("category").equals("") ) ? request.getParameter("category") : category%>";
-	console.log("ssscategory_book_java: ", "<%=category %>", category);
 	var list = "<%=list%>";
 	// 제일 먼저 실행	
 	$.ajax({
@@ -111,7 +109,6 @@ function userSearch(){
     		+ '&category=' + encodeURIComponent(category) +'&order=' + encodeURIComponent(list);
             window.history.pushState({ path: newUrl }, '', newUrl);
             makeSearch(response, searchWord, category); 
-            userPaging();
         },
         error: function (request, status, error) {
             console.log(request, status, error);
@@ -138,9 +135,10 @@ function decreaseBtn(bookSeq) {
 function makeSearch(data){
 	let html = ''; 
 	let cnt = 0;
+	
     for(b of data){            	
 		html += '<tr>';
-    	html += '<td>' + (cnt += 1) + '</td>';
+    	html += '<td>' + (cnt += 1) + '<input type="checkbox" name="product" value="'+ b['book_seq'] + '">' + '</td>';
     	html += '<td  onclick="goToPage('+ b['book_seq'] + ')"><img alt="' + b['title'] + '" src="' + b['imageFile'] + '" ></td>';
     	html += '<td  onclick="goToPage('+ b['book_seq'] + ')">' + b['title'] + '</td>';
     	html += '<td>' + b['author'] + '</td>';
@@ -152,11 +150,11 @@ function makeSearch(data){
 	       	+ '<div>'
             + '<button type="button" onclick="decreaseBtn('+ b['book_seq'] +')">-</button>'
             + '<input id="quantity'+ b['book_seq'] +'" type="number" name="cartICount" value="1"'
-            + 'min="1" readonly>'
+            + 'min="1" readonly style="width:30px;">'
             + '<button type="button" onclick="increaseBtn('+ b['book_seq'] +')">+</button>'
         + '</div>'
 		+ '<button type="button" onclick="buying('+ b['book_seq'] + ');">주문하기</button></td>';
-    	html += '<td><button type="button" onclick="goToCustomerCart('+b['book_seq'] +');">장바구니</button></td>';
+    	html += '<td><button type="button" onclick="goToCustomerCart('+b['book_seq'] + ');">장바구니</button></td>';
     	html += '</tr>';         
     }
     $('#userBooks').html(html);
@@ -166,7 +164,6 @@ function userCategory(){
 	var searchWord = $('input[name="searchWord"]').val();
 	var pageNum = <%=p.getPageNum()%>;
 	var category = "<%=(request.getParameter("category") != null && !request.getParameter("category").equals("") ) ? request.getParameter("category") : category%>";
-	console.log("ccccategory_book_java: ", "<%=category %>", category);
 	var list = "<%=list%>";
 	$.ajax({
         type:'GET',
@@ -209,11 +206,24 @@ $(function(){
 		searchWord = "<%= searchWord %>";
         $('input[name="searchWord"]').val("<%=searchWord%>");
         <%	}%>
-        
+            
 	userSearch();
 	userCategory();
 	userPaging();
-	console.log("카테", "<%=category%>");
+	
+	$('#userBooks').on('change', 'input[name="product"]', function () {
+	    var productNumber = $(this).val();
+    	var isChecked = $(this).prop('checked');
+    	 if (isChecked) {
+             $('#status').text('상품번호 ' + productNumber + '가 체크되었습니다.');
+         } else {
+             $('#status').text('상품번호 ' + productNumber + '는 체크되지 않았습니다.');
+         }
+		
+		
+	})
+	
+	
 });
 
 //  주문하기 버튼 클릭 시 주문하기 페이지로 이동
@@ -230,10 +240,12 @@ function buying(book_seq){
                                                                                                                                                                                                                                                                                                                                                                                                           
 }
 
-function goToCustomerCart(book_seq, title){
+function goToCustomerCart(book_seq){
+	var cartICount = $('input[name="cartICount"]').val();
 	location.href = "<%=request.getContextPath()%>/customerCartInsert.cc?"
-			+ "book_seq=" + book_seq;
+			+ "book_seq=" + book_seq + "&cartICount=" + cartICount;
 }
+
 
 </script>
 </head>
@@ -288,7 +300,8 @@ function goToCustomerCart(book_seq, title){
 			</td>
 		</tr>
 	</table>
-	
+	<input type="button" value="선택 상품 장바구니로" onclick="selectCart();">
+	<div id="status" style="border: 1px solid red"></div>
 	<table border="1">
 		<thead>
 			<tr>

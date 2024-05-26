@@ -368,7 +368,6 @@ public class BookController extends HttpServlet {
 			request.setCharacterEncoding("utf-8");
 			int book_seq = Integer.parseInt(request.getParameter("book_seq"));
 
-			System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>> : " + book_seq);
 			BookDTO dto = new BookDTO();
 			dto.setBook_seq(book_seq);
 
