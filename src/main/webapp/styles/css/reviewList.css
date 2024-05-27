@@ -1,0 +1,176 @@
+body {
+	background-color: #e9eaee;
+}
+
+h1 {
+	font-size: 30px;
+	display: flex;
+	justify-content: center;
+	align-items: end;
+}
+
+.review_list_area {
+	width: 1280px;
+	margin: 10px auto 0;
+}
+
+.tit_wrap {
+	padding: 0 35px 0 10px;
+	display: flex;
+	justify-content: space-between;
+	position: relative;
+}
+
+.sort_wrap {
+    position: absolute;
+    display: inline-block;
+    width: 127px;
+    height: 36px;
+    left: 195px;
+    top: 5px;
+}
+
+.sort {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 6px 15px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+    height: 37px;
+}
+
+.sort_menu {
+    display: none;
+    position: absolute;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    min-width: 127px;
+    z-index: 1;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.sort_menu li a {
+    display: block;
+    padding: 6px 15px;
+}
+
+.sort_menu li a:hover {
+    background-color: #ddd;
+}
+
+.sort_menu .selected {
+    font-weight: bold;
+    color: #007bff;
+}
+
+.sort:hover .sort_menu {
+    display: block;
+}
+
+.total_count {
+	font-size: 18px;
+	display: flex;
+	justify-content: center;
+	align-items: end;
+}
+
+.review_list_wrap {
+	border: 1px solid #000;
+}
+.review_list {
+	width: 1064px;
+	margin: 0 auto;
+	font-size: 15px;
+}
+
+.no_review {
+	text-align: center;
+}
+.review {
+	width: 100%;
+}
+.review_info {
+	width: 1064px;
+	height: 140px;
+	padding-top: 28px;
+	padding-left: 30px;
+	margin: 0 auto;
+	position: relative;
+	background-color: #fff;
+}
+
+.reply::before {
+	display: block;
+	position: absolute;
+	background-images: url(../styles/images/arrow_right.svg) no-repeat;
+}
+.reply_info {
+	width: 956px;
+	height: 140px;
+	padding-top: 17px;
+	padding-left: 16px;
+	margin: 10px 0 30px auto;
+	position: relative;
+	background-color: #fff;
+}
+
+.reply {
+	position: relative;
+}
+.reply .reply_icon {
+	position: absolute;
+	left: -80px;
+	top: 0;
+}
+
+.review_list>li:last-child .reply {
+	margin-bottom: 15px;
+}
+.content {
+	background-color: #f3f3f3;
+	width: 808px;
+	height: 108px;
+	padding: 15px 10px;
+}
+
+.review_info .review_content {
+	position: absolute;
+	right: 45px;
+	top: 21px;
+}
+.review_info .grade {
+	font-size: 25px;
+	display: flex;
+}
+.review_info .grade span {
+	margin-left: 10px;
+}
+.review_info .grade img {
+	width: 25px;
+	height: 25px;
+	margin-top: 4px;
+}
+.review_btn_wrap {
+	position: absolute;
+	right: 10px;
+	top: 10px;
+}
+.review_btn_wrap a {
+	display: block;
+}
+.review_btn_wrap a:last-child {
+	margin-top: 10px;
+}
+
+.review_btn_wrap img{
+	width: 20px;
+	height: 20px;
+}
+
+.reply_info .reply_content {
+	position: absolute;
+	right: 45px;
+	top: 21px;
+}
