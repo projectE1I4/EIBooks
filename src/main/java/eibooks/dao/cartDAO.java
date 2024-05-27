@@ -83,7 +83,8 @@ public class cartDAO {
 			try {
 				//DB 연결
 		        conn = JDBCConnect.getConnection();
-				String sql = "insert into cart(cus_seq) values(?); \n";
+		        // 얘 삭제 예정?
+				// String sql = "insert into cart(cus_seq) values(?);";
 				sql += "insert into cart_item(book_seq, cart_i_count, cart_seq, cus_seq) values(?,?, (select cart_seq from cart where cus_seq=?), ?);";
 				pstmt = conn.prepareStatement(sql);
 				

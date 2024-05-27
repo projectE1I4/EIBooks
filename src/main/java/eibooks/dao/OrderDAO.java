@@ -14,7 +14,12 @@ import eibooks.dto.CustomerDTO;
 import eibooks.dto.OrderDTO;
 
 public class OrderDAO {
-
+		
+		// order 저장 - insert (효빈)
+		public List<OrderDTO> insertOrderList(BookDTO resultBook){
+			
+		}
+	
 		// 전체 회원 주문 내역 조회
 		public List<OrderDTO> getOrderList(Map<String, String> map) {
 			List<OrderDTO> orderList = new ArrayList<>();

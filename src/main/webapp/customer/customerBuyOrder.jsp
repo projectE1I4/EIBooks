@@ -1,3 +1,5 @@
+<%@page import="eibooks.dto.OrderDTO"%>
+<%@page import="java.util.function.Function"%>
 <%@page import="eibooks.dto.AddressDTO"%>
 <%@page import="eibooks.dto.CustomerDTO"%>
 <%@page import="eibooks.dao.CustomerDAO"%>
@@ -33,7 +35,13 @@
 <head>
 <meta charset="UTF-8">
 <title>customerOrder</title>
+<script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery-3.7.1.min.js"></script>
+<script type="text/javascript">
 
+function buy (BookDTO resultBook) {
+	location.href='./customer/customerOrderComplete.jsp?' + resultBook;
+}
+</script>
 </head>
 <body data-cus-seq="<%= request.getAttribute("cusSeq") %>" data-cart-seq="<%= request.getAttribute("cartSeq") %>">
 <%@ include file="../common/menu.jsp" %>
@@ -89,9 +97,7 @@
 	<h3>총 가격: <span id="totalPrice"><%=(int)request.getAttribute("totalCartPrice") - 3000 %></span>원</h3>
     <h3>배송비: <span>3000</span>원</h3>
     <h3>총 가격: <span id="totalCartPrice"><%=(int)request.getAttribute("totalCartPrice") %></span>원</h3>
-    <button type="button" onclick="location.href='./customer/customerOrderComplete.jsp'">결제하기</button>
-
-
+    <button type="button" onclick="buy(resultBook);">결제하기</button>
 </div>
 
 </body>
