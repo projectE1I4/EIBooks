@@ -205,8 +205,8 @@ $(document).ready( function() {
 
 <div class="board_list_wrap">
 	<div class="pagination">
-	<%if(p.isPrev()) {%><a href="reviewList.do?bookNum=<%=bookNum %><% if(sPur_seq != null) { %>&pur_seq=<%=pur_seq%>&pur_i_seq=<%=pur_i_seq%><%} %>&pageNum=1&orderBy=<%=orderBy %>">[처음]</a><% } %>
-	<%if(p.isPrev()) {%><a href="reviewList.do?bookNum=<%=bookNum %><% if(sPur_seq != null) { %>&pur_seq=<%=pur_seq%>&pur_i_seq=<%=pur_i_seq%><%} %>&pageNum=<%=p.getStartPage()-1 %>&orderBy=<%=orderBy %>">[이전]</a><%} %>
+	<%if(p.isPrev()) {%><a href="reviewList.do?bookNum=<%=bookNum %><% if(sPur_seq != null) { %>&pur_seq=<%=pur_seq%>&pur_i_seq=<%=pur_i_seq%><%} %>&pageNum=1&orderBy=<%=orderBy %>"><img src="../styles/images/paging_doubleLeftArrow.svg" alt="처음"/></a><% } %>
+	<%if(p.isPrev()) {%><a href="reviewList.do?bookNum=<%=bookNum %><% if(sPur_seq != null) { %>&pur_seq=<%=pur_seq%>&pur_i_seq=<%=pur_i_seq%><%} %>&pageNum=<%=p.getStartPage()-1 %>&orderBy=<%=orderBy %>"><img src="../styles/images/paging_leftArrow.svg" alt="이전"/></a><%} %>
 	<%for(int i=p.getStartPage(); i<=p.getEndPage(); i++) {%>
 		<%if(i == p.getPageNum()) {%>
 			<b>[<%=i %>]</b>
@@ -214,8 +214,8 @@ $(document).ready( function() {
 			<a href="reviewList.do?bookNum=<%=bookNum %><% if(sPur_seq != null) { %>&pur_seq=<%=pur_seq%>&pur_i_seq=<%=pur_i_seq%><%} %>&pageNum=<%=i %>&orderBy=<%=orderBy %>">[<%=i %>]</a>
 			<%} %>
 		<%} %>
-	<%if(p.isNext()) {%><a href="reviewList.do?bookNum=<%=bookNum %><% if(sPur_seq != null) { %>&pur_seq=<%=pur_seq%>&pur_i_seq=<%=pur_i_seq%><%} %>&pageNum=<%=p.getEndPage()+1 %>&orderBy=<%=orderBy %>">[다음]</a><%} %>
-	<%if(p.isNext()) {%><a href="reviewList.do?bookNum=<%=bookNum %><% if(sPur_seq != null) { %>&pur_seq=<%=pur_seq%>&pur_i_seq=<%=pur_i_seq%><%} %>&pageNum=<%=p.getRealEnd() %>&orderBy=<%=orderBy %>">[마지막]</a><% } %>
+	<%if(p.isNext()) {%><a href="reviewList.do?bookNum=<%=bookNum %><% if(sPur_seq != null) { %>&pur_seq=<%=pur_seq%>&pur_i_seq=<%=pur_i_seq%><%} %>&pageNum=<%=p.getEndPage()+1 %>&orderBy=<%=orderBy %>"><img src="../styles/images/paging_rightArrow.svg" alt="다음"/></a><%} %>
+	<%if(p.isNext()) {%><a href="reviewList.do?bookNum=<%=bookNum %><% if(sPur_seq != null) { %>&pur_seq=<%=pur_seq%>&pur_i_seq=<%=pur_i_seq%><%} %>&pageNum=<%=p.getRealEnd() %>&orderBy=<%=orderBy %>"><img src="../styles/images/paging_doubleRightArrow.svg" alt="마지막"/></a><% } %>
 	</div>
 </div>
 </main>
