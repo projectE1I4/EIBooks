@@ -330,7 +330,7 @@ public class CustomerController extends HttpServlet {
 
             HttpSession session = request.getSession();
             int cus_seq = (int) session.getAttribute("cus_seq");
-
+            
             CustomerDTO dto = new CustomerDTO();
             dto.setCus_seq(cus_seq);
 
@@ -344,17 +344,50 @@ public class CustomerController extends HttpServlet {
 
         } else if (action.equals("/updateMyPageProc.cs")) {
 
-            int cus_seq = Integer.parseInt(request.getParameter("cus_seq"));
+        	int cus_seq = Integer.parseInt(request.getParameter("cus_seq"));
             String cus_id = request.getParameter("cus_id");
+        	String password = request.getParameter("password");
+            String confirmPassword = request.getParameter("confirmPassword");
             String name = request.getParameter("name");
-            String password = request.getParameter("password");
             String tel = request.getParameter("tel");
-            String email = request.getParameter("email");
             String postalCode = request.getParameter("postalCode");
             String addr = request.getParameter("addr");
             String addr_detail = request.getParameter("addr_detail");
+            String email = request.getParameter("email");
+
 
             CustomerDAO dao = new CustomerDAO();
+
+            if (password == null || !password.matches("^(?=.*[a-zA-Z])(?=.*\\d)(?=.*[!@#$%^&*])[A-Za-z\\d!@#$%^&*]{8,}$")) {
+                request.setAttribute("errorMessage", "비밀번호는 8글자 이상이어야 하며, 영문, 숫자, 특수문자를 포함해야 합니다.");
+                request.getRequestDispatcher("/customer/updateMyPage.cs").forward(request, response);
+                return;
+            }
+
+            if (!password.equals(confirmPassword)) {
+                request.setAttribute("errorMessage", "비밀번호와 비밀번호 확인이 일치하지 않습니다.");
+                request.getRequestDispatcher("/customer/updateMyPage.cs").forward(request, response);
+                return;
+            }
+
+            if (name == null || !name.matches("^[가-힣a-zA-Z\\\\s]*$")) {
+                request.setAttribute("errorMessage", "이름에는 특수문자가 포함될 수 없습니다.");
+                request.getRequestDispatcher("/customer/updateMyPage.cs").forward(request, response);
+                return;
+            }
+
+            if (tel == null || !tel.replaceAll("-", "").matches("^\\d{11}$")) {
+                request.setAttribute("errorMessage", "전화번호는 '-'를 제외하고 숫자 11자리여야 합니다.");
+                request.getRequestDispatcher("/customer/updateMyPage.cs").forward(request, response);
+                return;
+            }
+
+            if (postalCode == null || !postalCode.matches("^\\d{5}$")) {
+                request.setAttribute("errorMessage", "우편번호는 숫자 5자리여야 합니다.");
+                request.getRequestDispatcher("/customer/updateMyPage.cs").forward(request, response);
+                return;
+            }
+        	
             AddressDTO aDto = new AddressDTO();
             aDto.setPostalCode(postalCode);
             aDto.setAddr(addr);
@@ -366,7 +399,7 @@ public class CustomerController extends HttpServlet {
             dao.updateCustomer(dto);
             dao.updateAddress(dto);
 
-            String path = "./customer/updateMyPage.cs";
+            String path = "./updateMyPage.cs";
             request.getRequestDispatcher(path).forward(request, response);
 
         } else if (action.equals("/deleteMyPageProc.cs")) {
