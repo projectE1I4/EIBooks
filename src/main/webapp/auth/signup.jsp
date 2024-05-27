@@ -104,6 +104,7 @@
                 return false;
             }
 
+            alert("회원가입 되었습니다.");
             return true;
         }
 

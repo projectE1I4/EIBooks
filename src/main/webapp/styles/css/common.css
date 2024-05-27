@@ -2,28 +2,28 @@
   font-family: 'Pretendard';
   font-style: normal;
   font-weight: 400;
-  src: url(../fonts/Pretendard-Regular.eot);
-  src: url(../fonts/Pretendard-Regular.eot?#iefix) format('embedded-opentype'),
-    url(../fonts/Pretendard-Regular.woff) format('woff'),
-    url(../fonts/Pretendard-Regular.ttf) format('truetype');
+  src: url(/EIBooks/styles/fonts/Pretendard-Regular.eot);
+  src: url(/EIBooks/styles/fonts/Pretendard-Regular.eot?#iefix) format('embedded-opentype'),
+    url(/EIBooks/styles/fonts/Pretendard-Regular.woff) format('woff'),
+    url(/EIBooks/styles/fonts/Pretendard-Regular.ttf) format('truetype');
 }
 @font-face {
   font-family: 'Pretendard';
   font-style: normal;
   font-weight: 500;
-  src: url(../fonts/Pretendard-Medium.eot);
-  src: url(../fonts/Pretendard-Medium.eot?#iefix) format('embedded-opentype'),
-    url(../fonts/Pretendard-Medium.woff) format('woff'),
-    url(../fonts/Pretendard-Medium.ttf) format('truetype');
+  src: url(/EIBooks/styles/fonts/Pretendard-Medium.eot);
+  src: url(/EIBooks/styles/fonts/Pretendard-Medium.eot?#iefix) format('embedded-opentype'),
+    url(/EIBooks/styles/fonts/Pretendard-Medium.woff) format('woff'),
+    url(/EIBooks/styles/fonts/Pretendard-Medium.ttf) format('truetype');
 }
 @font-face {
   font-family: 'Pretendard';
   font-style: normal;
   font-weight: 700;
-  src: url(../fonts/Pretendard-Bold.eot);
-  src: url(../fonts/Pretendard-Bold.eot?#iefix) format('embedded-opentype'),
-    url(../fonts/Pretendard-Bold.woff) format('woff'),
-    url(../fonts/Pretendard-Bold.ttf) format('truetype');
+  src: url(/EIBooks/styles/fonts/Pretendard-Bold.eot);
+  src: url(/EIBooks/styles/fonts/Pretendard-Bold.eot?#iefix) format('embedded-opentype'),
+    url(/EIBooks/styles/fonts/Pretendard-Bold.woff) format('woff'),
+    url(/EIBooks/styles/fonts/Pretendard-Bold.ttf) format('truetype');
 }
 
 /* 반응형, 모바일에서 모든요소의 패딩,선을 크기안에 포함시킴 */
@@ -196,7 +196,6 @@ h6 {
 /* border-radius:0 -> iOS 테두리 둥글게 제거 */
 /* -webkit-appearance: none -> iOS 폼요소 기본모양 제거 */
 input,
-select,
 textarea,
 button {
   vertical-align: middle;
@@ -210,6 +209,14 @@ button {
   /* 포커스시 아웃라인 제거 */
   outline: none;
 }
+
+select {
+  vertical-align: middle;
+  outline: none;
+  border-radius: 3px;
+}
+
+
 
 /* textarea 리사이즈 막기 */
 textarea {
@@ -386,7 +393,7 @@ input[type='checkbox']:checked + label::after {
   top: 4px;
   width: 24px;
   height: 24px;
-  background: url(../images/common/check.svg) no-repeat 0 0 / 18px;
+  background: url(/EIBooks/styles/images/common/check.svg) no-repeat 0 0 / 18px;
 }
 
 /* radio 공통 */
@@ -633,7 +640,7 @@ textarea {
   display: inline-block;
   width: 21px;
   height: 16px;
-  background: url(../images/icon_reg.png) no-repeat;
+  background: url(/EIBooks/styles/images/icon_reg.png) no-repeat;
   margin-left: 7px;
 }
 
@@ -643,7 +650,7 @@ textarea {
   width: 20px;
   height: 20px;
   text-indent: -9999px;
-  background: url(../images/sprite_pc_new.png) no-repeat;
+  background: url(/EIBooks/styles/images/sprite_pc_new.png) no-repeat;
 }
 .pdf_download_icon {
   background-position-x: -125px;
@@ -669,7 +676,7 @@ textarea {
   display: inline-block;
   width: 7px;
   height: 6px;
-  background: url(../images/icon_ess.png) no-repeat;
+  background: url(/EIBooks/styles/images/icon_ess.png) no-repeat;
   vertical-align: 3px;
   margin: 0 3px;
 }
@@ -679,7 +686,7 @@ textarea {
   width: 18px;
   height: 20px;
   display: inline-block;
-  background: url(../images/set_device.png) no-repeat;
+  background: url(/EIBooks/styles/images/set_device.png) no-repeat;
   vertical-align: middle;
   margin-right: 3px;
 }
@@ -695,7 +702,7 @@ textarea {
   width: 20px;
   height: 20px;
   display: inline-block;
-  background: url(../images/set_community.svg) no-repeat;
+  background: url(/EIBooks/styles/images/set_community.svg) no-repeat;
   text-indent: -9999px;
 }
 [class*='sns_icon']:hover {
@@ -718,14 +725,14 @@ caption.nohead {
   border-top: 1px solid #000;
 }
 .board_list_wrap th {
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid #E9EAEE;
   height: 60px;
-  background: #f5f5f5;
+  background: #E9EAEE;
   color: #000;
   font-weight: 400;
 }
 .board_list_wrap td {
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid #E9EAEE;
   height: 60px;
   text-align: center;
 }
@@ -733,7 +740,7 @@ caption.nohead {
   text-align: left;
 }
 .board_list_wrap tr:last-child td {
-  border-bottom-color: #ddd;
+  border-bottom-color: #E9EAEE;
 }
 .board_list_wrap .col01 {
   width: 10%;
@@ -780,7 +787,7 @@ caption.nohead {
   width: 14px;
   height: 14px;
   transform: translate(-50%, -50%);
-  background: url(../images/sprite_pc.png) no-repeat;
+  background: url(../images/arrow_right.png) no-repeat;
 }
 .board_pagination_wrap .first:before {
   background-position: -397px -310px;
@@ -814,6 +821,60 @@ caption.nohead {
   background: #bb0841;
   border-color: #bb0841;
   color: #fff;
+}
+
+/* EIBooks 페이지네이션 */
+
+.board_list_wrap .pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+.board_list_wrap .pagination .arrow {
+  width: 22px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 8px;
+}
+.board_list_wrap .pagination .arrow::before {
+  content: '';
+  width: 18px;
+  height: 18px;
+  background: url(../images/sprite_pc.png) no-repeat;
+}
+.board_list_wrap .pagination .off {
+  opacity: 40%;
+}
+.board_list_wrap .pagination .first::before {
+  background-position: -397px -310px;
+}
+.board_list_wrap .pagination .prev::before {
+  background-position: -367px -182px;
+}
+.board_list_wrap .pagination .next::before {
+  background-position: -28px -431px;
+}
+.board_list_wrap .pagination .last::before {
+  background-position: -443px -388px;
+}
+.board_list_wrap .pagination .prev {
+  margin-right: 15px;
+}
+.board_list_wrap .pagination .next {
+  margin-left: 15px;
+}
+.board_list_wrap .pagination .number {
+  width: 40px;
+  height: 40px;
+  line-height: 36px;
+}
+.board_list_wrap .pagination .number + .number {
+  margin-left: 10px;
+}
+.board_list_wrap .pagination .number.active {
+  color: var(--point-color1);
 }
 
 /* 게시판 쓰기 */
