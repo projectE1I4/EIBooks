@@ -29,9 +29,8 @@
 .board_list_wrap .search_wrap select {
   margin-left: 20px;
   width: 100px;
-}
-.board_list_wrap .search_wrap select option {
-  padding-left: 5px; 
+  border: 1px solid #ccc;
+  padding: 5px;
 }
 .board_list_wrap .search_wrap .search_input {
   width: calc(100% - 180px);

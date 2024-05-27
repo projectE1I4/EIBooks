@@ -13,7 +13,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!-- <meta name="viewport" content="width=1280"> -->
   <meta name="format-detection" content="telephone=no">
@@ -71,22 +71,22 @@
 <body>
 
 <%@ include file="../common/menu.jsp" %>
+<div id="skip_navi">
+  <a href="#container">본문바로가기</a>
+</div>
 <div id="wrap">
 	<header id="header"></header>
 	<main id="container">
 	<div class="inner">
         <div class="board_list_wrap">
-        	<div class="search_wrap">
+        	<div>
 				<form  method="get" class="search_wrap">
-					<div class="select_container">
-						<select id="mySelect" name="searchField">
-							<option value="category" <% if(searchField != null && searchField.equals("category")) { %>selected<% } %>>도서 분류</option>
-							<option value="title" <% if(searchField != null && searchField.equals("title")) { %>selected<% } %>>도서 명</option>
-							<option value="author" <% if(searchField != null && searchField.equals("author")) { %>selected<% } %>>저자 명</option>
-							<option value="publisher" <% if(searchField != null && searchField.equals("publisher")) { %>selected<% } %>>출판사</option>
-						</select>
-						<div class="arrow_icon"></div>
-					</div>
+					<select name="searchField">
+						<option value="category" <% if(searchField != null && searchField.equals("category")) { %>selected<% } %>>도서 분류</option>
+						<option value="title" <% if(searchField != null && searchField.equals("title")) { %>selected<% } %>>도서 명</option>
+						<option value="author" <% if(searchField != null && searchField.equals("author")) { %>selected<% } %>>저자 명</option>
+						<option value="publisher" <% if(searchField != null && searchField.equals("publisher")) { %>selected<% } %>>출판사</option>
+					</select>
 					<input class="search_input" type="text" name="searchWord" <% if(searchWord != null) { %>value="<%=searchWord %>"<% } %>>
 					<input class="search_btn" type="submit" value="">
 				</form>

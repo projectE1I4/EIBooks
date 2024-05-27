@@ -209,33 +209,13 @@ button {
   /* 포커스시 아웃라인 제거 */
   outline: none;
 }
-.select_container {
-  position: relative;
-   display: inline-block;
-}
 
-.select_container select {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  padding-left: 5px;
+select {
+  vertical-align: middle;
   outline: none;
   border-radius: 3px;
-  width: 100%;
-  height: 100%;
-  cursor: pointer;
 }
-.select_container .arrow_icon {
-  position: absolute;
-  width: 20px;
-  height: 20px;
-  right: 5px;
-  top: 50%;
-  transform: translateY(-50%) rotateZ(90deg);
-  background-image: url(../images/arrow_right_black.svg);
-  background-repeat: no-repeat;
-  cursor: pointer;
-}
+
 
 
 /* textarea 리사이즈 막기 */
