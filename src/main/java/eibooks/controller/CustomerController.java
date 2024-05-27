@@ -191,7 +191,7 @@ public class CustomerController extends HttpServlet {
                 return;
             }
 
-            if (name == null || !name.matches("/^[a-zA-Z가-힣\\s]+$/")) {
+            if (name == null || !name.matches("^[a-zA-Z가-힣\\s]+$")) {
                 request.setAttribute("errorMessage", "이름에는 특수문자가 포함될 수 없습니다.");
                 request.getRequestDispatcher("/auth/signup.jsp").forward(request, response);
                 return;
@@ -289,7 +289,10 @@ public class CustomerController extends HttpServlet {
             String tel = request.getParameter("tel");
 
             CustomerDAO dao = new CustomerDAO();
-            CustomerDTO customer = dao.findCustomerId(name, tel);
+            CustomerDTO dto = new CustomerDTO();
+            dto.setName(name);
+            dto.setTel(tel);
+            CustomerDTO customer = dao.findCustomerInfo(dto);
 
             // proc주소 노출방지를 위해 ajax 통신으로 출력
             response.setContentType("application/json;charset=UTF-8");
@@ -312,14 +315,62 @@ public class CustomerController extends HttpServlet {
 
             request.getRequestDispatcher("/auth/verification.jsp").forward(request, response);
 
-        } else if (action.equals("/verificationProc.cs")) {
-
+        } else if (action.equals("/verificationProc.cs")) { // 비밀번호 재설정 전 본인확인
             String cus_id = request.getParameter("cus_id");
+            String name = request.getParameter("name");
             String tel = request.getParameter("tel");
 
             CustomerDAO dao = new CustomerDAO();
+            CustomerDTO dto = new CustomerDTO();
+            dto.setCus_id(cus_id);
+            dto.setName(name);
+            dto.setTel(tel);
 
+            CustomerDTO customer = dao.findCustomerInfo(dto);
+            JSONObject jsonResponse = new JSONObject();
 
+            response.setContentType("application/json;charset=UTF-8");
+            PrintWriter out = response.getWriter();
+
+            if (customer == null) {
+                jsonResponse.put("success", false);
+                jsonResponse.put("message", "해당하는 정보가 없습니다.");
+            } else {
+                jsonResponse.put("success", true);
+                jsonResponse.put("message", "본인인증 성공\n2초 뒤 비밀번호 재설정 페이지로 이동합니다.");
+            }
+            System.out.println("Verification Response: " + jsonResponse.toString()); // 응답 로그 추가
+            out.print(jsonResponse.toString());
+            out.close();
+
+        } else if (action.equals("/resetPassword.cs")) { // 비밀번호 재설정 페이지 이동
+
+            request.getRequestDispatcher("/auth/resetPassword.jsp").forward(request, response);
+
+        } else if (action.equals("/resetPasswordProc.cs")) { // 비밀번호 재설정 처리
+            String cus_id = request.getParameter("cus_id");
+            String newPassword = request.getParameter("newPassword");
+
+            CustomerDTO customer = new CustomerDTO();
+            customer.setCus_id(cus_id);
+            customer.setPassword(newPassword);
+
+            CustomerDAO dao = new CustomerDAO();
+            String resultMessage = dao.updateCustomerPassword(customer);
+
+            JSONObject jsonResponse = new JSONObject();
+
+            if (resultMessage.equals("비밀번호가 성공적으로 변경되었습니다.")) {
+                jsonResponse.put("success", true);
+            } else {
+                jsonResponse.put("success", false);
+            }
+            jsonResponse.put("message", resultMessage);
+
+            response.setContentType("application/json;charset=UTF-8");
+            PrintWriter out = response.getWriter();
+            out.print(jsonResponse.toString());
+            out.close();
         } else if (action.equals("/logoutProc.cs")) {
 
             HttpSession session = request.getSession();
