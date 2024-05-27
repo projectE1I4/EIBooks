@@ -77,7 +77,7 @@ PageDTO p = (PageDTO)request.getAttribute("paging");
 					<% if(dto.getRef_YN().equals("Y")) { %>
 						 [답글 달기]
 					<% } else { %>
-						<a href="replyWrite.do?bookNum=<%=dto.getBookNum() %>&reviewNum=<%=dto.getReviewNum() %>&isReply=1">[답글 달기]</a> 
+						<a href="replyWrite.do?bookNum=<%=dto.getBookNum() %>&reviewNum=<%=dto.getReviewNum() %>&isReply=1&pageNum=<%=p.getPageNum() %>">[답글 달기]</a> 
 					<% } %>
 					<a href="javascript:del('<%=dto.getReviewNum() %>')">[리뷰 삭제]</a>
 				</td>
