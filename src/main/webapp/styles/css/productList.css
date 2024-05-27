@@ -1,0 +1,135 @@
+/* 컬러 변수 */
+:root {
+  --point-color1: #6A5AFF;
+  --txt-color-400: #999;
+  --txt-color-500: #333;
+  --txt-color-600: #000;
+}
+
+.inner {
+  padding: 80px;
+  background-color: #E9EAEE;
+}
+.board_list_wrap {
+  padding: 50px;
+  border-top: none;
+}
+
+.board_list_wrap .search_wrap {
+  background-color: #fff;
+  margin-bottom: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  border: none;
+  width: 100%;
+  height: 50px;
+}
+.board_list_wrap .search_wrap select {
+  margin-left: 20px;
+  width: 100px;
+}
+.board_list_wrap .search_wrap select option {
+  padding-left: 5px; 
+}
+.board_list_wrap .search_wrap .search_input {
+  width: calc(100% - 180px);
+  border: none;
+}
+.board_list_wrap .search_wrap .search_btn {
+  margin-right: 20px;
+  display: block; 
+  width: 30px; 
+  height: 30px; 
+  background: url(../images/search_black.png) no-repeat center center;
+  background-size: 30px;
+  border: none;
+}
+
+.board_list_wrap .content {
+  background-color: #fff;
+  padding: 28px;
+  margin: 25px 0;
+}
+.board_list_wrap .totalCount {
+  display: flex;
+  font-size: 20px;
+}
+.board_list_wrap .totalCount strong {
+  color: #6A5AFF;
+  margin-left: 6px;
+}
+.board_list_wrap .productList {
+  margin: 30px 0;
+  text-align: center;
+}
+.board_list_wrap .productList .col {
+  height: 50px;
+  background-color: #E9EAEE;
+}
+.board_list_wrap .productList .col1 {
+  width: 150px;
+}
+.board_list_wrap .productList .col2 {
+  width: 500px;
+}
+.board_list_wrap .productList .col3 {
+  width: 350px;
+}
+.board_list_wrap .productList .col4 {
+  width: 200px;
+}
+.board_list_wrap .productList .col5 {
+  width: 220px;
+}
+.board_list_wrap .productList .col6 {
+  width: 150px;
+}
+.board_list_wrap .productList td {
+  padding: 15px 30px;
+}
+.board_list_wrap .productList td:nth-child(7),
+.board_list_wrap .productList td:nth-child(8) {
+  border-top: 1px solid #eee;
+  width: 60px;
+}
+.board_list_wrap .productList .update_btn {
+  display: block;
+  padding: 5px;
+  background-color: #E9EAEE;
+  border-radius: 50px;
+}
+.board_list_wrap .productList .delete_btn {
+  display: block; 
+  width: 30px; 
+  height: 30px; 
+  background: url(../images/delete.png) no-repeat center center;
+  background-size: 30px;
+}
+.board_list_wrap .productList .title .link_btn {
+  text-align: left;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
+}
+.board_list_wrap .productList .author .link_btn {
+  text-align: left;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
+}
+.board_list_wrap .productList .publisher .link_btn {
+  text-align: left;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
+}
+
+
+.board_list_wrap .pagination {
+  text-align: center;
+}
