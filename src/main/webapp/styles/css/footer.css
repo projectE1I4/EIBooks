@@ -1,0 +1,133 @@
+#wrap {
+  height: 5000px;
+}
+
+#footer {
+  width: 100%;
+  padding: 60px 0 50px 0;
+  font-family: 'Pretendard',sans-serif;
+}
+#footer .inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 20px;
+}
+#footer .inner .img_wrap {
+  width: 197px;
+  margin-right: 90px;
+}
+#footer .footer_left {
+  display: flex;
+}
+#footer .footer_left .address_wrap .address {
+  color: #444;
+  margin-bottom: 7px;
+}
+#footer .footer_left .address_wrap .tel {
+  display: flex;
+  margin-bottom: 22px;
+}
+#footer .footer_left .address_wrap .tel p:nth-child(1) {
+  margin-right: 20px;
+}
+#footer .footer_left .address_wrap .tel span {
+  font-weight: 700;
+}
+#footer .footer_left .address_wrap .user {
+  display: flex;
+}
+#footer .footer_left .address_wrap .user p {
+  font-size: 14px;
+  color: #9a9ca5;
+}
+#footer .footer_left .address_wrap .user p + p {
+  margin-left: 12px;
+  padding-left: 12px;
+  position: relative;
+}
+#footer .footer_left .address_wrap .user p + p::after {
+  content: '';
+  width: 1px;
+  height: 14px;
+  background-color: #cfcfcf;
+  position: absolute;
+  left: 0;
+  top: 5px;
+}
+#footer .footer_right .footer_sns {
+  display: flex;
+  justify-content: space-between;
+  width: 198px;
+  margin-bottom: 55px;
+}
+#footer .footer_right .footer_sns li {
+  height: 26px;
+}
+#footer .footer_right .footer_sns li:nth-child(1) {
+  width: 10px;
+}
+#footer .footer_right .footer_sns li:nth-child(2) {
+  width: 21px;
+}
+#footer .footer_right .footer_sns li:nth-child(3) {
+  width: 17px;
+}
+#footer .footer_right .footer_sns li:nth-child(4) {
+  width: 24px;
+}
+#footer .footer_right .footer_sns a {
+  display: block;
+}
+#footer .footer_right .footer_sns img {
+  height: 26px;
+  opacity: 0.3;
+  transition: all 0.3s;
+}
+#footer .footer_right .footer_sns img:hover {
+  opacity: 1;
+}
+#footer .footer_right p {
+  font-size: 15px;
+  color: #9a9ca5;
+  text-align: right;
+}
+
+
+/* footer : 버튼 */
+#footer .footer_btn {
+  position: fixed;
+  right: 40px;
+  bottom: -65px;
+  margin-bottom: 128px;
+  z-index: 2;
+  transition: all 0.5s;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(30px);
+}
+#footer .footer_btn.fade {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+#footer .footer_btn.on {
+  transform: translateY(-120px);
+}
+
+#footer .top_btn {
+  display: block;
+  width: 100px;
+  height: 100px;
+  border-radius: 50px;
+  background: #fff url(../images/arrow_top.png) no-repeat 50% 50% / 55%;
+  overflow: hidden;
+  box-shadow: 2px 1px 25px rgb(0 0 0 / 15%);
+  margin: 30px auto 0 auto;
+  transition: all 0.3s;
+}
+#footer .top_btn:hover {
+  box-shadow: none;
+  background: var(--point-color1) url(../images/arrow_top_white.png) no-repeat 50% 50% / 38%;
+}
