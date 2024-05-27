@@ -49,9 +49,7 @@
   </div>
   <div id="wrap">
     <header id="header"></header>
-    <footer id="footer"></footer>  
-    
-    
+    <footer id="footer"></footer>
   </div>
 
 </body>

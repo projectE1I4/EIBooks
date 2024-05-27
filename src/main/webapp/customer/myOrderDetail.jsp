@@ -78,11 +78,17 @@ List<OrderDTO> orderList = (List<OrderDTO>)request.getAttribute("orderList");
 	<td width="10%" align="center"><%=orderItem.getBookInfo().getPrice() * orderItem.getPur_i_count() %>원</td>
 	<% 
 		ReviewDTO dto = new ReviewDTO();
+		dto.setPur_i_seq(orderItem.getPur_i_seq());
 		ReviewDAO dao = new ReviewDAO();
 		dto = dao.selectView(dto);
 		System.out.println(dto);
+		
+		if(dto != null) {
 	%>
+	<td align="center"><a href="../review/reviewUpdate.do?bookNum=<%=orderItem.getBook_seq()%>&pur_i_seq=<%=orderItem.getPur_i_seq()%>&reviewNum=<%=dto.getReviewNum()%>">리뷰 수정</a></td>
+	<% } else { %>
 	<td align="center"><a href="./reviewWrite.do?bookNum=<%=orderItem.getBook_seq()%>&pur_seq=<%=orderItem.getPur_seq()%>&pur_i_seq=<%=orderItem.getPur_i_seq()%>">리뷰 작성</a></td>
+	<% } %>
 </tr>
 <%
 	  } 
