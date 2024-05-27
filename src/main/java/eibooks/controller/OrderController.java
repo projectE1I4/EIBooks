@@ -12,6 +12,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import eibooks.common.PageDTO;
 import eibooks.dao.OrderDAO;
 import eibooks.dto.OrderDTO;
@@ -206,6 +209,24 @@ public class OrderController extends HttpServlet {
             String path = "./myOrderDetail.jsp"; // 회원 별 주문 목록 페이지의 JSP 파일 경로
             request.getRequestDispatcher(path).forward(request, response);
             
+		} else if(action.equals("/orderInsert.or")) {
+			
+//			List<Integer> orders = (List<Integer>) request.getAttribute("orderList");
+//			
+//			OrderDTO dto = new OrderDTO();
+//            OrderDAO dao = new OrderDAO();
+//            dao.insertOrderList(orders);
+            
+            String orderListJson = request.getParameter("orderList");
+            List<Integer> orderList = new Gson().fromJson(orderListJson, new TypeToken<List<Integer>>(){}.getType());
+            
+            request.setAttribute("orderList", orderList);
+            OrderDAO dao = new OrderDAO();
+            dao.insertOrderList(orderList);
+            
+            // forward
+            String path = "./customerOrderComplete.jsp"; // 회원 별 주문 목록 페이지의 JSP 파일 경로
+            request.getRequestDispatcher(path).forward(request, response);
 		}
 	}
 }

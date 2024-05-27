@@ -7,11 +7,9 @@
     List<cartDTO> cartList = (List<cartDTO>)request.getAttribute("cartList");
     cartDTO cartdto = new cartDTO();   
     int totalCartPrice = (int)request.getAttribute("totalCartPrice");
-    int book_seq = Integer.parseInt(request.getParameter("book_seq"));
-    int cartICount = Integer.parseInt(request.getParameter("cartICount"));
+    // int book_seq = Integer.parseInt(request.getParameter("book_seq"));
+    // int cartICount = Integer.parseInt(request.getParameter("cartICount"));
     String title = request.getParameter("title");
-    out.print(book_seq);
-    out.print(cartList);
 %>
 
 <!DOCTYPE html>
@@ -76,6 +74,9 @@
     	
 	    </td>
 	    <td id="price<%= cartItem.getCartISeq() %>"><%=cartItem.getBookInfo().getPrice() * cartItem.getCartICount()%>원</td>
+	    <%=cartItem.getBookInfo().getPrice() %>
+	    <%=cartItem.getCartICount() %>
+	    <br>
 	    <td>
 	    <!-- 선택된 항목 삭제 -->
         <form action="deleteCart.cc" method="post">

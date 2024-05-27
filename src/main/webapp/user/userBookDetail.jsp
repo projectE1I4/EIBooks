@@ -7,7 +7,6 @@
 <% // param
 	BookDTO dto = (BookDTO)request.getAttribute("dto");
 	String sBook_seq = request.getParameter("book_seq");
-	System.out.println("sBook_seq ------------------ : " + sBook_seq);
 	int book_seq = Integer.parseInt(sBook_seq);
 	BookDAO dao = new BookDAO();
 	int viewcount = dto.getViewCount();
@@ -19,6 +18,21 @@
 <head>
 <meta charset="UTF-8">
 <title>userBookDetail.jsp</title>
+<script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery-3.7.1.min.js"></script>
+<script type="text/javascript">
+function buying(book_seq){
+    var cartICount = $('input[name="cartICount"]').val();
+    var cus_seq = "<%=session.getAttribute("cus_seq")%>"
+    var priceClass = 'price' + book_seq;
+    var price = $('.' + priceClass).text(); 
+    
+    location.href = "<%=request.getContextPath()%>/customerBuyOrder.cc?"
+          + "book_seq=" +book_seq
+          + '&cartICount=' + cartICount
+          + '&totalCartPrice=' + (price*cartICount);
+                                                                                                                                                                                                                                                                                                                                                                                                          
+}
+</script>
 </head>
 <body>
 
@@ -54,7 +68,7 @@
 			</tr>
 			<tr rowspan="10"><td colspan="4"><%=dto.getDescription() %></td></tr>
 			<tr><td colspan="4">
-				<input type="submit" value="바로구매" />
+				<input type="submit" value="바로구매" onclick="buying(<%=dto.getBook_seq()%>)"/>
 				<input type="submit" value="장바구니" />				
 			</td></tr>
 			<tr>

@@ -15,9 +15,34 @@ import eibooks.dto.OrderDTO;
 
 public class OrderDAO {
 		
-		// order 저장 - insert (효빈)
-		public List<OrderDTO> insertOrderList(BookDTO resultBook){
+		// order 저장 - insert (효빈) (작동 미확인)
+		public void insertOrderList(List<Integer> orderList){
+			Connection conn = null;
+			PreparedStatement pstmt = null;
+			int rs = 0;
 			
+			int book_seq = orderList.get(0);
+			int cus_seq = orderList.get(1);
+			int pur_i_count = orderList.get(2);
+			
+			String sql= "insert into purchase_item(book_seq, cus_seq, pur_i_count) values( ?, ?, ?) ";
+			try {
+				//conn
+				conn = JDBCConnect.getConnection();
+
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(1, book_seq);
+				pstmt.setInt(2, cus_seq);
+				pstmt.setInt(3, pur_i_count);
+
+				rs = pstmt.executeUpdate(sql);
+
+			} catch (Exception e) {
+				e.printStackTrace();
+				
+			} finally {
+				JDBCConnect.close(pstmt, conn);
+			}
 		}
 	
 		// 전체 회원 주문 내역 조회

@@ -264,7 +264,6 @@ public class CartController extends HttpServlet {
             map.put("cusSeq", session.getAttribute("cus_seq"));
             map.put("cartISeq", session.getAttribute("cart_I_seq"));
             map.put("cart_i_count", cartICount);
-            map.put("cart_seq", cartdto.getCartSeq());
             map.put("book_seq", request.getParameter("book_seq"));
             cartDao.insertCart(map);
             

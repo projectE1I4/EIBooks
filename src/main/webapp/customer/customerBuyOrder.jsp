@@ -11,8 +11,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>  
 <%
-    out.print("왔냐?");
-
 	// 주문한 고객 정보 불러오기
 	int cus_seq = (int)session.getAttribute("cus_seq");
 	
@@ -39,7 +37,24 @@
 <script type="text/javascript">
 
 function buy (BookDTO resultBook) {
-	location.href='./customer/customerOrderComplete.jsp?' + resultBook;
+	List<Integer> orderList = new ArrayList<>(); 
+	orderList.add(0, resultBook);
+	orderList.add(1, <%=session.getAttribute("cus_seq") %>);
+	orderList.add(2, <%=request.getAttribute("cartICount") %>);
+	
+	var form = document.createElement("form");
+	form.method = "POST";
+	form.action = "<%=request.getContextPath()%>/orderInsert.or";
+	
+	var hiddenField = document.createElement("input");
+	hiddenField.type = "hidden";
+	hiddenField.name = "orderList";
+	hiddenField.value = JSON.stringify(orderList);
+	form.appendChild(hiddenField);
+	
+	document.body.appendChild(form);
+	form.submit();
+
 }
 </script>
 </head>

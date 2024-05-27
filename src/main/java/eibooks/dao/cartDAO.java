@@ -42,7 +42,6 @@ public class cartDAO {
 			while(rs.next()) {
 				cartDTO cartItem = new cartDTO();
 				cartItem.setCartISeq(rs.getInt("cart_i_seq"));
-				cartItem.setCartSeq(rs.getInt("cart_seq"));
 				cartItem.setCusSeq(rs.getInt("cus_seq"));
 				cartItem.setBook_seq(rs.getInt("book_seq"));
 				cartItem.setCartICount(rs.getInt("cart_i_count"));
@@ -83,18 +82,12 @@ public class cartDAO {
 			try {
 				//DB 연결
 		        conn = JDBCConnect.getConnection();
-		        // 얘 삭제 예정?
-				// String sql = "insert into cart(cus_seq) values(?);";
-				sql += "insert into cart_item(book_seq, cart_i_count, cart_seq, cus_seq) values(?,?, (select cart_seq from cart where cus_seq=?), ?);";
+				String sql = "insert into cart_item(book_seq, cart_i_count, cus_seq) values(?,?, ?);";
 				pstmt = conn.prepareStatement(sql);
 				
-				pstmt.setInt(1, Integer.parseInt(map.get("cusSeq").toString()));
-				pstmt.setInt(2, Integer.parseInt((String) map.get("book_seq")));
-				System.out.println("cart_i_count" + map.get("cart_i_count"));
-				pstmt.setInt(3, Integer.parseInt(map.get("cart_i_count").toString()));
-				System.out.println("cart_seq" + map.get("cart_seq"));
-				pstmt.setInt(4, Integer.parseInt(map.get("cusSeq").toString()));
-				pstmt.setInt(5, Integer.parseInt(map.get("cusSeq").toString()));
+				pstmt.setInt(1, Integer.parseInt((String) map.get("book_seq")));
+				pstmt.setInt(2, Integer.parseInt(map.get("cart_i_count").toString()));
+				pstmt.setInt(3, Integer.parseInt(map.get("cusSeq").toString()));
 				
 				System.out.println("rs" + pstmt);
 				rs = pstmt.executeUpdate();
