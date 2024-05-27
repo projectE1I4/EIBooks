@@ -23,15 +23,36 @@
 function buying(book_seq){
     var cartICount = $('input[name="cartICount"]').val();
     var cus_seq = "<%=session.getAttribute("cus_seq")%>"
-    var priceClass = 'price' + book_seq;
-    var price = $('.' + priceClass).text(); 
+    var price = $('.price').text(); 
     
     location.href = "<%=request.getContextPath()%>/customerBuyOrder.cc?"
           + "book_seq=" +book_seq
           + '&cartICount=' + cartICount
-          + '&totalCartPrice=' + (price*cartICount);
+          + '&totalCartPrice=' + (price * cartICount) + '&price=' + price;
                                                                                                                                                                                                                                                                                                                                                                                                           
 }
+function goToCustomerCart(book_seq){
+	var cartICount = $('input[name="cartICount"]').val();
+	location.href = "<%=request.getContextPath()%>/customerCartInsert.cc?"
+			+ "book_seq=" + book_seq + "&cartICount=" + cartICount;
+}
+
+//수량 증가 함수
+function increaseBtn(bookSeq) {
+	 var quantityInput = $('#quantity');
+	 var currentQuantity = parseInt(quantityInput.val());
+	 quantityInput.val(currentQuantity + 1);
+}
+
+// 수량 감소 함수
+function decreaseBtn(bookSeq) {
+	var quantityInput = $('#quantity');
+    var currentQuantity = parseInt(quantityInput.val());
+    if (currentQuantity > 1) {
+        quantityInput.val(currentQuantity - 1);
+    }
+}
+
 </script>
 </head>
 <body>
@@ -53,7 +74,7 @@ function buying(book_seq){
 		</div>
 		<div>
 			<tr>
-				<td colspan="4"><%=dto.getPrice() %>원</td>
+				<td colspan="4" class="price"><%=dto.getPrice() %></td>
 			</tr>
 			<tr>
 				<td>도서 분류</td><td colspan="3"><%=dto.getCategory() %></td>
@@ -68,8 +89,13 @@ function buying(book_seq){
 			</tr>
 			<tr rowspan="10"><td colspan="4"><%=dto.getDescription() %></td></tr>
 			<tr><td colspan="4">
+				<div>
+					<button type="button" onclick="decreaseBtn(<%=dto.getBook_seq()%>)">-</button>
+           			<input id="quantity" type="number" name="cartICount" value="1" min="1" readonly style="width:30px;">
+            		<button type="button" onclick="increaseBtn(<%=dto.getBook_seq()%>)">+</button>
+        		</div>
 				<input type="submit" value="바로구매" onclick="buying(<%=dto.getBook_seq()%>)"/>
-				<input type="submit" value="장바구니" />				
+				<input type="submit" value="장바구니" onclick="goToCustomerCart(<%=dto.getBook_seq()%>);"/>				
 			</td></tr>
 			<tr>
 			<td>

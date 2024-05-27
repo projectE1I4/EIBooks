@@ -264,6 +264,7 @@ public class ReviewDAO {
 				dto = new ReviewDTO(bookNum, pur_i_seq, reviewNum, grade, content);
 				dto.setCusInfo(cDto);
 			}
+			System.out.println("pstmt" + pstmt);
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
