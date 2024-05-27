@@ -239,10 +239,7 @@ public class ReviewController extends HttpServlet {
 			// 값 받기
 			String sBookNum = request.getParameter("bookNum");
 			int bookNum = Integer.parseInt(sBookNum);
-			/*
-			String sPur_seq = request.getParameter("pur_seq");
-			int pur_seq = Integer.parseInt(sPur_seq);
-			/**/
+			
 			String sPur_i_seq = request.getParameter("pur_i_seq");
 			int pur_i_seq = Integer.parseInt(sPur_i_seq);
 			
