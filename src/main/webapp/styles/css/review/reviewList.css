@@ -182,6 +182,7 @@ h1 {
 }
 .write_content {
 	height: 122px;
+	background-color: #d9d9d9;
 }
 
 .review_info .review_content {
@@ -218,10 +219,14 @@ h1 {
 	height: 20px;
 }
 
-.write_btn {
+.update_btn_wrap{
+	display: flex;
 	position: absolute;
 	right: 10px;
 	top: 16px;
+	gap: 10px;
+}
+.update_btn {
 	border: none;
 	background-color: #d9d9d9;
 	font-size: 15px;
@@ -229,6 +234,18 @@ h1 {
 	height: 34px;
 	font-size: 25px;
 	cursor: pointer;
+}
+.write_btn {
+	border: none;
+	background-color: #d9d9d9;
+	font-size: 15px;
+	width: 161px;
+	height: 34px;
+	font-size: 25px;
+	cursor: pointer;
+	position: absolute;
+	right: 10px;
+	top: 16px;
 }
 
 .reply_info .reply_content {

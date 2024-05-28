@@ -210,7 +210,6 @@ function del(reviewNum){
             </a>
         </li>
 		<% } %> <!-- userNum 체크 -->
-	</tr>
 		</ul>
 	
 	<%
