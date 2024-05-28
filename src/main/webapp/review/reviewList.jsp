@@ -132,37 +132,15 @@ $(document).ready( function() {
     <li class="review">
         <ul class="review_info">
             <li class="grade">
-                <% if(dto.getGrade() == 1) { %>
-                <img src="../styles/images/star_full.png" alt=""/>
-                <img src="../styles/images/star_empty.png" alt=""/>
-                <img src="../styles/images/star_empty.png" alt=""/>
-                <img src="../styles/images/star_empty.png" alt=""/>
-                <img src="../styles/images/star_empty.png" alt=""/>
-                <% } else if(dto.getGrade() == 2) { %>
-                <img src="../styles/images/star_full.png" alt=""/>
-                <img src="../styles/images/star_full.png" alt=""/>
-                <img src="../styles/images/star_empty.png" alt=""/>
-                <img src="../styles/images/star_empty.png" alt=""/>
-                <img src="../styles/images/star_empty.png" alt=""/>
-                <% } else if(dto.getGrade() == 3) { %>
-                <img src="../styles/images/star_full.png" alt=""/>
-                <img src="../styles/images/star_full.png" alt=""/>
-                <img src="../styles/images/star_full.png" alt=""/>
-                <img src="../styles/images/star_empty.png" alt=""/>
-                <img src="../styles/images/star_empty.png" alt=""/>
-                <% } else if(dto.getGrade() == 4) { %>
-                <img src="../styles/images/star_full.png" alt=""/>
-                <img src="../styles/images/star_full.png" alt=""/>
-                <img src="../styles/images/star_full.png" alt=""/>
-                <img src="../styles/images/star_full.png" alt=""/>
-                <img src="../styles/images/star_empty.png" alt=""/>
-                <% } else if(dto.getGrade() == 5) { %>
-                <img src="../styles/images/star_full.png" alt=""/>
-                <img src="../styles/images/star_full.png" alt=""/>
-                <img src="../styles/images/star_full.png" alt=""/>
-                <img src="../styles/images/star_full.png" alt=""/>
-                <img src="../styles/images/star_full.png" alt=""/>
-                <% } %>
+            	<% for (int i = 0; i < dto.getGrade(); i++) { %>
+            		<img src="../styles/images/star_full.png" alt=""/>
+            	<% 
+            		} 
+            		for (int i = 0; i < 5 - dto.getGrade(); i++) {
+            	%>
+            		<img src="../styles/images/star_empty.png" alt=""/>
+            	<% } %>
+            	
                 <span><%= dto.getGrade() %></span>
             </li>
             <li>

@@ -1,4 +1,4 @@
-body {
+@charset "UTF-8";body {
 	background-color: #e9eaee;
 }
 
@@ -143,6 +143,30 @@ h1 {
 	padding: 15px 10px;
 }
 
+.write_info {
+	height: 150px;
+	background-color: #bfbfbf;
+}
+.content.write {
+	width:925px;
+	top: -10px;
+}
+
+.write_btn_wrap {
+	position: absolute;
+	right: 0;
+	bottom: -34px;
+}
+.write_btn {
+	width: 118px;
+	height: 32px;
+	border: none;
+	cursor: pointer;
+	margin-left: 5px;
+}
+.write_btn input {
+	font-size: 20px;
+}
 .review_info .review_content {
 	position: absolute;
 	right: 45px;
@@ -160,6 +184,7 @@ h1 {
 	height: 25px;
 	margin-top: 4px;
 }
+
 
 .review_btn_wrap {
 	position: absolute;
