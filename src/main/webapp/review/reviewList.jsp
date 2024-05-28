@@ -179,7 +179,6 @@ $(document).ready( function() {
         <% } %>
     </li>
 <% } %>
-<% } %>
 </ul>
 </div>
 
@@ -224,6 +223,7 @@ $(document).ready( function() {
 		<a class="last arrow off"><span class="blind">마지막 페이지</span></a>
 	<%} %>
 </div>
+<% } %>
 </main>
 
 <footer id="footer"></footer>

@@ -181,7 +181,7 @@ public class cartDAO {
 	    return priceRs * cartICount;
 	}
 
-	//장바구니 목록 총 가격(배송비 제외)
+	//장바구니 목록 총 가격
 	public int totalCartPrice(int cusSeq) {
 	    Connection conn = null;
 	    PreparedStatement pstmt = null;

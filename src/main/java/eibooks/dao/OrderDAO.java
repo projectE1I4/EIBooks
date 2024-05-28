@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
@@ -15,6 +17,7 @@ import eibooks.dto.AddressDTO;
 import eibooks.dto.BookDTO;
 import eibooks.dto.CustomerDTO;
 import eibooks.dto.OrderDTO;
+import eibooks.dto.cartDTO;
 
 public class OrderDAO {
 		
@@ -56,7 +59,101 @@ public class OrderDAO {
 				JDBCConnect.purClose(purPstmt, pstmt, conn);
 			}
 		}
-	
+
+		
+		public void cartList(cartDTO dto, int pur_seq){
+			Connection conn = null;
+			PreparedStatement pstmt = null;
+			PreparedStatement purPstmt = null;
+			
+			int cus_seq = dto.getCusSeq();
+			int book_seq = dto.getBook_seq();
+			int pur_i_count = dto.getCartICount();
+			
+			String sql= "insert into purchase_item(book_seq, cus_seq, pur_i_count, pur_seq) "
+					+ "values(?, ?, ?, ?)";
+			try {
+				//conn
+				conn = JDBCConnect.getConnection();
+				
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(1, book_seq);
+				pstmt.setInt(2, cus_seq);
+				pstmt.setInt(3, pur_i_count);
+				pstmt.setInt(4, pur_seq);
+				pstmt.executeUpdate();
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+				
+			} finally {
+				JDBCConnect.purClose(purPstmt, pstmt, conn);
+			}
+		}
+		public int cartOrderList(cartDTO dto){
+			Connection conn = null;
+			PreparedStatement pstmt = null;
+			PreparedStatement purPstmt = null;
+			ResultSet rs = null;
+			int pur_seq = 0;
+			
+			int cus_seq = dto.getCusSeq();
+			
+			String pursql = "insert into purchase(cus_seq) values(?)";
+			String sql = "select pur_seq from purchase "
+						+ "where pur_YN = 'N'";
+			
+			try {
+				//conn
+				conn = JDBCConnect.getConnection();
+
+				purPstmt = conn.prepareStatement(pursql);
+				purPstmt.setInt(1, cus_seq);
+				purPstmt.executeUpdate();
+				
+				pstmt = conn.prepareStatement(sql);
+				rs = pstmt.executeQuery();
+				
+				while(rs.next()) {
+					pur_seq = rs.getInt(cus_seq);
+				}
+				
+				System.out.println("purPstmt : " + purPstmt);
+				System.out.println("sql : " + sql);
+			} catch (Exception e) {
+				e.printStackTrace();
+				
+			} finally {
+				JDBCConnect.purClose(purPstmt, pstmt, conn);
+			}
+			return pur_seq;
+		}
+		
+		public void purYNUpdate(cartDTO dto){
+			Connection conn = null;
+			PreparedStatement pstmt = null;
+			
+			int cus_seq = dto.getCusSeq();
+			
+			String sql = "update purchase set pur_YN = 'Y' where pur_YN = 'N'";
+			
+			try {
+				//conn
+				conn = JDBCConnect.getConnection();
+
+				pstmt = conn.prepareStatement(sql);
+				pstmt.executeUpdate();
+				
+				System.out.println("sql : " + sql);
+			} catch (Exception e) {
+				e.printStackTrace();
+				
+			} finally {
+				JDBCConnect.close(pstmt, conn);
+			}
+		}
+		
+		
 		// 전체 회원 주문 내역 조회
 		public List<OrderDTO> getOrderList(Map<String, String> map) {
 			List<OrderDTO> orderList = new ArrayList<>();

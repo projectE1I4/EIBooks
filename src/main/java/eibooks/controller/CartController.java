@@ -212,6 +212,9 @@ public class CartController extends HttpServlet {
 		    String bookSeqStr = request.getParameter("book_seq");
 		    String cartICountStr = request.getParameter("cartICount");
 		    String priceStr = request.getParameter("totalCartPrice");
+		    System.out.println("book_seq" + bookSeqStr);
+		    System.out.println("cartICount" + cartICountStr);
+		    System.out.println("cus_seq" + cusSeq);
 
 		    // 파라미터 값이 null인지 확인하고 처리
 		    if (bookSeqStr == null || cartICountStr == null || priceStr == null) {
@@ -230,6 +233,25 @@ public class CartController extends HttpServlet {
 		    request.setAttribute("totalCartPrice", price);
 
 		    RequestDispatcher dispatcher = request.getRequestDispatcher("customer/customerBuyOrder.jsp");
+		    dispatcher.forward(request,response);
+		}
+		else if (action.equals("/customerBuyOrders.cc")) {
+		    System.out.println(action);
+		    request.setCharacterEncoding("utf-8");
+		    HttpSession session = request.getSession();
+		    int cusSeq = (Integer) session.getAttribute("cus_seq");
+		    
+		    cartDTO dto = new cartDTO();
+		    dto.setCusSeq(cusSeq);
+		    
+		    cartDAO dao = new cartDAO();
+		    List<cartDTO> cartList = dao.getCartList(cusSeq);
+		    int totalPrice = dao.totalCartPrice(cusSeq);
+		    
+		    request.setAttribute("cartList", cartList);
+		    request.setAttribute("totalPrice", totalPrice);
+		    
+		    RequestDispatcher dispatcher = request.getRequestDispatcher("customer/customerBuyOrders.jsp");
 		    dispatcher.forward(request,response);
 		}
 		else if (action.equals("/customerCartInsert.cc")) {
