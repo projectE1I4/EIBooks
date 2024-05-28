@@ -38,6 +38,14 @@ h1 {
     border-radius: 5px;
     font-size: 16px;
     height: 37px;
+    position: relative;
+}
+.sort img{
+	display: block;
+	position: absolute;
+	right: 5px;
+	top: 20%;
+	transform: rotate(-90deg);
 }
 
 .sort_menu {
@@ -96,16 +104,12 @@ h1 {
 	height: 140px;
 	padding-top: 15px;
 	padding-left: 30px;
-	margin: 0 auto;
+	margin: 10px auto;
 	position: relative;
 	background-color: #fff;
 }
 
-.reply::before {
-	display: block;
-	position: absolute;
-	background-images: url(../styles/images/arrow_right.svg) no-repeat;
-}
+
 .reply_info {
 	width: 956px;
 	height: 140px;

@@ -101,12 +101,6 @@ h1 {
 	background-color: #fff;
 }
 
-.reply::before {
-	display: block;
-	position: absolute;
-	background-images: url(../styles/images/arrow_right.svg) no-repeat;
-}
-
 .book_title {
 	width: 170px;
 	overflow: hidden;

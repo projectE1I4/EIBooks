@@ -113,6 +113,7 @@ $(document).ready( function() {
          "oldest".equals(orderBy) ? "오래된순" :
          "highest".equals(orderBy) ? "평점높은순" :
          "lowest".equals(orderBy) ? "평점낮은순" : "최신순" %>
+     	<img src="../styles/images/undo_tabler_io.svg" alt=""/>
 	</li>
 		<ul class="sort_menu">
 			<li><a href="reviewList.do?bookNum=<%=bookNum %><% if(sPur_seq != null) { %>&pur_seq=<%=pur_seq%>&pur_i_seq=<%=pur_i_seq%><%} %>&pageNum=<%=p.getStartPage() %>&orderBy=latest" <%="latest".equals(orderBy)%>>최신순</a></li>
