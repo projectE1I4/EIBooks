@@ -177,14 +177,14 @@ window.onload = function() {
         </li>
         
 		<%if(!(userNum == dto.getUserNum())) {%>
-		<li>
+		<div class="review_btn_wrap">
 			<a>
 				<img src="../styles/images/review_comment.svg" alt="답글 달기"/>
 			</a>
 			<a href="javascript:del('<%=dto.getReviewNum() %>')">
-				<img src="../styles/images/review_comment.svg" alt="답글 달기"/>
+				<img src="../styles/images/delete.svg" alt="리뷰 삭제하기"/>
 			</a>
-		</li>
+		</div>
 		<%} %>
 		</ul>
 	<%
@@ -219,7 +219,7 @@ window.onload = function() {
             <li>관리자</li>
             <li><%= reply.getReviewDate() %></li>
             <li class="reply content reply_content"><%= reply.getContent() %></li>
-            <li class="review_btn_wrap">
+            <li class="reply_btn_wrap">
             	<a href="replyUpdate.do?reviewNum=<%=reply.getReviewNum() %>&isReply=1">
             		<img src="../styles/images/edit.svg" alt="답글 수정하기"/>
             	</a> 
