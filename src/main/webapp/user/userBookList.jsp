@@ -242,21 +242,17 @@ function goToCustomerCart(book_seq){
 	<!-- 제목 -->
 	<h2>도서 목록 보기</h2>
 	
+	<section class="list_main">
 	<!-- 카테고리 -->
 	<!-- all / 만화 / 소설,시,희곡, / 수험서, 자격증 / 인문학 -->
-	<table border="1">
-		<tr>
-			<td>카테고리</td>	
-		</tr>
-		<tr>
-			<td>
-				<ul id="userCategory">
+	<div  class="category">
+		<div class="catrgory_wrap">
+		<h3>카테고리</h3>	
+		<ul id="userCategory">		
+		</div>
 					
-				</ul>	
-			</td>
-		</tr>
-	</table>
-	
+		</ul>	
+	</div>
 	<!-- 전체 목록 -->
 	<table border="1">
 	<% 	
@@ -307,6 +303,8 @@ function goToCustomerCart(book_seq){
 
 		</tbody>
 	</table>
+	</section>
+	
 
 	<table border="1" width="90%">
 		<tr>
