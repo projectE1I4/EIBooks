@@ -102,7 +102,7 @@ function goToPage(pur_seq) {
 		<%if(i == p.getPageNum()){%>
 			<b>[<%=i %>]</b>
 		<%}else{ %>
-		<a href="orderList.or?<% if(orderBy != null) { %>&orderBy=<%=orderBy %>&<%}%>pageNum=<%=i%>">[<%=i %>]</a>
+		<a href="orderList.or?<% if(orderBy != null) { %>orderBy=<%=orderBy %>&<% } %>pageNum=<%=i%>">[<%=i %>]</a>
 		<%} %>
 	<%} %>
 	<%if(p.isNext()){%><a href="orderList.or?<% if(orderBy != null) { %>orderBy=<%=orderBy %>&<%}%>pageNum=<%=p.getEndPage()+1%>">[Next]</a><% } %>

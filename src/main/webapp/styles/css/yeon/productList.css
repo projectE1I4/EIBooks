@@ -5,10 +5,11 @@
   --txt-color-500: #333;
   --txt-color-600: #000;
 }
-
+#wrap {
+  background-color: #E9EAEE;
+}
 .inner {
   padding: 80px;
-  background-color: #E9EAEE;
 }
 .board_list_wrap {
   padding: 50px;
