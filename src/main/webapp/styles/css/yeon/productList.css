@@ -41,9 +41,10 @@
   display: block; 
   width: 30px; 
   height: 30px; 
-  background: url(../images/search_black.png) no-repeat center center;
+  background: url(../../images/search_black.png) no-repeat center center;
   background-size: 30px;
   border: none;
+  cursor: pointer;
 }
 
 .board_list_wrap .content {
@@ -103,7 +104,7 @@
   display: block; 
   width: 30px; 
   height: 30px; 
-  background: url(../images/delete.png) no-repeat center center;
+  background: url(../../images/delete.png) no-repeat center center;
   background-size: 30px;
 }
 .board_list_wrap .productList .title .link_btn {

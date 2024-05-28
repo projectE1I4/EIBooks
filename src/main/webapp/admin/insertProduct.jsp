@@ -30,7 +30,7 @@ BookDTO dto = (BookDTO)request.getAttribute("dto");
   <link rel="stylesheet" href="/EIBooks/styles/css/header.css?v=<?php echo time(); ?>">
   <link rel="stylesheet" href="/EIBooks/styles/css/footer.css?v=<?php echo time(); ?>">
   <link rel="stylesheet" href="/EIBooks/styles/css/main.css?v=<?php echo time(); ?>">
-  <link rel="stylesheet" href="/EIBooks/styles/css/insertProduct.css?v=<?php echo time(); ?>">
+  <link rel="stylesheet" href="/EIBooks/styles/css/yeon/insertProduct.css?v=<?php echo time(); ?>">
   <script src="/EIBooks/styles/js/jquery-3.7.1.min.js"></script>
   <script src="/EIBooks/styles/js/jquery-ui.min.js"></script>
   <script src="/EIBooks/styles/js/swiper-bundle.min.js"></script>
