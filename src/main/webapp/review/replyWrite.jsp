@@ -192,7 +192,7 @@ window.onload = function() {
             
 	<% if (reviewNum == dto.getReviewNum() && isReply == 1) { %>
 	<ul class="reply reply_info write_info">
-<!-- 	<img class="reply_icon" src="../styles/images/arrow_right.png" alt=""/> -->
+	<img class="reply_icon" src="../styles/images/arrow_right.png" alt=""/>
 	<li class="reply content write">
 		<form class="write_form" name="writeForm" method="post" action="/EIBooks/review/replyWriteProc.do?bookNum=<%=bookNum %>&reviewNum=<%=reviewNum%>">
 			<textarea class="write_content" name="content" placeholder="답글 작성 최대 200자" oninput="limitText(this, 200)"></textarea>
