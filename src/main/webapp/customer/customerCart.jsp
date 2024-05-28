@@ -1,3 +1,5 @@
+<%@page import="java.util.HashMap"%>
+<%@page import="java.util.Map"%>
 <%@page import="eibooks.dto.cartDTO"%>
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -7,8 +9,6 @@
     List<cartDTO> cartList = (List<cartDTO>)request.getAttribute("cartList");
     cartDTO cartdto = new cartDTO();   
     int totalCartPrice = (int)request.getAttribute("totalCartPrice");
-    // int book_seq = Integer.parseInt(request.getParameter("book_seq"));
-    // int cartICount = Integer.parseInt(request.getParameter("cartICount"));
     String title = request.getParameter("title");
 %>
 
@@ -22,8 +22,6 @@
 <%@ include file="../common/menu.jsp" %>
 <!-- 제목 --> 
 <h2>회원 장바구니 보기</h2>
-<button id="selectAllBtn" type="button">전체 </button>
-<button id="deleteSelectedBtn" type="button"> 선택 삭제 </button>
 
 <!-- 장바구니 목록 -->
 <form id="cartForm" action="deleteSelectedItems.cc" method="post">
@@ -44,7 +42,7 @@
 	    <tr><td colspan="8">&nbsp; 장바구니에 아무것도 없습니다.</td></tr>
 	<% } else {
 	    cartDTO prevItem = null; // 이전 항목 저장용 변수
-	
+	    Map<String, Integer> map = new HashMap<>();
 	    for(cartDTO cartItem : cartList) {
 	        // 이전 항목과 현재 항목이 동일한지 확인
 	        boolean isSameItem = prevItem != null && prevItem.getBookInfo().getBook_seq() == cartItem.getBookInfo().getBook_seq();
@@ -80,10 +78,16 @@
         </form>
 	    </td>
 	</tr>
-	<%
-	        } // if(!isSameItem)
+	<% /*
+		map.put("book_seq"+cartItem.getBookInfo().getBook_seq(), cartItem.getBook_seq());
+		map.put("cartICount"+cartItem.getBookInfo().getBook_seq(), cartItem.getCartICount());
+		map.put("b_id", cartItem.getBookInfo().getBook_seq()); /**/
+	        } // if(!isSameItem) 
 	        prevItem = cartItem; // 현재 항목을 이전 항목으로 설정
 	    }
+	    
+	    map.put("totalCartPrice", totalCartPrice);
+		session.setAttribute("map", map);
 	}
 	%>
 	<tr>
@@ -96,21 +100,19 @@
     <h3>총 가격: <span id="totalPrice"><%=totalCartPrice - 3000 %></span>원</h3>
     <h3>배송비: <span>3000</span>원</h3>
     <h3>총 가격: <span id="totalCartPrice"><%=totalCartPrice %></span>원</h3>
-    <button id="orderBtn" type="button">주문하기</button>
+	<button id="orderBtn" type="button" onclick="submitOrder()">주문하기</button>
+
 
 </div>
 
 <script>
+//주문 제출 함수
+function submitOrder() {
+	console.log("버튼 눌림");
+	location.href="<%=request.getContextPath()%>/customerBuyOrders.cc";
+}
 
-//항목 개별 선택
-document.getElementById("deleteSelectedBtn").addEventListener("click", function() {
-    var selectedItems = document.querySelectorAll("input[name='selectedItems']:checked");
-    if (selectedItems.length === 0) {
-        alert("선택된 항목이 없습니다.");
-    } else {
-        document.getElementById("cartForm").submit();
-    }
-});
+
 
 //수량 증가 함수
 function increaseBtn(cartISeq) {
@@ -146,8 +148,6 @@ function updateCart(cartISeq, cartICount) {
     var cusSeq = document.body.getAttribute('data-cus-seq'); // cusSeq 값을 읽어옵니다.
     xhr.send("cartISeq=" + cartISeq + "&cartICount=" + cartICount + "&cusSeq=" + cusSeq);
 }
-
-
 
 // 페이지 로드 시 총 가격 가져오기
 window.onload = function() {
