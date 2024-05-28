@@ -37,6 +37,19 @@ int cusCnt = (int)request.getAttribute("cusCnt");
   <script src="/EIBooks/styles/js/swiper-bundle.min.js"></script>
   <script src="/EIBooks/styles/js/aos.js"></script>
   <script src="/EIBooks/styles/js/ui-common.js?v=<?php echo time(); ?>"></script>
+  <script type="text/javascript">   
+    
+    $(document).ready(function() {
+        $("#header").load("../styles/common/header.html");  // 원하는 파일 경로를 삽입하면 된다
+        $("#footer").load("../styles/common/footer.html");  // 추가 인클루드를 원할 경우 이런식으로 추가하면 된다
+
+        // .arrow_icon 클릭 시 셀렉트 요소 클릭 트리거
+        $('.select_container').on('click', '.arrow_icon', function() {
+            $('#mySelect').click();
+        });
+    });
+    
+   </script>
 </head>
 <body>
 <%@ include file="../common/menu.jsp" %>
@@ -46,39 +59,44 @@ int cusCnt = (int)request.getAttribute("cusCnt");
 <div id="wrap">
 	<header id="header"></header>
 	<main id="container">
-	<div>
-		<h3>회원 관리</h3>
-		<div>
-			<a href="/EIBooks/admin/customerList.cs">
-				<strong><%=cusCnt %></strong><br>
-				전체 회원
-			</a>
+		<div class="inner">
+			<div class="box_wrap">
+				<h3>회원 관리</h3>
+				<div class="content">
+					<div class="box">
+						<a href="/EIBooks/admin/customerList.cs">
+							<strong><%=cusCnt %></strong>
+							전체 회원
+						</a>
+					</div>
+				</div>
+			</div>
+			<div class="box_wrap">
+				<h3>제품 관리</h3>
+				<div class="content">
+					<div class="box">
+						<a href="/EIBooks/admin/productList.bo">
+							<strong><%=bookCnt %></strong>
+							전체 제품
+						</a>
+					</div>
+					<div class="box">
+						<a class="link_btn" href="/EIBooks/admin/writeProduct.bo">제품 등록</a>
+					</div>
+				</div>
+			</div>
+			<div class="col">
+				<div class="box2">
+					<a href="/EIBooks/admin/orderList.or">전체 주문 확인</a>
+				</div>
+				
+				<div class="box2">
+					<a href="/EIBooks/review/replyList.do">전체 리뷰 확인</a>
+				</div>
+			</div>
 		</div>
-	</div>
-	<hr>
-	<div>
-		<h3>제품 관리</h3>
-		<div>
-			<a href="/EIBooks/admin/productList.bo">
-				<strong><%=bookCnt %></strong><br>
-				전체 제품
-			</a>
-		</div>
-		<br>
-		<div>
-			<a href="/EIBooks/admin/writeProduct.bo">제품 등록</a>
-		</div>
-	</div>
-
-	<br><hr><br>
-	<div>
-		<a href="/EIBooks/admin/orderList.or">전체 주문 확인</a>
-	</div>
-	
-	<div>
-		<a href="/EIBooks/review/replyList.do">전체 리뷰 확인</a>
-	</div>
 	</main>
+	<footer id="footer"></footer>
 </div>
 </body>
 </html>
