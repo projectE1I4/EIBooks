@@ -124,6 +124,7 @@ $(document).ready( function() {
 </ul>
 <p class="total_count">전체 리뷰 수: <%=totalCount %></p>
 </div>
+
 <div class="review_list_wrap">
 <ul class="review_list">
 <% if(reviewList.isEmpty()) { %>	

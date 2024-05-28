@@ -23,8 +23,61 @@ ReviewDTO myReview = (ReviewDTO)request.getAttribute("myReview");
 <html>
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- <meta name="viewport" content="width=1280"> -->
+<meta name="format-detection" content="telephone=no">
+<meta name="description" content="EIBooks">
+<meta property="og:type" content="website">
+<meta property="og:title" content="EIBooks">
+<meta property="og:description" content="EIBooks">
+<meta property="og:image" content="http://hyerin1225.dothome.co.kr/EIBooks/images/EIBooks_logo.jpg" />
+<meta property="og:url" content="http://hyerin1225.dothome.co.kr/EIBooks" />
+<title>EIBooks</title>
+<link rel="icon" href="images/favicon.png">
+<link rel="apple-touch-icon" href="images/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/EIBooks/styles/css/jquery-ui.min.css">
+<link rel="stylesheet" href="/EIBooks/styles/css/swiper-bundle.min.css">
+<link rel="stylesheet" href="/EIBooks/styles/css/aos.css">
+<link rel="stylesheet" href="/EIBooks/styles/css/common.css?v=<?php echo time(); ?>">
+<link rel="stylesheet" href="/EIBooks/styles/css/header.css?v=<?php echo time(); ?>">
+<link rel="stylesheet" href="/EIBooks/styles/css/footer.css?v=<?php echo time(); ?>">
+<link rel="stylesheet" href="/EIBooks/styles/css/main.css?v=<?php echo time(); ?>">
+<link rel="stylesheet" href="/EIBooks/styles/css/review/reviewList.css?v=<?php echo time(); ?>">
+<script src="/EIBooks/styles/js/jquery-3.7.1.min.js"></script>
+<script src="/EIBooks/styles/js/jquery-ui.min.js"></script>
+<script src="/EIBooks/styles/js/swiper-bundle.min.js"></script>
+<script src="/EIBooks/styles/js/aos.js"></script>
+<script src="/EIBooks/styles/js/ui-common.js?v=<?php echo time(); ?>"></script>
 <title>review/reviewWrite</title>
 <script type="text/javascript">
+$(document).ready( function() {
+    
+    $("#header").load("../styles/common/header.html");  // 원하는 파일 경로를 삽입하면 된다
+    $("#footer").load("../styles/common/footer.html");  // 추가 인클루드를 원할 경우 이런식으로 추가하면 된다
+  
+    $('.sort').click(function() {
+        $(this).next('.sort_menu').slideToggle();
+    });
+
+    $(document).click(function(e) {
+        if (!$(e.target).closest('.sort_wrap').length) {
+            $('.sort_menu').slideUp();
+        }
+    });
+    
+    $('.sort_menu li a').click(function(e) {
+        e.preventDefault();
+        var selectedText = $(this).text();
+        $('.sort').text(selectedText);
+        $('.sort_menu').slideUp();
+        window.location.href = $(this).attr('href');
+    });
+    
+});
+
 function validateForm(reviewCount) {
 	const form = document.writeForm;
 	if(reviewCount > 0){
@@ -60,93 +113,168 @@ function del(reviewNum){
 }
 </script>
 <style type="text/css">
-	.reply td {
-		background-color: #eee;
-	}
-	.content {
-		height: 60px;
-	}
+
 </style>
 </head>
 <body>
 <%@ include file="../common/menu.jsp" %>
-<h1>리뷰 작성</h1>
- <form name="writeForm" method="post" action="/EIBooks/review/reviewWriteProc.do?bookNum=<%=bookNum %>&pur_seq=<%=pur_seq%>&pur_i_seq=<%=pur_i_seq%>">
-	<table border="1" width="90%">
-		<tr>
-		<td>별점
-		<select name="grade">
-			<option name="grade" value="5">5</option>
-			<option name="grade" value="4">4</option>
-			<option name="grade" value="3">3</option>
-			<option name="grade" value="2">2</option>
-			<option name="grade" value="1">1</option>
-		</select>
-		</td>
-		</tr>
-		<td><textarea name="content" style="width:100%; height:100px" placeholder="리뷰 작성 최대 200자" oninput="limitText(this, 200)"></textarea></td>
-	</table>
-	<input type="button" value="리뷰 등록" onclick="validateForm(<%=reviewCount%>)">
-</form>
-<h1>리뷰 보기</h1>
-<ul>
-	<li><a href="reviewWrite.do?bookNum=<%=bookNum %>&pur_seq=<%=pur_seq%>&pur_i_seq=<%=pur_i_seq%>&pageNum=<%=p.getStartPage() %>&orderBy=latest" <%="latest".equals(orderBy)%>>최신순</a></li>
-	<li><a href="reviewWrite.do?bookNum=<%=bookNum %>&pur_seq=<%=pur_seq%>&pur_i_seq=<%=pur_i_seq%>&pageNum=<%=p.getStartPage() %>&orderBy=oldest" <%="oldest".equals(orderBy)%>>오래된순</a></li>
-	<li><a href="reviewWrite.do?bookNum=<%=bookNum %>&pur_seq=<%=pur_seq%>&pur_i_seq=<%=pur_i_seq%>&pageNum=<%=p.getStartPage() %>&orderBy=highest" <%="highest".equals(orderBy)%>>평점높은순</a></li>
-	<li><a href="reviewWrite.do?bookNum=<%=bookNum %>&pur_seq=<%=pur_seq%>&pur_i_seq=<%=pur_i_seq%>&pageNum=<%=p.getStartPage() %>&orderBy=lowest" <%="lowest".equals(orderBy)%>>평점낮은순</a></li>
+
+<div id="wrap">
+
+<header id="header"></header>
+
+<main id="container" class="sub_container review_list_area">
+
+<h1 class="write_tit">리뷰 작성</h1>
+<ul class="write_info">
+	<li class="content write">
+		<form class="write_form" name="writeForm" method="post" action="/EIBooks/review/reviewWriteProc.do?bookNum=<%=bookNum %>&pur_seq=<%=pur_seq%>&pur_i_seq=<%=pur_i_seq%>">
+		
+		<div class="content_tit">
+			<span>별점</span>
+			<select class="write_grade" name="grade">
+				<option name="grade" value="5">5</option>
+				<option name="grade" value="4">4</option>
+				<option name="grade" value="3">3</option>
+				<option name="grade" value="2">2</option>
+				<option name="grade" value="1">1</option>
+			</select>
+		</div>
+			
+		<textarea class="write_content" name="content" placeholder="리뷰 작성 최대 200자" oninput="limitText(this, 200)"></textarea>
+			
+		<input class="write_btn" type="button" value="리뷰 등록" onclick="validateForm(<%=reviewCount%>)">
+		</form>
+	</li>
 </ul>
-<span align="right">전체 리뷰 수: <%=totalCount %></span>
-<table border="1" width="90%">
+
+<div class="tit_wrap">
+	<h1>리뷰 전체보기</h1>
+	<ul class="sort_wrap">
+		<li class="sort">
+		<%= "latest".equals(orderBy) ? "최신순" :
+	         "oldest".equals(orderBy) ? "오래된순" :
+	         "highest".equals(orderBy) ? "평점높은순" :
+	         "lowest".equals(orderBy) ? "평점낮은순" : "최신순" %>
+	     	<img src="../styles/images/undo_tabler_io.svg" alt=""/>
+		</li>
+			<ul class="sort_menu">
+				<li><a href="reviewWrite.do?bookNum=<%=bookNum %>&pur_seq=<%=pur_seq%>&pur_i_seq=<%=pur_i_seq%>&pageNum=<%=p.getStartPage() %>&orderBy=latest" <%="latest".equals(orderBy)%>>최신순</a></li>
+				<li><a href="reviewWrite.do?bookNum=<%=bookNum %>&pur_seq=<%=pur_seq%>&pur_i_seq=<%=pur_i_seq%>&pageNum=<%=p.getStartPage() %>&orderBy=oldest" <%="oldest".equals(orderBy)%>>오래된순</a></li>
+				<li><a href="reviewWrite.do?bookNum=<%=bookNum %>&pur_seq=<%=pur_seq%>&pur_i_seq=<%=pur_i_seq%>&pageNum=<%=p.getStartPage() %>&orderBy=highest" <%="highest".equals(orderBy)%>>평점높은순</a></li>
+				<li><a href="reviewWrite.do?bookNum=<%=bookNum %>&pur_seq=<%=pur_seq%>&pur_i_seq=<%=pur_i_seq%>&pageNum=<%=p.getStartPage() %>&orderBy=lowest" <%="lowest".equals(orderBy)%>>평점낮은순</a></li>
+			</ul>
+	</ul>
+	
+	<p class="total_count">전체 리뷰 수: <%=totalCount %></p>
+</div>
+
+<div class="review_list_wrap">
+<ul class="review_list">
 <% if(reviewList.isEmpty()) { %>	
-	<tr><td colspan="8">&nbsp;<b>리뷰가 없습니다.</b></td></tr>
+    <li class="no_review"><b>리뷰가 없습니다.</b></li>
 <% } else { %>
-<%for(ReviewDTO dto:reviewList) {%>
-	<tr>
-			<td width="30%"><%=dto.getGrade() %></td>
-			<td width="30%"><%=dto.getCusInfo().getCus_id() %></td>
-			<td width="30%"><%=dto.getReviewDate() %></td>
-		</tr>
-		<tr>
-			<td colspan="3" class="content"><%=dto.getContent() %></td>
-		</tr>
+<% for(ReviewDTO dto : reviewList) { %>
+	<li class="review">
+		<ul class="review_info">
+	 		<li class="grade">
+            	<% for (int i = 0; i < dto.getGrade(); i++) { %>
+            		<img src="../styles/images/star_full.png" alt=""/>
+            	<% 
+            		} 
+            		for (int i = 0; i < 5 - dto.getGrade(); i++) {
+            	%>
+            		<img src="../styles/images/star_empty.png" alt=""/>
+            	<% } %>
+            	
+                <span><%= dto.getGrade() %></span>
+            </li>
+            <li>
+                <%= dto.getCusInfo().getCus_id() %>
+            </li>
+            <li>
+                <%= dto.getReviewDate() %>
+            </li>
+            <li class="review content review_content">
+                <%= dto.getContent() %>
+            </li>
+            
 		<%if(userNum == dto.getUserNum()) {%>
-		<tr>
-		<td colspan="3">
-		<a href="../review/reviewUpdate.do?bookNum=<%=bookNum %>&pur_seq=<%=pur_seq%>&pur_i_seq=<%=pur_i_seq%>&reviewNum=<%=dto.getReviewNum() %>">[수정하기]</a> 
-		<a href="javascript:del('<%=dto.getReviewNum() %>')">[삭제하기]</a>
-		</td>
+		
+		<li class="review_btn_wrap">
+            <a href="../review/reviewUpdate.do?bookNum=<%=bookNum %>&pur_seq=<%=pur_seq%>&pur_i_seq=<%=pur_i_seq%>&reviewNum=<%=dto.getReviewNum() %>">
+             <img src="../styles/images/edit.svg" alt="수정하기"/>
+            </a>
+            <a href="javascript:del('<%=dto.getReviewNum() %>')">
+             <img src="../styles/images/delete.svg" alt="삭제하기"/>
+            </a>
+        </li>
 		<% } %> <!-- userNum 체크 -->
 	</tr>
+		</ul>
+	
 	<%
-	ReviewDAO dao = new ReviewDAO();
-	ReviewDTO reply = dao.selectReply(dto);
-	if (reply.getContent() != null) {
-	%>
-	<tr class="reply">
-		<td width="30%">관리자</td>
-		<td width="30%" colspan="2"><%=reply.getReviewDate() %></td>
-	</tr>
-	<tr class="reply">
-		<td colspan="3" class="content"><%=reply.getContent() %></td>
-	</tr>
-	<%} %>
+        ReviewDAO dao = new ReviewDAO();
+        ReviewDTO reply = dao.selectReply(dto);
+        if (reply.getContent() != null) {
+        %>
+        <ul class="reply reply_info">
+        <img class="reply_icon" src="../styles/images/arrow_right.png" alt=""/>
+            <li>관리자</li>
+            <li><%= reply.getReviewDate() %></li>
+            <li class="reply content reply_content"><%= reply.getContent() %></li>
+        </ul>
+        <% } %>
+	</li>
 <%} %>
-<tr>
-<td colspan="6">
-<%if(p.isPrev()) {%><a href="reviewWrite.do?bookNum=<%=bookNum %>&pur_seq=<%=pur_seq%>&pur_i_seq=<%=pur_i_seq%>&pageNum=1&orderBy=<%=orderBy %>">[처음]</a><% } %>
-<%if(p.isPrev()) {%><a href="reviewWrite.do?bookNum=<%=bookNum %>&pur_seq=<%=pur_seq%>&pur_i_seq=<%=pur_i_seq%>&pageNum=<%=p.getStartPage()-1 %>&orderBy=<%=orderBy %>">[이전]</a><%} %>
-<%for(int i=p.getStartPage(); i<=p.getEndPage(); i++) {%>
-	<%if(i == p.getPageNum()) {%>
-		<b>[<%=i %>]</b>
+<%} %>
+</ul>
+</div>
+
+<div class="pagination">
+	<%if(p.isPrev()) {%>
+	<a class="first arrow" href="reviewWrite.do?bookNum=<%=bookNum %>&pur_seq=<%=pur_seq%>&pur_i_seq=<%=pur_i_seq%>&pageNum=1&orderBy=<%=orderBy %>">
+		<span class="blind">첫 페이지</span>
+	</a>
+	<%} else { %>
+		<a class="first arrow off"><span class="blind">첫 페이지</span></a>
+	<% } %>
+	
+	<%if(p.isPrev()) {%>
+	<a class="prev arrow" href="reviewWrite.do?bookNum=<%=bookNum %>&pur_seq=<%=pur_seq%>&pur_i_seq=<%=pur_i_seq%>&pageNum=<%=p.getStartPage()-1 %>&orderBy=<%=orderBy %>">
+		<a class="prev arrow off"><span class="blind">이전 페이지</span></a>
+	</a>
+	<%} else { %>
+		<a class="prev arrow off"><span class="blind">이전 페이지</span></a>
+	<%} %>
+	
+	<%for(int i=p.getStartPage(); i<=p.getEndPage(); i++) {%>
+		<%if(i == p.getPageNum()) {%>
+			<a class="number active"><%=i %></a>
 		<%}else {%>
-		<a href="reviewWrite.do?bookNum=<%=bookNum %>&pur_seq=<%=pur_seq%>&pur_i_seq=<%=pur_i_seq%>&pageNum=<%=i %>&orderBy=<%=orderBy %>">[<%=i %>]</a>
+			<a class="number" href="reviewWrite.do?bookNum=<%=bookNum %>&pur_seq=<%=pur_seq%>&pur_i_seq=<%=pur_i_seq%>&pageNum=<%=i %>&orderBy=<%=orderBy %>"><%=i %></a>
 		<%} %>
 	<%} %>
-<%if(p.isNext()) {%><a href="reviewWrite.do?bookNum=<%=bookNum %>&pur_seq=<%=pur_seq%>&pur_i_seq=<%=pur_i_seq%>&pageNum=<%=p.getEndPage()+1 %>&orderBy=<%=orderBy %>">[다음]</a><%} %>
-<%if(p.isNext()) {%><a href="reviewWrite.do?bookNum=<%=bookNum %>&pur_seq=<%=pur_seq%>&pur_i_seq=<%=pur_i_seq%>&pageNum=<%=p.getRealEnd() %>&orderBy=<%=orderBy %>">[마지막]</a><% } %>
-</td>
-</tr>
-<%} %>
-</table>
+	
+	<%if(p.isNext()) {%>
+	<a class="next arrow" href="reviewWrite.do?bookNum=<%=bookNum %>&pur_seq=<%=pur_seq%>&pur_i_seq=<%=pur_i_seq%>&pageNum=<%=p.getEndPage()+1 %>&orderBy=<%=orderBy %>">
+		<span class="blind">다음 페이지</span>
+	</a>
+	<%} else { %>
+		<a class="next arrow off"><span class="blind">다음 페이지</span></a>
+	<%} %>
+	
+	<%if(p.isNext()) {%>
+	<a class="last arrow" href="reviewWrite.do?bookNum=<%=bookNum %>&pur_seq=<%=pur_seq%>&pur_i_seq=<%=pur_i_seq%>&pageNum=<%=p.getRealEnd() %>&orderBy=<%=orderBy %>">
+		<span class="blind">마지막 페이지</span>
+	</a>
+	<%} else {%>
+		<a class="last arrow off"><span class="blind">마지막 페이지</span></a>
+	<%} %>
+</div>
+</main>
+
+<footer id="footer"></footer>
+</div>
 </body>
 </html>

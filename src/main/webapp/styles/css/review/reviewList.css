@@ -1,9 +1,10 @@
 body {
 	background-color: #e9eaee;
 }
-
 h1 {
 	font-size: 30px;
+}
+.tit_wrap h1 {
 	display: flex;
 	justify-content: center;
 	align-items: end;
@@ -12,6 +13,10 @@ h1 {
 .review_list_area {
 	width: 1280px;
 	margin: 10px auto 0;
+}
+.write_tit {
+	text-align: left;
+	margin-left: 10px;
 }
 
 .tit_wrap {
@@ -139,6 +144,46 @@ h1 {
 	padding: 15px 10px;
 }
 
+.write_info {
+	height: 186px;
+	border: 1px solid #000;
+	position: relative;
+}
+.content.write {
+	background: none;
+	width: 1280px;
+	top: -10px;
+}
+
+.content_tit {
+	display: flex;
+	gap: 10px;
+	margin-bottom: 5px;
+}
+.write span {
+	display: inline-block;
+	background-color: #d9d9d9;	
+	font-size: 25px;
+	width: 73px;
+	height: 34px;
+	line-height: 34px;
+	text-align: center;
+}
+
+.write_grade {
+	border: none;
+	border-radius: 0;
+	width: 93px;
+	height: 34px;
+	background-color: #d9d9d9;
+	text-align: center;
+	font-size: 25px;
+	cursor: pointer;
+}
+.write_content {
+	height: 122px;
+}
+
 .review_info .review_content {
 	position: absolute;
 	right: 45px;
@@ -171,6 +216,19 @@ h1 {
 .review_btn_wrap img{
 	width: 20px;
 	height: 20px;
+}
+
+.write_btn {
+	position: absolute;
+	right: 10px;
+	top: 16px;
+	border: none;
+	background-color: #d9d9d9;
+	font-size: 15px;
+	width: 161px;
+	height: 34px;
+	font-size: 25px;
+	cursor: pointer;
 }
 
 .reply_info .reply_content {
