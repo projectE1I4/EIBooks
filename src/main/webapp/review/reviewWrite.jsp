@@ -226,7 +226,6 @@ function del(reviewNum){
         <% } %>
 	</li>
 <%} %>
-<%} %>
 </ul>
 </div>
 
@@ -271,6 +270,7 @@ function del(reviewNum){
 		<a class="last arrow off"><span class="blind">마지막 페이지</span></a>
 	<%} %>
 </div>
+<%} %>
 </main>
 
 <footer id="footer"></footer>
