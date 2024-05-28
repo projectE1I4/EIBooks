@@ -216,7 +216,6 @@ function userCategory(){
             		+ '&searchWord=' + encodeURIComponent(searchWord)
             		+ '&category=' + encodeURIComponent(category) +'&order=' + encodeURIComponent(list);
             window.history.pushState({ path: newUrl }, '', newUrl);
-            makeCategory(response, searchWord, category); 
         },
         error: function (request, status, error) {
             console.log(request, status, error);
@@ -224,16 +223,6 @@ function userCategory(){
     });
 }
 
-function makeCategory(data){
-	let html = ''; 
-	let cnt = 0;
-		html += '<li class="category_List"><a href="userBookList.bo?pageNum=1&searchWord=&category=">[전체]</a></li>';
-		html += '<li class="category_List"><a href="userBookList.bo?pageNum=1&searchWord=&category=만화">[만화]</a></li>';
-		html += '<li class="category_List"><a href="userBookList.bo?pageNum=1&searchWord=&category=소설/시/희곡">[소설 / 시 / 희곡]</a></li>';
-		html += '<li class="category_List"><a href="userBookList.bo?pageNum=1&searchWord=&category=수험서/자격증">[수험서 / 자격증]</a></li>';
-		html += '<li class="category_List"><a href="userBookList.bo?pageNum=1&searchWord=&category=인문학">[인문학]</a></li>';
-    $('#userCategory').html(html);
-}
 
 $(function(){
 	<%if (request.getParameter("searchWord") != null){%>
@@ -246,8 +235,6 @@ $(function(){
 	userSearch();
 	userCategory();
 	userPaging();
-		
-	
 });
 
 //  주문하기 버튼 클릭 시 주문하기 페이지로 이동
@@ -290,9 +277,13 @@ function goToCustomerCart(book_seq){
 		<div class="catrgory_wrap">
 		<h3 class="category_title">카테고리</h3>	
 		<ul id="userCategory" class="userCategory">		
-		</div>
-					
+			<li class="category_List"><a href="userBookList.bo?pageNum=1&searchWord=&category=">[전체]</a></li>
+			<li class="category_List"><a href="userBookList.bo?pageNum=1&searchWord=&category=만화">[만화]</a></li>
+			<li class="category_List"><a href="userBookList.bo?pageNum=1&searchWord=&category=소설/시/희곡">[소설 / 시 / 희곡]</a></li>	
+			<li class="category_List"><a href="userBookList.bo?pageNum=1&searchWord=&category=수험서/자격증">[수험서 / 자격증]</a></li>
+			<li class="category_List"><a href="userBookList.bo?pageNum=1&searchWord=&category=인문학">[인문학]</a></li>
 		</ul>	
+		</div>
 	</div>
 	<!-- 전체 목록 -->
 	<div class="main_contents">
