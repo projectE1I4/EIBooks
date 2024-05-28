@@ -38,7 +38,7 @@ PageDTO p = (PageDTO)request.getAttribute("paging");
 <link rel="stylesheet" href="/EIBooks/styles/css/header.css?v=<?php echo time(); ?>">
 <link rel="stylesheet" href="/EIBooks/styles/css/footer.css?v=<?php echo time(); ?>">
 <link rel="stylesheet" href="/EIBooks/styles/css/main.css?v=<?php echo time(); ?>">
-<link rel="stylesheet" href="/EIBooks/styles/css/replyList.css?v=<?php echo time(); ?>">
+<link rel="stylesheet" href="/EIBooks/styles/css/review/replyList.css?v=<?php echo time(); ?>">
 <script src="/EIBooks/styles/js/jquery-3.7.1.min.js"></script>
 <script src="/EIBooks/styles/js/jquery-ui.min.js"></script>
 <script src="/EIBooks/styles/js/swiper-bundle.min.js"></script>
@@ -142,7 +142,7 @@ $(document).ready( function() {
 			bDto.setBook_seq(dto.getBookNum());
 			bDto = bDao.selectView(bDto);
 			%>
-			<li><a href="/EIBooks/admin/productView.bo?book_seq=<%=dto.getBookNum()%>"><%=bDto.getTitle() %></a></li>
+			<li class="book_title"><a href="/EIBooks/admin/productView.bo?book_seq=<%=dto.getBookNum()%>"><%=bDto.getTitle() %></a></li>
 			<li><a href="/EIBooks/customer/myOrderDetail.or?pur_seq=<%=dto.getPur_seq() %>">상세 주문 내역</a></li>
 			
 			<li class="review content review_content">
@@ -188,20 +188,46 @@ $(document).ready( function() {
 </ul>
 </div>
 
-<div class="board_list_wrap">
-	<div class="pagination">
-		<%if(p.isPrev()) {%><a href="replyList.do?pageNum=1"><img src="../styles/images/paging_doubleLeftArrow.svg" alt="처음"/></a><% } %>
-		<%if(p.isPrev()) {%><a href="replyList.do?pageNum=<%=p.getStartPage()-1 %>"><img src="../styles/images/paging_leftArrow.svg" alt="이전"/></a><%} %>
-		<%for(int i=p.getStartPage(); i<=p.getEndPage(); i++) {%>
-			<%if(i == p.getPageNum()) {%>
-				<b>[<%=i %>]</b>
-				<%}else {%>
-				<a href="replyList.do?pageNum=<%=i %>">[<%=i %>]</a>
-				<%} %>
-			<%} %>
-		<%if(p.isNext()) {%><a href="replyList.do?pageNum=<%=p.getEndPage()+1 %>"><img src="../styles/images/paging_rightArrow.svg" alt="다음"/></a><%} %>
-		<%if(p.isNext()) {%><a href="replyList.do?pageNum=<%=p.getRealEnd() %>"><img src="../styles/images/paging_doubleRightArrow.svg" alt="마지막"/></a><% } %>
-	</div>
+<div class="pagination">
+	<%if(p.isPrev()) {%>
+	<a class="first arrow" href="replyList.do?pageNum=1">
+		<span class="blind">첫 페이지</span>
+	</a>
+	<%} else { %>
+		<a class="first arrow off"><span class="blind">첫 페이지</span></a>
+	<% } %>
+	
+	<%if(p.isPrev()) {%>
+	<a class="prev arrow" href="replyList.do?pageNum=<%=p.getStartPage()-1 %>">
+		<span class="blind">이전 페이지</span>
+	</a>
+	<%} else { %>
+		<a class="prev arrow off"><span class="blind">이전 페이지</span></a>
+	<%} %>
+	
+	<%for(int i=p.getStartPage(); i<=p.getEndPage(); i++) {%>
+		<%if(i == p.getPageNum()) {%>
+			<a class="number active"><%=i %></a>
+		<%}else {%>
+			<a class="number" href="replyList.do?pageNum=<%=i %>"><%=i %></a>
+		<%} %>
+	<%} %>
+	
+	<%if(p.isNext()) {%>
+	<a class="next arrow" href="replyList.do?pageNum=<%=p.getEndPage()+1 %>">
+		<span class="blind">다음 페이지</span>
+	</a>
+	<%} else {%>
+		<a class="next arrow off"><span class="blind">다음 페이지</span></a>
+	<%} %>
+	
+	<%if(p.isNext()) {%>
+	<a class="last arrow" href="replyList.do?pageNum=<%=p.getRealEnd() %>">
+		<span class="blind">마지막 페이지</span>
+	</a>
+	<%} else { %>
+		<a class="last arrow off"><span class="blind">마지막 페이지</span></a>
+	<%} %>
 </div>
 </main>
 

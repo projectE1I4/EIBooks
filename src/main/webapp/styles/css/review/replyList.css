@@ -96,7 +96,7 @@ h1 {
 	height: 155px;
 	padding-top: 15px;
 	padding-left: 30px;
-	margin: 0 auto;
+	margin: 10px auto;
 	position: relative;
 	background-color: #fff;
 }
@@ -106,12 +106,20 @@ h1 {
 	position: absolute;
 	background-images: url(../styles/images/arrow_right.svg) no-repeat;
 }
+
+.book_title {
+	width: 170px;
+	overflow: hidden;
+  	white-space: nowrap;
+  	text-overflow: ellipsis;
+}
+
 .reply_info {
 	width: 956px;
 	height: 140px;
 	padding-top: 17px;
 	padding-left: 16px;
-	margin: 10px 0 30px auto;
+	margin: 10px 0 20px auto;
 	position: relative;
 	background-color: #fff;
 }

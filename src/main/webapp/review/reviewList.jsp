@@ -51,7 +51,7 @@ ReviewDTO myReview = (ReviewDTO)request.getAttribute("myReview");
 <link rel="stylesheet" href="/EIBooks/styles/css/header.css?v=<?php echo time(); ?>">
 <link rel="stylesheet" href="/EIBooks/styles/css/footer.css?v=<?php echo time(); ?>">
 <link rel="stylesheet" href="/EIBooks/styles/css/main.css?v=<?php echo time(); ?>">
-<link rel="stylesheet" href="/EIBooks/styles/css/reviewList.css?v=<?php echo time(); ?>">
+<link rel="stylesheet" href="/EIBooks/styles/css/review/reviewList.css?v=<?php echo time(); ?>">
 <script src="/EIBooks/styles/js/jquery-3.7.1.min.js"></script>
 <script src="/EIBooks/styles/js/jquery-ui.min.js"></script>
 <script src="/EIBooks/styles/js/swiper-bundle.min.js"></script>
@@ -203,20 +203,46 @@ $(document).ready( function() {
 </ul>
 </div>
 
-<div class="board_list_wrap">
-	<div class="pagination">
-	<%if(p.isPrev()) {%><a href="reviewList.do?bookNum=<%=bookNum %><% if(sPur_seq != null) { %>&pur_seq=<%=pur_seq%>&pur_i_seq=<%=pur_i_seq%><%} %>&pageNum=1&orderBy=<%=orderBy %>"><img src="../styles/images/paging_doubleLeftArrow.svg" alt="처음"/></a><% } %>
-	<%if(p.isPrev()) {%><a href="reviewList.do?bookNum=<%=bookNum %><% if(sPur_seq != null) { %>&pur_seq=<%=pur_seq%>&pur_i_seq=<%=pur_i_seq%><%} %>&pageNum=<%=p.getStartPage()-1 %>&orderBy=<%=orderBy %>"><img src="../styles/images/paging_leftArrow.svg" alt="이전"/></a><%} %>
+<div class="pagination">
+	<%if(p.isPrev()) {%>
+	<a class="first arrow" href="reviewList.do?bookNum=<%=bookNum %><% if(sPur_seq != null) { %>&pur_seq=<%=pur_seq%>&pur_i_seq=<%=pur_i_seq%><%} %>&pageNum=1&orderBy=<%=orderBy %>">
+		<span class="blind">첫 페이지</span>
+	</a>
+	<%} else { %>
+		<a class="first arrow off"><span class="blind">첫 페이지</span></a>
+	<% } %>
+	
+	<%if(p.isPrev()) {%>
+	<a class="prev arrow" href="reviewList.do?bookNum=<%=bookNum %><% if(sPur_seq != null) { %>&pur_seq=<%=pur_seq%>&pur_i_seq=<%=pur_i_seq%><%} %>&pageNum=<%=p.getStartPage()-1 %>&orderBy=<%=orderBy %>">
+		<a class="prev arrow off"><span class="blind">이전 페이지</span></a>
+	</a>
+	<%} else { %>
+		<a class="prev arrow off"><span class="blind">이전 페이지</span></a>
+	<%} %>
+	
 	<%for(int i=p.getStartPage(); i<=p.getEndPage(); i++) {%>
 		<%if(i == p.getPageNum()) {%>
-			<b>[<%=i %>]</b>
-			<%}else {%>
-			<a href="reviewList.do?bookNum=<%=bookNum %><% if(sPur_seq != null) { %>&pur_seq=<%=pur_seq%>&pur_i_seq=<%=pur_i_seq%><%} %>&pageNum=<%=i %>&orderBy=<%=orderBy %>">[<%=i %>]</a>
-			<%} %>
+			<a class="number active"><%=i %></a>
+		<%}else {%>
+			<a class="number" href="reviewList.do?bookNum=<%=bookNum %><% if(sPur_seq != null) { %>&pur_seq=<%=pur_seq%>&pur_i_seq=<%=pur_i_seq%><%} %>&pageNum=<%=i %>&orderBy=<%=orderBy %>"><%=i %></a>
 		<%} %>
-	<%if(p.isNext()) {%><a href="reviewList.do?bookNum=<%=bookNum %><% if(sPur_seq != null) { %>&pur_seq=<%=pur_seq%>&pur_i_seq=<%=pur_i_seq%><%} %>&pageNum=<%=p.getEndPage()+1 %>&orderBy=<%=orderBy %>"><img src="../styles/images/paging_rightArrow.svg" alt="다음"/></a><%} %>
-	<%if(p.isNext()) {%><a href="reviewList.do?bookNum=<%=bookNum %><% if(sPur_seq != null) { %>&pur_seq=<%=pur_seq%>&pur_i_seq=<%=pur_i_seq%><%} %>&pageNum=<%=p.getRealEnd() %>&orderBy=<%=orderBy %>"><img src="../styles/images/paging_doubleRightArrow.svg" alt="마지막"/></a><% } %>
-	</div>
+	<%} %>
+	
+	<%if(p.isNext()) {%>
+	<a class="next arrow" href="reviewList.do?bookNum=<%=bookNum %><% if(sPur_seq != null) { %>&pur_seq=<%=pur_seq%>&pur_i_seq=<%=pur_i_seq%><%} %>&pageNum=<%=p.getEndPage()+1 %>&orderBy=<%=orderBy %>">
+		<span class="blind">다음 페이지</span>
+	</a>
+	<%} else { %>
+		<a class="next arrow off"><span class="blind">다음 페이지</span></a>
+	<%} %>
+	
+	<%if(p.isNext()) {%>
+	<a class="last arrow" href="reviewList.do?bookNum=<%=bookNum %><% if(sPur_seq != null) { %>&pur_seq=<%=pur_seq%>&pur_i_seq=<%=pur_i_seq%><%} %>&pageNum=<%=p.getRealEnd() %>&orderBy=<%=orderBy %>">
+		<span class="blind">마지막 페이지</span>
+	</a>
+	<%} else {%>
+		<a class="last arrow off"><span class="blind">마지막 페이지</span></a>
+	<%} %>
 </div>
 </main>
 
