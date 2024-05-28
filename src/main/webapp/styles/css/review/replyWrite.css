@@ -1,4 +1,4 @@
-body {
+@charset "UTF-8";body {
 	background-color: #e9eaee;
 }
 
@@ -96,22 +96,24 @@ h1 {
 	height: 155px;
 	padding-top: 15px;
 	padding-left: 30px;
-	margin: 0 auto;
+	margin: 10px auto;
 	position: relative;
 	background-color: #fff;
 }
 
-.reply::before {
-	display: block;
-	position: absolute;
-	background-images: url(../styles/images/arrow_right.svg) no-repeat;
+.book_title {
+	width: 170px;
+	overflow: hidden;
+  	white-space: nowrap;
+  	text-overflow: ellipsis;
 }
+
 .reply_info {
 	width: 956px;
 	height: 140px;
 	padding-top: 17px;
 	padding-left: 16px;
-	margin: 10px 0 30px auto;
+	margin: 10px 0 20px auto;
 	position: relative;
 	background-color: #fff;
 }
@@ -135,6 +137,31 @@ h1 {
 	padding: 15px 10px;
 }
 
+.write_info {
+	height: 150px;
+	background-color: #bfbfbf;
+}
+
+.content.write {
+	width:925px;
+	top: -10px;
+}
+
+.write_btn_wrap {
+	position: absolute;
+	right: 0;
+	bottom: -34px;
+}
+.write_btn {
+	width: 118px;
+	height: 32px;
+	border: none;
+	cursor: pointer;
+	margin-left: 5px;
+}
+.write_btn input {
+	font-size: 20px;
+}
 .review_info .review_content {
 	position: absolute;
 	right: 45px;
@@ -152,6 +179,8 @@ h1 {
 	height: 25px;
 	margin-top: 4px;
 }
+
+
 .review_btn_wrap {
 	position: absolute;
 	right: 10px;

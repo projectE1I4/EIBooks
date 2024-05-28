@@ -36,7 +36,7 @@
   <link rel="stylesheet" href="/EIBooks/styles/css/header.css?v=<?php echo time(); ?>">
   <link rel="stylesheet" href="/EIBooks/styles/css/footer.css?v=<?php echo time(); ?>">
   <link rel="stylesheet" href="/EIBooks/styles/css/main.css?v=<?php echo time(); ?>">
-  <link rel="stylesheet" href="/EIBooks/styles/css/productList.css?v=<?php echo time(); ?>">
+  <link rel="stylesheet" href="/EIBooks/styles/css/yeon/productList.css?v=<?php echo time(); ?>">
   <script src="/EIBooks/styles/js/jquery-3.7.1.min.js"></script>
   <script src="/EIBooks/styles/js/jquery-ui.min.js"></script>
   <script src="/EIBooks/styles/js/swiper-bundle.min.js"></script>
@@ -47,11 +47,6 @@
     $(document).ready(function() {
         $("#header").load("../styles/common/header.html");  // 원하는 파일 경로를 삽입하면 된다
         $("#footer").load("../styles/common/footer.html");  // 추가 인클루드를 원할 경우 이런식으로 추가하면 된다
-
-        // .arrow_icon 클릭 시 셀렉트 요소 클릭 트리거
-        $('.select_container').on('click', '.arrow_icon', function() {
-            $('#mySelect').click();
-        });
     });
     
     function del(book_seq){
@@ -64,7 +59,6 @@
     	}
     	
     }
-
    </script>
 
 </head>
@@ -149,7 +143,7 @@
 								<%=book.getStock() %>
 							</a>
 						</td>
-						<td><a class="update_btn" href="updateProduct.bo?book_seq=<%=book.getBook_seq() %>">수정</td>
+						<td><a class="update_btn" href="updateProduct.bo?book_seq=<%=book.getBook_seq() %>">수정</a></td>
 						<td><a class="delete_btn" href="javascript:del('<%=book.getBook_seq() %>');"><span class="blind">삭제</span></a></td>
 					</tr>
 				<%} %>
@@ -198,7 +192,7 @@
 	              <% } else { %>
 	              	  <a class="last arrow off"><span class="blind">마지막 페이지</span></a>
 	              <% } %>
-	            </div>
+            </div>
             </div>
 		</div>
 	</div>

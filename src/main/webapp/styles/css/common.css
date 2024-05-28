@@ -825,12 +825,13 @@ caption.nohead {
 
 /* EIBooks 페이지네이션 */
 
-.board_list_wrap .pagination {
+.pagination {
   display: flex;
   justify-content: center;
   margin-top: 20px;
+  text-align: center;
 }
-.board_list_wrap .pagination .arrow {
+.pagination .arrow {
   width: 22px;
   height: 40px;
   display: flex;
@@ -838,42 +839,42 @@ caption.nohead {
   align-items: center;
   margin: 0 8px;
 }
-.board_list_wrap .pagination .arrow::before {
+.pagination .arrow::before {
   content: '';
   width: 18px;
   height: 18px;
   background: url(../images/sprite_pc.png) no-repeat;
 }
-.board_list_wrap .pagination .off {
+.pagination .off {
   opacity: 40%;
 }
-.board_list_wrap .pagination .first::before {
+.pagination .first::before {
   background-position: -397px -310px;
 }
-.board_list_wrap .pagination .prev::before {
+.pagination .prev::before {
   background-position: -367px -182px;
 }
-.board_list_wrap .pagination .next::before {
+.pagination .next::before {
   background-position: -28px -431px;
 }
-.board_list_wrap .pagination .last::before {
+.pagination .last::before {
   background-position: -443px -388px;
 }
-.board_list_wrap .pagination .prev {
+.pagination .prev {
   margin-right: 15px;
 }
-.board_list_wrap .pagination .next {
+.pagination .next {
   margin-left: 15px;
 }
-.board_list_wrap .pagination .number {
+.pagination .number {
   width: 40px;
   height: 40px;
   line-height: 36px;
 }
-.board_list_wrap .pagination .number + .number {
+.pagination .number + .number {
   margin-left: 10px;
 }
-.board_list_wrap .pagination .number.active {
+.pagination .number.active {
   color: var(--point-color1);
 }
 

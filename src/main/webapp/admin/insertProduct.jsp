@@ -30,13 +30,18 @@ BookDTO dto = (BookDTO)request.getAttribute("dto");
   <link rel="stylesheet" href="/EIBooks/styles/css/header.css?v=<?php echo time(); ?>">
   <link rel="stylesheet" href="/EIBooks/styles/css/footer.css?v=<?php echo time(); ?>">
   <link rel="stylesheet" href="/EIBooks/styles/css/main.css?v=<?php echo time(); ?>">
-  <link rel="stylesheet" href="/EIBooks/styles/css/insertProduct.css?v=<?php echo time(); ?>">
+  <link rel="stylesheet" href="/EIBooks/styles/css/yeon/insertProduct.css?v=<?php echo time(); ?>">
   <script src="/EIBooks/styles/js/jquery-3.7.1.min.js"></script>
   <script src="/EIBooks/styles/js/jquery-ui.min.js"></script>
   <script src="/EIBooks/styles/js/swiper-bundle.min.js"></script>
   <script src="/EIBooks/styles/js/aos.js"></script>
   <script src="/EIBooks/styles/js/ui-common.js?v=<?php echo time(); ?>"></script>
   <script type="text/javascript">
+	  $(document).ready(function() {
+	      $("#header").load("../styles/common/header.html");  // 원하는 파일 경로를 삽입하면 된다
+	      $("#footer").load("../styles/common/footer.html");  // 추가 인클루드를 원할 경우 이런식으로 추가하면 된다
+	  });
+  
 	function validateForm() {
 		const form = document.forms['writeForm']; // 폼 참조 방식 수정
 	    let isValid = true;
