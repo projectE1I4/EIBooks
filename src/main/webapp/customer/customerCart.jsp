@@ -29,7 +29,6 @@
 <form id="cartForm" action="deleteSelectedItems.cc" method="post">
 	<table border="1" width="95%">
 	<tr>
-		<th width="3%">선택</th>
 	    <th width="7%">도서 번호</th>
 	    <th width="15%">도서 이미지</th>
 	    <th width="15%">도서 제목</th>
@@ -52,7 +51,6 @@
 	        if(!isSameItem) { // 이전 항목과 다를 경우에만 표시
 	%>
 	<tr>
-		<td><input type="checkbox" name="selectedItems" value=<%= cartItem.getCartISeq() %>></td>
 	    <td><%=cartItem.getBookInfo().getBook_seq() %></td>
 	    <td><img src="<%=cartItem.getBookInfo().getImageFile() %>"></td>
 	    <td><%=cartItem.getBookInfo().getTitle() %></td>
@@ -74,9 +72,6 @@
     	
 	    </td>
 	    <td id="price<%= cartItem.getCartISeq() %>"><%=cartItem.getBookInfo().getPrice() * cartItem.getCartICount()%>원</td>
-	    <%=cartItem.getBookInfo().getPrice() %>
-	    <%=cartItem.getCartICount() %>
-	    <br>
 	    <td>
 	    <!-- 선택된 항목 삭제 -->
         <form action="deleteCart.cc" method="post">
@@ -106,16 +101,6 @@
 </div>
 
 <script>
-// 전체 선택 토글
-var isAllChecked = false;
-document.getElementById("selectAllBtn").addEventListener("click", function() {
-    var allItems = document.querySelectorAll("input[name='selectedItems']");
-    isAllChecked = !isAllChecked;
-    allItems.forEach(function(selectBox) {
-        selectBox.checked = isAllChecked;
-    });
-});
-
 
 //항목 개별 선택
 document.getElementById("deleteSelectedBtn").addEventListener("click", function() {

@@ -138,7 +138,7 @@ function makeSearch(data){
 	
     for(b of data){            	
 		html += '<tr>';
-    	html += '<td>' + (cnt += 1) + '<input type="checkbox" name="product" value="'+ b['book_seq'] + '">' + '</td>';
+    	html += '<td>' + (cnt += 1) + '</td>';
     	html += '<td  onclick="goToPage('+ b['book_seq'] + ')"><img alt="' + b['title'] + '" src="' + b['imageFile'] + '" ></td>';
     	html += '<td  onclick="goToPage('+ b['book_seq'] + ')">' + b['title'] + '</td>';
     	html += '<td>' + b['author'] + '</td>';
@@ -210,19 +210,7 @@ $(function(){
 	userSearch();
 	userCategory();
 	userPaging();
-	
-	$('#userBooks').on('change', 'input[name="product"]', function () {
-	    var productNumber = $(this).val();
-    	var isChecked = $(this).prop('checked');
-    	 if (isChecked) {
-             $('#status').text('상품번호 ' + productNumber + '가 체크되었습니다.');
-         } else {
-             $('#status').text('상품번호 ' + productNumber + '는 체크되지 않았습니다.');
-         }
 		
-		
-	})
-	
 	
 });
 
@@ -300,8 +288,6 @@ function goToCustomerCart(book_seq){
 			</td>
 		</tr>
 	</table>
-	<input type="button" value="선택 상품 장바구니로" onclick="selectCart();">
-	<div id="status" style="border: 1px solid red"></div>
 	<table border="1">
 		<thead>
 			<tr>

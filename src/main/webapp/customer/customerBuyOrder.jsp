@@ -1,3 +1,7 @@
+<%@page import="eibooks.dao.OrderDAO"%>
+<%@page import="java.util.Map"%>
+<%@page import="java.util.HashMap"%>
+<%@page import="com.google.gson.Gson"%>
 <%@page import="eibooks.dto.OrderDTO"%>
 <%@page import="java.util.function.Function"%>
 <%@page import="eibooks.dto.AddressDTO"%>
@@ -27,6 +31,15 @@
     BookDAO dao = new BookDAO();
     
     BookDTO resultBook = dao.getBook(book);
+    
+    // 결제하기 버튼 클릭 시 값을 map에 할당
+    Map<String, Integer> map = new HashMap<>();
+    map.put("book_seq", Integer.parseInt(request.getParameter("book_seq")));
+    map.put("cus_seq", (int) session.getAttribute("cus_seq"));
+    map.put("cartICount", Integer.parseInt(request.getParameter("cartICount")));
+    
+    session.setAttribute("orderMap", map);
+
 %>
 <!DOCTYPE html>
 <html>
@@ -35,27 +48,16 @@
 <title>customerOrder</title>
 <script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery-3.7.1.min.js"></script>
 <script type="text/javascript">
+$(function(){
+	
+})
 
-function buy (BookDTO resultBook) {
-	List<Integer> orderList = new ArrayList<>(); 
-	orderList.add(0, resultBook);
-	orderList.add(1, <%=session.getAttribute("cus_seq") %>);
-	orderList.add(2, <%=request.getAttribute("cartICount") %>);
-	
-	var form = document.createElement("form");
-	form.method = "POST";
-	form.action = "<%=request.getContextPath()%>/orderInsert.or";
-	
-	var hiddenField = document.createElement("input");
-	hiddenField.type = "hidden";
-	hiddenField.name = "orderList";
-	hiddenField.value = JSON.stringify(orderList);
-	form.appendChild(hiddenField);
-	
-	document.body.appendChild(form);
-	form.submit();
+function buy() {
+		console.log("try");
+	    console.log("버튼눌림");
+		location.href="<%=request.getContextPath()%>/orderInsert.or";
+	}
 
-}
 </script>
 </head>
 <body data-cus-seq="<%= request.getAttribute("cusSeq") %>" data-cart-seq="<%= request.getAttribute("cartSeq") %>">
@@ -112,7 +114,7 @@ function buy (BookDTO resultBook) {
 	<h3>총 가격: <span id="totalPrice"><%=(int)request.getAttribute("totalCartPrice") - 3000 %></span>원</h3>
     <h3>배송비: <span>3000</span>원</h3>
     <h3>총 가격: <span id="totalCartPrice"><%=(int)request.getAttribute("totalCartPrice") %></span>원</h3>
-    <button type="button" onclick="buy(resultBook);">결제하기</button>
+    <button type="button" id="buyButton" onclick="buy();">결제하기</button>
 </div>
 
 </body>

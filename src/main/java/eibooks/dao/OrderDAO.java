@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
 import eibooks.common.JDBCConnect;
 import eibooks.dto.AddressDTO;
 import eibooks.dto.BookDTO;
@@ -16,32 +19,41 @@ import eibooks.dto.OrderDTO;
 public class OrderDAO {
 		
 		// order 저장 - insert (효빈) (작동 미확인)
-		public void insertOrderList(List<Integer> orderList){
+		public void insertOrderList(Map<String, Integer> map){
 			Connection conn = null;
 			PreparedStatement pstmt = null;
+			PreparedStatement purPstmt = null;
 			int rs = 0;
 			
-			int book_seq = orderList.get(0);
-			int cus_seq = orderList.get(1);
-			int pur_i_count = orderList.get(2);
+			int book_seq = map.get("book_seq");
+			int cus_seq = map.get("cus_seq");
+			int pur_i_count = map.get("cartICount");
 			
-			String sql= "insert into purchase_item(book_seq, cus_seq, pur_i_count) values( ?, ?, ?) ";
+			String pursql = "insert into purchase(cus_seq) values(?)";
+			
+			String sql= "insert into purchase_item(book_seq, cus_seq, pur_i_count, pur_seq) "
+					+ "values((select book_seq from books where book_seq = ?), ?, ?, (select pur_seq from purchase where cus_seq = ? order by pur_seq desc limit 1))";
 			try {
 				//conn
 				conn = JDBCConnect.getConnection();
+
+				purPstmt = conn.prepareStatement(pursql);
+				purPstmt.setInt(1, cus_seq);
+				purPstmt.executeUpdate();
 
 				pstmt = conn.prepareStatement(sql);
 				pstmt.setInt(1, book_seq);
 				pstmt.setInt(2, cus_seq);
 				pstmt.setInt(3, pur_i_count);
-
-				rs = pstmt.executeUpdate(sql);
+				pstmt.setInt(4, cus_seq);
+				pstmt.executeUpdate();
+				
 
 			} catch (Exception e) {
 				e.printStackTrace();
 				
 			} finally {
-				JDBCConnect.close(pstmt, conn);
+				JDBCConnect.purClose(purPstmt, pstmt, conn);
 			}
 		}
 	
@@ -343,7 +355,7 @@ public class OrderDAO {
 	                
 					// 장바구니에 담긴 각 도서의 정보를 가져와서 추가
 					orderList.add(order);
-					System.out.println(order);
+					System.out.println("order" + order);
 
 				}
 			} catch (Exception e) {

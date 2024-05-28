@@ -1,6 +1,9 @@
 package eibooks.controller;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -88,8 +91,8 @@ public class OrderController extends HttpServlet {
             
 		} else if(action.equals("/customerOrder.or")) {
 			
-			String orderBy = request.getParameter("orderBy");
-			System.out.println(orderBy);
+			// String orderBy = request.getParameter("orderBy");
+			// System.out.println(orderBy);
 			Map<String, String> map = new HashMap<>();
 			
 			// paging info
@@ -102,7 +105,7 @@ public class OrderController extends HttpServlet {
 
 			map.put("offset", offset + "");
 			map.put("amount", amount + "");
-			map.put("orderBy", orderBy);
+			// map.put("orderBy", orderBy);
 			
 			HttpSession session = request.getSession();
 			int cus_seq = (int)session.getAttribute("cus_seq");
@@ -121,7 +124,7 @@ public class OrderController extends HttpServlet {
             request.setAttribute("orderList", orderList);
             request.setAttribute("paging", paging);
 			request.setAttribute("totalCount", totalCount);
-			request.setAttribute("orderBy", orderBy);
+			// request.setAttribute("orderBy", orderBy);
 
             // forward
             String path = "./customerOrder.jsp"; // 회원 별 주문 목록 페이지의 JSP 파일 경로
@@ -174,7 +177,12 @@ public class OrderController extends HttpServlet {
 			map.put("cus_seq", cus_seq + "");
             
             OrderDAO dao = new OrderDAO();
-            List<OrderDTO> orderList = dao.getCustomerOrder(map);
+            List<OrderDTO> orderList = new ArrayList<OrderDTO>();
+            int leng = map.size();
+            while(leng != 0 ) {
+            	orderList = dao.getCustomerOrder(map);
+            	leng -= 1;
+            }
             int totalCount = dao.selectCount(dto);
 
             // Paging
@@ -211,21 +219,19 @@ public class OrderController extends HttpServlet {
             
 		} else if(action.equals("/orderInsert.or")) {
 			
-//			List<Integer> orders = (List<Integer>) request.getAttribute("orderList");
-//			
-//			OrderDTO dto = new OrderDTO();
-//            OrderDAO dao = new OrderDAO();
-//            dao.insertOrderList(orders);
-            
-            String orderListJson = request.getParameter("orderList");
-            List<Integer> orderList = new Gson().fromJson(orderListJson, new TypeToken<List<Integer>>(){}.getType());
-            
-            request.setAttribute("orderList", orderList);
-            OrderDAO dao = new OrderDAO();
-            dao.insertOrderList(orderList);
-            
+			System.out.println("/orderInsert.or");
+			
+			HttpSession session = request.getSession();
+			Map<String, Integer> map = (Map<String, Integer>) session.getAttribute("orderMap");
+			System.out.println(session.getAttribute("orderMap"));
+			
+			int book_seq = map.get("book_seq");
+			
+		    OrderDAO orderdao = new OrderDAO();
+		    orderdao.insertOrderList(map);
+			
             // forward
-            String path = "./customerOrderComplete.jsp"; // 회원 별 주문 목록 페이지의 JSP 파일 경로
+            String path = "./customer/customerOrderComplete.jsp"; // 회원 별 주문 목록 페이지의 JSP 파일 경로
             request.getRequestDispatcher(path).forward(request, response);
 		}
 	}

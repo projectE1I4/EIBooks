@@ -28,7 +28,7 @@
     <!-- 일반회원 로그인 상태 -->
     <li><a href="<%=request.getContextPath()%>/user/userBookList.bo">유저 제품 리스트</a></li>
     <li><%=SessionCustomer.getCus_id() %>(<%=SessionCustomer.getName() %>)님 환영합니다.</li>
-    <li><a href="/EIBooks/customer/customerCart.cc">장바구니</a> | <a href="/EIBooks/customer/myPage.or">마이 페이지</a> | <a href="logoutProc.cs">로그아웃</a></li>
+    <li><a href="/EIBooks/customer/customerCartOut.cc">장바구니</a> | <a href="/EIBooks/customer/myPage.or">마이 페이지</a> | <a href="logoutProc.cs">로그아웃</a></li>
     <% } %>
     <li><a href="/EIBooks/review/reviewList.do?bookNum=1">유저 리뷰 보기</a></li>
 </ul>
