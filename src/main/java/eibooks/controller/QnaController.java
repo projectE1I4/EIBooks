@@ -46,6 +46,9 @@ public class QnaController extends HttpServlet {
 			HttpSession session = request.getSession();
 			int cus_seq = (int)session.getAttribute("cus_seq");
 			
+			String state = request.getParameter("state");
+			map.put("state", state);
+				
 			// paging info
 			int amount = 10;
 			int pageNum = 1;
@@ -70,6 +73,7 @@ public class QnaController extends HttpServlet {
          			
             request.setAttribute("qnaList", qnaList);
             request.setAttribute("paging", paging);
+            request.setAttribute("state", state);
 
             // forward
             String path = "./qnaList.jsp"; // 전체 주문 목록 페이지의 JSP 파일 경로

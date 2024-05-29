@@ -11,6 +11,7 @@
 <%
 List<QnaDTO> qnaList = (List<QnaDTO>)request.getAttribute("qnaList");
 PageDTO p = (PageDTO)request.getAttribute("paging");
+String state = (String)request.getAttribute("state");
 %>  
 <!DOCTYPE html>
 <html>
@@ -51,6 +52,24 @@ $(document).ready( function() {
     $("#header").load("../styles/common/header.html");  // 원하는 파일 경로를 삽입하면 된다
     $("#footer").load("../styles/common/footer.html");  // 추가 인클루드를 원할 경우 이런식으로 추가하면 된다
   
+    $('.sort_main').click(function() {
+        $(this).next('.sort_menu').slideToggle();
+        $(this).toggleClass('rotate');
+    });
+   
+   $(document).click(function(e) {
+        if (!$(e.target).closest('.sort_wrap').length) {
+            $('.sort_menu').slideUp();
+        }
+    });
+   
+    $('.sort_menu li a').click(function(e) {
+        e.preventDefault();
+        var selectedText = $(this).text();
+        $('.sort').text(selectedText);
+        $('.sort_menu').slideUp();
+        window.location.href = $(this).attr('href');
+    });
 });
 
 	function del(qna_seq){
@@ -68,14 +87,46 @@ $(document).ready( function() {
 <body>
 <%@ include file="../common/menu.jsp" %>
 
+
+
 <div id="skip_navi">
   <a href="#container">본문바로가기</a>
 </div>
 <div id="wrap">
 	<header id="header"></header>
 	<main id="container">
+		<ul>
+			<li>
+				<a href="/EIBooks/customer/updateMyPage.cs">회원정보 수정</a>
+			</li>
+			<li>
+				<a href="/EIBooks/customer/myPage.or">나의 주문목록</a>
+			</li>
+			<li>
+				<a href="/EIBooks/qna/qnaList.qq">상품문의 내역</a>
+			</li>
+		</ul>
 		<div class="tit_wrap">
 		<h1>상품 문의</h1>
+		<ul class="sort_wrap">
+				<li class="sort_main">
+				<%= "전체보기".equals(state) ? "전체보기" :
+			         "답변대기".equals(state) ? "답변대기" :
+			         "답변완료".equals(state) ? "답변완료" : "전체보기" %>
+			     	<img src="../styles/images/undo_tabler_io.svg" alt=""/>
+				</li>
+					<ul class="sort_menu">
+					<li>
+							<a href="/EIBooks/qna/qnaList.qq">전체보기</a>
+						</li>
+						<li>
+							<a href="/EIBooks/qna/qnaList.qq?state=답변대기">답변대기</a>
+						</li>
+						<li>
+							<a href="/EIBooks/qna/qnaList.qq?state=답변완료">답변완료</a>
+						</li>
+					</ul>
+			</ul>
 		</div>
 		<div class="board_list_wrap">
 			<table>
@@ -107,7 +158,7 @@ $(document).ready( function() {
 								<td><%=qna.getRegDate() %></td>
 								<td>
 									<div class="col">
-										<%=qna.getState() %>
+										<em><%=qna.getState() %></em>
 										<% if (qna.getState().equals("답변대기")) { %>
 											<a class="btn delete_btn" href="javascript:del('<%=qna.getQna_seq() %>');">삭제
 												<span class="blind">삭제</span>

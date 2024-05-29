@@ -26,6 +26,7 @@ public class QnaDAO {
 		int cus_seq = Integer.parseInt(map.get("cus_seq"));
 		int amount = Integer.parseInt(map.get("amount"));
 		int offset = Integer.parseInt(map.get("offset"));
+		String state = map.get("state");
 		
 		try {
 			//conn
@@ -39,12 +40,24 @@ public class QnaDAO {
 					+ "on q.cus_seq = c.cus_seq "
 					+ "where q.cus_seq = ? ";
 			
+			if (state != null) {
+				sql += "and state = ? ";
+			}
+			
 			sql += "limit ? offset ? "; // 2page
 			
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, cus_seq);
-			pstmt.setInt(2, amount);
-			pstmt.setInt(3, offset);
+			
+			if (state != null) {
+				pstmt.setInt(1, cus_seq);
+				pstmt.setString(2, state);
+				pstmt.setInt(3, amount);
+				pstmt.setInt(4, offset);
+			} else {
+				pstmt.setInt(1, cus_seq);
+				pstmt.setInt(2, amount);
+				pstmt.setInt(3, offset);
+			}
 
 			rs = pstmt.executeQuery();
 
