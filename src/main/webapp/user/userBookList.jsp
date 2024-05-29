@@ -16,7 +16,43 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Product List</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- <meta name="viewport" content="width=1280"> -->
+  <meta name="format-detection" content="telephone=no">
+  <meta name="description" content="EIBooks">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="EIBooks">
+  <meta property="og:description" content="EIBooks">
+  <meta property="og:image" content="http://hyerin1225.dothome.co.kr/EIBooks/images/EIBooks_logo.jpg"/>
+  <meta property="og:url" content="http://hyerin1225.dothome.co.kr/EIBooks"/>
+  <title>EIBooks</title>
+  <link rel="icon" href="images/favicon.png">
+  <link rel="apple-touch-icon" href="images/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/EIBooks/styles/css/jquery-ui.min.css">
+  <link rel="stylesheet" href="/EIBooks/styles/css/swiper-bundle.min.css">
+  <link rel="stylesheet" href="/EIBooks/styles/css/aos.css">
+  <link rel="stylesheet" href="/EIBooks/styles/css/common.css?v=<?php echo time(); ?>">
+  <link rel="stylesheet" href="/EIBooks/styles/css/header.css?v=<?php echo time(); ?>">
+  <link rel="stylesheet" href="/EIBooks/styles/css/footer.css?v=<?php echo time(); ?>">
+  <link rel="stylesheet" href="/EIBooks/styles/css/main.css?v=<?php echo time(); ?>">
+  <link rel="stylesheet" href="/EIBooks/styles/css/Uproduct_main/userProductList.css?v=<?php echo time(); ?>">
+  <script src="/EIBooks/styles/js/jquery-3.7.1.min.js"></script>
+  <script src="/EIBooks/styles/js/jquery-ui.min.js"></script>
+  <script src="/EIBooks/styles/js/swiper-bundle.min.js"></script>
+  <script src="/EIBooks/styles/js/aos.js"></script>
+  <script src="/EIBooks/styles/js/ui-common.js?v=<?php echo time(); ?>"></script>
+  <script type="text/javascript">
+  $(document).ready( function() {
+	    
+      $("#header").load("../styles/common/header.html");  // 원하는 파일 경로를 삽입하면 된다
+      $("#footer").load("../styles/common/footer.html");  // 추가 인클루드를 원할 경우 이런식으로 추가하면 된다
+    
+    });
+    </script>
+  <title>Product List</title>
 <script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery-3.7.1.min.js"></script>
 <script type="text/javascript">
 function goToPage(book_seq) {
@@ -180,7 +216,6 @@ function userCategory(){
             		+ '&searchWord=' + encodeURIComponent(searchWord)
             		+ '&category=' + encodeURIComponent(category) +'&order=' + encodeURIComponent(list);
             window.history.pushState({ path: newUrl }, '', newUrl);
-            makeCategory(response, searchWord, category); 
         },
         error: function (request, status, error) {
             console.log(request, status, error);
@@ -188,16 +223,6 @@ function userCategory(){
     });
 }
 
-function makeCategory(data){
-	let html = ''; 
-	let cnt = 0;
-		html += '<li><a href="userBookList.bo?pageNum=1&searchWord=&category=">[전체]</a></li>';
-		html += '<li><a href="userBookList.bo?pageNum=1&searchWord=&category=만화">[만화]</a></li>';
-		html += '<li><a href="userBookList.bo?pageNum=1&searchWord=&category=소설/시/희곡">[소설 / 시 / 희곡]</a></li>';
-		html += '<li><a href="userBookList.bo?pageNum=1&searchWord=&category=수험서/자격증">[수험서 / 자격증]</a></li>';
-		html += '<li><a href="userBookList.bo?pageNum=1&searchWord=&category=인문학">[인문학]</a></li>';
-    $('#userCategory').html(html);
-}
 
 $(function(){
 	<%if (request.getParameter("searchWord") != null){%>
@@ -210,8 +235,6 @@ $(function(){
 	userSearch();
 	userCategory();
 	userPaging();
-		
-	
 });
 
 //  주문하기 버튼 클릭 시 주문하기 페이지로 이동
@@ -238,26 +261,36 @@ function goToCustomerCart(book_seq){
 </script>
 </head>
 <body>
+<div id="wrap">
+
 	<%@ include file="../common/menu.jsp"%>
 	<!-- 제목 -->
+	<header id="header"></header>
+	<main id="container">
+	
 	<h2>도서 목록 보기</h2>
 	
+	<section class="list_main">
 	<!-- 카테고리 -->
 	<!-- all / 만화 / 소설,시,희곡, / 수험서, 자격증 / 인문학 -->
-	<table border="1">
-		<tr>
-			<td>카테고리</td>	
-		</tr>
-		<tr>
-			<td>
-				<ul id="userCategory">
-					
-				</ul>	
-			</td>
-		</tr>
-	</table>
-	
+	<div  class="category">
+		<div class="catrgory_wrap">
+		<h3 class="category_title">카테고리</h3>	
+		<ul id="userCategory" class="userCategory">		
+			<li class="category_List"><a href="userBookList.bo?pageNum=1&searchWord=&category=">[전체]</a></li>
+			<li class="category_List"><a href="userBookList.bo?pageNum=1&searchWord=&category=만화">[만화]</a></li>
+			<li class="category_List"><a href="userBookList.bo?pageNum=1&searchWord=&category=소설/시/희곡">[소설 / 시 / 희곡]</a></li>	
+			<li class="category_List"><a href="userBookList.bo?pageNum=1&searchWord=&category=수험서/자격증">[수험서 / 자격증]</a></li>
+			<li class="category_List"><a href="userBookList.bo?pageNum=1&searchWord=&category=인문학">[인문학]</a></li>
+		</ul>	
+		</div>
+	</div>
 	<!-- 전체 목록 -->
+	<div class="main_contents">
+	
+	
+	<div class="middle_bar">
+	
 	<table border="1">
 	<% 	
 	if (searchWord != null && !searchWord.isEmpty()) { %>
@@ -288,6 +321,8 @@ function goToCustomerCart(book_seq){
 			</td>
 		</tr>
 	</table>
+	</div>
+	<div class="main_books">
 	<table border="1">
 		<thead>
 			<tr>
@@ -307,11 +342,18 @@ function goToCustomerCart(book_seq){
 
 		</tbody>
 	</table>
+	</div>
+	</div>
+	</section>
+	
 
 	<table border="1" width="90%">
 		<tr>
 			<td colspan="8" id="userPaging"></td>
 		</tr>
 	</table>
+	</main>
+	<footer id="footer"></footer>
+	</div>
 </body>
 </html>
