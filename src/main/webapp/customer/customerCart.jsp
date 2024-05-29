@@ -57,16 +57,23 @@
         });
     });
     
-    function deleteAll() {
-    	<%
- 		int cus_seq = Integer.parseInt(session.getAttribute("cus_seq").toString());
-    	cartDAO dao = new cartDAO();
-    	dao.deleteCartAll(cus_seq);
-    	%>
-    	location.href="./customerCartOut.cc";
-    	
-    	
-    }
+        
+        function deleteAll() {
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "<%=request.getContextPath()%>/deleteCartAll", true);
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    // 요청이 성공적으로 완료되면 페이지 리다이렉트
+                    window.location.href = "./customerCartOut.cc";
+                }
+            };
+
+            // AJAX 요청 보내기
+            xhr.send("cus_seq=<%=session.getAttribute("cus_seq").toString() %>");
+        }
+    
     
    </script>
 <title>회원 장바구니 목록 보기</title>
@@ -84,8 +91,8 @@
      
 
 <!-- 장바구니 목록 -->
-<form id="cartForm" action="deleteSelectedItems.cc" method="post">
-<input type=button onclick="deleteAll();" value="전체 삭제"/>
+<input type=button onclick="deleteAll()" value="전체 삭제"/>
+<form id="cartForm" method="post">
 	<table border="1" width="95%">
 	<ul>
 	    <th width="7%">도서 번호</th>
