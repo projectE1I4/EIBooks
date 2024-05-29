@@ -8,8 +8,40 @@
 
 .inner {
   width: 1280px;
+  margin: 0 auto;
 }
 .inner h1 {
-  font-size: 30px;
-  color: #000;
+  font-size: 40px;
+  color: var(--txt-color-600);
+  margin: 20px 0 20px;
 }
+
+.inner .cart_wrap {
+	display: flex;
+}
+.inner .cart_wrap li {
+	border: 1px solid red;
+}
+.inner .cart_list {
+	display: flex;
+}
+.inner .cart_list li {
+	border: 1px solid red;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

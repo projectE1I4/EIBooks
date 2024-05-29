@@ -82,13 +82,12 @@
 <%@ include file="../common/menu.jsp" %>
 
 <div id="customerCart_wrap">
-  <!-- 헤더 -->
-  <header id="header"></header>
+	<!-- 헤더 -->
+	<header id="header"></header>
 
-  <main id="container">
-      <div class="inner">
-        <h1> 장바구니</h1>
-     
+	<main id="container">
+		<div class="inner">
+			<h1> 장바구니</h1>
 
 <!-- 장바구니 목록 -->
 <input type=button onclick="deleteAll()" value="전체 삭제"/>
@@ -170,9 +169,91 @@
 
     </div>
   </main>
+			<!-- 장바구니 목록 -->
+			<form id="cartForm" action="deleteSelectedItems.cc" method="post">
+				<ul class = cart_wrap>
+				    <li style="width:7%">도서 번호</li>
+				    <li style="width:15%">도서 이미지</li>
+				    <li style="width:15%">도서 제목</li>
+				    <li style="width:10%">출판사</li>
+				    <li style="width:10%">출간일</li>
+				    <li style="width:10%">ISBN</li>
+				    <li style="width:10%">수량</li>
+				    <li style="width:10%">가격</li>
+				    <li style="width:10%">삭제</li>
+				</ul>
+				<% 
+				    if(cartList.isEmpty()) { %>  
+				    <tr><td colspan="8">&nbsp; 장바구니에 아무것도 없습니다.</td></tr>
+				<% } else {
+				    cartDTO prevItem = null; // 이전 항목 저장용 변수
+				    Map<String, Integer> map = new HashMap<>();
+				    for(cartDTO cartItem : cartList) {
+				        // 이전 항목과 현재 항목이 동일한지 확인
+				        boolean isSameItem = prevItem != null && prevItem.getBookInfo().getBook_seq() == cartItem.getBookInfo().getBook_seq();
+				        if(!isSameItem) { // 이전 항목과 다를 경우에만 표시
+				%>
+				<ul class = cart_list>
+				    <li style="width:7%"><%=cartItem.getBookInfo().getBook_seq() %></li>
+				    <li style="width:15%"><img src="<%=cartItem.getBookInfo().getImageFile() %>"></li>
+				    <li style="width:15%"><%=cartItem.getBookInfo().getTitle() %></li>
+				    <li style="width:10%"><%=cartItem.getBookInfo().getPublisher() %></li>
+				    <li style="width:10%"><%=cartItem.getBookInfo().getPubDate() %></li>
+				    <li style="width:10%"><%=cartItem.getBookInfo().getIsbn13() %></li>
+				    
+				    <li style="width:10%">
+				    <!-- 수량 업데이트 -->
+				     <form id="updateForm<%= cartItem.getCartISeq() %>" action="updateCart.cc" method="post" style="display: flex; align-items: center;">
+			        	<input type="hidden" name="cartISeq" value="<%= cartItem.getCartISeq() %>">
+				        <div style="display: flex; align-items: center;">
+				            <button type="button" onclick="decreaseBtn(<%= cartItem.getCartISeq() %>)">-</button>
+				            <input id="quantity<%= cartItem.getCartISeq() %>" type="number" name="cartICount" value="<%= cartItem.getCartICount() %>"
+				            min="1" readonly style="width: 30px; margin: 0 10px;">
+				            <button type="button" onclick="increaseBtn(<%= cartItem.getCartISeq() %>)">+</button>
+				        </div>
+			    	</form>
+		    	
+			    </li>
+			    <li style="width:10%" id="price<%= cartItem.getCartISeq() %>"><%=cartItem.getBookInfo().getPrice() * cartItem.getCartICount()%>원</li>
+			    <li style="width:10%">
+				    <!-- 선택된 항목 삭제 -->
+			        <form action="deleteCart.cc" method="post">
+			            <input type="hidden" name="cartISeq" value="<%= cartItem.getCartISeq() %>">
+			            <button type="submit">삭제</button>
+			        </form>
+			    </li>
+			</ul>
+			<% 
+			        } // if(!isSameItem) 
+			        prevItem = cartItem; // 현재 항목을 이전 항목으로 설정
+			    }
+			    
+			    map.put("totalCartPrice", totalCartPrice);
+				session.setAttribute("map", map);
+			}
+			%>
+			</form>
+			
+			
+			<!-- 총 가격 표시 -->
+			<div>
+				<h3>총 가격: <span id="totalPrice"><%=totalCartPrice - 3000 %></span>원</h3>
+				<h3>배송비: <span>3000</span>원</h3>
+				<h3>총 가격: <span id="totalCartPrice"><%=totalCartPrice %></span>원</h3>
+		    	<button id="orderBtn" type="button" onclick="submitOrder()">주문하기</button>
+			</div>
+		</div>
+	
+</main>
+  
+  
+  
     <footer id="footer"></footer>
   </div>
-</div>
+  
+  
+  
+  
 <script>
 //주문 제출 함수
 function submitOrder() {
