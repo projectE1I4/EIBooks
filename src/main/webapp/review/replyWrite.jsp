@@ -81,7 +81,7 @@ function limitText(field, maxLength) {
 }
 
 function del(reviewNum, pur_seq, pur_i_seq, bookNum){
-	const input = confirm("정말 삭제하시겠습니까?");
+	const input = confirm("리뷰를 삭제하시겠습니까?");
 	if(input){
 		location.href = "<%=request.getContextPath()%>/review/depthOneDeleteProc.do?reviewNum=" + reviewNum;
 	}else{
@@ -92,7 +92,7 @@ function del(reviewNum, pur_seq, pur_i_seq, bookNum){
 }
 
 function delReply(reviewNum, ref_seq){
-	const input = confirm("정말 삭제하시겠습니까?");
+	const input = confirm("답글을 삭제하시겠습니까?");
 	if(input){
 		location.href = "<%=request.getContextPath()%>/review/replyDeleteProc.do?reviewNum=" + reviewNum + "&ref_seq=" + ref_seq;
 	}else{
@@ -178,7 +178,7 @@ window.onload = function() {
             <li class="review_btn_wrap">
             	<%if(dto.getRef_YN().equals("Y")) { %>
             			<a>
-						 	<img src="../styles/images/review_comment.svg" alt="답글 달기"/>
+						 	<img src="../styles/images/review_comment.svg" alt="답글 달기"  class="disable_btn"/>
 						</a>
 					<% } else if(reviewNum != dto.getReviewNum()) { %>
 						<a href="replyWrite.do?bookNum=<%=dto.getBookNum() %>&reviewNum=<%=dto.getReviewNum() %>&isReply=1&pageNum=<%=p.getPageNum() %>">
@@ -225,7 +225,9 @@ window.onload = function() {
             <%if(userNum == reply.getUserNum()) {%>
             <li class="review_btn_wrap">
             	<a><img src="../styles/images/edit.svg" alt="답글 수정하기"/></a> 
-				<a><img src="../styles/images/delete.svg" alt="답글 삭제하기"/></a>
+				<a href="javascript:delReply('<%=reply.getReviewNum() %>', '<%=reply.getRef_seq()%>')">
+					<img src="../styles/images/delete.svg" alt="답글 삭제하기"/>
+				</a>
             </li>
             <%} %>
 		</ul>

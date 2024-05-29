@@ -54,7 +54,7 @@ $(document).ready( function() {
 });
 
 	function del(reviewNum){
-		const input = confirm("정말 삭제하시겠습니까?");
+		const input = confirm("리뷰를 삭제하시겠습니까?");
 		if(input){
 			location.href = "<%=request.getContextPath()%>/review/depthOneDeleteProc.do?reviewNum=" + reviewNum;
 		}else{
@@ -63,7 +63,7 @@ $(document).ready( function() {
 		}
 	}
 	function delReply(reviewNum, ref_seq){
-		const input = confirm("정말 삭제하시겠습니까?");
+		const input = confirm("답글을 삭제하시겠습니까?");
 		if(input){
 			location.href = "<%=request.getContextPath()%>/review/replyDeleteProc.do?reviewNum=" + reviewNum + "&ref_seq=" + ref_seq;
 		}else{
@@ -130,7 +130,9 @@ $(document).ready( function() {
             <%if(!(userNum == dto.getUserNum())) {%>
             <li class="review_btn_wrap">
             	<% if(dto.getRef_YN().equals("Y")) { %>
-						 <img src="../styles/images/review_comment.svg" alt="답글 달기"/>
+            			<a>
+						 <img src="../styles/images/review_comment.svg" alt="답글 달기" class="disable_btn"/>
+						</a>
 					<% } else { %>
 						<a href="replyWrite.do?bookNum=<%=dto.getBookNum() %>&reviewNum=<%=dto.getReviewNum() %>&isReply=1&pageNum=<%=p.getPageNum() %>">
 						<img src="../styles/images/review_comment.svg" alt="답글 달기"/>
