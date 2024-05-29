@@ -185,7 +185,7 @@ function makeSearch(data){
     	html += '<td>' 
 	       	+ '<div>'
             + '<button type="button" onclick="decreaseBtn('+ b['book_seq'] +')">-</button>'
-            + '<input id="quantity'+ b['book_seq'] +'" type="number" name="cartICount" value="1"'
+            + '<input id="quantity'+ b['book_seq'] +'" type="number" name="'+b['book_seq'] +'" value="1"'
             + 'min="1" readonly style="width:30px;">'
             + '<button type="button" onclick="increaseBtn('+ b['book_seq'] +')">+</button>'
         + '</div>'
@@ -239,7 +239,8 @@ $(function(){
 
 //  주문하기 버튼 클릭 시 주문하기 페이지로 이동
 function buying(book_seq){
-    var cartICount = $('input[name="cartICount"]').val();
+	var className = "cartICount" + book_seq;
+    var cartICount = $('input[name="'+book_seq+'"]').val();
     var cus_seq = "<%=session.getAttribute("cus_seq")%>"
     var priceClass = 'price' + book_seq;
     var price = $('.' + priceClass).text(); 
@@ -252,10 +253,13 @@ function buying(book_seq){
 }
 
 function goToCustomerCart(book_seq){
-	var cartICount = $('input[name="cartICount"]').val();
+	var className = "cartICount" + book_seq;
+	var cartICount = $('input[name="'+book_seq+'"]').val();
+	alert("장바구니에 담겼습니다.");
 	location.href = "<%=request.getContextPath()%>/customerCartInsert.cc?"
-			+ "book_seq=" + book_seq + "&cartICount=" + cartICount;
+		+ "book_seq=" + book_seq + "&cartICount=" + cartICount;
 }
+
 
 
 </script>

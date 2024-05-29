@@ -2,6 +2,7 @@ package eibooks.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -75,7 +76,6 @@ public class CartController extends HttpServlet {
 		else if (action.equals("/customerCartIn.cc")) {
 			HttpSession session = request.getSession();
             int cusSeq =(int)session.getAttribute("cus_seq");
-
             
             // 장바구니에 담긴 책 목록 조회
             cartDAO cartDao = new cartDAO();
@@ -255,39 +255,54 @@ public class CartController extends HttpServlet {
 		    dispatcher.forward(request,response);
 		}
 		else if (action.equals("/customerCartInsert.cc")) {
+		    request.setCharacterEncoding("utf-8");
 			HttpSession session = request.getSession();
             int cusSeq =(int)session.getAttribute("cus_seq");
 
-            // 장바구니에 책 집어넣기
-            
             // 가져온 책
             int book_seq = Integer.parseInt(request.getParameter("book_seq"));
+            System.out.println("배고파배고파배과배고파"+book_seq);
             int cartICount = Integer.parseInt(request.getParameter("cartICount"));
+            System.out.println("수량이 왜이래" + cartICount);
             
             cartDAO cartDao = new cartDAO();
             List<cartDTO> cartList = cartDao.getCartList(cusSeq);
-            System.out.println("cart conn ok!");
             
             cartDTO cartdto = new cartDTO(book_seq);
             int totalCartPrice = cartDao.totalCartPrice(cusSeq);
 
-            // 장바구니 페이지로 전달할 데이터 설정
+            Map<String, Integer> map = new HashMap<>();
+            
+            Boolean same = false;
+            
+            if(cartList != null) {
+            	for (cartDTO c : cartList) {
+            		if (book_seq == c.getBook_seq()) {
+            			same = true;
+            		} 
+            	}
+            } 
+            
+        	map.put("cusSeq", cusSeq);
+			map.put("cart_i_count", cartICount);
+			map.put("book_seq", book_seq);
+			
+			if (same == false) {
+				cartDao.insertCart(map);
+				System.out.println("이거까지 되고 있니??????");
+			} else {
+    			cartDTO cart = new cartDTO();
+    			cart.setCusSeq(cusSeq);
+    			cart.setBook_seq(book_seq);
+    			int cart_i_seq = cartDao.getCart(cart);
+    			cartDao.updateCartNew(cart_i_seq, cartICount);
+    		}
+			
+			cartList = cartDao.getCartList(cusSeq);
+			 // 장바구니 페이지로 전달할 데이터 설정
             request.setAttribute("cartList", cartList);
-            request.setAttribute("cusSeq", cusSeq);
-            request.setAttribute("totalCartPrice", totalCartPrice);
-            request.setAttribute("book_seq", book_seq);
             request.setAttribute("cartICount", cartICount);
-            
-            
-            cartList.add(cartdto);
-            request.setAttribute("cartList", cartList);
-            
-            Map<String, Object> map = new HashMap<>();
-            map.put("cusSeq", session.getAttribute("cus_seq"));
-            map.put("cartISeq", session.getAttribute("cart_I_seq"));
-            map.put("cart_i_count", cartICount);
-            map.put("book_seq", request.getParameter("book_seq"));
-            cartDao.insertCart(map);
+            request.setAttribute("totalCartPrice", totalCartPrice);   
             
             // forward
             String path = "./customerCartIn.cc"; // 장바구니 페이지의 JSP 파일 경로

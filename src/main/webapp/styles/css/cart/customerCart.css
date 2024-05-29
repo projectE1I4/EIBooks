@@ -1,16 +1,15 @@
 /* 컬러 변수 */
 :root {
-  --point-color1: #6A5AFF;
+  --point-color1: #6a5aff;
   --txt-color-400: #999;
   --txt-color-500: #333;
   --txt-color-600: #000;
 }
 
-body {
-	background-color: #FFF;
+.inner {
+  width: 1280px;
 }
-
-h1 {
-	font-size: 30px;
-	color: #000;
+.inner h1 {
+  font-size: 30px;
+  color: #000;
 }

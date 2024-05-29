@@ -248,16 +248,16 @@ public class OrderController extends HttpServlet {
 			OrderDAO orderdao = new OrderDAO();
 			
 		    cartDTO dto = new cartDTO();
+		    dto.setCusSeq(cusSeq);
 		    
 		    cartDAO dao = new cartDAO();
 		    List<cartDTO> cartList = dao.getCartList(cusSeq);            
-			
+		    orderdao.cartOrderList(dto);
 
 			for(cartDTO c : cartList) {
-				int pur_seq = orderdao.cartOrderList(dto);  
-				orderdao.cartList(dto, pur_seq);
+				orderdao.cartList(c);
 			}
-			orderdao.purYNUpdate(dto);
+			dao.deleteCartAll(cusSeq);
 			
             // forward
             String path = "./customer/customerOrderComplete.jsp"; // 회원 별 주문 목록 페이지의 JSP 파일 경로

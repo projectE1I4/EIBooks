@@ -61,7 +61,7 @@ public class OrderDAO {
 		}
 
 		
-		public void cartList(cartDTO dto, int pur_seq){
+		public void cartList(cartDTO dto){
 			Connection conn = null;
 			PreparedStatement pstmt = null;
 			PreparedStatement purPstmt = null;
@@ -71,7 +71,7 @@ public class OrderDAO {
 			int pur_i_count = dto.getCartICount();
 			
 			String sql= "insert into purchase_item(book_seq, cus_seq, pur_i_count, pur_seq) "
-					+ "values(?, ?, ?, ?)";
+					+ "values(?, ?, ?, (select pur_seq from purchase where cus_seq = ? order by pur_seq desc limit 1))";
 			try {
 				//conn
 				conn = JDBCConnect.getConnection();
@@ -80,7 +80,7 @@ public class OrderDAO {
 				pstmt.setInt(1, book_seq);
 				pstmt.setInt(2, cus_seq);
 				pstmt.setInt(3, pur_i_count);
-				pstmt.setInt(4, pur_seq);
+				pstmt.setInt(4, cus_seq);
 				pstmt.executeUpdate();
 				
 			} catch (Exception e) {
@@ -90,7 +90,7 @@ public class OrderDAO {
 				JDBCConnect.purClose(purPstmt, pstmt, conn);
 			}
 		}
-		public int cartOrderList(cartDTO dto){
+		public void cartOrderList(cartDTO dto){
 			Connection conn = null;
 			PreparedStatement pstmt = null;
 			PreparedStatement purPstmt = null;
@@ -100,8 +100,6 @@ public class OrderDAO {
 			int cus_seq = dto.getCusSeq();
 			
 			String pursql = "insert into purchase(cus_seq) values(?)";
-			String sql = "select pur_seq from purchase "
-						+ "where pur_YN = 'N'";
 			
 			try {
 				//conn
@@ -111,45 +109,11 @@ public class OrderDAO {
 				purPstmt.setInt(1, cus_seq);
 				purPstmt.executeUpdate();
 				
-				pstmt = conn.prepareStatement(sql);
-				rs = pstmt.executeQuery();
-				
-				while(rs.next()) {
-					pur_seq = rs.getInt(cus_seq);
-				}
-				
-				System.out.println("purPstmt : " + purPstmt);
-				System.out.println("sql : " + sql);
 			} catch (Exception e) {
 				e.printStackTrace();
 				
 			} finally {
 				JDBCConnect.purClose(purPstmt, pstmt, conn);
-			}
-			return pur_seq;
-		}
-		
-		public void purYNUpdate(cartDTO dto){
-			Connection conn = null;
-			PreparedStatement pstmt = null;
-			
-			int cus_seq = dto.getCusSeq();
-			
-			String sql = "update purchase set pur_YN = 'Y' where pur_YN = 'N'";
-			
-			try {
-				//conn
-				conn = JDBCConnect.getConnection();
-
-				pstmt = conn.prepareStatement(sql);
-				pstmt.executeUpdate();
-				
-				System.out.println("sql : " + sql);
-			} catch (Exception e) {
-				e.printStackTrace();
-				
-			} finally {
-				JDBCConnect.close(pstmt, conn);
 			}
 		}
 		

@@ -62,19 +62,19 @@
 <body data-cus-seq="<%= request.getAttribute("cusSeq") %>" data-cart-seq="<%= request.getAttribute("cartSeq") %>">
 <%@ include file="../common/menu.jsp" %>
 
-<header id="header"></header>
-<main id="container">
-	<div id="customerCart_wrap">
+<div id="customerCart_wrap">
+  <!-- 헤더 -->
+  <header id="header"></header>
+
+  <main id="container">
       <div class="inner">
         <h1> 장바구니</h1>
-      </div>
-    </div>
-</main>
+     
 
 <!-- 장바구니 목록 -->
 <form id="cartForm" action="deleteSelectedItems.cc" method="post">
 	<table border="1" width="95%">
-	<tr>
+	<ul>
 	    <th width="7%">도서 번호</th>
 	    <th width="15%">도서 이미지</th>
 	    <th width="15%">도서 제목</th>
@@ -138,21 +138,21 @@
 		session.setAttribute("map", map);
 	}
 	%>
-	<tr>
-	
-	</tr>
+
 	</table>
-</form>
-<!-- 총 가격 표시 -->
-<div>
-    <h3>총 가격: <span id="totalPrice"><%=totalCartPrice - 3000 %></span>원</h3>
-    <h3>배송비: <span>3000</span>원</h3>
-    <h3>총 가격: <span id="totalCartPrice"><%=totalCartPrice %></span>원</h3>
-	<button id="orderBtn" type="button" onclick="submitOrder()">주문하기</button>
+  </form>
+  <!-- 총 가격 표시 -->
+  <div>
+      <h3>총 가격: <span id="totalPrice"><%=totalCartPrice - 3000 %></span>원</h3>
+      <h3>배송비: <span>3000</span>원</h3>
+      <h3>총 가격: <span id="totalCartPrice"><%=totalCartPrice %></span>원</h3>
+    <button id="orderBtn" type="button" onclick="submitOrder()">주문하기</button>
 
-
+    </div>
+  </main>
+    <footer id="footer"></footer>
+  </div>
 </div>
-
 <script>
 //주문 제출 함수
 function submitOrder() {

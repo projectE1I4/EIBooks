@@ -76,4 +76,12 @@ public class cartDTO {
 	public void setBookInfo(BookDTO bookInfo) {
 		this.bookInfo = bookInfo;
 	}
+
+	@Override
+	public String toString() {
+		return "cartDTO [cartISeq=" + cartISeq + ", cusSeq=" + cusSeq + ", book_seq=" + book_seq + ", cartICount="
+				+ cartICount + ", bookInfo=" + bookInfo + "]";
+	}
+	
+	
 }
