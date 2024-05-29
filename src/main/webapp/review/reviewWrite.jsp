@@ -200,7 +200,6 @@ function del(reviewNum){
             </li>
             
 		<%if(userNum == dto.getUserNum()) {%>
-		
 		<li class="review_btn_wrap">
             <a href="../review/reviewUpdate.do?bookNum=<%=bookNum %>&pur_i_seq=<%=dto.getPur_i_seq()%>&reviewNum=<%=dto.getReviewNum() %>">
              <img src="../styles/images/edit.svg" alt="수정하기"/>

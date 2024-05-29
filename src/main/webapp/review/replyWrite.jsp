@@ -177,12 +177,18 @@ window.onload = function() {
             <%if(!(userNum == dto.getUserNum())) {%>
             <li class="review_btn_wrap">
             	<%if(dto.getRef_YN().equals("Y")) { %>
-						 <img src="../styles/images/review_comment.svg" alt="답글 달기"/>
+            			<a>
+						 	<img src="../styles/images/review_comment.svg" alt="답글 달기"/>
+						</a>
 					<% } else if(reviewNum != dto.getReviewNum()) { %>
 						<a href="replyWrite.do?bookNum=<%=dto.getBookNum() %>&reviewNum=<%=dto.getReviewNum() %>&isReply=1&pageNum=<%=p.getPageNum() %>">
 							<img src="../styles/images/review_comment.svg" alt="답글 달기"/>
 						</a> 
-				<% } %>
+				<% } else {%>
+					<a>
+						<img src="../styles/images/review_comment.svg" alt="답글 달기" class="disable_btn"/>
+					</a>
+				<%} %>
 				<a href="javascript:del('<%=dto.getReviewNum() %>', '<%=dto.getPur_seq() %>', '<%=dto.getPur_i_seq() %>', '<%=dto.getBookNum() %>')">
 					<img src="../styles/images/delete.svg" alt="리뷰 삭제하기"/>
 				</a>

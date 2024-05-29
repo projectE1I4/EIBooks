@@ -155,7 +155,8 @@ function del(reviewNum){
 <% } else { %>
 <% for(ReviewDTO dto : reviewList) { %>
 	<li class="review">
-		<ul class="review_info">
+	<%int iReviewNum = Integer.parseInt(reviewNum); //reviewNum이 String이기때문에 int로 형변환해서 dto.getReviewNum과 비교연산해줌%>
+		<ul class="review_info<% if(iReviewNum == dto.getReviewNum()) { %> select<% } %>">
 			<li class="grade">
 		          <% for (int i = 0; i < dto.getGrade(); i++) { %>
 		           <img src="../styles/images/star_full.png" alt=""/>
@@ -180,9 +181,15 @@ function del(reviewNum){
 	
 		<%if(userNum == dto.getUserNum()) {%>
 		<li class="review_btn_wrap">
+		<% if(iReviewNum == dto.getReviewNum()) { %>
+			<a>
+		      <img src="../styles/images/edit.svg" alt="수정하기" class="disable_btn"/>
+		    </a>
+		<%} else{ %>
 		    <a href="reviewUpdate.do?bookNum=<%=bookNum %>&pur_i_seq=<%=dto.getPur_i_seq() %>&reviewNum=<%=dto.getReviewNum() %>">
 		      <img src="../styles/images/edit.svg" alt="수정하기"/>
 		    </a>
+		    <%} %>
 		    <a href="javascript:del('<%=dto.getReviewNum() %>')">
 		      <img src="../styles/images/delete.svg" alt="삭제하기"/>
 		    </a>
