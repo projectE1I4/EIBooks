@@ -261,9 +261,7 @@ public class CartController extends HttpServlet {
 
             // 가져온 책
             int book_seq = Integer.parseInt(request.getParameter("book_seq"));
-            System.out.println("배고파배고파배과배고파"+book_seq);
             int cartICount = Integer.parseInt(request.getParameter("cartICount"));
-            System.out.println("수량이 왜이래" + cartICount);
             
             cartDAO cartDao = new cartDAO();
             List<cartDTO> cartList = cartDao.getCartList(cusSeq);
