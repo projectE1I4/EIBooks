@@ -17,6 +17,51 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- <meta name="viewport" content="width=1280"> -->
+<meta name="format-detection" content="telephone=no">
+<meta name="description" content="EIBooks">
+<meta property="og:type" content="website">
+<meta property="og:title" content="EIBooks">
+<meta property="og:description" content="EIBooks">
+<meta property="og:image"
+	content="http://hyerin1225.dothome.co.kr/EIBooks/images/EIBooks_logo.jpg" />
+<meta property="og:url"
+	content="http://hyerin1225.dothome.co.kr/EIBooks" />
+<title>EIBooks</title>
+<link rel="icon" href="images/favicon.png">
+<link rel="apple-touch-icon" href="images/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link
+	href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500&display=swap"
+	rel="stylesheet">
+<link rel="stylesheet" href="/EIBooks/styles/css/jquery-ui.min.css">
+<link rel="stylesheet" href="/EIBooks/styles/css/swiper-bundle.min.css">
+<link rel="stylesheet" href="/EIBooks/styles/css/aos.css">
+<link rel="stylesheet"
+	href="/EIBooks/styles/css/common.css?v=<?php echo time(); ?>">
+<link rel="stylesheet"
+	href="/EIBooks/styles/css/header.css?v=<?php echo time(); ?>">
+<link rel="stylesheet"
+	href="/EIBooks/styles/css/footer.css?v=<?php echo time(); ?>">
+<link rel="stylesheet"
+	href="/EIBooks/styles/css/main.css?v=<?php echo time(); ?>">
+<link rel="stylesheet"
+	href="/EIBooks/styles/css/Uproduct_main/userProductDetail.css?v=<?php echo time(); ?>">
+<script src="/EIBooks/styles/js/jquery-3.7.1.min.js"></script>
+<script src="/EIBooks/styles/js/jquery-ui.min.js"></script>
+<script src="/EIBooks/styles/js/swiper-bundle.min.js"></script>
+<script src="/EIBooks/styles/js/aos.js"></script>
+<script src="/EIBooks/styles/js/ui-common.js?v=<?php echo time(); ?>"></script>
+<script type="text/javascript">
+  $(document).ready( function() {
+	    
+      $("#header").load("../styles/common/header.html");  // 원하는 파일 경로를 삽입하면 된다
+      $("#footer").load("../styles/common/footer.html");  // 추가 인클루드를 원할 경우 이런식으로 추가하면 된다
+    
+    });
+    </script>
 <title>userBookDetail.jsp</title>
 <script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery-3.7.1.min.js"></script>
 <script type="text/javascript">
@@ -65,64 +110,69 @@ function decreaseBtn(bookSeq) {
         quantityInput.val(currentQuantity - 1);
     }
 }
-
 </script>
 </head>
 <body>
 
 <%@ include file="../common/menu.jsp" %>
-<h2>글 상세보기 </h2>
-<table border="1" width="60%">
-	<tr>
-		<td colspan="4"><%=dto.getTitle() %></td>
-	</tr>
-	<tr>
-		<td colspan="4"><%=dto.getAuthor()%></td>	
-	</tr>
-	<div>
-		<div>
-			<tr>
-				<td><img src="<%=dto.getImageFile() %>" alt="표지이미지" width=200></td>
-			</tr>
+<header id="header"></header>
+<main class="container">
+<section class="detail_top">
+	<div class="category"><p><%=dto.getCategory() %></p></div>
+</section>
+
+<section class="detail_main">
+<div class="book_info">
+	<ul class="title_Author">
+		<li class="book_title">
+			<p><%=dto.getTitle() %></p>
+		</li>
+		<li class="book_author">
+			<p><%=dto.getAuthor()%></p>	
+		</li>
+	</ul>
+	<div class="info_area">
+	<div class="info_wrap">
+		<div class="image_wrap">
+				<img src="<%=dto.getImageFile() %>" alt="표지이미지" width=200>
 		</div>
-		<div>
-			<tr>
-				<td colspan="4" class="price"><%=dto.getPrice() %></td>
-			</tr>
-			<tr>
-				<td>도서 분류</td><td colspan="3"><%=dto.getCategory() %></td>
-			</tr>
-			<tr>
-				<td>출판사</td><td width="30%"><%=dto.getPublisher() %></td>
-				<td>출간일</td><td><%=dto.getPubDate() %></td>
-			</tr>
-			<tr>
-				<td width="20%">isbn10</td><td><%=dto.getIsbn10() %></td>
-				<td width="20%">isbn13</td><td><%=dto.getIsbn13() %></td>
-			</tr>
-			<tr rowspan="10"><td colspan="4"><%=dto.getDescription() %></td></tr>
-			<tr><td colspan="4">
-				<div>
-					<button type="button" onclick="decreaseBtn(<%=dto.getBook_seq()%>)">-</button>
-           			<input id="quantity" type="number" name="<%=dto.getBook_seq() %>" value="1" min="1" readonly style="width:30px;">
-            		<button type="button" onclick="increaseBtn(<%=dto.getBook_seq()%>)">+</button>
-        		</div>
+		<div class="info_box">
+			<div class="book_price">
+				<p><%=dto.getPrice() %><span>원</span></p>
+			</div>
+			<div class="publisher_wrap">
+				<p>출판사: <span><%=dto.getPublisher() %></span></p>
+			</div>
+			<div class="etc_wrap">
+				<p>출간일: <span><%=dto.getPubDate() %></span></p>
+				<p>isbn: <span><%=dto.getIsbn13() %></span></p>
+			</div>
+			<div class="viewCount_wrap">
+				<p>조회수: <span><%=viewcount %></span></p>
+			</div>
+			
+		</div>		
+		<div class="buy_wrap">
+			<div>
+				<button type="button" onclick="decreaseBtn(<%=dto.getBook_seq()%>)">-</button>
+        		<input id="quantity" type="number" name="<%=dto.getBook_seq() %>" value="1" min="1" readonly style="width:30px;">
+           		<button type="button" onclick="increaseBtn(<%=dto.getBook_seq()%>)">+</button>
+        	</div>
+        	<div>
 				<input type="submit" value="바로구매" onclick="buying(<%=dto.getBook_seq()%>)"/>
-				<input type="submit" value="장바구니" onclick="goToCustomerCart(<%=dto.getBook_seq()%>);"/>				
-			</td></tr>
-			<tr>
-			<td>
-			조회수: 
-			</td>
-			<td>
-			<%=viewcount %>
-			</td>
-			</tr>
+				<input type="submit" value="장바구니" onclick="goToCustomerCart(<%=dto.getBook_seq()%>);"/>				        	
+        	</div>
 		</div>
 	</div>
-	
-</table>
-
+	<div class="discription_wrap">
+		<strong>책 소개</strong>
+		<div class="discription">
+			<p><%=dto.getDescription() %></p>				
+		</div>
+	</div>
+	</div>
+</div>
+</section>
 <%
 int reviewCount = (int)request.getAttribute("reviewCount"); // 리뷰 개수
 double reviewAvg = Math.round((double)request.getAttribute("reviewAvg") * 10) / 10.0; // 별점 평균
@@ -146,5 +196,8 @@ List<ReviewDTO> topReviews = (List<ReviewDTO>)request.getAttribute("topReviews")
 	<%} %>
 <%} %>
 </ul>
+</main>
+
+<footer id="footer"></footer>
 </body>
 </html>
