@@ -72,10 +72,10 @@ $(document).ready( function() {
     });
 });
 
-	function del(qna_seq){
+	function del(book_seq, qna_seq){
 		const input = confirm("정말 삭제하시겠습니까?");
 		if(input){
-			location.href = "<%=request.getContextPath()%>/qna/depthOneDeleteProc.do?qna_seq=" + qna_seq;
+			location.href = "<%=request.getContextPath()%>/qna/deleteProc.qq?book_seq=" + book_seq + "&qna_seq=" + qna_seq;
 		}else{
 			alert("삭제를 취소했습니다.");
 			return;
@@ -160,7 +160,7 @@ $(document).ready( function() {
 									<div class="col">
 										<em><%=qna.getState() %></em>
 										<% if (qna.getState().equals("답변대기")) { %>
-											<a class="btn delete_btn" href="javascript:del('<%=qna.getQna_seq() %>');">삭제
+											<a class="btn delete_btn" href="javascript:del('<%=qna.getBook_seq() %>','<%=qna.getQna_seq() %>');">삭제
 												<span class="blind">삭제</span>
 											</a>
 										<% } %>

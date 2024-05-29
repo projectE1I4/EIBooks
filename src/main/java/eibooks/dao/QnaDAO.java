@@ -11,6 +11,7 @@ import eibooks.common.JDBCConnect;
 import eibooks.dto.BookDTO;
 import eibooks.dto.CustomerDTO;
 import eibooks.dto.QnaDTO;
+import eibooks.dto.ReviewDTO;
 
 public class QnaDAO {
 	
@@ -184,5 +185,28 @@ public class QnaDAO {
 		
 		return reply;
 	}
+
+	public void deleteWrite(QnaDTO dto) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		
+		try {
+			conn = JDBCConnect.getConnection();
+			
+			String sql = "delete from qna "
+					+ " where qna_seq = ? ";
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, dto.getQna_seq());
+			
+			pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			JDBCConnect.close(pstmt, conn);
+		}
+	}
+
 	
 }
