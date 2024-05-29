@@ -268,7 +268,6 @@ public class CartController extends HttpServlet {
             cartDAO cartDao = new cartDAO();
             List<cartDTO> cartList = cartDao.getCartList(cusSeq);
             
-            cartDTO cartdto = new cartDTO(book_seq);
             int totalCartPrice = cartDao.totalCartPrice(cusSeq);
 
             Map<String, Integer> map = new HashMap<>();
@@ -287,7 +286,7 @@ public class CartController extends HttpServlet {
 			map.put("cart_i_count", cartICount);
 			map.put("book_seq", book_seq);
 			
-			if (same == false) {
+			if (!same) {
 				cartDao.insertCart(map);
 				System.out.println("이거까지 되고 있니??????");
 			} else {
@@ -299,14 +298,15 @@ public class CartController extends HttpServlet {
     		}
 			
 			cartList = cartDao.getCartList(cusSeq);
+			totalCartPrice = cartDao.totalCartPrice(cusSeq);
 			 // 장바구니 페이지로 전달할 데이터 설정
             request.setAttribute("cartList", cartList);
             request.setAttribute("cartICount", cartICount);
-            request.setAttribute("totalCartPrice", totalCartPrice);   
+            PrintWriter out = response.getWriter();
+            out.write("{\"status\":\"success\",\"totalCartPrice\":" + totalCartPrice + "}");
+            out.flush();
             
-            // forward
-            String path = "./customerCartIn.cc"; // 장바구니 페이지의 JSP 파일 경로
-            response.sendRedirect(path);
+         
         }      
 	}
 }

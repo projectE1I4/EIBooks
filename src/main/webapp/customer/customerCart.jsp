@@ -1,3 +1,4 @@
+<%@page import="eibooks.dao.cartDAO"%>
 <%@page import="java.util.HashMap"%>
 <%@page import="java.util.Map"%>
 <%@page import="eibooks.dto.cartDTO"%>
@@ -56,6 +57,17 @@
         });
     });
     
+    function deleteAll() {
+    	<%
+ 		int cus_seq = Integer.parseInt(session.getAttribute("cus_seq").toString());
+    	cartDAO dao = new cartDAO();
+    	dao.deleteCartAll(cus_seq);
+    	%>
+    	location.href="./customerCartOut.cc";
+    	
+    	
+    }
+    
    </script>
 <title>회원 장바구니 목록 보기</title>
 </head>
@@ -73,6 +85,7 @@
 
 <!-- 장바구니 목록 -->
 <form id="cartForm" action="deleteSelectedItems.cc" method="post">
+<input type=button onclick="deleteAll();" value="전체 삭제"/>
 	<table border="1" width="95%">
 	<ul>
 	    <th width="7%">도서 번호</th>
