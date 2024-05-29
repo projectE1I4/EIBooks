@@ -81,7 +81,7 @@ function limitText(field, maxLength) {
 }
 
 function del(reviewNum){
-	const input = confirm("정말 삭제하시겠습니까?");
+	const input = confirm("리뷰를 삭제하시겠습니까?");
 	if(input){
 		location.href = "<%=request.getContextPath()%>/review/depthOneDeleteProc.do?reviewNum=" + reviewNum;
 	}else{
@@ -92,7 +92,7 @@ function del(reviewNum){
 }
 
 function delReply(reviewNum, ref_seq){
-	const input = confirm("정말 삭제하시겠습니까?");
+	const input = confirm("답글을 삭제하시겠습니까?");
 	if(input){
 		location.href = "<%=request.getContextPath()%>/review/replyDeleteProc.do?reviewNum=" + reviewNum + "&ref_seq=" + ref_seq;
 	}else{
@@ -178,9 +178,20 @@ window.onload = function() {
         
 		<%if(!(userNum == dto.getUserNum())) {%>
 		<div class="review_btn_wrap">
-			<a>
-				<img src="../styles/images/review_comment.svg" alt="답글 달기"/>
-			</a>
+			<%if(dto.getRef_YN().equals("Y")) { %>
+            			<a>
+						 	<img src="../styles/images/review_comment.svg" alt="답글 달기"  class="disable_btn"/>
+						</a>
+					<% } else if(reviewNum != dto.getReviewNum()) { %>
+						<a href="replyWrite.do?bookNum=<%=dto.getBookNum() %>&reviewNum=<%=dto.getReviewNum() %>&isReply=1&pageNum=<%=p.getPageNum() %>">
+							<img src="../styles/images/review_comment.svg" alt="답글 달기"/>
+						</a> 
+				<% } else {%>
+					<a>
+						<img src="../styles/images/review_comment.svg" alt="답글 달기" class="disable_btn"/>
+					</a>
+				<%} %>
+			
 			<a href="javascript:del('<%=dto.getReviewNum() %>')">
 				<img src="../styles/images/delete.svg" alt="리뷰 삭제하기"/>
 			</a>
@@ -223,7 +234,7 @@ window.onload = function() {
             	<a href="replyUpdate.do?reviewNum=<%=reply.getReviewNum() %>&isReply=1">
             		<img src="../styles/images/edit.svg" alt="답글 수정하기"/>
             	</a> 
-				<a  href="javascript:delReply('<%=reply.getReviewNum() %>', '<%=reply.getRef_seq()%>')">
+				<a href="javascript:delReply('<%=reply.getReviewNum() %>', '<%=reply.getRef_seq()%>')">
 					<img src="../styles/images/delete.svg" alt="답글 삭제하기"/>
 				</a>
             </li>

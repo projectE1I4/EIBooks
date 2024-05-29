@@ -103,7 +103,7 @@ function limitText(field, maxLength) {
 }
 
 function del(reviewNum){
-	const input = confirm("정말 삭제하시겠습니까?");
+	const input = confirm("리뷰를 삭제하시겠습니까?");
 	if(input){
 		location.href = "<%=request.getContextPath()%>/review/reviewDeleteProc.do?bookNum=<%=bookNum %>&reviewNum=" + reviewNum;
 	}else{
@@ -200,9 +200,8 @@ function del(reviewNum){
             </li>
             
 		<%if(userNum == dto.getUserNum()) {%>
-		
 		<li class="review_btn_wrap">
-            <a href="../review/reviewUpdate.do?bookNum=<%=bookNum %>&pur_seq=<%=pur_seq%>&pur_i_seq=<%=pur_i_seq%>&reviewNum=<%=dto.getReviewNum() %>">
+            <a href="../review/reviewUpdate.do?bookNum=<%=bookNum %>&pur_i_seq=<%=dto.getPur_i_seq()%>&reviewNum=<%=dto.getReviewNum() %>">
              <img src="../styles/images/edit.svg" alt="수정하기"/>
             </a>
             <a href="javascript:del('<%=dto.getReviewNum() %>')">

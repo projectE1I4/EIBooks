@@ -85,7 +85,7 @@ $(document).ready( function() {
 });
   
 	function del(reviewNum){
-		const input = confirm("정말 삭제하시겠습니까?");
+		const input = confirm("리뷰를 삭제하시겠습니까?");
 		if(input){
 			location.href = "<%=request.getContextPath()%>/review/reviewDeleteProc.do?bookNum=<%=bookNum %>&reviewNum=" + reviewNum;
 		}else{

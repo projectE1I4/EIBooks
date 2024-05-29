@@ -79,7 +79,7 @@ function goToPage() {
 }
 
 function del(reviewNum){
-	const input = confirm("정말 삭제하시겠습니까?");
+	const input = confirm("리뷰를 삭제하시겠습니까?");
 	if(input){
 		location.href = "<%=request.getContextPath()%>/review/reviewDeleteProc.do?bookNum=<%=bookNum %>&reviewNum=" + reviewNum;
 	}else{
@@ -109,11 +109,11 @@ function del(reviewNum){
 		<div class="content_tit">
 			<span>별점</span>
 			<select class="write_grade" name="grade">
-				<option name="grade" value="5">5</option>
-				<option name="grade" value="4">4</option>
-				<option name="grade" value="3">3</option>
-				<option name="grade" value="2">2</option>
-				<option name="grade" value="1">1</option>
+				<option name="grade" value="5" <% if(myReview.getGrade() == 5) { %>selected<% } %>>5</option>
+				<option name="grade" value="4" <% if(myReview.getGrade() == 4) { %>selected<% } %>>4</option>
+				<option name="grade" value="3" <% if(myReview.getGrade() == 3) { %>selected<% } %>>3</option>
+				<option name="grade" value="2" <% if(myReview.getGrade() == 2) { %>selected<% } %>>2</option>
+				<option name="grade" value="1" <% if(myReview.getGrade() == 1) { %>selected<% } %>>1</option>
 			</select>
 		</div>
 			
@@ -155,7 +155,8 @@ function del(reviewNum){
 <% } else { %>
 <% for(ReviewDTO dto : reviewList) { %>
 	<li class="review">
-		<ul class="review_info">
+	<%int iReviewNum = Integer.parseInt(reviewNum); //reviewNum이 String이기때문에 int로 형변환해서 dto.getReviewNum과 비교연산해줌%>
+		<ul class="review_info<% if(iReviewNum == dto.getReviewNum()) { %> select<% } %>">
 			<li class="grade">
 		          <% for (int i = 0; i < dto.getGrade(); i++) { %>
 		           <img src="../styles/images/star_full.png" alt=""/>
@@ -180,9 +181,15 @@ function del(reviewNum){
 	
 		<%if(userNum == dto.getUserNum()) {%>
 		<li class="review_btn_wrap">
-		    <a href="reviewUpdate.do?bookNum=<%=bookNum %>&reviewNum=<%=dto.getReviewNum() %>">
+		<% if(iReviewNum == dto.getReviewNum()) { %>
+			<a>
+		      <img src="../styles/images/edit.svg" alt="수정하기" class="disable_btn"/>
+		    </a>
+		<%} else{ %>
+		    <a href="reviewUpdate.do?bookNum=<%=bookNum %>&pur_i_seq=<%=dto.getPur_i_seq() %>&reviewNum=<%=dto.getReviewNum() %>">
 		      <img src="../styles/images/edit.svg" alt="수정하기"/>
 		    </a>
+		    <%} %>
 		    <a href="javascript:del('<%=dto.getReviewNum() %>')">
 		      <img src="../styles/images/delete.svg" alt="삭제하기"/>
 		    </a>

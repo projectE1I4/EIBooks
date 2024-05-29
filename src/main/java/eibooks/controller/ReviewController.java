@@ -242,6 +242,7 @@ public class ReviewController extends HttpServlet {
 			
 			String sPur_i_seq = request.getParameter("pur_i_seq");
 			int pur_i_seq = Integer.parseInt(sPur_i_seq);
+			System.out.println("pur_Ikslfjdkj   " + pur_i_seq);
 			
 
 			HttpSession session = request.getSession();
@@ -285,6 +286,7 @@ public class ReviewController extends HttpServlet {
 			OrderDAO oDao = new OrderDAO();
 			myReview.setPur_i_seq(pur_i_seq);
 			myReview = dao.selectView(myReview);
+			System.out.println("akdlfbqljdkjfslkdfjlsd     "+myReview);
 			/**/
 			
 			// request - setAtt

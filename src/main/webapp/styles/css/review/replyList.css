@@ -172,6 +172,9 @@ h1 {
 .review_btn_wrap a:last-child {
 	margin-top: 10px;
 }
+.review_btn_wrap .disable_btn{
+	opacity: 0.3;
+}
 
 .review_btn_wrap img{
 	width: 20px;

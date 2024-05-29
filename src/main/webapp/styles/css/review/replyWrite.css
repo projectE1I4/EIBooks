@@ -150,11 +150,11 @@ h1 {
 .write_btn_wrap {
 	position: absolute;
 	right: 0;
-	bottom: -34px;
+	bottom: -31px;
 }
 .write_btn {
 	width: 118px;
-	height: 32px;
+	height: 26px;
 	border: none;
 	cursor: pointer;
 	margin-left: 5px;
@@ -190,6 +190,9 @@ h1 {
 }
 .review_btn_wrap a:last-child {
 	margin-top: 10px;
+}
+.review_btn_wrap .disable_btn{
+	opacity: 0.3;
 }
 
 .reply_btn_wrap {
