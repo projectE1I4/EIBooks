@@ -11,22 +11,39 @@
   margin: 0 auto;
 }
 .inner h1 {
-  font-size: 40px;
+  font-size: 35px;
+  font-weight: 600;
   color: var(--txt-color-600);
-  margin: 20px 0 20px;
+  margin: 30px 0 30px;
 }
 
 .inner .cart_wrap {
 	display: flex;
+	line-height: 3;
 }
+
 .inner .cart_wrap li {
-	border: 1px solid red;
+	    border: 1px solid var(--txt-color-400);
+	text-align: center;
+	font-size: 18px;
+    font-weight: 500;
 }
+.inner .cart_empty {
+	border: 1px solid var(--txt-color-400);
+	list-style-type: none;
+}
+
 .inner .cart_list {
 	display: flex;
+	text-align: center;
 }
 .inner .cart_list li {
-	border: 1px solid red;
+	display: flex;
+	    border: 1px solid var(--txt-color-400);
+    align-items: center;
+    justify-content: center;
+    font-size: 17px;
+    padding: 10px 0;
 }
 
 

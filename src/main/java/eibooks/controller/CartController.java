@@ -203,7 +203,7 @@ public class CartController extends HttpServlet {
 	        out.close(); // 리소스 해제
 		}
 		
-		else if (action.equals("/customerBuyOrder.cc")) {
+		else if (action.equals("/customerBuyOrder.cc")) { 
 		    System.out.println(action);
 		    request.setCharacterEncoding("utf-8");
 		    HttpSession session = request.getSession();

@@ -51,6 +51,11 @@ h1 {
 	right: 5px;
 	top: 20%;
 	transform: rotate(-90deg);
+	transition: all 0.3s
+}
+
+.sort.rotate>img{
+   rotate: 180deg;
 }
 
 .sort_menu {
