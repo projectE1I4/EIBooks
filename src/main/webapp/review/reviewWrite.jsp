@@ -202,7 +202,7 @@ function del(reviewNum){
 		<%if(userNum == dto.getUserNum()) {%>
 		
 		<li class="review_btn_wrap">
-            <a href="../review/reviewUpdate.do?bookNum=<%=bookNum %>&pur_seq=<%=pur_seq%>&pur_i_seq=<%=pur_i_seq%>&reviewNum=<%=dto.getReviewNum() %>">
+            <a href="../review/reviewUpdate.do?bookNum=<%=bookNum %>&pur_i_seq=<%=dto.getPur_i_seq()%>&reviewNum=<%=dto.getReviewNum() %>">
              <img src="../styles/images/edit.svg" alt="수정하기"/>
             </a>
             <a href="javascript:del('<%=dto.getReviewNum() %>')">

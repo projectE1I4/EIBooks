@@ -109,11 +109,11 @@ function del(reviewNum){
 		<div class="content_tit">
 			<span>별점</span>
 			<select class="write_grade" name="grade">
-				<option name="grade" value="5">5</option>
-				<option name="grade" value="4">4</option>
-				<option name="grade" value="3">3</option>
-				<option name="grade" value="2">2</option>
-				<option name="grade" value="1">1</option>
+				<option name="grade" value="5" <% if(myReview.getGrade() == 5) { %>selected<% } %>>5</option>
+				<option name="grade" value="4" <% if(myReview.getGrade() == 4) { %>selected<% } %>>4</option>
+				<option name="grade" value="3" <% if(myReview.getGrade() == 3) { %>selected<% } %>>3</option>
+				<option name="grade" value="2" <% if(myReview.getGrade() == 2) { %>selected<% } %>>2</option>
+				<option name="grade" value="1" <% if(myReview.getGrade() == 1) { %>selected<% } %>>1</option>
 			</select>
 		</div>
 			
@@ -180,7 +180,7 @@ function del(reviewNum){
 	
 		<%if(userNum == dto.getUserNum()) {%>
 		<li class="review_btn_wrap">
-		    <a href="reviewUpdate.do?bookNum=<%=bookNum %>&reviewNum=<%=dto.getReviewNum() %>">
+		    <a href="reviewUpdate.do?bookNum=<%=bookNum %>&pur_i_seq=<%=dto.getPur_i_seq() %>&reviewNum=<%=dto.getReviewNum() %>">
 		      <img src="../styles/images/edit.svg" alt="수정하기"/>
 		    </a>
 		    <a href="javascript:del('<%=dto.getReviewNum() %>')">

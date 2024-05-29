@@ -176,7 +176,7 @@ window.onload = function() {
             
             <%if(!(userNum == dto.getUserNum())) {%>
             <li class="review_btn_wrap">
-            	<%if(reviewNum == dto.getReviewNum()) { %>
+            	<%if(dto.getRef_YN().equals("Y")) { %>
 						 <img src="../styles/images/review_comment.svg" alt="답글 달기"/>
 					<% } else if(reviewNum != dto.getReviewNum()) { %>
 						<a href="replyWrite.do?bookNum=<%=dto.getBookNum() %>&reviewNum=<%=dto.getReviewNum() %>&isReply=1&pageNum=<%=p.getPageNum() %>">
