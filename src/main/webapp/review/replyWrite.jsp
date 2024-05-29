@@ -224,7 +224,9 @@ window.onload = function() {
             <li class="reply content reply_content"><%= reply.getContent() %></li>
             <%if(userNum == reply.getUserNum()) {%>
             <li class="review_btn_wrap">
-            	<a><img src="../styles/images/edit.svg" alt="답글 수정하기"/></a> 
+            	<a href="replyUpdate.do?reviewNum=<%=reply.getReviewNum() %>&isReply=1">
+            	<img src="../styles/images/edit.svg" alt="답글 수정하기"/>
+            	</a> 
 				<a href="javascript:delReply('<%=reply.getReviewNum() %>', '<%=reply.getRef_seq()%>')">
 					<img src="../styles/images/delete.svg" alt="답글 삭제하기"/>
 				</a>
