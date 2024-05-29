@@ -829,6 +829,7 @@ caption.nohead {
   display: flex;
   justify-content: center;
   margin-top: 20px;
+  text-align: center;
 }
 .pagination .arrow {
   width: 22px;

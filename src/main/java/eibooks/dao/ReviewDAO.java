@@ -263,6 +263,7 @@ public class ReviewDAO {
 				
 				dto = new ReviewDTO(bookNum, pur_i_seq, reviewNum, grade, content);
 				dto.setCusInfo(cDto);
+				System.out.println("마이리뷰 왜 널임?   " + dto);
 			}
 			System.out.println("pstmt" + pstmt);
 			

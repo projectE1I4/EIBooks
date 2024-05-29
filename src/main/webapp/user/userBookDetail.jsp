@@ -31,12 +31,25 @@ function buying(book_seq){
           + '&totalCartPrice=' + (price * cartICount) + '&price=' + price;
                                                                                                                                                                                                                                                                                                                                                                                                           
 }
-function goToCustomerCart(book_seq){
-	var cartICount = $('input[name="cartICount"]').val();
-	location.href = "<%=request.getContextPath()%>/customerCartInsert.cc?"
-			+ "book_seq=" + book_seq + "&cartICount=" + cartICount;
-}
 
+function goToCustomerCart(book_seq){
+    var cartICount = $('input[name="'+book_seq+'"]').val();
+    $.ajax({
+        type: "POST",
+        url: "<%=request.getContextPath()%>/customerCartInsert.cc",
+        data: {
+            book_seq: book_seq,
+            cartICount: cartICount
+        },
+        success: function(response) {
+            alert("장바구니에 담겼습니다.");
+            // 여기서 response를 사용하여 필요한 처리를 할 수 있습니다.
+        },
+        error: function(xhr, status, error) {
+            console.error("Error: " + error);
+        }
+    });
+ }
 //수량 증가 함수
 function increaseBtn(bookSeq) {
 	 var quantityInput = $('#quantity');
@@ -91,7 +104,7 @@ function decreaseBtn(bookSeq) {
 			<tr><td colspan="4">
 				<div>
 					<button type="button" onclick="decreaseBtn(<%=dto.getBook_seq()%>)">-</button>
-           			<input id="quantity" type="number" name="cartICount" value="1" min="1" readonly style="width:30px;">
+           			<input id="quantity" type="number" name="<%=dto.getBook_seq() %>" value="1" min="1" readonly style="width:30px;">
             		<button type="button" onclick="increaseBtn(<%=dto.getBook_seq()%>)">+</button>
         		</div>
 				<input type="submit" value="바로구매" onclick="buying(<%=dto.getBook_seq()%>)"/>

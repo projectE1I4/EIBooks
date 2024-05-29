@@ -73,8 +73,43 @@ public class cartDAO {
 		return cartList;
 	}
 	
-	//장바구니 리스트 수량 수정
-		public int insertCart (Map<String, Object> map) {
+	//회원 장바구니 리스트 조회
+		public int getCart(cartDTO dto) {
+			int cart_i_seq = 0;
+
+			//DB연결
+			Connection conn = null;
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+
+			try {
+				//conn
+				conn = JDBCConnect.getConnection();
+
+				//sql + 쿼리창
+				String sql= "select cart_i_seq from cart_item "
+						+ "where cus_seq = ? and book_seq = ?";
+				
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(1, dto.getCusSeq());
+				pstmt.setInt(2, dto.getBook_seq());
+
+				rs = pstmt.executeQuery();
+
+				if(rs.next()) {
+					cart_i_seq = rs.getInt("cart_i_seq");
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				JDBCConnect.close(rs, pstmt, conn);
+			}
+
+			return cart_i_seq;
+		}			
+	
+		//장바구니 리스트 수량 수정
+		public int insertCart (Map<String, Integer> map) {
 			Connection conn = null;
 			PreparedStatement pstmt = null;
 			int rs = 0;
@@ -85,9 +120,9 @@ public class cartDAO {
 				String sql = "insert into cart_item(book_seq, cart_i_count, cus_seq) values(?, ?, ?);";
 				pstmt = conn.prepareStatement(sql);
 				
-				pstmt.setInt(1, Integer.parseInt((String) map.get("book_seq")));
-				pstmt.setInt(2, Integer.parseInt(map.get("cart_i_count").toString()));
-				pstmt.setInt(3, Integer.parseInt(map.get("cusSeq").toString()));
+				pstmt.setInt(1, map.get("book_seq"));
+				pstmt.setInt(2, map.get("cart_i_count"));
+				pstmt.setInt(3, map.get("cusSeq"));
 				
 				System.out.println("rs" + pstmt);
 				rs = pstmt.executeUpdate();
@@ -125,6 +160,30 @@ public class cartDAO {
 		return rs;
 	}
 	
+	//장바구니 리스트 항목 전체 삭제 
+	public int deleteCartAll (int cus_seq) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		int rs = 0;
+		
+		try {
+			//DB 연결
+			conn = JDBCConnect.getConnection();
+			System.out.println("delete conn ok!");
+			
+			String sql = "delete from cart_item where cus_seq = ? ";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, cus_seq);
+			
+			rs = pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			JDBCConnect.close(pstmt, conn);
+		}
+		return rs;
+	}
 	
 	//장바구니 리스트 수량 수정
 	public int updateCart (int cartISeq, int cartICount) {
@@ -150,6 +209,31 @@ public class cartDAO {
 		}
 		return rs;
 	}
+	
+	//장바구니 리스트 수량 수정
+		public int updateCartNew (int cartISeq, int cart_i_count) {
+			Connection conn = null;
+			PreparedStatement pstmt = null;
+			int rs = 0;
+			
+			try {
+				//DB 연결
+		        conn = JDBCConnect.getConnection();
+				
+				String sql = "update cart_item set cart_i_count = cart_i_count + ? where cart_i_seq = ?";
+				pstmt = conn.prepareStatement(sql);
+				
+				pstmt.setInt(1, cart_i_count);
+				pstmt.setInt(2, cartISeq);
+				
+				rs = pstmt.executeUpdate();
+			} catch(Exception e) {
+				e.printStackTrace();
+			}finally {
+				JDBCConnect.close(pstmt, conn);
+			}
+			return rs;
+		}
 
 	//장바구니 리스트 가격
 	public int updatePrice(int cartISeq, int cartICount) {
@@ -181,7 +265,7 @@ public class cartDAO {
 	    return priceRs * cartICount;
 	}
 
-	//장바구니 목록 총 가격(배송비 제외)
+	//장바구니 목록 총 가격
 	public int totalCartPrice(int cusSeq) {
 	    Connection conn = null;
 	    PreparedStatement pstmt = null;

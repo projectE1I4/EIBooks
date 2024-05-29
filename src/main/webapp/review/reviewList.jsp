@@ -85,7 +85,7 @@ $(document).ready( function() {
 });
   
 	function del(reviewNum){
-		const input = confirm("정말 삭제하시겠습니까?");
+		const input = confirm("리뷰를 삭제하시겠습니까?");
 		if(input){
 			location.href = "<%=request.getContextPath()%>/review/reviewDeleteProc.do?bookNum=<%=bookNum %>&reviewNum=" + reviewNum;
 		}else{
@@ -113,6 +113,7 @@ $(document).ready( function() {
          "oldest".equals(orderBy) ? "오래된순" :
          "highest".equals(orderBy) ? "평점높은순" :
          "lowest".equals(orderBy) ? "평점낮은순" : "최신순" %>
+     	<img src="../styles/images/undo_tabler_io.svg" alt=""/>
 	</li>
 		<ul class="sort_menu">
 			<li><a href="reviewList.do?bookNum=<%=bookNum %><% if(sPur_seq != null) { %>&pur_seq=<%=pur_seq%>&pur_i_seq=<%=pur_i_seq%><%} %>&pageNum=<%=p.getStartPage() %>&orderBy=latest" <%="latest".equals(orderBy)%>>최신순</a></li>
@@ -123,6 +124,7 @@ $(document).ready( function() {
 </ul>
 <p class="total_count">전체 리뷰 수: <%=totalCount %></p>
 </div>
+
 <div class="review_list_wrap">
 <ul class="review_list">
 <% if(reviewList.isEmpty()) { %>	
@@ -177,7 +179,6 @@ $(document).ready( function() {
         <% } %>
     </li>
 <% } %>
-<% } %>
 </ul>
 </div>
 
@@ -222,6 +223,7 @@ $(document).ready( function() {
 		<a class="last arrow off"><span class="blind">마지막 페이지</span></a>
 	<%} %>
 </div>
+<% } %>
 </main>
 
 <footer id="footer"></footer>

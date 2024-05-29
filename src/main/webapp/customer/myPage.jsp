@@ -119,17 +119,17 @@ function goToPage(pur_seq) {
 %>  
 	<tr>
 	<td colspan="6">
-	<%if(p.isPrev()) {%><a href="customerOrder.or?<% if(searchWord != null) { %>searchWord=<%=searchWord %>&<%}%>pageNum=1">[First]</a><% } %>
-	<%if(p.isPrev()) {%><a href="customerOrder.or?<% if(searchWord != null) { %>searchWord=<%=searchWord %>&<%}%>pageNum=<%=p.getStartPage()-1%>">[Prev]</a><% } %>
+	<%if(p.isPrev()) {%><a href="myPage.or?<% if(searchWord != null) { %>searchWord=<%=searchWord %>&<%}%>pageNum=1">[First]</a><% } %>
+	<%if(p.isPrev()) {%><a href="myPage.or?<% if(searchWord != null) { %>searchWord=<%=searchWord %>&<%}%>pageNum=<%=p.getStartPage()-1%>">[Prev]</a><% } %>
 	<%for(int i=p.getStartPage(); i<= p.getEndPage(); i++) {%>
 		<%if(i == p.getPageNum()){%>
 			<b>[<%=i %>]</b>
 		<%}else{ %>
-		<a href="customerOrder.or?<% if(searchWord != null) { %>searchWord=<%=searchWord %>&<%}%>pageNum=<%=i%>">[<%=i %>]</a>
+		<a href="myPage.or?<% if(searchWord != null) { %>searchWord=<%=searchWord %>&<%}%>pageNum=<%=i%>">[<%=i %>]</a>
 		<%} %>
 	<%} %>
-	<%if(p.isNext()){%><a href="customerOrder.or?<% if(searchWord != null) { %>searchWord=<%=searchWord %>&<%}%>pageNum=<%=p.getEndPage()+1%>">[Next]</a><% } %>
-	<%if(p.isNext()){%><a href="customerOrder.or?<% if(searchWord != null) { %>searchWord=<%=searchWord %>&<%}%>pageNum=<%=p.getRealEnd()%>">[Last]</a><% } %>
+	<%if(p.isNext()){%><a href="myPage.or?<% if(searchWord != null) { %>searchWord=<%=searchWord %>&<%}%>pageNum=<%=p.getEndPage()+1%>">[Next]</a><% } %>
+	<%if(p.isNext()){%><a href="myPage.or?<% if(searchWord != null) { %>searchWord=<%=searchWord %>&<%}%>pageNum=<%=p.getRealEnd()%>">[Last]</a><% } %>
 	</td>
 	</tr>
 </table>

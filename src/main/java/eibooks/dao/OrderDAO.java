@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
@@ -15,6 +17,7 @@ import eibooks.dto.AddressDTO;
 import eibooks.dto.BookDTO;
 import eibooks.dto.CustomerDTO;
 import eibooks.dto.OrderDTO;
+import eibooks.dto.cartDTO;
 
 public class OrderDAO {
 		
@@ -56,7 +59,65 @@ public class OrderDAO {
 				JDBCConnect.purClose(purPstmt, pstmt, conn);
 			}
 		}
-	
+
+		
+		public void cartList(cartDTO dto){
+			Connection conn = null;
+			PreparedStatement pstmt = null;
+			PreparedStatement purPstmt = null;
+			
+			int cus_seq = dto.getCusSeq();
+			int book_seq = dto.getBook_seq();
+			int pur_i_count = dto.getCartICount();
+			
+			String sql= "insert into purchase_item(book_seq, cus_seq, pur_i_count, pur_seq) "
+					+ "values(?, ?, ?, (select pur_seq from purchase where cus_seq = ? order by pur_seq desc limit 1))";
+			try {
+				//conn
+				conn = JDBCConnect.getConnection();
+				
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(1, book_seq);
+				pstmt.setInt(2, cus_seq);
+				pstmt.setInt(3, pur_i_count);
+				pstmt.setInt(4, cus_seq);
+				pstmt.executeUpdate();
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+				
+			} finally {
+				JDBCConnect.purClose(purPstmt, pstmt, conn);
+			}
+		}
+		public void cartOrderList(cartDTO dto){
+			Connection conn = null;
+			PreparedStatement pstmt = null;
+			PreparedStatement purPstmt = null;
+			ResultSet rs = null;
+			int pur_seq = 0;
+			
+			int cus_seq = dto.getCusSeq();
+			
+			String pursql = "insert into purchase(cus_seq) values(?)";
+			
+			try {
+				//conn
+				conn = JDBCConnect.getConnection();
+
+				purPstmt = conn.prepareStatement(pursql);
+				purPstmt.setInt(1, cus_seq);
+				purPstmt.executeUpdate();
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+				
+			} finally {
+				JDBCConnect.purClose(purPstmt, pstmt, conn);
+			}
+		}
+		
+		
 		// 전체 회원 주문 내역 조회
 		public List<OrderDTO> getOrderList(Map<String, String> map) {
 			List<OrderDTO> orderList = new ArrayList<>();

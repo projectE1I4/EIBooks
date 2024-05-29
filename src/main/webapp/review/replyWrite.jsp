@@ -81,7 +81,7 @@ function limitText(field, maxLength) {
 }
 
 function del(reviewNum, pur_seq, pur_i_seq, bookNum){
-	const input = confirm("정말 삭제하시겠습니까?");
+	const input = confirm("리뷰를 삭제하시겠습니까?");
 	if(input){
 		location.href = "<%=request.getContextPath()%>/review/depthOneDeleteProc.do?reviewNum=" + reviewNum;
 	}else{
@@ -92,7 +92,7 @@ function del(reviewNum, pur_seq, pur_i_seq, bookNum){
 }
 
 function delReply(reviewNum, ref_seq){
-	const input = confirm("정말 삭제하시겠습니까?");
+	const input = confirm("답글을 삭제하시겠습니까?");
 	if(input){
 		location.href = "<%=request.getContextPath()%>/review/replyDeleteProc.do?reviewNum=" + reviewNum + "&ref_seq=" + ref_seq;
 	}else{
@@ -176,13 +176,19 @@ window.onload = function() {
             
             <%if(!(userNum == dto.getUserNum())) {%>
             <li class="review_btn_wrap">
-            	<%if(reviewNum == dto.getReviewNum()) { %>
-						 <img src="../styles/images/review_comment.svg" alt="답글 달기"/>
+            	<%if(dto.getRef_YN().equals("Y")) { %>
+            			<a>
+						 	<img src="../styles/images/review_comment.svg" alt="답글 달기"  class="disable_btn"/>
+						</a>
 					<% } else if(reviewNum != dto.getReviewNum()) { %>
 						<a href="replyWrite.do?bookNum=<%=dto.getBookNum() %>&reviewNum=<%=dto.getReviewNum() %>&isReply=1&pageNum=<%=p.getPageNum() %>">
 							<img src="../styles/images/review_comment.svg" alt="답글 달기"/>
 						</a> 
-				<% } %>
+				<% } else {%>
+					<a>
+						<img src="../styles/images/review_comment.svg" alt="답글 달기" class="disable_btn"/>
+					</a>
+				<%} %>
 				<a href="javascript:del('<%=dto.getReviewNum() %>', '<%=dto.getPur_seq() %>', '<%=dto.getPur_i_seq() %>', '<%=dto.getBookNum() %>')">
 					<img src="../styles/images/delete.svg" alt="리뷰 삭제하기"/>
 				</a>
@@ -192,7 +198,7 @@ window.onload = function() {
             
 	<% if (reviewNum == dto.getReviewNum() && isReply == 1) { %>
 	<ul class="reply reply_info write_info">
-<!-- 	<img class="reply_icon" src="../styles/images/arrow_right.png" alt=""/> -->
+	<img class="reply_icon" src="../styles/images/arrow_right.png" alt=""/>
 	<li class="reply content write">
 		<form class="write_form" name="writeForm" method="post" action="/EIBooks/review/replyWriteProc.do?bookNum=<%=bookNum %>&reviewNum=<%=reviewNum%>">
 			<textarea class="write_content" name="content" placeholder="답글 작성 최대 200자" oninput="limitText(this, 200)"></textarea>
@@ -218,8 +224,12 @@ window.onload = function() {
             <li class="reply content reply_content"><%= reply.getContent() %></li>
             <%if(userNum == reply.getUserNum()) {%>
             <li class="review_btn_wrap">
-            	<a><img src="../styles/images/edit.svg" alt="답글 수정하기"/></a> 
-				<a><img src="../styles/images/delete.svg" alt="답글 삭제하기"/></a>
+            	<a href="replyUpdate.do?reviewNum=<%=reply.getReviewNum() %>&isReply=1">
+            	<img src="../styles/images/edit.svg" alt="답글 수정하기"/>
+            	</a> 
+				<a href="javascript:delReply('<%=reply.getReviewNum() %>', '<%=reply.getRef_seq()%>')">
+					<img src="../styles/images/delete.svg" alt="답글 삭제하기"/>
+				</a>
             </li>
             <%} %>
 		</ul>

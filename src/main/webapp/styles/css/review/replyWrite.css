@@ -101,12 +101,6 @@ h1 {
 	background-color: #fff;
 }
 
-.reply::before {
-	display: block;
-	position: absolute;
-	background-images: url(../styles/images/arrow_right.svg) no-repeat;
-}
-
 .book_title {
 	width: 170px;
 	overflow: hidden;
@@ -147,6 +141,7 @@ h1 {
 	height: 150px;
 	background-color: #bfbfbf;
 }
+
 .content.write {
 	width:925px;
 	top: -10px;
@@ -155,11 +150,11 @@ h1 {
 .write_btn_wrap {
 	position: absolute;
 	right: 0;
-	bottom: -34px;
+	bottom: -31px;
 }
 .write_btn {
 	width: 118px;
-	height: 32px;
+	height: 26px;
 	border: none;
 	cursor: pointer;
 	margin-left: 5px;
@@ -185,11 +180,10 @@ h1 {
 	margin-top: 4px;
 }
 
-
 .review_btn_wrap {
 	position: absolute;
 	right: 10px;
-	top: 10px;
+	top: 15px;
 }
 .review_btn_wrap a {
 	display: block;
@@ -197,8 +191,23 @@ h1 {
 .review_btn_wrap a:last-child {
 	margin-top: 10px;
 }
+.review_btn_wrap .disable_btn{
+	opacity: 0.3;
+}
 
-.review_btn_wrap img{
+.reply_btn_wrap {
+	position: absolute;
+	right: 10px;
+	top: 10px;
+}
+.reply_btn_wrap a {
+	display: block;
+}
+.reply_btn_wrap a:last-child {
+	margin-top: 10px;
+}
+
+.reply_btn_wrap img{
 	width: 20px;
 	height: 20px;
 }

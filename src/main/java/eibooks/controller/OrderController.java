@@ -2,6 +2,7 @@ package eibooks.controller;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -20,7 +21,9 @@ import com.google.gson.reflect.TypeToken;
 
 import eibooks.common.PageDTO;
 import eibooks.dao.OrderDAO;
+import eibooks.dao.cartDAO;
 import eibooks.dto.OrderDTO;
+import eibooks.dto.cartDTO;
 
 //~.or로 끝나는 경우 여기서 처리함
 @WebServlet("*.or")
@@ -223,6 +226,32 @@ public class OrderController extends HttpServlet {
 			
 		    OrderDAO orderdao = new OrderDAO();
 		    orderdao.insertOrderList(map);
+			
+            // forward
+            String path = "./customer/customerOrderComplete.jsp"; // 회원 별 주문 목록 페이지의 JSP 파일 경로
+            request.getRequestDispatcher(path).forward(request, response);
+		} 
+		//장바구니에서 주문하기 
+		else if(action.equals("/cartOrder.or")) {
+			
+			System.out.println("/cartOrder.or");
+			
+			HttpSession session = request.getSession();
+			int cusSeq = (Integer) session.getAttribute("cus_seq");
+		    
+			OrderDAO orderdao = new OrderDAO();
+			
+		    cartDTO dto = new cartDTO();
+		    dto.setCusSeq(cusSeq);
+		    
+		    cartDAO dao = new cartDAO();
+		    List<cartDTO> cartList = dao.getCartList(cusSeq);            
+		    orderdao.cartOrderList(dto);
+
+			for(cartDTO c : cartList) {
+				orderdao.cartList(c);
+			}
+			dao.deleteCartAll(cusSeq);
 			
             // forward
             String path = "./customer/customerOrderComplete.jsp"; // 회원 별 주문 목록 페이지의 JSP 파일 경로
