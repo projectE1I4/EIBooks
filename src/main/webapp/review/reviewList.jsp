@@ -66,6 +66,7 @@ $(document).ready( function() {
   
     $('.sort').click(function() {
         $(this).next('.sort_menu').slideToggle();
+        $(this).toggleClass('rotate');
     });
 
     $(document).click(function(e) {
