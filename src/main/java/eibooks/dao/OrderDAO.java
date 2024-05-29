@@ -367,6 +367,122 @@ public class OrderDAO {
 
 			return orderList;
 		}
+		
+		// 회원별 주문 목록 조회(qna)
+		public List<OrderDTO> getCustomerOrder(OrderDTO dto) {
+			List<OrderDTO> orderList = new ArrayList<>();
+
+			//DB연결
+			Connection conn = null;
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			
+			try {
+				//conn
+				conn = JDBCConnect.getConnection();
+
+				//sql + 쿼리창
+				String sql= "select * from purchase p "
+						+ "join customer c "
+						+ "on i.cus_seq = c.cus_seq "
+						+ "where i.cus_seq = ? ";
+				
+				sql += "order by i.pur_seq ";
+				
+				pstmt = conn.prepareStatement(sql);
+				
+				pstmt.setInt(1, dto.getCus_seq());
+			
+				rs = pstmt.executeQuery();
+
+				while(rs.next()) {
+					
+					OrderDTO order = new OrderDTO();
+					order.setPur_seq(rs.getInt("pur_seq"));
+					order.setCus_seq(rs.getInt("cus_seq"));
+					
+					CustomerDTO customer = new CustomerDTO();
+					customer.setCus_seq(rs.getInt("cus_seq"));
+					customer.setCus_id(rs.getString("cus_id"));
+					customer.setName(rs.getString("name"));
+					
+					order.setCustomerInfo(customer);
+	                
+					// 장바구니에 담긴 각 도서의 정보를 가져와서 추가
+					orderList.add(order);
+					System.out.println("order" + order);
+
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+				
+			} finally {
+				JDBCConnect.close(rs, pstmt, conn);
+			}
+
+			return orderList;
+		}
+		
+		// 회원별 주문 목록 조회(qna)
+		public List<OrderDTO> getCustomerOrderDetail(OrderDTO dto) {
+			List<OrderDTO> orderList = new ArrayList<>();
+
+			//DB연결
+			Connection conn = null;
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			
+			try {
+				//conn
+				conn = JDBCConnect.getConnection();
+
+				//sql + 쿼리창
+				String sql= "select * from purchase_item i "
+						+ "join purchase p "
+						+ "on i.pur_seq = p.pur_seq "
+						+ "join books b "
+						+ "on i.book_seq = b.book_seq "
+						+ "join customer c "
+						+ "on i.cus_seq = c.cus_seq "
+						+ "where i.pur_seq = ? ";
+				
+				sql += "order by i.pur_seq ";
+				
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(1, dto.getPur_seq());
+			
+				rs = pstmt.executeQuery();
+
+				while(rs.next()) {
+					
+					OrderDTO order = new OrderDTO();
+					order.setPur_i_seq(rs.getInt("pur_i_seq"));
+					order.setPur_seq(rs.getInt("pur_seq"));
+					order.setBook_seq(rs.getInt("book_seq"));
+					order.setCus_seq(rs.getInt("cus_seq"));
+					order.setPur_i_count(rs.getInt("pur_i_count"));
+					order.setOrderDate(rs.getString("orderDate"));
+					
+					BookDTO book = new BookDTO();
+					book.setBook_seq(rs.getInt("book_seq"));
+					book.setTitle(rs.getString("title"));
+					book.setPrice(rs.getInt("price"));
+					
+					order.setBookInfo(book);
+	                
+					// 장바구니에 담긴 각 도서의 정보를 가져와서 추가
+					orderList.add(order);
+
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+				
+			} finally {
+				JDBCConnect.close(rs, pstmt, conn);
+			}
+
+			return orderList;
+		}
 
 		// 주문 내역의 도서 정보
 		public List<OrderDTO> getOrderDetail(OrderDTO dto) {

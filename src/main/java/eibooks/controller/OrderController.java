@@ -177,18 +177,12 @@ public class OrderController extends HttpServlet {
 			map.put("cus_seq", cus_seq + "");
             
             OrderDAO dao = new OrderDAO();
-            List<OrderDTO> orderList = new ArrayList<OrderDTO>();
-            int leng = map.size();
-            while(leng != 0 ) {
-            	orderList = dao.getCustomerOrder(map);
-            	leng -= 1;
-            }
+            List<OrderDTO> orderList = dao.getCustomerOrder(map);
             int totalCount = dao.selectCount(dto);
 
             // Paging
  			PageDTO paging = new PageDTO(pageNum, amount, totalCount);
          			
- 			request.setAttribute("cus_seq", cus_seq);
             request.setAttribute("orderList", orderList);
             request.setAttribute("paging", paging);
 			request.setAttribute("totalCount", totalCount);

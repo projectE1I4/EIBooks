@@ -1,0 +1,59 @@
+/* 컬러 변수 */
+:root {
+  --point-color1: #6A5AFF;
+  --txt-color-400: #999;
+  --txt-color-500: #333;
+  --txt-color-600: #000;
+}
+
+#wrap {
+	width: 1280px;
+}
+.info {
+	width: 200px;
+}
+.title {
+	width: 400px;
+}
+.type {
+	width: 200px;
+}
+.date {
+	width: 250px;
+}
+.book_info {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	gap: 10px;
+	height: 230px;
+}
+.book_info .book_image {
+	width: 100px;
+}
+.board_list_wrap .title_text {
+	text-align: left;
+	padding-left: 50px;
+}
+.col {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	gap: 10px;
+}
+.board_list_wrap .cus_content {
+	padding-left: 250px;
+	text-align: left;
+}
+.reply {
+	display: flex;
+	align-items: center;
+}
+.admin_name {
+	width: 200px;
+}
+.admin_content {
+	padding-left: 50px;
+}
