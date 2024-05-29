@@ -41,4 +41,15 @@
         <filter-name>LoggedInRedirectFilter</filter-name>
         <url-pattern>/auth/login.cs</url-pattern>
     </filter-mapping>
+    <servlet>
+    	<description>
+    	</description>
+    	<display-name>QnaController</display-name>
+    	<servlet-name>QnaController</servlet-name>
+    	<servlet-class>eibooks.controller.QnaController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+    	<servlet-name>QnaController</servlet-name>
+    	<url-pattern>/QnaController</url-pattern>
+    </servlet-mapping>
 </web-app>

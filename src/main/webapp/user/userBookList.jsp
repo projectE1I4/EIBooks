@@ -306,10 +306,6 @@ function buying(book_seq){
                                                                                                                                                                                                                                                                                                                                                                                                           
 }
 
-
-
-
-
 </script>
 </head>
 <body>
@@ -345,6 +341,16 @@ function buying(book_seq){
 
 
 					<div class="middle_bar">
+					<div class="middle_top">
+								<%if (searchWord != null && !searchWord.isEmpty()) {%>
+									<p class="searchWord_text">
+										검색어 : '<b><%=searchWord%></b>'
+									</p>
+								<%} else {%>
+									<p class="searchWord_text"></p>
+								<% } %>
+					<div>
+					<div class="middle_bottom">
 						<div class="sort">
 							<ul class="sort_wrap">
 								<li class="sort_main">
@@ -370,21 +376,7 @@ function buying(book_seq){
 								</ul>
 							</ul>
 						</div>
-						<div class="result_wrap">
-							<div class="searchWord_wrap">
-								<%if (searchWord != null && !searchWord.isEmpty()) {%>
-									<p class="searchWord_text">
-										검색어 : '<b><%=searchWord%></b>'
-									</p>
-								<%} else {%>
-									<p class="searchWord_text"></p>
-								<% } %>
-							<div>
-								전체 수 :
-								<%=totalCount%>
-							</div>
-							</div>
-						</div>
+						
 							<div>
 								<form onsubmit="userSearch();">
 									<input type="hidden" name="category" value="<%=category%>">
@@ -394,6 +386,12 @@ function buying(book_seq){
 									<input type="submit" value="Search">
 								</form>
 							</div>
+							<div class="result_wrap">
+								전체 수 :	<%=totalCount%>
+							</div>
+							</div>
+						</div>
+					</div>
 							
 						
 

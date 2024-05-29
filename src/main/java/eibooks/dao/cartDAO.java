@@ -117,7 +117,7 @@ public class cartDAO {
 			try {
 				//DB 연결
 		        conn = JDBCConnect.getConnection();
-				String sql = "insert into cart_item(book_seq, cart_i_count, cus_seq) values(?,?, ?);";
+				String sql = "insert into cart_item(book_seq, cart_i_count, cus_seq) values(?, ?, ?);";
 				pstmt = conn.prepareStatement(sql);
 				
 				pstmt.setInt(1, map.get("book_seq"));

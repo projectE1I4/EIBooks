@@ -45,6 +45,9 @@ function goToPage(pur_seq) {
 	<li>
 		<a href="/EIBooks/customer/myPage.or">나의 주문목록</a>
 	</li>
+	<li>
+		<a href="/EIBooks/qna/qnaList.qq">상품문의 내역</a>
+	</li>
 </ul>
 
 <form  method="get">
