@@ -57,8 +57,6 @@
         });
     });
     
-<<<<<<< HEAD
-=======
         
         function deleteAll() {
             var xhr = new XMLHttpRequest();
@@ -75,7 +73,7 @@
             // AJAX 요청 보내기
             xhr.send("cus_seq=<%=session.getAttribute("cus_seq").toString() %>");
         }
-    
+
     
 function deleteAll() {
     var xhr = new XMLHttpRequest();
