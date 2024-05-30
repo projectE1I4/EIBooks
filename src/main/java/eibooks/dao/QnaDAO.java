@@ -422,7 +422,8 @@ public class QnaDAO {
 				conn = JDBCConnect.getConnection();
 
 				//sql + 쿼리창
-				String sql= "select * from qna q "
+				String sql= "select RPAD(substr(cus_id, 1, 3), 6, '*') as cus_id_p, q.*, b.*, c.* "
+						+ "from qna q "
 						+ "join books b "
 						+ "on q.book_seq = b.book_seq "
 						+ "join customer c "
@@ -455,6 +456,7 @@ public class QnaDAO {
 					
 					QnaDTO qna = new QnaDTO();
 					qna.setQna_seq(rs.getInt("qna_seq"));
+					qna.setCus_seq(rs.getInt("cus_seq"));
 					qna.setBook_seq(rs.getInt("book_seq"));
 					qna.setType(rs.getString("type"));
 					qna.setTitle(rs.getString("q.title"));
@@ -473,8 +475,7 @@ public class QnaDAO {
 					book.setPrice(rs.getInt("price"));
 					
 					CustomerDTO customer = new CustomerDTO();
-					customer.setCus_seq(rs.getInt("cus_seq"));
-					customer.setCus_id(rs.getString("cus_id"));
+					customer.setCus_id(rs.getString("cus_id_p"));
 					customer.setName(rs.getString("name"));
 					
 					qna.setBookInfo(book);
@@ -494,4 +495,31 @@ public class QnaDAO {
 
 			return qnaList;
 		}
+
+		public void insertQna(QnaDTO dto) {
+			Connection conn = null;
+			PreparedStatement pstmt = null;
+			
+			try {
+				conn = JDBCConnect.getConnection();
+				
+				String sql = " insert into qna (book_seq, cus_seq, type, title, content, protect_YN, state) values (?, ?, ?, ?, ?, ?, '답변대기') ";
+				pstmt = conn.prepareStatement(sql);
+				
+				pstmt.setInt(1, dto.getBook_seq());
+				pstmt.setInt(2, dto.getCus_seq());
+				pstmt.setString(3, dto.getType());
+				pstmt.setString(4, dto.getTitle());
+				pstmt.setString(5, dto.getContent());
+				pstmt.setString(6, dto.getProtect_YN());
+				
+				pstmt.executeUpdate();
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				JDBCConnect.close(pstmt, conn);
+			}
+		}
+		
 }

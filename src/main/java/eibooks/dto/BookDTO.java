@@ -173,5 +173,13 @@ public class BookDTO {
 	public void setStock(int stock) {
 		this.stock = stock;
 	}
+
+	@Override
+	public String toString() {
+		return "BookDTO [book_seq=" + book_seq + ", title=" + title + ", author=" + author + ", publisher=" + publisher
+				+ ", category=" + category + ", imageFile=" + imageFile + ", description=" + description + ", price="
+				+ price + ", stock=" + stock + ", isbn10=" + isbn10 + ", isbn13=" + isbn13 + ", pubDate=" + pubDate
+				+ ", viewCount=" + viewCount + "]";
+	}
 	
 }
