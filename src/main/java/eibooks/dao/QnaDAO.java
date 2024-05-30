@@ -78,6 +78,8 @@ public class QnaDAO {
 				BookDTO book = new BookDTO();
 				book.setBook_seq(rs.getInt("book_seq"));
 				book.setTitle(rs.getString("b.title"));
+				book.setAuthor(rs.getString("author"));
+				book.setPublisher(rs.getString("publisher"));
 				book.setImageFile(rs.getString("imageFile"));
 				book.setPrice(rs.getInt("price"));
 				

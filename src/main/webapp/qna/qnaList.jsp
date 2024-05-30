@@ -56,14 +56,23 @@ $(document).ready( function() {
         $(this).next('.sort_menu').slideToggle();
         $(this).toggleClass('rotate');
     });
+    
+
+    $('.qna_wrap').click(function() {
+        $(this).next('.reply_wrap').toggle();
+    });
    
    $(document).click(function(e) {
         if (!$(e.target).closest('.sort_wrap').length) {
             $('.sort_menu').slideUp();
         }
+        
+        if (!$(e.target).closest('.qna_wrap').length) {
+        	$('.reply_wrap').slideUp();
+        }
     });
    
-    $('.sort_menu li a').click(function(e) {
+    $('.sort_menu ul li a').click(function(e) {
         e.preventDefault();
         var selectedText = $(this).text();
         $('.sort').text(selectedText);
@@ -115,8 +124,9 @@ $(document).ready( function() {
 			         "답변완료".equals(state) ? "답변완료" : "전체보기" %>
 			     	<img src="../styles/images/undo_tabler_io.svg" alt=""/>
 				</li>
-					<ul class="sort_menu">
-					<li>
+				<li class="sort_menu">
+					<ul>
+						<li>
 							<a href="/EIBooks/qna/qnaList.qq">전체보기</a>
 						</li>
 						<li>
@@ -126,6 +136,7 @@ $(document).ready( function() {
 							<a href="/EIBooks/qna/qnaList.qq?state=답변완료">답변완료</a>
 						</li>
 					</ul>
+				</li>
 			</ul>
 		</div>
 		<div class="board_list_wrap">
@@ -144,13 +155,17 @@ $(document).ready( function() {
 						<tr><td colspan="8">&nbsp;<b>Data Not Found!!</b></td></tr>
 					<% } else { %>
 						<% for(QnaDTO qna : qnaList){ %>	
-							<tr>
+							<tr class="qna_wrap">
 								<td>
 									<div class="book_info">
 										<div class="book_image">
 											<img src="<%=qna.getBookInfo().getImageFile()%>" alt="표지이미지">
 										</div>
-										<strong><%=qna.getBookInfo().getTitle() %></strong>
+										<div class="book_text">
+											<p><%=qna.getBookInfo().getPublisher() %></p>
+											<strong><%=qna.getBookInfo().getTitle() %></strong>
+											<p><%=qna.getBookInfo().getAuthor() %></p>
+										</div>
 									</div>
 								</td>
 								<td class="title_text"><%=qna.getTitle() %></td>
@@ -167,24 +182,26 @@ $(document).ready( function() {
 									</div>
 								</td>
 							</tr>
-							<%
-							QnaDAO dao = new QnaDAO();
-							QnaDTO reply = dao.selectReply(qna);
-							
-							if(reply.getContent() != null) {
-							%>
-								<tr>
-									<td class="cus_content" colspan="5"><%=qna.getContent() %></td>
-								</tr>
-								<tr>
-									<td colspan="5">
-										<div class="reply">
+							<tr class="reply_wrap">
+								<td colspan="5">
+									<div class="reply_wrap_content">
+										<div class="cus_content">
+											<p><%=qna.getContent() %></p>
+										</div>
+										<%
+										QnaDAO dao = new QnaDAO();
+										QnaDTO reply = dao.selectReply(qna);
+										
+										if(reply.getContent() != null) {
+										%>
+										<div class="admin_wrap">
 											<div class="admin_name"><p>관리자</p></div>
 											<div class="admin_content"><p><%=reply.getContent() %></p></div>
 										</div>
-									</td>
-								</tr>
-							<% } %> <!-- if(reply) -->
+										<% } %> <!-- if(reply) -->
+									</div>
+								</td>
+							</tr>
 						<% } %>  <!-- for  -->
 					<% } %> <!-- if -->
 				</tbody>
