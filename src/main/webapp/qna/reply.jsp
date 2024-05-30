@@ -1,18 +1,14 @@
 <%@page import="eibooks.dao.QnaDAO"%>
-<%@page import="eibooks.dao.OrderDAO"%>
-<%@page import="eibooks.dto.OrderDTO"%>
-<%@page import="eibooks.dao.BookDAO"%>
-<%@page import="eibooks.dto.BookDTO"%>
+<%@page import="eibooks.common.PageDTO"%>
 <%@page import="eibooks.dto.QnaDTO"%>
 <%@page import="java.util.List"%>
-<%@page import="eibooks.common.PageDTO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
 List<QnaDTO> qnaList = (List<QnaDTO>)request.getAttribute("qnaList");
 PageDTO p = (PageDTO)request.getAttribute("paging");
 String state = (String)request.getAttribute("state");
-%>  
+%>      
 <!DOCTYPE html>
 <html>
 <head>
@@ -39,7 +35,7 @@ String state = (String)request.getAttribute("state");
 <link rel="stylesheet" href="/EIBooks/styles/css/header.css?v=<?php echo time(); ?>">
 <link rel="stylesheet" href="/EIBooks/styles/css/footer.css?v=<?php echo time(); ?>">
 <link rel="stylesheet" href="/EIBooks/styles/css/main.css?v=<?php echo time(); ?>">
-<link rel="stylesheet" href="/EIBooks/styles/css/yeon/qnaList.css?v=<?php echo time(); ?>">
+<link rel="stylesheet" href="/EIBooks/styles/css/yeon/qnaReply.css?v=<?php echo time(); ?>">
 <script src="/EIBooks/styles/js/jquery-3.7.1.min.js"></script>
 <script src="/EIBooks/styles/js/jquery-ui.min.js"></script>
 <script src="/EIBooks/styles/js/swiper-bundle.min.js"></script>
@@ -57,18 +53,9 @@ $(document).ready( function() {
         $(this).toggleClass('rotate');
     });
     
-
-    $('.qna_wrap').click(function() {
-        $(this).next('.reply_wrap').toggle();
-    });
-   
    $(document).click(function(e) {
         if (!$(e.target).closest('.sort_wrap').length) {
             $('.sort_menu').slideUp();
-        }
-        
-        if (!$(e.target).closest('.qna_wrap').length) {
-        	$('.reply_wrap').slideUp();
         }
     });
    
@@ -81,10 +68,19 @@ $(document).ready( function() {
     });
 });
 
-	function del(book_seq, qna_seq){
-		const input = confirm("정말 삭제하시겠습니까?");
+	function del(qna_seq){
+		const input = confirm("리뷰를 삭제하시겠습니까?");
 		if(input){
-			location.href = "<%=request.getContextPath()%>/qna/deleteProc.qq?book_seq=" + book_seq + "&qna_seq=" + qna_seq;
+			location.href = "<%=request.getContextPath()%>/qna/depthOneDeleteProc.qq?qna_seq=" + qna_seq;
+		}else{
+			alert("삭제를 취소했습니다.");
+			return;
+		}
+	}
+	function delReply(qna_seq, ref_seq){
+		const input = confirm("답글을 삭제하시겠습니까?");
+		if(input){
+			location.href = "<%=request.getContextPath()%>/qna/replyDeleteProc.qq?qna_seq=" + qna_seq + "&ref_seq=" + ref_seq;
 		}else{
 			alert("삭제를 취소했습니다.");
 			return;
@@ -94,27 +90,16 @@ $(document).ready( function() {
 </script>
 </head>
 <body>
-<%@ include file="../common/menu.jsp" %>
 
+<%@ include file="../common/menu.jsp" %>
 <div id="skip_navi">
   <a href="#container">본문바로가기</a>
 </div>
 <div id="wrap">
 	<header id="header"></header>
 	<main id="container">
-		<ul>
-			<li>
-				<a href="/EIBooks/customer/updateMyPage.cs">회원정보 수정</a>
-			</li>
-			<li>
-				<a href="/EIBooks/customer/myPage.or">나의 주문목록</a>
-			</li>
-			<li>
-				<a href="/EIBooks/qna/qnaList.qq">상품문의 내역</a>
-			</li>
-		</ul>
 		<div class="tit_wrap">
-		<h1>상품 문의</h1>
+		<h1>상품 문의(관리자)</h1>
 		<ul class="sort_wrap">
 				<li class="sort_main">
 				<%= "전체보기".equals(state) ? "전체보기" :
@@ -125,13 +110,13 @@ $(document).ready( function() {
 				<li class="sort_menu">
 					<ul>
 						<li>
-							<a href="/EIBooks/qna/qnaList.qq">전체보기</a>
+							<a href="/EIBooks/qna/reply.qq">전체보기</a>
 						</li>
 						<li>
-							<a href="/EIBooks/qna/qnaList.qq?state=답변대기">답변대기</a>
+							<a href="/EIBooks/qna/reply.qq?state=답변대기">답변대기</a>
 						</li>
 						<li>
-							<a href="/EIBooks/qna/qnaList.qq?state=답변완료">답변완료</a>
+							<a href="/EIBooks/qna/reply.qq?state=답변완료">답변완료</a>
 						</li>
 					</ul>
 				</li>
@@ -172,11 +157,6 @@ $(document).ready( function() {
 								<td>
 									<div class="col">
 										<em><%=qna.getState() %></em>
-										<% if (qna.getState().equals("답변대기")) { %>
-											<a class="btn delete_btn" href="javascript:del('<%=qna.getBook_seq() %>','<%=qna.getQna_seq() %>');">삭제
-												<span class="blind">삭제</span>
-											</a>
-										<% } %>
 									</div>
 								</td>
 							</tr>
@@ -185,6 +165,14 @@ $(document).ready( function() {
 									<div class="reply_wrap_content">
 										<div class="cus_content">
 											<p><%=qna.getContent() %></p>
+											<div class="btn_wrap">
+												<% if(qna.getState().equals("답변대기")) { %>
+												<a class="btn insert_btn" href="<%=request.getContextPath()%>/qna/replyWrite.qq?book_seq=<%=qna.getBook_seq() %>&qna_seq=<%=qna.getQna_seq()%>&isReply=1&pageNum=<%=p.getPageNum() %>">답변 달기
+													<span class="blind">답변 달기</span>
+												</a>
+												<% } %>
+												<a class="btn" href="javascript:del('<%=qna.getQna_seq() %>');">삭제</a>
+											</div>
 										</div>
 										<%
 										QnaDAO dao = new QnaDAO();
@@ -193,8 +181,17 @@ $(document).ready( function() {
 										if(reply.getContent() != null) {
 										%>
 										<div class="admin_wrap">
+											<img src="../styles/images/arrow_right.png">
 											<div class="admin_name"><p>관리자</p></div>
 											<div class="admin_content"><p><%=reply.getContent() %></p></div>
+											<div class="btn_wrap">
+												<a class="update_btn" href="<%=request.getContextPath()%>/qna/replyUpdate.qq?book_seq=<%=qna.getBook_seq() %>&qna_seq=<%=reply.getQna_seq()%>&isReply=1&pageNum=<%=p.getPageNum() %>">
+													<span class="blind">수정</span>
+												</a>
+												<a class="delete_btn" href="javascript:delReply('<%=reply.getQna_seq() %>','<%=reply.getRef_seq() %>');">
+													<span class="blind">삭제</span>
+												</a>
+											</div>
 										</div>
 										<% } %> <!-- if(reply) -->
 									</div>
@@ -209,7 +206,7 @@ $(document).ready( function() {
 		<% if(!qnaList.isEmpty()) { %>
 			<div class="pagination">
 				<%if(p.isPrev()) {%>
-				<a class="first arrow" href="replyList.do?pageNum=1">
+				<a class="first arrow" href="reply.qq?pageNum=1">
 					<span class="blind">첫 페이지</span>
 				</a>
 				<%} else { %>
@@ -217,7 +214,7 @@ $(document).ready( function() {
 				<% } %>
 				
 				<%if(p.isPrev()) {%>
-				<a class="prev arrow" href="replyList.do?pageNum=<%=p.getStartPage()-1 %>">
+				<a class="prev arrow" href="reply.qq?pageNum=<%=p.getStartPage()-1 %>">
 					<span class="blind">이전 페이지</span>
 				</a>
 				<%} else { %>
@@ -228,12 +225,12 @@ $(document).ready( function() {
 					<%if(i == p.getPageNum()) {%>
 						<a class="number active"><%=i %></a>
 					<%}else {%>
-						<a class="number" href="replyList.do?pageNum=<%=i %>"><%=i %></a>
+						<a class="number" href="reply.qq?pageNum=<%=i %>"><%=i %></a>
 					<%} %>
 				<%} %>
 				
 				<%if(p.isNext()) {%>
-				<a class="next arrow" href="replyList.do?pageNum=<%=p.getEndPage()+1 %>">
+				<a class="next arrow" href="reply.qq?pageNum=<%=p.getEndPage()+1 %>">
 					<span class="blind">다음 페이지</span>
 				</a>
 				<%} else {%>
@@ -241,7 +238,7 @@ $(document).ready( function() {
 				<%} %>
 				
 				<%if(p.isNext()) {%>
-				<a class="last arrow" href="replyList.do?pageNum=<%=p.getRealEnd() %>">
+				<a class="last arrow" href="reply.qq?pageNum=<%=p.getRealEnd() %>">
 					<span class="blind">마지막 페이지</span>
 				</a>
 				<%} else { %>
@@ -252,5 +249,6 @@ $(document).ready( function() {
 	</main>
 	<footer id="footer"></footer>
 </div>
+
 </body>
 </html>

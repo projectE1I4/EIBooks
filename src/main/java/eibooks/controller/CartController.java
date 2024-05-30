@@ -223,7 +223,7 @@ public class CartController extends HttpServlet {
 	        out.flush();
 	        out.close(); // 리소스 해제
 		}
-		
+		//제품 리스트에서 바로구매 클릭 시 이동
 		else if (action.equals("/customerBuyOrder.cc")) { 
 		    System.out.println(action);
 		    request.setCharacterEncoding("utf-8");
@@ -256,6 +256,7 @@ public class CartController extends HttpServlet {
 		    RequestDispatcher dispatcher = request.getRequestDispatcher("customer/customerBuyOrder.jsp");
 		    dispatcher.forward(request,response);
 		}
+		//장바구니에서 주문하기 버튼 클릭시 이동
 		else if (action.equals("/customerBuyOrders.cc")) {
 		    System.out.println(action);
 		    request.setCharacterEncoding("utf-8");
