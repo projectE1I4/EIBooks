@@ -10,7 +10,6 @@
 }
 .inner {
   width: 1280px;
-  min-height: 1000px;
   margin: 0 auto;
   position: relative;
 }
@@ -74,6 +73,7 @@ input[type="button"]:hover {
 .inner .list_left img {
     width: 165px;
     height: 240px;
+    margin: 0 35px;
 }
 
 .inner .list_left ul {
