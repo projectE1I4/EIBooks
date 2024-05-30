@@ -179,12 +179,12 @@ function del(reviewNum){
 		<ul class="review_info">
 	 		<li class="grade">
             	<% for (int i = 0; i < dto.getGrade(); i++) { %>
-            		<img src="../styles/images/star_full.png" alt=""/>
+            		<div class="full_star"></div>
             	<% 
             		} 
             		for (int i = 0; i < 5 - dto.getGrade(); i++) {
             	%>
-            		<img src="../styles/images/star_empty.png" alt=""/>
+            		<div class="empty_star"></div>
             	<% } %>
             	
                 <span><%= dto.getGrade() %></span>
