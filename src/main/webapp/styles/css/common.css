@@ -390,10 +390,10 @@ input[type='checkbox']:checked + label::after {
   content: '';
   position: absolute;
   left: 1px;
-  top: 4px;
+  top: 1px;
   width: 24px;
   height: 24px;
-  background: url(/EIBooks/styles/images/common/check.svg) no-repeat 0 0 / 18px;
+  background: url(../images/check_black.svg) no-repeat 0 0 / 18px;
 }
 
 /* radio 공통 */

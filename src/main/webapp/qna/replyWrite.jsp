@@ -136,6 +136,13 @@ $(document).ready( function() {
 	    }
 	}
 	
+	function limitText(field, maxLength) {
+		if (field.value.length > maxLength) {
+			field.value = field.value.substring(0, maxLength);
+			alert('답변은 최대 ' + maxLength + '자까지 작성할 수 있습니다.');
+		}
+	}
+	
 </script>
 </head>
 <body>

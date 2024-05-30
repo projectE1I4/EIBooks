@@ -13,8 +13,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import eibooks.common.PageDTO;
+import eibooks.dao.BookDAO;
 import eibooks.dao.QnaDAO;
 import eibooks.dao.ReviewDAO;
+import eibooks.dto.BookDTO;
 import eibooks.dto.QnaDTO;
 import eibooks.dto.ReviewDTO;
 
@@ -387,7 +389,81 @@ public class QnaController extends HttpServlet {
 			String path = "/EIBooks/qna/reply.qq";
 			response.sendRedirect(path);
 			
-		} 
+		}  else if(action.equals("/qnaWrite.qq")) {
+			// 값 받기
+			String sBook_seq = request.getParameter("book_seq");
+			int book_seq = Integer.parseInt(sBook_seq);
+
+			HttpSession session = request.getSession();
+			int cus_seq = (int)session.getAttribute("cus_seq");
+			
+			Map<String, String> map = new HashMap<>();
+			
+			BookDTO dto = new BookDTO();
+			dto.setBook_seq(book_seq);
+			BookDAO dao = new BookDAO();
+			BookDTO book = dao.getBook(dto);
+
+			request.setAttribute("book", book);
+			
+			// forward
+			String path = "./qnaWrite.jsp?book_seq=" + book_seq;
+			request.getRequestDispatcher(path).forward(request, response);
+			
+		} else if(action.equals("/qnaWriteProc.qq")) {
+			HttpSession session = request.getSession();
+			int cus_seq = (int)session.getAttribute("cus_seq");
+			
+			String sBook_seq = request.getParameter("book_seq");
+			int book_seq = Integer.parseInt(sBook_seq);
+			
+			String type = request.getParameter("type");
+			String title = request.getParameter("title");
+			String content = request.getParameter("content");
+			String protect_YN = request.getParameter("protect_YN");
+			if (protect_YN == null) {
+				protect_YN = "N";
+			}
+			
+			QnaDTO dto = new QnaDTO(book_seq, cus_seq, type, title, content, protect_YN);
+			QnaDAO dao = new QnaDAO();
+			dao.insertQna(dto);
+			
+			//qna
+			Map<String, String> map = new HashMap<>();
+			
+			map.put("protect_YN", protect_YN);
+				
+			// paging info
+			int amount = 10;
+			int pageNum = 1;
+			
+			String sPageNum = request.getParameter("pageNum");
+			if(sPageNum != null) pageNum = Integer.parseInt(sPageNum);
+			int offset = (pageNum-1) * amount;
+
+			map.put("offset", offset + "");
+			map.put("amount", amount + "");
+			map.put("book_seq", book_seq + "");
+			
+			QnaDTO qDto = new QnaDTO();
+			qDto.setBook_seq(book_seq);
+            
+			QnaDAO qDao = new QnaDAO();
+            List<QnaDTO> qnaList = qDao.getQnaAllListNew(map);
+            int totalCount = qDao.selectCount(qDto);
+            
+            // Paging
+ 			PageDTO paging = new PageDTO(pageNum, amount, totalCount);
+         			
+            request.setAttribute("qnaList", qnaList);
+            request.setAttribute("paging", paging);
+            
+			// forward
+            String path = "/EIBooks/user/userBookDetail.bo?book_seq=" + book_seq;
+            response.sendRedirect(path);
+			
+		}
 	}
 
 }
