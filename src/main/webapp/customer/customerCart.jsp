@@ -73,8 +73,23 @@
             // AJAX 요청 보내기
             xhr.send("cus_seq=<%=session.getAttribute("cus_seq").toString() %>");
         }
+
     
-    
+function deleteAll() {
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "<%=request.getContextPath()%>/deleteCartAll", true);
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            // 요청이 성공적으로 완료되면 페이지 리다이렉트
+            window.location.href = "./customerCartOut.cc";
+        }
+    };
+
+    // AJAX 요청 보내기
+    xhr.send("cus_seq=<%=session.getAttribute("cus_seq").toString() %>");
+}
    </script>
 <title>회원 장바구니 목록 보기</title>
 </head>
@@ -171,20 +186,20 @@
   </main>
 			<!-- 장바구니 목록 -->
 			<form id="cartForm" action="deleteSelectedItems.cc" method="post">
-				<ul class = cart_wrap>
+				<ul class = cart_wrap style="width:100%">
 				    <li style="width:7%">도서 번호</li>
-				    <li style="width:15%">도서 이미지</li>
+				    <li style="width:18%">도서 이미지</li>
 				    <li style="width:15%">도서 제목</li>
-				    <li style="width:10%">출판사</li>
+				    <li style="width:15%">출판사</li>
 				    <li style="width:10%">출간일</li>
-				    <li style="width:10%">ISBN</li>
+				    <li style="width:12%">ISBN</li>
 				    <li style="width:10%">수량</li>
 				    <li style="width:10%">가격</li>
-				    <li style="width:10%">삭제</li>
+				    <li style="width:5%">삭제</li>
 				</ul>
 				<% 
 				    if(cartList.isEmpty()) { %>  
-				    <tr><td colspan="8">&nbsp; 장바구니에 아무것도 없습니다.</td></tr>
+				    <li class=cart_empty>장바구니에 아무것도 없습니다.</li>
 				<% } else {
 				    cartDTO prevItem = null; // 이전 항목 저장용 변수
 				    Map<String, Integer> map = new HashMap<>();
@@ -195,17 +210,17 @@
 				%>
 				<ul class = cart_list>
 				    <li style="width:7%"><%=cartItem.getBookInfo().getBook_seq() %></li>
-				    <li style="width:15%"><img src="<%=cartItem.getBookInfo().getImageFile() %>"></li>
+				    <li style="width:18%"><img src="<%=cartItem.getBookInfo().getImageFile() %>"></li>
 				    <li style="width:15%"><%=cartItem.getBookInfo().getTitle() %></li>
-				    <li style="width:10%"><%=cartItem.getBookInfo().getPublisher() %></li>
+				    <li style="width:15%"><%=cartItem.getBookInfo().getPublisher() %></li>
 				    <li style="width:10%"><%=cartItem.getBookInfo().getPubDate() %></li>
-				    <li style="width:10%"><%=cartItem.getBookInfo().getIsbn13() %></li>
+				    <li style="width:12%"><%=cartItem.getBookInfo().getIsbn13() %></li>
 				    
 				    <li style="width:10%">
 				    <!-- 수량 업데이트 -->
 				     <form id="updateForm<%= cartItem.getCartISeq() %>" action="updateCart.cc" method="post" style="display: flex; align-items: center;">
 			        	<input type="hidden" name="cartISeq" value="<%= cartItem.getCartISeq() %>">
-				        <div style="display: flex; align-items: center;">
+				        <div style="display: flex; align-items: center; justify-content:center;">
 				            <button type="button" onclick="decreaseBtn(<%= cartItem.getCartISeq() %>)">-</button>
 				            <input id="quantity<%= cartItem.getCartISeq() %>" type="number" name="cartICount" value="<%= cartItem.getCartICount() %>"
 				            min="1" readonly style="width: 30px; margin: 0 10px;">
@@ -215,7 +230,7 @@
 		    	
 			    </li>
 			    <li style="width:10%" id="price<%= cartItem.getCartISeq() %>"><%=cartItem.getBookInfo().getPrice() * cartItem.getCartICount()%>원</li>
-			    <li style="width:10%">
+			    <li style="width:5%">
 				    <!-- 선택된 항목 삭제 -->
 			        <form action="deleteCart.cc" method="post">
 			            <input type="hidden" name="cartISeq" value="<%= cartItem.getCartISeq() %>">
