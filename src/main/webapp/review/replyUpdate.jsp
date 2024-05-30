@@ -245,7 +245,6 @@ window.onload = function() {
 
 	<%} %>
 <%} %>
-<%} %>
 
 <div class="pagination">
 	<%if(p.isPrev()) {%>
@@ -288,6 +287,7 @@ window.onload = function() {
 		<a class="last arrow off"><span class="blind">마지막 페이지</span></a>
 	<%} %>
 </div>
+<%} %>
 </main>
 
 

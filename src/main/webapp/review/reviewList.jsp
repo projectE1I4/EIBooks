@@ -194,7 +194,7 @@ $(document).ready( function() {
 	
 	<%if(p.isPrev()) {%>
 	<a class="prev arrow" href="reviewList.do?bookNum=<%=bookNum %><% if(sPur_seq != null) { %>&pur_seq=<%=pur_seq%>&pur_i_seq=<%=pur_i_seq%><%} %>&pageNum=<%=p.getStartPage()-1 %>&orderBy=<%=orderBy %>">
-		<a class="prev arrow off"><span class="blind">이전 페이지</span></a>
+		<span class="blind">이전 페이지</span>
 	</a>
 	<%} else { %>
 		<a class="prev arrow off"><span class="blind">이전 페이지</span></a>
