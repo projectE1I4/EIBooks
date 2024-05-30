@@ -1,0 +1,221 @@
+/* 컬러 변수 */
+:root {
+  --point-color1: #6A5AFF;
+  --txt-color-400: #999;
+  --txt-color-500: #333;
+  --txt-color-600: #000;
+}
+
+#wrap {
+	width: 1280px;
+}
+.tit_wrap {
+	margin: 50px 0 20px 0;
+	position: relative;
+}
+.tit_wrap h1 {
+	font-size: 32px;
+}
+
+.sort_wrap {
+    position: absolute;
+    display: inline-block;
+    width: 116px;
+    height: 36px;
+    right: 0px;
+    top: 5px;
+}
+.sort_main {
+	background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 6px 15px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+    height: 37px;
+    position: relative;
+}
+.sort_main>img {
+   rotate: 270deg;
+   transition: all 0.3s
+}
+.sort_main.rotate>img{
+   rotate: 90deg;
+}
+.sort_main img{
+	display: block;
+	position: absolute;
+	right: 5px;
+	top: 20%;
+}
+
+.sort_menu {
+    display: none;
+    position: absolute;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    min-width: 116px;
+    z-index: 1;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.sort_menu li a {
+    display: block;
+    padding: 6px 15px;
+}
+
+.sort_menu li a:hover {
+    background-color: #ddd;
+}
+
+.sort_menu .selected {
+    font-weight: bold;
+    color: #007bff;
+}
+
+.sort:hover .sort_menu {
+    display: block;
+}
+
+
+
+.info {
+	width: 300px;
+}
+.title {
+	width: 300px;
+}
+.type {
+	width: 200px;
+}
+.date {
+	width: 250px;
+}
+.state {
+	width: 230px;
+}
+.book_info {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 20px;
+	height: 140px;
+	padding-left: 30px;
+}
+.book_info .book_image {
+	width: 100px;
+}
+.book_info .book_text {
+	text-align: left;
+	display: flex;
+	flex-direction: column;
+	gap: 5px;
+}
+.book_info .book_text p {
+	color: #888;
+}
+.book_info .book_text strong {
+	font-weight: 700;
+	display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    overflow: hidden;
+}
+.board_list_wrap .title_text {
+	text-align: left;
+	padding-left: 50px;
+}
+.col {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	gap: 10px;
+}
+.col em {
+	color: #6A5AFF;
+}
+.reply_wrap {
+    background-color: #f8f8f8;
+}
+.reply_wrap .delete_btn {
+  display: block; 
+  width: 30px; 
+  height: 30px; 
+  background: url(../../images/delete.png) no-repeat center center;
+  background-size: 30px;
+}
+.reply_wrap_content .cus_content {
+	display: flex;
+}
+.reply_wrap_content .cus_content p {
+	width: 1050px;
+	padding: 30px 0 30px 350px ;
+	text-align: left;
+	justify-content: center;
+	align-items: center;
+}
+.reply_wrap_content .cus_content .btn_wrap {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 10px;
+	width: 230px;
+}
+.reply_wrap_content .cus_content .btn_wrap .insert_btn {
+	background-color: #6A5AFF;
+	color: #fff;
+	border: none;
+}
+.write_btn_wrap {
+	height: 70px;
+	text-align: right;
+	margin-right: 30px;
+}
+.write_btn_wrap .write_btn {
+	background-color: #6A5AFF;
+	color: #fff;
+	border: none;
+}
+.reply_input .text_area {
+	padding: 30px;
+	padding-top: 0;
+}
+.reply_input textarea {
+	background-color: #fff;
+	height: 150px;
+}
+.admin_wrap {
+	width: 1280px;
+	display: flex;
+	align-items: center;
+	padding: 30px 0;
+	border-top: 1px solid #ddd;
+}
+.admin_wrap img {
+	width: 30px;
+	margin-left: 100px;
+}
+.admin_name {
+	width: 170px;
+}
+.admin_content {
+	padding: 0 50px;
+	text-align: left;
+	width: calc(100% - 530px);
+}
+.admin_wrap .btn_wrap {
+	width: 230px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 20px;
+}
+.update_btn {
+	display: block; 
+	width: 30px; 
+	height: 30px; 
+	background: url(../../images/edit.png) no-repeat center center;
+	background-size: 30px;
+}
