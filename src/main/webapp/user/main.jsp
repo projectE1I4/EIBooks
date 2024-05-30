@@ -43,26 +43,38 @@
 <title>Insert title here</title>
 </head>
 <body>
-<div id="main_wrap">
+<div id="wrap">
 <header id="header"></header>
-<main>
+<main id="container">
+	<div class="inner">
 	<section class="main_slider">
-		
+		<div class="swiper-container main_sliders">
+			<div class="swiper-wrapper">
+				<div class="swiper-slide"><img src="../styles/images/main_slide1.png" alt="메인 슬라이드1"></div>
+				<div class="swiper-slide"><img src="../styles/images/main_slide2.png" alt="메인 슬라이드2"></div>
+				<div class="swiper-slide"><img src="../styles/images/main_slide3.png" alt="메인 슬라이드3"></div>
+			</div>
+			<div class="swiper-pagination"></div>
+			
+			<div class="swiper-button-prev"></div>
+			<div class="swiper-button-next"></div>
+			
+		</div>
 	</section>
 	<section class="main_search">
 		<div class="search_wrap">
 			<input type="search" placeholder="검색어를 입력해주세요.">
-			<input type="submit" value="검색">
+			<input class="search_btn" type="submit" value="">
 		</div>
 	</section>
 	<section class="category">
 		<div class="category_wrap">
 			<ul class="category_list">
-				<li><a href="#">all</a></li>
-				<li><a href="#">만화</a></li>
-				<li><a href="#">수험서/자격증</a></li>
-				<li><a href="#">인문학</a></li>
-				<li><a href="#">에세이</a></li>
+				<li><a href="userBookList.bo?pageNum=1&searchWord=&category=">all</a></li>
+				<li><a href="userBookList.bo?pageNum=1&searchWord=&category=만화">만화</a></li>
+				<li><a href="userBookList.bo?pageNum=1&searchWord=&category=소설/시/희곡">수험서/자격증</a></li>
+				<li><a href="userBookList.bo?pageNum=1&searchWord=&category=수험서/자격증">인문학</a></li>
+				<li><a href="userBookList.bo?pageNum=1&searchWord=&category=인문학">에세이</a></li>
 			</ul>
 		</div>
 	</section>
@@ -70,9 +82,22 @@
 		<div class="bestSeller_wrap">
 			<div class="bestSeller_top">
 				<h3>베스트셀러</h3>
-				<div class="bestSeller_btnWrap">
-					<button type="button"></button>
-					<button type="button"></button>
+				<div class="swiper-container best_slider">
+					<div class="swiper-wrapper">
+						<div class="swiper-slide"></div>
+						<div class="swiper-slide"></div>
+						<div class="swiper-slide"></div>
+						<div class="swiper-slide"></div>
+						<div class="swiper-slide"></div>
+						<div class="swiper-slide"></div>
+						<div class="swiper-slide"></div>
+						<div class="swiper-slide"></div>
+					</div>
+				<div class="swiper-pagination"></div>
+			
+				<div class="swiper-button-prev"></div>
+				<div class="swiper-button-next"></div>
+			
 				</div>
 			</div>
 		</div>
@@ -81,13 +106,27 @@
 		<div class="newList_wrap">
 			<div class="newList_top">
 				<h3>주목 할 만한 신간 리스트</h3>
-				<div class="newList_btnWrap">
-					<button type="button"></button>
-					<button type="button"></button>
+				<div class="swiper-container new_slider">
+					<div class="swiper-wrapper">
+						<div class="swiper-slide"></div>
+						<div class="swiper-slide"></div>
+						<div class="swiper-slide"></div>
+						<div class="swiper-slide"></div>
+						<div class="swiper-slide"></div>
+						<div class="swiper-slide"></div>
+						<div class="swiper-slide"></div>
+						<div class="swiper-slide"></div>
+					</div>
+				<div class="swiper-pagination"></div>
+			
+				<div class="swiper-button-prev"></div>
+				<div class="swiper-button-next"></div>
+			
 				</div>
 			</div>
 		</div>
 	</section>
+</div>
 </main>
 <footer id="footer"></footer>
 </div>

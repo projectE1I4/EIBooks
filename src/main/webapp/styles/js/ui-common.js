@@ -4,6 +4,70 @@ $(function () {
     once: true,
     disable: window.innerWidth < 1201,
   });
+  
+  const mainSwiper = new Swiper('.main_sliders', {
+  // Optional parameters
+  loop: true,
+  effect: 'fade',
+  atuoplay: {
+	delay: 3000
+  },
+
+  // If we need pagination
+  pagination: {
+    el: '.swiper-pagination',
+  },
+
+  // Navigation arrows
+  navigation: {
+    nextEl: '.swiper-button-next',
+    prevEl: '.swiper-button-prev',
+  },
+
+});
+
+const bestSeller = new Swiper('.best_slider', {
+  // Optional parameters
+  slidesPerView: 4,
+  slidesPerGroup: 4,
+  spaceBetween: 20,
+  centeredSlides:true,
+  loop: true,
+  effect: 'fade',
+
+  // If we need pagination
+  pagination: {
+    el: '.swiper-pagination',
+  },
+
+  // Navigation arrows
+  navigation: {
+    nextEl: '.swiper-button-next',
+    prevEl: '.swiper-button-prev',
+  },
+
+});
+
+const newBookList = new Swiper('.new_slider', {
+  // Optional parameters
+  slidesPerView: 4,
+  slidesPerGroup: 4,
+  spaceBetween: 20,
+  centeredSlides:true,
+  loop: true,
+  effect: 'fade',
+  // If we need pagination
+  pagination: {
+    el: '.swiper-pagination',
+  },
+
+  // Navigation arrows
+  navigation: {
+    nextEl: '.swiper-button-next',
+    prevEl: '.swiper-button-prev',
+  },
+
+});
 
   // 공유 버튼
   $('.share_wrap .share_btn').on('click', function () {
