@@ -60,7 +60,18 @@
       $("#header").load("../styles/common/header.html");  // 원하는 파일 경로를 삽입하면 된다
       $("#footer").load("../styles/common/footer.html");  // 추가 인클루드를 원할 경우 이런식으로 추가하면 된다
     
-    });
+      setTimeout(function() {
+    	  
+	  	var $pElement = $('.book_title p');
+	    var beforeElementWidth = $pElement.outerWidth(); // Get the width of the p element
+	
+	    $('<style>')
+	      .prop('type', 'text/css')
+	      .html('.book_title::before { width: ' + beforeElementWidth + 'px; }')
+	      .appendTo('head');
+	      
+	    });
+      })
     </script>
 <title>userBookDetail.jsp</title>
 <script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery-3.7.1.min.js"></script>
@@ -110,6 +121,9 @@ function decreaseBtn(bookSeq) {
         quantityInput.val(currentQuantity - 1);
     }
 }
+
+// 
+
 </script>
 </head>
 <body>
@@ -153,14 +167,14 @@ function decreaseBtn(bookSeq) {
 			
 		</div>		
 		<div class="buy_wrap">
-			<div>
-				<button type="button" onclick="decreaseBtn(<%=dto.getBook_seq()%>)">-</button>
+			<div class="quantity_wrap">
+				<button type="button"class="btn inde_btn" onclick="decreaseBtn(<%=dto.getBook_seq()%>)">-</button>
         		<input id="quantity" type="number" name="<%=dto.getBook_seq() %>" value="1" min="1" readonly style="width:30px;">
-           		<button type="button" onclick="increaseBtn(<%=dto.getBook_seq()%>)">+</button>
+           		<button type="button" class="btn inde_btn" onclick="increaseBtn(<%=dto.getBook_seq()%>)">+</button>
         	</div>
-        	<div>
-				<input type="submit" value="바로구매" onclick="buying(<%=dto.getBook_seq()%>)"/>
-				<input type="submit" value="장바구니" onclick="goToCustomerCart(<%=dto.getBook_seq()%>);"/>				        	
+        	<div class="buyBtn_wrap">
+				<input class="btn" type="submit" value="바로구매" onclick="buying(<%=dto.getBook_seq()%>)"/>
+				<input class="btn" type="submit" value="장바구니" onclick="goToCustomerCart(<%=dto.getBook_seq()%>);"/>				        	
         	</div>
 		</div>
 	</div>
