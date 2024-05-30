@@ -22,6 +22,17 @@
 	int number = qnaList.size();
 	int cnt = 0;
 	Boolean protect = false;
+	String sProtect = "";
+	if (request.getParameter("protect") != null) {
+		sProtect = request.getParameter("protect");
+	}
+	if (sProtect.equals("true")) {
+		protect = true;
+	}
+	int cus_seq = 0;
+	if (session.getAttribute("cus_seq") != null) {
+		cus_seq = (int)session.getAttribute("cus_seq");
+	}
 %>  
 <!DOCTYPE html>
 <html>
@@ -84,6 +95,7 @@
           if (!$(e.target).closest('.qna_wrap').length) {
           	$('.reply_wrap').slideUp();
           }
+          
       });
      
       setTimeout(function() {
@@ -147,7 +159,6 @@ function decreaseBtn(bookSeq) {
         quantityInput.val(currentQuantity - 1);
     }
 }
-
 
 
 </script>
@@ -260,17 +271,16 @@ List<ReviewDTO> topReviews = (List<ReviewDTO>)request.getAttribute("topReviews")
 	<div class="qna_tit">
 		<h2>Q&A 상품문의 (<%=qnaList.size() %>)</h2>
 		<% if(protect == false) { %>
-		<a href="/EIBooks/user/userBookDetail.bo?book_seq=<%=book_seq %>&protect_YN=N">비밀글 제외</a>
-		<%
-			protect = true;
-		} else {
-		%>
-		<a href="/EIBooks/user/userBookDetail.bo?book_seq=<%=book_seq %>">비밀글 제외</a>
-		<%
-			protect = false;
-		} 
-		%>
+			<a href="/EIBooks/user/userBookDetail.bo?book_seq=<%=book_seq %>&protect_YN=N&protect=true">비밀글 제외</a>
+		<% } else { %>
+			<a href="/EIBooks/user/userBookDetail.bo?book_seq=<%=book_seq %>">비밀글 포함</a>
+		<% } %>
 	</div>
+	<% if(qnaList.isEmpty()) { %>	
+	<div class="not">
+		<p>문의가 없습니다.</p>
+	</div>
+	<% } else { %>
 	<table>
 		<thead>
 			<tr>
@@ -283,18 +293,21 @@ List<ReviewDTO> topReviews = (List<ReviewDTO>)request.getAttribute("topReviews")
 			</tr>
 		</thead>
 		<tbody>
-			<% if(qnaList.isEmpty()) { %>	
-				<tr><td colspan="8">&nbsp;<b>Data Not Found!!</b></td></tr>
-			<% } else { %>
+			
 				<% for(QnaDTO qna : qnaList){ %>	
 					<tr class="qna_wrap">
 						<td><%= number - cnt %><% cnt++; %></td>
 						<td class="state"><%=qna.getState() %></td>
 						<td><%=qna.getType() %></td>
+						<% if(qna.getProtect_YN().equals("N")) { %>
 						<td class="title_text"><%=qna.getTitle() %></td>
+						<% } else { %>
+						<td class="title_text">상품 관련 문의입니다.<img src="../styles/images/key.svg" alt="비밀글"></td>
+						<% } %>
 						<td><%=qna.getCusInfo().getCus_id() %></td>
 						<td><%=qna.getRegDate() %></td>
 					</tr>
+					<% if(qna.getProtect_YN().equals("N") || qna.getCus_seq() == cus_seq) { %>
 					<tr class="reply_wrap">
 						<td colspan="6">
 							<div class="reply_wrap_content">
@@ -319,6 +332,7 @@ List<ReviewDTO> topReviews = (List<ReviewDTO>)request.getAttribute("topReviews")
 							</div>
 						</td>
 					</tr>
+					<% } %>
 				<% } %>  <!-- for  -->
 			<% } %> <!-- if -->
 		</tbody>
@@ -368,7 +382,9 @@ List<ReviewDTO> topReviews = (List<ReviewDTO>)request.getAttribute("topReviews")
 		<%} %>
 	</div>
 <% } %>
-
+<div class="btn_wrap">
+	<a class="btn insert_btn" href="<%=request.getContextPath()%>/qna/qnaWrite.qq?book_seq=<%=book_seq %>">작성하기</a>
+</div>
 </section>
 </main>
 

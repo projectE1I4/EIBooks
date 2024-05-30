@@ -26,6 +26,16 @@ public class QnaDTO {
 		this.cus_seq = cus_seq;
 		this.content = content;
 	}
+	
+	public QnaDTO(int book_seq, int cus_seq, String type, String title, String content, String protect_YN) {
+		super();
+		this.book_seq = book_seq;
+		this.cus_seq = cus_seq;
+		this.type = type;
+		this.title = title;
+		this.content = content;
+		this.protect_YN = protect_YN;
+	}
 
 	public int getQna_seq() {
 		return qna_seq;
