@@ -103,6 +103,33 @@ h1 {
 	border-radius: 10px;
 }
 
+.full_star {
+	width: 25px;
+	height: 25px;
+	margin-top: 5px;
+	background-color: #6a5aff;
+	-webkit-mask-image: url('../../images/star_full.svg'); /* Webkit 마스크 이미지 경로 */
+    -webkit-mask-repeat: no-repeat; /* Webkit 반복하지 않음 */
+    -webkit-mask-size: cover; /* Webkit 크기 조정 */
+    mask-image: url('../../images/star_full.svg'); /* 표준 마스크 이미지 경로 */
+    mask-repeat: no-repeat; /* 표준 반복하지 않음 */
+    mask-size: cover; /* 표준 크기 조정 */
+    display: inline-block;
+}
+.empty_star {
+	width: 25px;
+	height: 25px;
+	margin-top: 5px;
+	background-color: #6a5aff;
+	-webkit-mask-image: url('../../images/star_empty.svg'); /* Webkit 마스크 이미지 경로 */
+    -webkit-mask-repeat: no-repeat; /* Webkit 반복하지 않음 */
+    -webkit-mask-size: cover; /* Webkit 크기 조정 */
+    mask-image: url('../../images/star_empty.svg'); /* 표준 마스크 이미지 경로 */
+    mask-repeat: no-repeat; /* 표준 반복하지 않음 */
+    mask-size: cover; /* 표준 크기 조정 */
+    display: inline-block;
+}
+
 .reply::before {
 	display: block;
 	position: absolute;
