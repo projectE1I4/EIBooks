@@ -226,7 +226,7 @@ function del(reviewNum){
 	
 	<%if(p.isPrev()) {%>
 	<a class="prev arrow"a href="reviewUpdate.do?bookNum=<%=bookNum %>&pageNum=<%=p.getStartPage()-1 %>&orderBy=<%=orderBy %>">
-		<a class="prev arrow off"><span class="blind">이전 페이지</span></a>
+		<span class="blind">이전 페이지</span>
 	</a>
 	<%} else { %>
 		<a class="prev arrow off"><span class="blind">이전 페이지</span></a>
