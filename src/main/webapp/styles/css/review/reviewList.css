@@ -55,7 +55,7 @@ h1 {
 }
 
 .sort.rotate>img{
-   rotate: 180deg;
+   rotate: -180deg;
 }
 
 .sort_menu {
