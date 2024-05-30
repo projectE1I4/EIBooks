@@ -81,10 +81,10 @@
 
 
 .info {
-	width: 200px;
+	width: 300px;
 }
 .title {
-	width: 400px;
+	width: 300px;
 }
 .type {
 	width: 200px;
@@ -97,14 +97,30 @@
 }
 .book_info {
 	display: flex;
-	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	gap: 10px;
-	height: 230px;
+	gap: 20px;
+	height: 140px;
+	padding-left: 30px;
 }
 .book_info .book_image {
 	width: 100px;
+}
+.book_info .book_text {
+	text-align: left;
+	display: flex;
+	flex-direction: column;
+	gap: 5px;
+}
+.book_info .book_text p {
+	color: #888;
+}
+.book_info .book_text strong {
+	font-weight: 700;
+	display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    overflow: hidden;
 }
 .board_list_wrap .title_text {
 	text-align: left;
@@ -120,17 +136,26 @@
 .col em {
 	color: #6A5AFF;
 }
-.board_list_wrap .cus_content {
-	padding-left: 250px;
+.reply_wrap {
+    display: none;
+    background-color: #f8f8f8;
+}
+.reply_wrap_content .cus_content p {
+	width: 100%;
+	padding: 30px 0 30px 350px ;
 	text-align: left;
 }
-.reply {
+.admin_wrap {
+	width: 1280px;
 	display: flex;
 	align-items: center;
+	padding: 30px 0;
+	border-top: 1px solid #ddd;
 }
 .admin_name {
-	width: 200px;
+	width: 300px;
 }
 .admin_content {
-	padding-left: 50px;
+	padding: 0 50px;
+	text-align: left;
 }
