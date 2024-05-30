@@ -1,0 +1,110 @@
+.container {
+	width: 1280px;
+	margin: 10px auto;
+}
+.detail_top {
+	height: 60px;
+	border: 3px solid #eee;
+	border-radius: 10px;
+	display: flex;
+	align-items:center;
+	padding: 10px;
+	margin-bottom: 10px;
+}
+.detail_top .category {
+	border: 3px solid #eee;
+	border-radius: 10px;
+	width: 130px;	
+	display:flex;
+	justify-content:center;
+	
+}
+.detail_top .category>p {
+	font-size: 20px;
+	text-align: center;
+	font-weight: 700;
+	
+}
+.detail_main {
+	padding: 10px 50px;
+	border: 3px solid #eee;
+	border-radius: 10px;
+	position: relative;
+}
+.detail_main .book_info {
+	border: 1px solid #ddd;
+}
+.detail_main .book_info .title_Author li{
+	border: 3px solid #eee;
+	border-radius: 10px;
+}
+.detail_main .book_info .title_Author .book_title{
+	margin-bottom: 5px;
+	padding: 5px 10px;
+	font-size: 25px;
+	overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+}
+.detail_main .book_info .title_Author .book_author {
+	margin-bottom: 10px;
+	padding: 5px 10px;
+	font-size: 20px;
+}
+.detail_main .book_info .info_area {
+	height: 500px;
+}
+
+.detail_main .book_info .image_wrap {
+	width: 250px;
+	height: 250px;
+	margin-right: 20px;	
+}
+.detail_main .book_info .image_wrap img {
+	width: 100%;
+}
+.detail_main .book_info .info_wrap {
+	display:flex;
+}
+.detail_main .info_box {
+	padding: 10px;
+}
+.detail_main .info_box .book_price {
+	font-size: 25px;
+	margin-bottom: 10px;
+}
+.detail_main .info_box .publisher_wrap {
+	margin-bottom: 5px;
+}
+.detail_main .info_box .etc_wrap {
+	display: flex;
+	width: 300px;
+	justify-content:space-between;
+	margin-bottom: 10px;
+}
+.detail_main .info_box .viewCount_wrap {
+	margin-bottom: 10px;
+}
+.detail_main .info_wrap .buy_wrap {
+	margin-left: 200px;
+	border: 1px solid red;
+}
+.detail_main .discription_wrap{
+	position: absolute;
+	bottom: 183px;
+	right: 142px;	
+}
+.detail_main .discription{
+	width: 800px;
+	height: 145px;
+	background: #eee;
+	border-radius: 10px;
+	padding: 10px;
+}
+.detail_main .discription>p{
+	width: 100%;
+	height: 100%;
+	
+}

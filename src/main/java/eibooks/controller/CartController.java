@@ -115,7 +115,28 @@ public class CartController extends HttpServlet {
 		 // 장바구니 페이지로 리다이렉트
             response.sendRedirect(request.getContextPath() + "/customer/customerCartOut.cc");
 		}
-		else if(action.equals("/updateCart.cc")) {
+		else if(action.equals("/deleteCartAll.cc")) {
+            HttpSession session = request.getSession();
+            int cus_seq = (int) session.getAttribute("cus_seq");
+
+            cartDAO cartDao = new cartDAO();
+            // 장바구니에서 항목 삭제
+            int deleteResult = cartDao.deleteCartAll(cus_seq);
+
+            // 삭제 결과에 따라 메시지 설정
+            String message;
+            if(deleteResult > 0) {
+                message = "장바구니 항목이 삭제되었습니다.";
+            } else {
+                message = "장바구니 항목 삭제에 실패했습니다.";
+            }
+
+            // 삭제 결과 메시지를 request에 저장하여 페이지로 전달
+            request.setAttribute("message", message);
+            
+         // 장바구니 페이지로 리다이렉트
+              response.sendRedirect(request.getContextPath() + "/customer/customerCartOut.cc");
+        }else if(action.equals("/updateCart.cc")) {
 			System.out.println(action);
 			request.setCharacterEncoding("utf-8");
 			
@@ -203,7 +224,7 @@ public class CartController extends HttpServlet {
 	        out.close(); // 리소스 해제
 		}
 		
-		else if (action.equals("/customerBuyOrder.cc")) {
+		else if (action.equals("/customerBuyOrder.cc")) { 
 		    System.out.println(action);
 		    request.setCharacterEncoding("utf-8");
 		    HttpSession session = request.getSession();

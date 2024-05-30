@@ -273,6 +273,7 @@ $(function(){
 
 	$('.sort_main').click(function() {
         $(this).next('.sort_menu').slideToggle();
+        $(this).toggleClass('rotate');
     });
 	
 	$(document).click(function(e) {
@@ -321,7 +322,7 @@ function buying(book_seq){
 					<div class="catrgory_wrap">
 						<h3 class="category_title">CATEGORY</h3>
 						<ul id="userCategory" class="userCategory">
-							<li class="category_List"><a
+							<li class="category_List"><a <%if(category.equals("")){%>class="check"<%} %>
 								href="userBookList.bo?pageNum=1&searchWord=&category=">[전체]</a></li>
 							<li class="category_List"><a
 								href="userBookList.bo?pageNum=1&searchWord=&category=만화">[만화]</a></li>
@@ -376,14 +377,13 @@ function buying(book_seq){
 								</ul>
 							</ul>
 						</div>
-						
-							<div>
+							<div class="search_box">
 								<form onsubmit="userSearch();">
 									<input type="hidden" name="category" value="<%=category%>">
 									<input type="text" name="searchWord"
 										<%if (searchWord != null && !searchWord.equals("")) {%>
 										value="<%=searchWord%>" <%}%> placeholder="검색어를 입력하세요.">
-									<input type="submit" value="Search">
+									<input type="submit" class="search_btn" value="">
 								</form>
 							</div>
 							<div class="result_wrap">
