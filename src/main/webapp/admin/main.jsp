@@ -93,6 +93,10 @@ int cusCnt = (int)request.getAttribute("cusCnt");
 				<div class="box2">
 					<a href="/EIBooks/review/replyList.do">전체 리뷰 확인</a>
 				</div>
+				
+				<div class="box2">
+					<a href="/EIBooks/qna/reply.qq">전체 상품 문의 확인</a>
+				</div>
 			</div>
 		</div>
 	</main>

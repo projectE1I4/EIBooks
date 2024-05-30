@@ -137,13 +137,54 @@
 	color: #6A5AFF;
 }
 .reply_wrap {
-    display: none;
     background-color: #f8f8f8;
 }
+.reply_wrap .delete_btn {
+  display: block; 
+  width: 30px; 
+  height: 30px; 
+  background: url(../../images/delete.png) no-repeat center center;
+  background-size: 30px;
+}
+.reply_wrap_content .cus_content {
+	display: flex;
+}
 .reply_wrap_content .cus_content p {
-	width: 100%;
+	width: 1050px;
 	padding: 30px 0 30px 350px ;
 	text-align: left;
+	justify-content: center;
+	align-items: center;
+}
+.reply_wrap_content .cus_content .btn_wrap {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 10px;
+	width: 230px;
+}
+.reply_wrap_content .cus_content .btn_wrap .insert_btn {
+	background-color: #6A5AFF;
+	color: #fff;
+	border: none;
+}
+.write_btn_wrap {
+	height: 70px;
+	text-align: right;
+	margin-right: 30px;
+}
+.write_btn_wrap .write_btn {
+	background-color: #6A5AFF;
+	color: #fff;
+	border: none;
+}
+.reply_input .text_area {
+	padding: 30px;
+	padding-top: 0;
+}
+.reply_input textarea {
+	background-color: #fff;
+	height: 150px;
 }
 .admin_wrap {
 	width: 1280px;
@@ -152,10 +193,29 @@
 	padding: 30px 0;
 	border-top: 1px solid #ddd;
 }
+.admin_wrap img {
+	width: 30px;
+	margin-left: 100px;
+}
 .admin_name {
-	width: 300px;
+	width: 170px;
 }
 .admin_content {
 	padding: 0 50px;
 	text-align: left;
+	width: calc(100% - 530px);
+}
+.admin_wrap .btn_wrap {
+	width: 230px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 20px;
+}
+.update_btn {
+	display: block; 
+	width: 30px; 
+	height: 30px; 
+	background: url(../../images/edit.png) no-repeat center center;
+	background-size: 30px;
 }
