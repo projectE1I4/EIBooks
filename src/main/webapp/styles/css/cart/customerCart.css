@@ -5,50 +5,190 @@
   --txt-color-500: #333;
   --txt-color-600: #000;
 }
-
+#customer_wrap .custoemr .inner {
+	min-height: 1000px;
+}
 .inner {
   width: 1280px;
+  min-height: 1000px;
   margin: 0 auto;
+  position: relative;
 }
 .inner h1 {
   font-size: 35px;
   font-weight: 600;
   color: var(--txt-color-600);
-  margin: 30px 0 30px;
+  margin: 70px 0 50px 10px;
 }
 
-.inner .cart_wrap {
-	display: flex;
-	line-height: 3;
+input[type="button"] {
+	position: absolute;
+    right: 0;
+    top: -15px;
+    background-color: #FFF;
+    color: var(--txt-color-600);
+    padding: 10px 15px;
+    text-align: center; 
+    margin: 18px 2px;
+    border-radius: 5px;
+    border : 1px solid var(--txt-color-400);
 }
-
-.inner .cart_wrap li {
-	    border: 1px solid var(--txt-color-400);
-	text-align: center;
-	font-size: 18px;
-    font-weight: 500;
+input[type="button"]:hover {
+	background-color: var(--point-color1);
+    color: #FFF;
+    border : 1px solid var(--point-color1);
 }
 .inner .cart_empty {
-	border: 1px solid var(--txt-color-400);
 	list-style-type: none;
+	width: 900px;
+	font-size: 20px;
+	margin: 10px 0;
+	padding: 50px 0 50px 10px;
+	border: 1px solid var(--txt-color-400);
+	border-radius: 5px;
 }
 
-.inner .cart_list {
+.inner .list_left {
+	border: 1px solid var(--txt-color-400);
 	display: flex;
-	text-align: center;
-}
-.inner .cart_list li {
-	display: flex;
-	    border: 1px solid var(--txt-color-400);
     align-items: center;
-    justify-content: center;
-    font-size: 17px;
-    padding: 10px 0;
+    width: 900px;
+    height: 270px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    position: relative;
+}
+.inner .list_left img {
+    width: 160px;
+    margin: 30px;
+}
+
+.inner .list_left ul {
+	list-style: none;
+}
+
+.inner .list_left li {
+    margin-bottom: 10px;
+}
+.inner .list_left li:nth-child(1) {
+	font-size: 22px;
+	font-weight: 600;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	max-width: 400px;
+}
+.inner .list_left .quantity {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+	position: absolute;
+	gap: 20px;
+    left: 725px;
+    padding-bottom: 75px;
+}
+.inner .list_left .quantity p {
+	font-size: 25px;
+	font-weight: 600;
+}
+.inner .list_left .quantity::before {
+	content:'';
+	position: absolute;
+	width:1px;
+	height:250px;
+	background: var(--txt-color-400);
+	right: 173px;
+    top: -32px;
+}
+/* 수량 전체 버튼*/
+.inner .list_left .quantity .button {
+    list-style: none;
+    width: 130px;
+    border-radius: 5px;
+    padding: 3px 5px;
+}
+/* + - 버튼 */
+.inner .list_left .quantity button {
+    border: none;
+    font-size: 30px;
+    background: none;
+}
+.inner .list_left .quantity button:hover {
+	color: var(--point-color1);
 }
 
 
 
+.inner .quantity input[type="number"] {
+    width: 50px;
+    margin: 0 10px;
+    border: none;
+    font-size: 19px;
+    font-weight: 600;
+}
+.inner .list_left .delete {
+    position: absolute;
+    right: 70px;
+    bottom: 50px;
+}
+.inner .list_left .delete button {
+    border: 1px solid var(--txt-color-400);
+    background: #fff;
+    border-radius: 5px;
+    width: 80px;
+    padding: 5px 0;
+}
+.inner .list_left .delete button:hover {
+	background-color: var(--point-color1);
+    color: #FFF;
+    border : 1px solid var(--point-color1);
+}
 
+.inner .order {
+    display: flex;
+    flex-direction: column;
+    width: 350px;
+    height: 310px;
+    position: absolute;
+    right: 0;
+    top: 102px;
+    border-radius: 5px;
+    border: 1px solid var(--txt-color-400);
+    padding: 35px 40px 30px 40px;
+    font-size: 20px;
+}
+.inner .order p {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 35px;
+    font-weight: 600;
+}
+.inner .order p:nth-child(2) {
+	margin-bottom: 20px;
+    border-bottom: 1px solid var(--txt-color-400);
+    padding-bottom: 25px;
+}
+.inner .order p:nth-child(3) {
+	margin-bottom: 25px;
+}
+
+
+.inner .order #orderBtn {
+	width: 260px;
+    height: 47px;
+    border-radius: 5px;
+    border: 1px solid var(--txt-color-400);
+    background: #fff;
+	font-weight: 600;
+    color: var(--txt-color-600);
+}
+
+.inner .order #orderBtn:hover {
+	background-color: var(--point-color1);
+    color: #FFF;
+    border : 1px solid var(--point-color1);
+}
 
 
 

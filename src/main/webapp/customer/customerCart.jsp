@@ -47,72 +47,58 @@
   <script src="/EIBooks/styles/js/aos.js"></script>
   <script src="/EIBooks/styles/js/ui-common.js?v=<?php echo time(); ?>"></script>
   <script type="text/javascript">   
-    
-    $(document).ready(function() {
-        $("#header").load("../styles/common/header.html");  // 원하는 파일 경로를 삽입하면 된다
-        $("#footer").load("../styles/common/footer.html");  // 추가 인클루드를 원할 경우 이런식으로 추가하면 된다
-
-        // .arrow_icon 클릭 시 셀렉트 요소 클릭 트리거
-        $('.select_container').on('click', '.arrow_icon', function() {
-            $('#mySelect').click();
-        });
-    });
-    
-        
-    function deleteAll() {
-        
-        var cusSeq = "<%=cus_seq %>";
-         if (!cusSeq) {
-             alert("Customer sequence is not set.");
-             return;
-         }
-         
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", "<%=request.getContextPath()%>/deleteCartAll.cc", true);
-        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState === 4 && xhr.status === 200) {
-                // 요청이 성공적으로 완료되면 페이지 리다이렉트
-                window.location.href = "./customerCartOut.cc";
-            }
-        };
-
-        // AJAX 요청 보내기
-        xhr.send("cus_seq=" + encodeURIComponent(cusSeq));
-    }
-}
+	$(document).ready(function() {
+	
+	    // .arrow_icon 클릭 시 셀렉트 요소 클릭 트리거
+	    $('.select_container').on('click', '.arrow_icon', function() {
+	        $('#mySelect').click();
+	    });
+	});
+	
+	    
+	function deleteAll() {
+	    
+	    var cusSeq = "<%=cus_seq %>";
+	     if (!cusSeq) {
+	         alert("Customer sequence is not set.");
+	         return;
+	     }
+	     
+	    var xhr = new XMLHttpRequest();
+	    xhr.open("POST", "<%=request.getContextPath()%>/deleteCartAll.cc", true);
+	    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+	
+	    xhr.onreadystatechange = function() {
+	        if (xhr.readyState === 4 && xhr.status === 200) {
+	            // 요청이 성공적으로 완료되면 페이지 리다이렉트
+	            window.location.href = "./customerCartOut.cc";
+	        }
+	    };
+	
+	    // AJAX 요청 보내기
+	    xhr.send("cus_seq=" + encodeURIComponent(cusSeq));
+	}
    </script>
+   
+   
 <title>회원 장바구니 목록 보기</title>
 </head>
 <body data-cus-seq="<%= request.getAttribute("cusSeq") %>" data-cart-seq="<%= request.getAttribute("cartSeq") %>">
 <%@ include file="../common/menu.jsp" %>
 
-<div id="customerCart_wrap">
+<div id="customer_wrap" class="customer">
 	<!-- 헤더 -->
-	<header id="header"></header>
 
 	<main id="container">
 		<div class="inner">
 			<h1> 장바구니</h1>
-			<input type=button onclick="deleteAll()" value="전체 삭제"/>
+			<input type = "button" onclick="deleteAll();" value="장바구니 비우기"/>
 
 			<!-- 장바구니 목록 -->
 			<form id="cartForm" method="post">
-				<ul class = cart_wrap style="width:100%">
-				    <li style="width:7%">도서 번호</li>
-				    <li style="width:18%">도서 이미지</li>
-				    <li style="width:15%">도서 제목</li>
-				    <li style="width:15%">출판사</li>
-				    <li style="width:10%">출간일</li>
-				    <li style="width:12%">ISBN</li>
-				    <li style="width:10%">수량</li>
-				    <li style="width:10%">가격</li>
-				    <li style="width:5%">삭제</li>
-				</ul>
 				<% 
 				    if(cartList.isEmpty()) { %>  
-				    <li class=cart_empty>장바구니에 아무것도 없습니다.</li>
+				    <p class = "cart_empty">장바구니에 아무것도 없습니다.</p>
 				<% } else {
 				    cartDTO prevItem = null; // 이전 항목 저장용 변수
 				    Map<String, Integer> map = new HashMap<>();
@@ -121,36 +107,33 @@
 				        boolean isSameItem = prevItem != null && prevItem.getBookInfo().getBook_seq() == cartItem.getBookInfo().getBook_seq();
 				        if(!isSameItem) { // 이전 항목과 다를 경우에만 표시
 				%>
-				<ul class = cart_list>
-				    <li style="width:7%"><%=cartItem.getBookInfo().getBook_seq() %></li>
-				    <li style="width:18%"><img src="<%=cartItem.getBookInfo().getImageFile() %>"></li>
-				    <li style="width:15%"><%=cartItem.getBookInfo().getTitle() %></li>
-				    <li style="width:15%"><%=cartItem.getBookInfo().getPublisher() %></li>
-				    <li style="width:10%"><%=cartItem.getBookInfo().getPubDate() %></li>
-				    <li style="width:12%"><%=cartItem.getBookInfo().getIsbn13() %></li>
-				    
-				    <li style="width:10%">
-				    <!-- 수량 업데이트 -->
-				     <form id="updateForm<%= cartItem.getCartISeq() %>" action="updateCart.cc" method="post" style="display: flex; align-items: center;">
-			        	<input type="hidden" name="cartISeq" value="<%= cartItem.getCartISeq() %>">
-				        <div style="display: flex; align-items: center; justify-content:center;">
-				            <button type="button" onclick="decreaseBtn(<%= cartItem.getCartISeq() %>)">-</button>
-				            <input id="quantity<%= cartItem.getCartISeq() %>" type="number" name="cartICount" value="<%= cartItem.getCartICount() %>"
-				            min="1" readonly style="width: 30px; margin: 0 10px;">
-				            <button type="button" onclick="increaseBtn(<%= cartItem.getCartISeq() %>)">+</button>
-				        </div>
-			    	</form>
-		    	
-			    </li>
-			    <li style="width:10%" id="price<%= cartItem.getCartISeq() %>"><%=cartItem.getBookInfo().getPrice() * cartItem.getCartICount()%>원</li>
-			    <li style="width:5%">
-				    <!-- 선택된 항목 삭제 -->
-			        <form action="deleteCart.cc" method="post">
+				<div class = "list_left">
+				    <img src="<%=cartItem.getBookInfo().getImageFile() %>">
+				    <ul>
+						<li><%=cartItem.getBookInfo().getTitle() %></li>
+					    <li>출판사&nbsp;&nbsp;&nbsp;&nbsp;<%=cartItem.getBookInfo().getPublisher() %></li>
+					    <li>출간일&nbsp;&nbsp;&nbsp;&nbsp;<%=cartItem.getBookInfo().getPubDate() %></li>
+					    <li>ISBN&nbsp;&nbsp;&nbsp;&nbsp;<%=cartItem.getBookInfo().getIsbn13() %></li>	    
+				    </ul>
+				    <ul class = "quantity"> <!-- 수량 업데이트 -->
+						<p id="price<%= cartItem.getCartISeq() %>"><%=cartItem.getBookInfo().getPrice() * cartItem.getCartICount()%>원</p>
+				    	<form id="updateForm<%= cartItem.getCartISeq() %>" action="updateCart.cc" method="post">
+				        	<div class=button>
+				        	<input type="hidden" name="cartISeq" value="<%= cartItem.getCartISeq() %>">
+					            <button type="button" onclick="decreaseBtn(<%= cartItem.getCartISeq() %>)">-</button>
+					            <input id="quantity<%= cartItem.getCartISeq() %>" type="number" name="cartICount" value="<%= cartItem.getCartICount() %>"
+					            min="1" readonly style="width: 30px; margin: 0 10px;">
+					            <button type="button" onclick="increaseBtn(<%= cartItem.getCartISeq() %>)">+</button>
+				        	</div>
+			    		</form>
+				    </ul>
+
+					<form action="deleteCart.cc" method="post" class = "delete">
 			            <input type="hidden" name="cartISeq" value="<%= cartItem.getCartISeq() %>">
 			            <button type="submit">삭제</button>
 			        </form>
-			    </li>
-			</ul>
+				</div>
+
 			<% 
 			        } // if(!isSameItem) 
 			        prevItem = cartItem; // 현재 항목을 이전 항목으로 설정
@@ -161,24 +144,18 @@
 			}
 			%>
 			</form>
-			
-			
 			<!-- 총 가격 표시 -->
-			<div>
-				<h3>총 가격: <span id="totalPrice"><%=totalCartPrice - 3000 %></span>원</h3>
-				<h3>배송비: <span>3000</span>원</h3>
-				<h3>총 가격: <span id="totalCartPrice"><%=totalCartPrice %></span>원</h3>
+			<div class = "order">
+				<p>상품 금액 : <span id="totalPrice"><%=totalCartPrice - 3000 %> 원</span></p>
+				<p>배송비: <span>+ 3000 원</span></p>
+				<p>결제 예정 금액 : <span id="totalCartPrice"><%=totalCartPrice %> 원</span></p>
 		    	<button id="orderBtn" type="button" onclick="submitOrder()">주문하기</button>
 			</div>
-		</div>
-	
-</main>
-			
-  
-  
-  
-    <footer id="footer"></footer>
-  </div>
+		</div>		
+	</main>
+
+
+</div>
   
   
   
