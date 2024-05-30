@@ -1,3 +1,6 @@
+<%@page import="eibooks.dao.QnaDAO"%>
+<%@page import="eibooks.common.PageDTO"%>
+<%@page import="eibooks.dto.QnaDTO"%>
 <%@page import="eibooks.dto.ReviewDTO"%>
 <%@page import="java.util.List"%>
 <%@page import="eibooks.dao.BookDAO"%>
@@ -12,6 +15,13 @@
 	int viewcount = dto.getViewCount();
 	dao.userGetViewCount(book_seq);
 	viewcount = dao.userViewCount(book_seq);
+	
+	// qna
+	List<QnaDTO> qnaList = (List<QnaDTO>)request.getAttribute("qnaList");
+	PageDTO p = (PageDTO)request.getAttribute("paging");
+	int number = qnaList.size();
+	int cnt = 0;
+	Boolean protect = false;
 %>  
 <!DOCTYPE html>
 <html>
@@ -49,6 +59,8 @@
 	href="/EIBooks/styles/css/main.css?v=<?php echo time(); ?>">
 <link rel="stylesheet"
 	href="/EIBooks/styles/css/Uproduct_main/userProductDetail.css?v=<?php echo time(); ?>">
+<link rel="stylesheet"
+	href="/EIBooks/styles/css/yeon/bookDetail.css?v=<?php echo time(); ?>">
 <script src="/EIBooks/styles/js/jquery-3.7.1.min.js"></script>
 <script src="/EIBooks/styles/js/jquery-ui.min.js"></script>
 <script src="/EIBooks/styles/js/swiper-bundle.min.js"></script>
@@ -60,6 +72,20 @@
       $("#header").load("../styles/common/header.html");  // 원하는 파일 경로를 삽입하면 된다
       $("#footer").load("../styles/common/footer.html");  // 추가 인클루드를 원할 경우 이런식으로 추가하면 된다
     
+      $('.qna_wrap').click(function() {
+          $(this).next('.reply_wrap').toggle();
+      });
+     
+     $(document).click(function(e) {
+          if (!$(e.target).closest('.sort_wrap').length) {
+              $('.sort_menu').slideUp();
+          }
+          
+          if (!$(e.target).closest('.qna_wrap').length) {
+          	$('.reply_wrap').slideUp();
+          }
+      });
+     
       setTimeout(function() {
     	  
 	  	var $pElement = $('.book_title p');
@@ -122,7 +148,7 @@ function decreaseBtn(bookSeq) {
     }
 }
 
-// 
+
 
 </script>
 </head>
@@ -226,6 +252,123 @@ List<ReviewDTO> topReviews = (List<ReviewDTO>)request.getAttribute("topReviews")
 	<%} %>
 <%} %>
 </ul>
+</section>
+
+<section class="qna">
+
+<div class="board_list_wrap">
+	<div class="qna_tit">
+		<h2>Q&A 상품문의 (<%=qnaList.size() %>)</h2>
+		<% if(protect == false) { %>
+		<a href="/EIBooks/user/userBookDetail.bo?book_seq=<%=book_seq %>&protect_YN=N">비밀글 제외</a>
+		<%
+			protect = true;
+		} else {
+		%>
+		<a href="/EIBooks/user/userBookDetail.bo?book_seq=<%=book_seq %>">비밀글 제외</a>
+		<%
+			protect = false;
+		} 
+		%>
+	</div>
+	<table>
+		<thead>
+			<tr>
+				<th class="num">NO</th>
+				<th class="state">답변여부</th>
+				<th class="type">구분</th>
+				<th class="qna_title">내용</th>
+				<th class="cus_id">작성자</th>
+				<th class="date">등록일자</th>
+			</tr>
+		</thead>
+		<tbody>
+			<% if(qnaList.isEmpty()) { %>	
+				<tr><td colspan="8">&nbsp;<b>Data Not Found!!</b></td></tr>
+			<% } else { %>
+				<% for(QnaDTO qna : qnaList){ %>	
+					<tr class="qna_wrap">
+						<td><%= number - cnt %><% cnt++; %></td>
+						<td class="state"><%=qna.getState() %></td>
+						<td><%=qna.getType() %></td>
+						<td class="title_text"><%=qna.getTitle() %></td>
+						<td><%=qna.getCusInfo().getCus_id() %></td>
+						<td><%=qna.getRegDate() %></td>
+					</tr>
+					<tr class="reply_wrap">
+						<td colspan="6">
+							<div class="reply_wrap_content">
+								<div class="cus_content">
+									<p class="book_tit"><%=qna.getBookInfo().getTitle() %></p>
+									<p class="reply_content"><%=qna.getContent() %></p>
+								</div>
+								<%
+								QnaDAO qDao = new QnaDAO();
+								QnaDTO reply = qDao.selectReply(qna);
+								
+								if(reply.getContent() != null) {
+								%>
+								<div class="admin_wrap">
+									<div class="admin1">
+										<div class="admin_name"><p>관리자</p></div>
+										<div class="admin_content"><p><%=reply.getContent() %></p></div>
+									</div>
+									<div class="admin_regDate"><p><%=reply.getRegDate() %></p></div>
+								</div>
+								<% } %> <!-- if(reply) -->
+							</div>
+						</td>
+					</tr>
+				<% } %>  <!-- for  -->
+			<% } %> <!-- if -->
+		</tbody>
+	</table>
+</div>
+
+<% if(!qnaList.isEmpty()) { %>
+	<div class="pagination">
+		<%if(p.isPrev()) {%>
+		<a class="first arrow" href="replyList.do?pageNum=1">
+			<span class="blind">첫 페이지</span>
+		</a>
+		<%} else { %>
+			<a class="first arrow off"><span class="blind">첫 페이지</span></a>
+		<% } %>
+		
+		<%if(p.isPrev()) {%>
+		<a class="prev arrow" href="replyList.do?pageNum=<%=p.getStartPage()-1 %>">
+			<span class="blind">이전 페이지</span>
+		</a>
+		<%} else { %>
+			<a class="prev arrow off"><span class="blind">이전 페이지</span></a>
+		<%} %>
+		
+		<%for(int i=p.getStartPage(); i<=p.getEndPage(); i++) {%>
+			<%if(i == p.getPageNum()) {%>
+				<a class="number active"><%=i %></a>
+			<%}else {%>
+				<a class="number" href="replyList.do?pageNum=<%=i %>"><%=i %></a>
+			<%} %>
+		<%} %>
+		
+		<%if(p.isNext()) {%>
+		<a class="next arrow" href="replyList.do?pageNum=<%=p.getEndPage()+1 %>">
+			<span class="blind">다음 페이지</span>
+		</a>
+		<%} else {%>
+			<a class="next arrow off"><span class="blind">다음 페이지</span></a>
+		<%} %>
+		
+		<%if(p.isNext()) {%>
+		<a class="last arrow" href="replyList.do?pageNum=<%=p.getRealEnd() %>">
+			<span class="blind">마지막 페이지</span>
+		</a>
+		<%} else { %>
+			<a class="last arrow off"><span class="blind">마지막 페이지</span></a>
+		<%} %>
+	</div>
+<% } %>
+
 </section>
 </main>
 

@@ -178,9 +178,11 @@ public class QnaDAO {
 				int qna_seq = rs.getInt("qna_seq");
 				String content = rs.getString("content");
 				ref_seq = rs.getInt("ref_seq");
+				String regDate = rs.getString("q.regDate");
 				reply.setQna_seq(qna_seq);
 				reply.setContent(content);
 				reply.setRef_seq(ref_seq);
+				reply.setRegDate(regDate);
 			}
 			
 		} catch (Exception e) {
@@ -400,4 +402,96 @@ public class QnaDAO {
 			JDBCConnect.close(pstmt, conn);
 		}
 	}
+	
+	// 회원별 상품 문의 내역 리스트
+		public List<QnaDTO> getQnaAllListNew(Map<String, String> map) {
+			List<QnaDTO> qnaList = new ArrayList<>();
+
+			//DB연결
+			Connection conn = null;
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+
+			int amount = Integer.parseInt(map.get("amount"));
+			int offset = Integer.parseInt(map.get("offset"));
+			int book_seq = Integer.parseInt(map.get("book_seq"));
+			String protect_YN = map.get("protect_YN");
+			
+			try {
+				//conn
+				conn = JDBCConnect.getConnection();
+
+				//sql + 쿼리창
+				String sql= "select * from qna q "
+						+ "join books b "
+						+ "on q.book_seq = b.book_seq "
+						+ "join customer c "
+						+ "on q.cus_seq = c.cus_seq "
+						+ "where q.book_seq = ? and depth = 1 ";
+
+				if(protect_YN != null) {
+					sql += "and protect_YN = ? ";
+				}
+				
+				sql += "order by qna_seq desc ";
+				sql += "limit ? offset ? "; // 2page
+				
+				pstmt = conn.prepareStatement(sql);
+				
+				if(protect_YN != null) {
+					pstmt.setInt(1, book_seq);
+					pstmt.setString(2, protect_YN);
+					pstmt.setInt(3, amount);
+					pstmt.setInt(4, offset);
+				} else {
+					pstmt.setInt(1, book_seq);
+					pstmt.setInt(2, amount);
+					pstmt.setInt(3, offset);
+				}
+
+				rs = pstmt.executeQuery();
+
+				while(rs.next()) {
+					
+					QnaDTO qna = new QnaDTO();
+					qna.setQna_seq(rs.getInt("qna_seq"));
+					qna.setBook_seq(rs.getInt("book_seq"));
+					qna.setType(rs.getString("type"));
+					qna.setTitle(rs.getString("q.title"));
+					qna.setContent(rs.getString("content"));
+					qna.setProtect_YN(rs.getString("protect_YN"));
+					qna.setRegDate(rs.getString("q.regDate"));
+					qna.setState(rs.getString("state"));
+					qna.setDepth(rs.getInt("depth"));
+					qna.setRef_seq(rs.getInt("ref_seq"));
+					
+					BookDTO book = new BookDTO();
+					book.setTitle(rs.getString("b.title"));
+					book.setAuthor(rs.getString("author"));
+					book.setPublisher(rs.getString("publisher"));
+					book.setImageFile(rs.getString("imageFile"));
+					book.setPrice(rs.getInt("price"));
+					
+					CustomerDTO customer = new CustomerDTO();
+					customer.setCus_seq(rs.getInt("cus_seq"));
+					customer.setCus_id(rs.getString("cus_id"));
+					customer.setName(rs.getString("name"));
+					
+					qna.setBookInfo(book);
+					qna.setCusInfo(customer);
+	                
+					// 장바구니에 담긴 각 도서의 정보를 가져와서 추가
+					qnaList.add(qna);
+					System.out.println(qna);
+
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+				
+			} finally {
+				JDBCConnect.close(rs, pstmt, conn);
+			}
+
+			return qnaList;
+		}
 }
