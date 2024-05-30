@@ -92,6 +92,7 @@
 	<main id="container">
 		<div class="inner">
 			<h1> 장바구니</h1>
+			
 			<input type = "button" onclick="deleteAll();" value="장바구니 비우기"/>
 
 			<!-- 장바구니 목록 -->
@@ -146,23 +147,25 @@
 			</form>
 			<!-- 총 가격 표시 -->
 			<div class = "order">
-				<p>상품 금액 : <span id="totalPrice"><%=totalCartPrice - 3000 %> 원</span></p>
-				<p>배송비: <span>+ 3000 원</span></p>
-				<p>결제 예정 금액 : <span id="totalCartPrice"><%=totalCartPrice %> 원</span></p>
+				<p>상품 금액<span id="totalPrice"><%=totalCartPrice - 3000 %> 원</span></p>
+				<p>배송비<span>+ 3000 원</span></p>
+				<p>결제 예정 금액<span id="totalCartPrice"><%=totalCartPrice %> 원</span></p>
 		    	<button id="orderBtn" type="button" onclick="submitOrder()">주문하기</button>
 			</div>
 		</div>		
 	</main>
 
-
 </div>
-  
-  
-  
-  
+ 
 <script>
 //주문 제출 함수
 function submitOrder() {
+    // 장바구니가 비어 있는지 확인
+    var cartList = document.getElementById("cartForm");
+    if (cartList.getElementsByClassName("list_left").length === 0) {
+        alert("장바구니에 아무것도 없습니다.");
+        return;
+    }
 	console.log("버튼 눌림");
 	location.href="<%=request.getContextPath()%>/customerBuyOrders.cc";
 }
