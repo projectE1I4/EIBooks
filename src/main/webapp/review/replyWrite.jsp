@@ -236,7 +236,6 @@ window.onload = function() {
 		<%} %>
 	</li>
 		<%} %>
-	<%} %>
 </ul>
 
 <div class="pagination">
@@ -280,6 +279,7 @@ window.onload = function() {
 		<a class="last arrow off"><span class="blind">마지막 페이지</span></a>
 	<%} %>
 </div>
+<%} %>
 </main>
 
 <footer id="footer"></footer>
