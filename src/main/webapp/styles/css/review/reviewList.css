@@ -1,5 +1,5 @@
 body {
-	background-color: #e9eaee;
+	background-color: #fff;
 }
 h1 {
 	font-size: 30px;
@@ -95,7 +95,7 @@ h1 {
 }
 
 .review_list_wrap {
-	border: 1px solid #000;
+	border: 1px solid #ccc;
 }
 .review_list {
 	width: 1064px;
@@ -117,6 +117,8 @@ h1 {
 	margin: 10px auto;
 	position: relative;
 	background-color: #fff;
+	border: 3px solid #eee;
+	border-radius: 10px;
 }
 
 .review_info.select {
@@ -131,6 +133,8 @@ h1 {
 	margin: 10px 0 20px auto;
 	position: relative;
 	background-color: #fff;
+	border: 3px solid #eee;
+	border-radius: 10px;
 }
 
 .reply {
@@ -196,7 +200,7 @@ h1 {
 
 .review_info .review_content {
 	position: absolute;
-	right: 45px;
+	right: 40px;
 	top: 21px;
 }
 .review_info .grade {
@@ -262,6 +266,6 @@ h1 {
 
 .reply_info .reply_content {
 	position: absolute;
-	right: 45px;
+	right: 40px;
 	top: 21px;
 }
