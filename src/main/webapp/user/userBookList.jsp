@@ -10,8 +10,8 @@
 	int totalCount = (int)request.getAttribute("totalCount");
 	String searchWord = (String)request.getAttribute("searchWord");
 	String category = (String)request.getAttribute("category");
-	String list = (String)request.getAttribute("list");
-	
+	//String list = (String)request.getAttribute("list");
+	String list = request.getParameter("order");
 %>
 <!DOCTYPE html>
 <html>
@@ -70,67 +70,7 @@ function goToPage(book_seq) {
 	location.href = "userBookDetail.bo?book_seq=" + book_seq;
 }
 
-function userPaging(pageNum){
-	var searchWord = $('input[name="searchWord"]').val();
-	var category = "<%=(request.getParameter("category") != null && !request.getParameter("category").equals("") ) ? request.getParameter("category") : category%>";
-	console.log("ppcategory_book_java: ", "<%=category %>", category);
-	var list = "<%=list%>";
-	var pageNum = <%=p.getPageNum()%>;
-	$.ajax({
-        type:'GET',
-        url:'<%=request.getContextPath()%>/user/userPaging.uapi',
-        dataType:'json',
-        data: {
-        	pageNum: <%=p.getPageNum()%>, 
-        	searchWord: searchWord,
-        	category: category,
-        	list : list
-        },
-        success: function (response) {
-        	//, searchWord를 검색하고 페이지를 넘겨서 다시 받아오는 과정에서 문제 발생
-	       var newUrl = window.location.pathname + "?pageNum="+ pageNum 
-        	+ '&searchWord=' + encodeURIComponent(searchWord)
-        	+ '&category=' + encodeURIComponent(category) +'&order=' + encodeURIComponent(list);
-       		window.history.pushState({ path: newUrl }, '', newUrl);
-	       makePaging(response, searchWord, category);  
-        },
-        error: function (request, status, error) {
-            console.log(request, status,error);
-        }
-    });
-}
 
-function makePaging(data){
-	let html = ''; 
-	<% if(p.isPrev()) {%>
-		html += '<a href="userBookList.bo?pageNum=1&searchWord=<%=searchWord%>&category=<%=category%>'
-			 +'&order=<%=list%>">[First]</a>';
-	<%}%>	
-	<%if(p.isPrev()) {%> 
-		html += '<a href="userBookList.bo?pageNum=' + <%=p.getStartPage()-1%>
-			+ '&searchWord=<%=searchWord%>&category=<%=category%>' +'&order=<%=list%>">[Prev]</a>'; 
-	<% } %>
-	<%
-	for(int i=p.getStartPage(); i<= p.getEndPage(); i++) {
-		%>
-		<%if(i == p.getPageNum()){%>
-			html += '<b>[' + <%=i %> + ']</b>';
-		<%}else{ %>
-			html += '<a href="userBookList.bo?pageNum=' + <%=i%> 
-				+ '&searchWord=<%=searchWord%>&category=<%=category%>' +'&order=<%=list%>">[' + <%=i %> +']</a>';
-		<%}
-	} 
-	%>
-	<%if(p.isNext()){%>
-		html += '<a href="userBookList.bo?pageNum=' + <%=p.getEndPage()+1%> 
-			+ '&searchWord=<%=searchWord%>&category=<%=category%>' +'&order=<%=list%>">[Next]</a>';
-	<% } %>
-	<%if(p.isNext()){%>
-		html += '<a href="userBookList.bo?pageNum=' + <%=p.getRealEnd()%>+ 
-			'&searchWord=<%=searchWord%>&category=<%=category%>' +'&order=<%=list%>">[Last]</a>';
-	<%}%>
-    $('#userPaging').html(html);
-}
 
 function userSearch(){
 	// searchWord 1	
@@ -141,6 +81,7 @@ function userSearch(){
 		? request.getParameter("category")
 		: category%>";
 	var list = "<%=list%>";
+	console.log(list + "list");
 	// 제일 먼저 실행	
 	$.ajax({
         type:'GET',
@@ -185,58 +126,35 @@ function makeSearch(data){
 	let html = ''; 
 	let cnt = 0;
 	
-    for(b of data){            	
-		html += '<tr>';
-    	html += '<td>' + (cnt += 1) + '</td>';
-    	html += '<td  onclick="goToPage('+ b['book_seq'] + ')"><img alt="' + b['title'] + '" src="' + b['imageFile'] + '" ></td>';
-    	html += '<td  onclick="goToPage('+ b['book_seq'] + ')">' + b['title'] + '</td>';
-    	html += '<td>' + b['author'] + '</td>';
-    	html += '<td>' + b['publisher'] + '</td>';
-    	html += '<td>' + b['pubDate'] + '</td>';
-    	html += '<td>' + b['description'] + '</td>';
-    	html += '<td class="price'+ b['book_seq'] + '">' + b['price'] + '</td>';
-    	html += '<td>' 
-	       	+ '<div>'
-            + '<button type="button" onclick="decreaseBtn('+ b['book_seq'] +')">-</button>'
-            + '<input id="quantity'+ b['book_seq'] +'" type="number" name="'+b['book_seq'] +'" value="1"'
-            + 'min="1" readonly style="width:30px;">'
-            + '<button type="button" onclick="increaseBtn('+ b['book_seq'] +')">+</button>'
-        + '</div>'
-		+ '<button type="button" onclick="buying('+ b['book_seq'] + ');">주문하기</button></td>';
-    	html += '<td><button type="button" onclick="goToCustomerCart('+b['book_seq'] + ');">장바구니</button></td>';
-    	html += '</tr>';         
+    for(b of data){ 
+    	html += '<div class="book_wrap">';
+        html += '<div class="cnt_wrap"><div class="cnt">' + (cnt += 1) + '</div></div>';
+        html += '<div class="img_wrap"><div onclick="goToPage(' + b['book_seq'] + ')"><img alt="' + b['title'] + '" src="' + b['imageFile'] + '"></div></div>';
+        html += '<div class="info_wrap">';
+        html += '<div class="title" onclick="goToPage(' + b['book_seq'] + ')">' + b['title'] + '</div>';
+        html += '<div class="sort_area"><div class="left_wrap">';
+        html += '<div class="author">' + b['author'] + '</div>';
+        html += '<div class="pub_wrap">'
+        html += '<div>' + b['publisher'] + '</div>';
+        html += '<div>' + b['pubDate'] + '</div>';
+        html += '</div>';
+        html += '<div class="description">' + b['description'] + '</div> </div>';
+        html += '<div class="right_wrap"><div class="quantity_wrap">'
+        	+ '<div class="price_wrap"><div class="price' + b['book_seq'] + ' prices">' + b['price'] + '</div><div>원</div></div>'        
+        + '<button type="button" class="btn de_btn" onclick="decreaseBtn(' + b['book_seq'] + ')">-</button>'
+                + '<input id="quantity' + b['book_seq'] + '" class="quantity" type="number" name="' + b['book_seq'] + '" value="1"'
+                + ' min="1" readonly >'
+                + '<button type="button" class="btn" onclick="increaseBtn(' + b['book_seq'] + ')">+</button>'
+            + '</div>'
+        + '<div class="buy_wrap">'
+        + '<button type="button" class="btn buy_btn" onclick="buying(' + b['book_seq'] + ');">주문하기</button>';
+        html += '<button type="button" class="btn buy_btn" onclick="goToCustomerCart(' + b['book_seq'] + ');">장바구니</button></div></div>';
+        html += '</div></div></div>';
     }
     $('#userBooks').html(html);
 }
 
-function userCategory(){
-	var searchWord = $('input[name="searchWord"]').val();
-	var pageNum = <%=p.getPageNum()%>;
-	var category = "<%=(request.getParameter("category") != null && !request.getParameter("category").equals(""))
-		? request.getParameter("category")
-		: category%>";
-	var list = "<%=list%>";
-	$.ajax({
-        type:'GET',
-        url:'<%=request.getContextPath()%>/user/userCategory.uapi',
-        dataType:'json',
-        data: {
-        	pageNum: pageNum,
-        	searchWord: searchWord,
-        	category : category,
-        	list : list
-        },
-        success: function (response) {
-            var newUrl = window.location.pathname + "?pageNum="+ pageNum 
-            		+ '&searchWord=' + encodeURIComponent(searchWord)
-            		+ '&category=' + encodeURIComponent(category) +'&order=' + encodeURIComponent(list);
-            window.history.pushState({ path: newUrl }, '', newUrl);
-        },
-        error: function (request, status, error) {
-            console.log(request, status, error);
-        }
-    });
-}
+
 
 
 function goToCustomerCart(book_seq){
@@ -268,8 +186,8 @@ $(function(){
         <%}%>
             
 	userSearch();
-	userCategory();
-	userPaging();
+	// userCategory();
+	//userPaging();
 
 	$('.sort_main').click(function() {
         $(this).next('.sort_menu').slideToggle();
@@ -324,23 +242,21 @@ function buying(book_seq){
 						<ul id="userCategory" class="userCategory">
 							<li class="category_List"><a <%if(category.equals("")){%>class="check"<%} %>
 								href="userBookList.bo?pageNum=1&searchWord=&category=">[전체]</a></li>
-							<li class="category_List"><a
-								href="userBookList.bo?pageNum=1&searchWord=&category=만화">[만화]</a></li>
-							<li class="category_List"><a
+							<li class="category_List"><a <%if(category.equals("만화")){%>class="check"<%} %>
+								href="userBookList.bo?pageNum=1&searchWord=&category=만화" >[만화]</a></li>
+							<li class="category_List"><a <%if(category.equals("소설/시/희곡")){%>class="check"<%} %>
 								href="userBookList.bo?pageNum=1&searchWord=&category=소설/시/희곡">[소설
 									/ 시 / 희곡]</a></li>
-							<li class="category_List"><a
+							<li class="category_List"><a <%if(category.equals("수험서/자격증")){%>class="check"<%} %>
 								href="userBookList.bo?pageNum=1&searchWord=&category=수험서/자격증">[수험서
 									/ 자격증]</a></li>
-							<li class="category_List"><a
+							<li class="category_List"><a <%if(category.equals("인문학")){%>class="check"<%} %>
 								href="userBookList.bo?pageNum=1&searchWord=&category=인문학">[인문학]</a></li>
 						</ul>
 					</div>
 				</div>
 				<!-- 전체 목록 -->
 				<div class="main_contents">
-
-
 					<div class="middle_bar">
 					<div class="middle_top">
 								<%if (searchWord != null && !searchWord.isEmpty()) {%>
@@ -363,16 +279,17 @@ function buying(book_seq){
 								</li>
 								<ul class="sort_menu">
 								<li><a
-									href="userBookList.bo?pageNum=<%=p.getPageNum()%>&searchWord=<%=searchWord%>&category=<%=category%>&list=latest"
-									<%list = "latest";%>>최신순</a></li>
+									href="userBookList.bo?pageNum=<%=p.getPageNum()%>&searchWord=<%=searchWord%>&category=<%=category%>&order=latest"
+									<%="latest".equals(list)%>>최신순</a></li>
 								<li><a
-									href="userBookList.bo?pageNum=<%=p.getPageNum()%>&searchWord=<%=searchWord%>&category=<%=category%>&list=oldest"
-									<%list = "oldest";%>>오래된 순</a></li>
+									href="userBookList.bo?pageNum=<%=p.getPageNum()%>&searchWord=<%=searchWord%>&category=<%=category%>&order=oldest"
+									<%="oldest".equals(list)%>>오래된 순</a></li>
 								<li><a
-									href="userBookList.bo?pageNum=<%=p.getPageNum()%>&searchWord=<%=searchWord%>&category=<%=category%>&list=popular"
-									<%list = "popular";%>>인기순</a></li>
+									href="userBookList.bo?pageNum=<%=p.getPageNum()%>&searchWord=<%=searchWord%>&category=<%=category%>&order=popular"
+									<%="popular".equals(list)%>>인기순</a></li>
 								<%
 								request.setAttribute("list", list);
+								request.setAttribute("order", list);
 								%>
 								</ul>
 							</ul>
@@ -380,7 +297,7 @@ function buying(book_seq){
 							<div class="search_box">
 								<form onsubmit="userSearch();">
 									<input type="hidden" name="category" value="<%=category%>">
-									<input type="text" name="searchWord"
+									<input type="text" name="searchWord" class="searchWord"
 										<%if (searchWord != null && !searchWord.equals("")) {%>
 										value="<%=searchWord%>" <%}%> placeholder="검색어를 입력하세요.">
 									<input type="submit" class="search_btn" value="">
@@ -392,40 +309,62 @@ function buying(book_seq){
 							</div>
 						</div>
 					</div>
-							
-						
-
 					</div>
-					<div class="main_books">
-						<table border="1">
-							<thead>
-								<tr>
-									<th>넘버링</th>
-									<th>이미지</th>
-									<th>도서명</th>
-									<th>저자명</th>
-									<th>출판사</th>
-									<th>출간일</th>
-									<th>디스크립션</th>
-									<th>금액</th>
-									<th>바로구매</th>
-									<th>장바구니</th>
-								</tr>
-							</thead>
-							<tbody id="userBooks">
 
-							</tbody>
-						</table>
+					<div class="main_books">							
+						<div id="userBooks">
+
+						</div>
 					</div>
 				</div>
 			</section>
 
 
-			<table border="1" width="90%">
-				<tr>
-					<td colspan="8" id="userPaging"></td>
-				</tr>
-			</table>
+			
+			<div class="pagination">
+	<%
+	// 여기서 이미 list가 popular로 고정인데? list 
+	%> 
+	<%if(p.isPrev()) {%>
+	<a class="first arrow" href="userBookList.bo?pageNum=1&searchWord=<%=searchWord%>&category=<%=category%>&order=<%=list%>">
+		<span class="blind">첫 페이지</span>
+	</a>
+	<%} else { %>
+		<a class="first arrow off"><span class="blind">첫 페이지</span></a>
+	<% } %>
+	
+	<%if(p.isPrev()) {%>
+	<a class="prev arrow" href="userBookList.bo?pageNum=<%=p.getStartPage()-1%>&searchWord=<%=searchWord%>&category=<%=category%>&order=<%=list%>">
+		<span class="blind">이전 페이지</span>
+	</a>
+	<%} else { %>
+		<a class="prev arrow off"><span class="blind">이전 페이지</span></a>
+	<%} %>
+	
+	<%for(int i=p.getStartPage(); i<=p.getEndPage(); i++) {%>
+		<%if(i == p.getPageNum()) {%>
+			<a class="number active"><%=i %></a>
+		<%}else {%>
+			<a class="number" href="userBookList.bo?pageNum=<%=i%>&searchWord=<%=searchWord%>&category=<%=category%>&order=<%=list%>"><%=i %></a>
+		<%} %>
+	<%} %>
+	
+	<%if(p.isNext()) {%>
+	<a class="next arrow" href="userBookList.bo?pageNum=<%=p.getEndPage()+1%>&searchWord=<%=searchWord%>&category=<%=category%>&order=<%=list%>">
+		<span class="blind">다음 페이지</span>
+	</a>
+	<%} else { %>
+		<a class="next arrow off"><span class="blind">다음 페이지</span></a>
+	<%} %>
+	
+	<%if(p.isNext()) {%>
+	<a class="last arrow" href="userBookList.bo?pageNum=<%=p.getRealEnd()%>&searchWord=<%=searchWord%>&category=<%=category%>&order=<%=list%>">
+		<span class="blind">마지막 페이지</span>
+	</a>
+	<%} else {%>
+		<a class="last arrow off"><span class="blind">마지막 페이지</span></a>
+	<%} %>
+</div>
 		</main>
 		<footer id="footer"></footer>
 	</div>

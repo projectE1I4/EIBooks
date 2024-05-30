@@ -56,7 +56,9 @@ public class UserBookController extends HttpServlet {
 			String sPageNum = request.getParameter("pageNum");
 			String searchWord = request.getParameter("searchWord");
 			String category = request.getParameter("category");
-			String list = request.getParameter("list");
+			String list = request.getParameter("order");
+			
+			System.out.println("order가 맞니 : us.uapi" + list);
 			
 			//여기서도 검색 시 이미 빈문자
 			System.out.println("userSearch.uapi-" + category);
@@ -99,83 +101,7 @@ public class UserBookController extends HttpServlet {
 			PrintWriter out = response.getWriter();
 			out.print(json);
 		}
-			else if(action.equals("/userCategory.uapi")) {
-				int amount = 10;
-				int pageNum = 1;
-
-				BookDAO dao = new BookDAO();
-				Map<String, String> map = new HashMap<>();
-
-				// pageNum에 대해서 sPageNum으로 파라메터로 받아오기 (문자열로 들어옴)
-				String sPageNum = request.getParameter("pageNum");
-				String category  = request.getParameter("category");
-				
-				// sPageNum이 null이 아닌 경우 Integer로 변환
-				if(sPageNum != null) pageNum = Integer.parseInt(sPageNum);
-				// offset은 (pageNum-1) * amount
-				int offset = (pageNum-1) * amount;
-				// map에 offset 집어넣기
-				map.put("offset", offset+"");
-				// map에 amount 집어넣기
-				map.put("amount", amount+"");
-				map.put("category", category);
-
-				int totalCount = dao.userSelectCount(map);
-				PageDTO paging = new PageDTO(pageNum, amount, totalCount);
-
-				request.setAttribute("paging", paging); 
-				request.setAttribute("totalCount", totalCount);
-				request.setAttribute("category", category);
-
-				//json
-				Gson gson = new Gson();
-				String cate = gson.toJson(category);
-				System.out.println(cate);
-
-				response.setContentType("application/json; charset=UTF-8");
-				PrintWriter out = response.getWriter();
-				out.print(cate);
-			}
-		// 페이징을 별개로 빼봤음.
-		else if(action.equals("/userPaging.uapi")) {
-			int amount = 10;
-			int pageNum = 1;
-
-			BookDAO dao = new BookDAO();
-			Map<String, String> map = new HashMap<>();
-
-			// pageNum에 대해서 sPageNum으로 파라메터로 받아오기 (문자열로 들어옴)
-			String sPageNum = request.getParameter("pageNum");
-			String category  = request.getParameter("category");
-			System.out.println("userPaging.uapi----"+category);
 			
-			// sPageNum이 null이 아닌 경우 Integer로 변환
-
-			if(sPageNum != null) pageNum = Integer.parseInt(sPageNum);
-			// offset은 (pageNum-1) * amount
-			int offset = (pageNum-1) * amount;
-			// map에 offset 집어넣기
-			map.put("offset", offset+"");
-			// map에 amount 집어넣기
-			map.put("amount", amount+"");
-
-			int totalCount = dao.userSelectCount(map);
-			PageDTO paging = new PageDTO(pageNum, amount, totalCount);
-
-			request.setAttribute("paging", paging); 
-			request.setAttribute("totalCount", totalCount);
-			request.setAttribute("category", category);
-			
-			//json
-			Gson gson = new Gson();
-			String page = gson.toJson(paging);
-			System.out.println(page);
-
-			response.setContentType("application/json; charset=UTF-8");
-			PrintWriter out = response.getWriter();
-			out.print(page);
-		}
-		
 	}
 
 }
