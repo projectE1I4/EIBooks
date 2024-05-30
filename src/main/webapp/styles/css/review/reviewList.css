@@ -150,6 +150,7 @@ h1 {
 	width: 808px;
 	height: 108px;
 	padding: 15px 10px;
+	word-wrap: break-word;
 }
 
 .write_info {
