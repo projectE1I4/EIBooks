@@ -1,0 +1,91 @@
+/* 컬러 변수 */
+:root {
+  --point-color1: #6A5AFF;
+  --txt-color-400: #999;
+  --txt-color-500: #333;
+  --txt-color-600: #000;
+}
+
+#wrap {
+  height: 2500px;
+  background-color: #E9EAEE;
+}
+
+.inner {
+  padding: 130px;
+}
+.productView {
+  background-color: #fff;
+  padding: 100px;
+}
+.productView .title {
+  font-size: 32px;
+  font-weight: 500;
+  margin-bottom: 20px;
+}
+
+.productView hr {
+  margin: 50px 0;
+}
+
+.productView .info_wrap {
+  display: flex;
+  gap: 50px;
+  
+}
+
+.productView .img_wrap {
+  min-width: 250px;
+}
+.productView .img_wrap img {
+  min-width: 250px;
+  min-height: 380px;
+}
+
+.productView .product_info {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  height: 380px;
+}
+.productView .price {
+  font-size: 24px;
+  font-weight: 500;
+}
+.product_info .txt_wrap {
+  display: flex;
+  gap: 30px;
+}
+.product_info .flex_wrap {
+  display: flex;
+  gap: 10px;
+}
+.product_info .flex_wrap .col {
+  width: 80px;
+}
+
+.product_info .category {
+  width: 100px;
+}
+.product_info .publisher {
+  width: 100px;
+}
+.product_info .pubDate {
+  width: 100px;
+}
+.product_info .isbn {
+  width: 100px;
+}
+.product_info .description {
+  padding: 50px 0;
+}
+.product_info .stock_wrap {
+  display: flex;
+  gap: 30px;
+}
+
+.product_info .btn_wrap {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}

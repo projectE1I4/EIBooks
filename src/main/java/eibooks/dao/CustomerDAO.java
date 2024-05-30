@@ -288,14 +288,14 @@ public class CustomerDAO {
         }
     }
 
-    // 고객 로그인 메서드
+    // 로그인 메서드
     public CustomerDTO getCustomerById(String cus_id) {
         Connection conn = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         CustomerDTO customer = null;
 
-        String sql = "SELECT c.cus_seq, c.cus_id, c.password, c.name, c.tel, c.email, c.regDate, " +
+        String sql = "SELECT c.cus_seq, c.cus_id, c.password, c.name, c.tel, c.email, c.regDate, c.manager_YN, " +
             "a.postalCode, a.addr, a.addr_detail " +
             "FROM customer c " +
             "LEFT JOIN customer_addr a ON c.cus_seq = a.cus_seq " +
@@ -316,6 +316,7 @@ public class CustomerDAO {
                 customer.setTel(rs.getString("tel"));
                 customer.setEmail(rs.getString("email"));
                 customer.setRegDate(rs.getString("regDate"));
+                customer.setManager_YN(rs.getString("manager_YN"));
 
                 AddressDTO addr = new AddressDTO();
                 addr.setPostalCode(rs.getString("postalCode"));
@@ -325,6 +326,7 @@ public class CustomerDAO {
 
                 customer.setAddrInfo(addr);
             }
+
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -359,6 +361,96 @@ public class CustomerDAO {
         }
 
         return exists;
+    }
+
+    // 회원이름,전화번호 조회후 고객 아이디 찾기, 본인확인
+    public CustomerDTO findCustomerInfo(CustomerDTO dto) {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        CustomerDTO customer = null;
+
+        boolean isVerification =  true;
+
+        String sql = "SELECT * FROM customer WHERE cus_id = ? AND name = ? AND tel = ?";
+        if(dto.getCus_id() == null){
+            sql = "SELECT * FROM customer WHERE name = ? AND tel = ?";
+            isVerification = false;
+        }
+
+        conn = JDBCConnect.getConnection();
+        try {
+            pstmt = conn.prepareStatement(sql);
+            if(isVerification){
+                pstmt.setString(1, dto.getCus_id());
+                pstmt.setString(2, dto.getName());
+                pstmt.setString(3, dto.getTel());
+            } else { // 로그인에서 아이디 찾기만 할 때
+                pstmt.setString(1, dto.getName());
+                pstmt.setString(2, dto.getTel());
+            }
+            rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                customer = new CustomerDTO();
+                customer.setCus_id(rs.getString("cus_id"));
+                customer.setPassword(rs.getString("password"));
+                customer.setName(rs.getString("name"));
+                customer.setTel(rs.getString("tel"));
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            JDBCConnect.close(rs, pstmt, conn);
+        }
+
+        return customer;
+    }
+
+    // 회원 비밀번호 변경 메서드
+    public String updateCustomerPassword(CustomerDTO dto) {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        String resultMessage = "비밀번호 변경에 실패하였습니다.";
+
+        String selectSql = "SELECT password FROM customer WHERE cus_id = ?";
+        String updateSql = "UPDATE customer SET password = ? WHERE cus_id = ?";
+
+        try {
+            conn = JDBCConnect.getConnection();
+
+            // 현재 비밀번호 검증
+            pstmt = conn.prepareStatement(selectSql);
+            pstmt.setString(1, dto.getCus_id());
+            rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                String storedPassword = rs.getString("password");
+                if (storedPassword.equals(dto.getPassword())) {
+                    return "새 비밀번호는 현재 비밀번호와 다르게 설정해야 합니다.";
+                }
+            } else {
+                return "사용자 정보를 찾을 수 없습니다.";
+            }
+
+            // 비밀번호 업데이트
+            pstmt = conn.prepareStatement(updateSql);
+            pstmt.setString(1, dto.getPassword());
+            pstmt.setString(2, dto.getCus_id());
+
+            int rowsUpdated = pstmt.executeUpdate();
+            if (rowsUpdated > 0) {
+                resultMessage = "비밀번호가 성공적으로 변경되었습니다.";
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            JDBCConnect.close(rs, pstmt, conn);
+        }
+
+        return resultMessage;
     }
 
     public int getCustomerCount() {

@@ -1,0 +1,252 @@
+body {
+	background-color: #fff;
+}
+
+h1 {
+	font-size: 30px;
+	display: flex;
+	justify-content: center;
+	align-items: end;
+}
+
+.review_list_area {
+	width: 1280px;
+	margin: 10px auto 0;
+}
+
+.tit_wrap {
+	padding: 0 35px 0 10px;
+	display: flex;
+	justify-content: space-between;
+	position: relative;
+}
+
+.sort_wrap {
+    position: absolute;
+    display: inline-block;
+    width: 127px;
+    height: 36px;
+    left: 195px;
+    top: 5px;
+}
+
+.sort {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 6px 15px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+    height: 37px;
+}
+
+.sort_menu {
+    display: none;
+    position: absolute;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    min-width: 127px;
+    z-index: 1;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.sort_menu li a {
+    display: block;
+    padding: 6px 15px;
+}
+
+.sort_menu li a:hover {
+    background-color: #ddd;
+}
+
+.sort_menu .selected {
+    font-weight: bold;
+    color: #007bff;
+}
+
+.sort:hover .sort_menu {
+    display: block;
+}
+
+.total_count {
+	font-size: 18px;
+	display: flex;
+	justify-content: center;
+	align-items: end;
+}
+
+.review_list_wrap {
+	border: 1px solid #ccc;
+}
+.review_list {
+	width: 1064px;
+	margin: 0 auto;
+	font-size: 15px;
+}
+
+.no_review {
+	text-align: center;
+}
+.review {
+	width: 100%;
+}
+.review_info {
+	width: 1064px;
+	height: 155px;
+	padding-top: 15px;
+	padding-left: 30px;
+	margin: 10px auto;
+	position: relative;
+	background-color: #fff;
+	border: 3px solid #eee;
+	border-radius: 10px;
+}
+
+.full_star {
+	width: 25px;
+	height: 25px;
+	margin-top: 5px;
+	background-color: #6a5aff;
+	-webkit-mask-image: url('../../images/star_full.svg'); /* Webkit 마스크 이미지 경로 */
+    -webkit-mask-repeat: no-repeat; /* Webkit 반복하지 않음 */
+    -webkit-mask-size: cover; /* Webkit 크기 조정 */
+    mask-image: url('../../images/star_full.svg'); /* 표준 마스크 이미지 경로 */
+    mask-repeat: no-repeat; /* 표준 반복하지 않음 */
+    mask-size: cover; /* 표준 크기 조정 */
+    display: inline-block;
+}
+.empty_star {
+	width: 25px;
+	height: 25px;
+	margin-top: 5px;
+	background-color: #6a5aff;
+	-webkit-mask-image: url('../../images/star_empty.svg'); /* Webkit 마스크 이미지 경로 */
+    -webkit-mask-repeat: no-repeat; /* Webkit 반복하지 않음 */
+    -webkit-mask-size: cover; /* Webkit 크기 조정 */
+    mask-image: url('../../images/star_empty.svg'); /* 표준 마스크 이미지 경로 */
+    mask-repeat: no-repeat; /* 표준 반복하지 않음 */
+    mask-size: cover; /* 표준 크기 조정 */
+    display: inline-block;
+}
+
+.book_title {
+	width: 170px;
+	overflow: hidden;
+  	white-space: nowrap;
+  	text-overflow: ellipsis;
+}
+
+.reply_info {
+	width: 956px;
+	height: 140px;
+	padding-top: 17px;
+	padding-left: 16px;
+	margin: 10px 0 20px auto;
+	position: relative;
+	background-color: #fff;
+	border: 3px solid #eee;
+	border-radius: 10px;
+}
+
+.reply {
+	position: relative;
+}
+.reply .reply_icon {
+	position: absolute;
+	left: -80px;
+	top: 0;
+}
+
+.review_list>li:last-child .reply {
+	margin-bottom: 15px;
+}
+.content {
+	background-color: #f3f3f3;
+	width: 808px;
+	height: 108px;
+	padding: 15px 10px;
+	word-wrap: break-word;
+}
+
+.write_info {
+	height: 150px;
+	background-color: #bfbfbf;
+	border: none;
+}
+
+.content.write {
+	width:925px;
+	top: -10px;
+}
+
+.write_btn_wrap {
+	position: absolute;
+	right: 0;
+	bottom: -31px;
+}
+.write_btn {
+	width: 118px;
+	height: 26px;
+	border: none;
+	cursor: pointer;
+	margin-left: 5px;
+}
+.write_btn input {
+	font-size: 20px;
+}
+.review_info .review_content {
+	position: absolute;
+	right: 40px;
+	top: 25px;
+}
+.review_info .grade {
+	font-size: 25px;
+	display: flex;
+}
+.review_info .grade span {
+	margin-left: 10px;
+}
+.review_info .grade img {
+	width: 25px;
+	height: 25px;
+	margin-top: 4px;
+}
+
+.review_btn_wrap {
+	position: absolute;
+	right: 10px;
+	top: 15px;
+}
+.review_btn_wrap a {
+	display: block;
+}
+.review_btn_wrap a:last-child {
+	margin-top: 10px;
+}
+.review_btn_wrap .disable_btn{
+	opacity: 0.3;
+}
+
+.reply_btn_wrap {
+	position: absolute;
+	right: 10px;
+	top: 10px;
+}
+.reply_btn_wrap a {
+	display: block;
+}
+.reply_btn_wrap a:last-child {
+	margin-top: 10px;
+}
+
+.reply_btn_wrap img{
+	width: 20px;
+	height: 20px;
+}
+
+.reply_info .reply_content {
+	position: absolute;
+	right: 40px;
+	top: 21px;
+}

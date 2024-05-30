@@ -1,6 +1,10 @@
 package eibooks.controller;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,9 +16,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import eibooks.common.PageDTO;
 import eibooks.dao.OrderDAO;
+import eibooks.dao.cartDAO;
 import eibooks.dto.OrderDTO;
+import eibooks.dto.cartDTO;
 
 //~.or로 끝나는 경우 여기서 처리함
 @WebServlet("*.or")
@@ -85,8 +94,8 @@ public class OrderController extends HttpServlet {
             
 		} else if(action.equals("/customerOrder.or")) {
 			
-			String orderBy = request.getParameter("orderBy");
-			System.out.println(orderBy);
+			// String orderBy = request.getParameter("orderBy");
+			// System.out.println(orderBy);
 			Map<String, String> map = new HashMap<>();
 			
 			// paging info
@@ -99,7 +108,7 @@ public class OrderController extends HttpServlet {
 
 			map.put("offset", offset + "");
 			map.put("amount", amount + "");
-			map.put("orderBy", orderBy);
+			// map.put("orderBy", orderBy);
 			
 			HttpSession session = request.getSession();
 			int cus_seq = (int)session.getAttribute("cus_seq");
@@ -118,7 +127,7 @@ public class OrderController extends HttpServlet {
             request.setAttribute("orderList", orderList);
             request.setAttribute("paging", paging);
 			request.setAttribute("totalCount", totalCount);
-			request.setAttribute("orderBy", orderBy);
+			// request.setAttribute("orderBy", orderBy);
 
             // forward
             String path = "./customerOrder.jsp"; // 회원 별 주문 목록 페이지의 JSP 파일 경로
@@ -177,7 +186,6 @@ public class OrderController extends HttpServlet {
             // Paging
  			PageDTO paging = new PageDTO(pageNum, amount, totalCount);
          			
- 			request.setAttribute("cus_seq", cus_seq);
             request.setAttribute("orderList", orderList);
             request.setAttribute("paging", paging);
 			request.setAttribute("totalCount", totalCount);
@@ -206,6 +214,48 @@ public class OrderController extends HttpServlet {
             String path = "./myOrderDetail.jsp"; // 회원 별 주문 목록 페이지의 JSP 파일 경로
             request.getRequestDispatcher(path).forward(request, response);
             
+		} else if(action.equals("/orderInsert.or")) {
+			
+			System.out.println("/orderInsert.or");
+			
+			HttpSession session = request.getSession();
+			Map<String, Integer> map = (Map<String, Integer>) session.getAttribute("orderMap");
+			System.out.println(session.getAttribute("orderMap"));
+			
+			int book_seq = map.get("book_seq");
+			
+		    OrderDAO orderdao = new OrderDAO();
+		    orderdao.insertOrderList(map);
+			
+            // forward
+            String path = "./customer/customerOrderComplete.jsp"; // 회원 별 주문 목록 페이지의 JSP 파일 경로
+            request.getRequestDispatcher(path).forward(request, response);
+		} 
+		//장바구니에서 주문하기 
+		else if(action.equals("/cartOrder.or")) {
+			
+			System.out.println("/cartOrder.or");
+			
+			HttpSession session = request.getSession();
+			int cusSeq = (Integer) session.getAttribute("cus_seq");
+		    
+			OrderDAO orderdao = new OrderDAO();
+			
+		    cartDTO dto = new cartDTO();
+		    dto.setCusSeq(cusSeq);
+		    
+		    cartDAO dao = new cartDAO();
+		    List<cartDTO> cartList = dao.getCartList(cusSeq);            
+		    orderdao.cartOrderList(dto);
+
+			for(cartDTO c : cartList) {
+				orderdao.cartList(c);
+			}
+			dao.deleteCartAll(cusSeq);
+			
+            // forward
+            String path = "./customer/customerOrderComplete.jsp"; // 회원 별 주문 목록 페이지의 JSP 파일 경로
+            request.getRequestDispatcher(path).forward(request, response);
 		}
 	}
 }

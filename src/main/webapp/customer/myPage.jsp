@@ -36,8 +36,6 @@ function goToPage(pur_seq) {
 
 <%@ include file="../common/menu.jsp" %>
 
-<!-- 로그인 세션 여부 체크하는 걸로 변경해야 함 -->
-
 <!-- 제목 --> 
 <h2>마이페이지</h2>
 <ul>
@@ -46,6 +44,9 @@ function goToPage(pur_seq) {
 	</li>
 	<li>
 		<a href="/EIBooks/customer/myPage.or">나의 주문목록</a>
+	</li>
+	<li>
+		<a href="/EIBooks/qna/qnaList.qq">상품문의 내역</a>
 	</li>
 </ul>
 
@@ -118,17 +119,17 @@ function goToPage(pur_seq) {
 %>  
 	<tr>
 	<td colspan="6">
-	<%if(p.isPrev()) {%><a href="customerOrder.or?<% if(searchWord != null) { %>searchWord=<%=searchWord %>&<%}%>pageNum=1">[First]</a><% } %>
-	<%if(p.isPrev()) {%><a href="customerOrder.or?<% if(searchWord != null) { %>searchWord=<%=searchWord %>&<%}%>pageNum=<%=p.getStartPage()-1%>">[Prev]</a><% } %>
+	<%if(p.isPrev()) {%><a href="myPage.or?<% if(searchWord != null) { %>searchWord=<%=searchWord %>&<%}%>pageNum=1">[First]</a><% } %>
+	<%if(p.isPrev()) {%><a href="myPage.or?<% if(searchWord != null) { %>searchWord=<%=searchWord %>&<%}%>pageNum=<%=p.getStartPage()-1%>">[Prev]</a><% } %>
 	<%for(int i=p.getStartPage(); i<= p.getEndPage(); i++) {%>
 		<%if(i == p.getPageNum()){%>
 			<b>[<%=i %>]</b>
 		<%}else{ %>
-		<a href="customerOrder.or?<% if(searchWord != null) { %>searchWord=<%=searchWord %>&<%}%>pageNum=<%=i%>">[<%=i %>]</a>
+		<a href="myPage.or?<% if(searchWord != null) { %>searchWord=<%=searchWord %>&<%}%>pageNum=<%=i%>">[<%=i %>]</a>
 		<%} %>
 	<%} %>
-	<%if(p.isNext()){%><a href="customerOrder.or?<% if(searchWord != null) { %>searchWord=<%=searchWord %>&<%}%>pageNum=<%=p.getEndPage()+1%>">[Next]</a><% } %>
-	<%if(p.isNext()){%><a href="customerOrder.or?<% if(searchWord != null) { %>searchWord=<%=searchWord %>&<%}%>pageNum=<%=p.getRealEnd()%>">[Last]</a><% } %>
+	<%if(p.isNext()){%><a href="myPage.or?<% if(searchWord != null) { %>searchWord=<%=searchWord %>&<%}%>pageNum=<%=p.getEndPage()+1%>">[Next]</a><% } %>
+	<%if(p.isNext()){%><a href="myPage.or?<% if(searchWord != null) { %>searchWord=<%=searchWord %>&<%}%>pageNum=<%=p.getRealEnd()%>">[Last]</a><% } %>
 	</td>
 	</tr>
 </table>

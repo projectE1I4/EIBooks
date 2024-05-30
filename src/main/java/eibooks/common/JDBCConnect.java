@@ -55,5 +55,16 @@ public class JDBCConnect {
 			e.printStackTrace();
 		}
 	}
-	
+	// purchase 부분때문에 추가
+	public static void purClose(PreparedStatement purPstmt, PreparedStatement pstmt, Connection conn) {
+
+			try {
+				if(purPstmt != null) purPstmt.close();
+				if(pstmt != null) pstmt.close();
+				if(conn != null) conn.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
 }

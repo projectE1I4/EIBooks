@@ -14,14 +14,17 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.oreilly.servlet.MultipartRequest;
 
 import eibooks.common.PageDTO;
 import eibooks.dao.BookDAO;
 import eibooks.dao.CustomerDAO;
+import eibooks.dao.QnaDAO;
 import eibooks.dao.ReviewDAO;
 import eibooks.dto.BookDTO;
+import eibooks.dto.QnaDTO;
 import eibooks.dto.ReviewDTO;
 
 @WebServlet("*.bo")
@@ -368,7 +371,6 @@ public class BookController extends HttpServlet {
 			request.setCharacterEncoding("utf-8");
 			int book_seq = Integer.parseInt(request.getParameter("book_seq"));
 
-			System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>> : " + book_seq);
 			BookDTO dto = new BookDTO();
 			dto.setBook_seq(book_seq);
 
@@ -381,9 +383,45 @@ public class BookController extends HttpServlet {
 			ReviewDAO rDao = new ReviewDAO();
 			int reviewCount = rDao.selectCount(rDto);
 			request.setAttribute("reviewCount", reviewCount);
+			double reviewAvg = rDao.reviewAvg(rDto);
+			request.setAttribute("reviewAvg", reviewAvg);
+			List<ReviewDTO> topReviews = rDao.selectTopList(rDto);
+			request.setAttribute("topReviews", topReviews);
 			
 
 			request.setAttribute("dto", dto);
+			
+			
+			//qna
+			Map<String, String> map = new HashMap<>();
+			
+			String protect_YN = request.getParameter("protect_YN");
+			map.put("protect_YN", protect_YN);
+				
+			// paging info
+			int amount = 10;
+			int pageNum = 1;
+			
+			String sPageNum = request.getParameter("pageNum");
+			if(sPageNum != null) pageNum = Integer.parseInt(sPageNum);
+			int offset = (pageNum-1) * amount;
+
+			map.put("offset", offset + "");
+			map.put("amount", amount + "");
+			map.put("book_seq", book_seq + "");
+			
+			QnaDTO qDto = new QnaDTO();
+			qDto.setBook_seq(book_seq);
+            
+			QnaDAO qDao = new QnaDAO();
+            List<QnaDTO> qnaList = qDao.getQnaAllListNew(map);
+            int totalCount = qDao.selectCount(qDto);
+            
+            // Paging
+ 			PageDTO paging = new PageDTO(pageNum, amount, totalCount);
+         			
+            request.setAttribute("qnaList", qnaList);
+            request.setAttribute("paging", paging);
 
 			request.getRequestDispatcher("./userBookDetail.jsp").forward(request, response);
 		}

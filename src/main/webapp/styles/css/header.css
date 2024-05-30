@@ -1,0 +1,61 @@
+#header_wrap {
+  width: 1280px;
+  margin: 0 auto;
+}
+#header_wrap .inner {
+  width: 1280px;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 50px;
+  background: #fff;  
+  border: 1px solid #999; /*보이라고 해둔 border임 나중에 삭제*/
+}
+#header_wrap .logo {
+  width: 200px;
+}
+#header_wrap .header_btn_wrap {
+  position: relative;
+  top:0px;
+  left: 0px;
+  width: 200px;
+  height: 100px;
+}
+#header_wrap .login_btn_wrap,
+#header_wrap .customer_btn_wrap,
+#header_wrap .admin_btn_wrap
+{
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 0;
+}
+#header_wrap .login_btn_wrap .login_btn {
+  width: 150px;
+  display: none;
+}
+#header_wrap .customer_btn_wrap {
+  display: flex;
+}
+#header_wrap .customer_btn {
+  margin-left: 10px;
+}
+#header_wrap .cart_btn {
+  width: 70px;
+}
+#header_wrap .logout_btn {
+  margin-left: 20px;
+}
+
+#header_wrap .logo .admin_logo {
+  display: none;
+}
+
+#header_wrap .admin_btn_wrap {
+  display: none;
+}
+#header_wrap .admin_btn{
+  width: 110px;
+  padding: 15px;
+}

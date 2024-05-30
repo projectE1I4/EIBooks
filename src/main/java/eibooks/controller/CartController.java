@@ -2,8 +2,10 @@ package eibooks.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -38,7 +40,6 @@ public class CartController extends HttpServlet {
 	}
 
 	protected void doProcess(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		/// join.jsp? login.jsp? joinProc?
 		System.out.println("doProcess");
 		request.setCharacterEncoding("utf-8"); // 한글처리
 
@@ -49,7 +50,8 @@ public class CartController extends HttpServlet {
 		// uri 출력
 		System.out.println(uri);
 		
-		if (action.equals("/customerCart.cc")) {
+		// 메뉴 장바구니
+		if (action.equals("/customerCartOut.cc")) {
 			HttpSession session = request.getSession();
             int cusSeq =(int)session.getAttribute("cus_seq");
 
@@ -68,6 +70,27 @@ public class CartController extends HttpServlet {
 
             // forward
             String path = "./customerCart.jsp"; // 장바구니 페이지의 JSP 파일 경로
+            request.getRequestDispatcher(path).forward(request, response);
+        } 
+		// 제품에서 장바구니로 감
+		else if (action.equals("/customerCartIn.cc")) {
+			HttpSession session = request.getSession();
+            int cusSeq =(int)session.getAttribute("cus_seq");
+            
+            // 장바구니에 담긴 책 목록 조회
+            cartDAO cartDao = new cartDAO();
+            List<cartDTO> cartList = cartDao.getCartList(cusSeq);
+            System.out.println("cart conn ok!");
+            
+            int totalCartPrice = cartDao.totalCartPrice(cusSeq);
+            
+            // 장바구니 페이지로 전달할 데이터 설정
+            request.setAttribute("cartList", cartList);
+            request.setAttribute("cusSeq", cusSeq);
+            request.setAttribute("totalCartPrice", totalCartPrice);
+
+            // forward
+            String path = "./customer/customerCart.jsp"; // 장바구니 페이지의 JSP 파일 경로
             request.getRequestDispatcher(path).forward(request, response);
         } 
 		 	
@@ -90,32 +113,30 @@ public class CartController extends HttpServlet {
 		    request.setAttribute("message", message);
 		    
 		 // 장바구니 페이지로 리다이렉트
-            response.sendRedirect(request.getContextPath() + "/customer/customerCart.cc");
+            response.sendRedirect(request.getContextPath() + "/customer/customerCartOut.cc");
 		}
-		else if(action.equals("/deleteSelectedItems.cc")) {
-		    // 선택된 항목들을 받아옴
-		    String[] selectedItems = request.getParameterValues("selectedItems");
-		    if(selectedItems != null && selectedItems.length > 0) {
-		        // 여러 항목 선택 시 동시 삭제를 위해 각 체크박스 값을 받아와서 for문으로 순회하며 삭제함
-		        cartDAO cartDao = new cartDAO();
-		        for(String selectedItem : selectedItems) {
-		        	try {
-		                int cartISeq = Integer.parseInt(selectedItem);
-		                cartDao.deleteCart(cartISeq);
-		            } catch(Exception e) {
-		                // 정수로 변환할 수 없는 값이 있을 경우 처리
-		                e.printStackTrace(); // 또는 로그에 기록
-		            }
-		        }
-		        // 삭제 후, 장바구니 페이지로 리다이렉트
-		        response.sendRedirect(request.getContextPath() + "/customer/customerCart.cc");
-		    } else {
-		        // 선택된 항목이 없을 경우 경고창을 띄우고 페이지를 리다이렉트
-		        response.getWriter().println("<script>alert('선택된 항목이 없습니다.');"
-		                + "location.href='" + request.getContextPath() + "/customer/customerCart.cc';</script>");
-		    }
-		}
-		else if(action.equals("/updateCart.cc")) {
+		else if(action.equals("/deleteCartAll.cc")) {
+            HttpSession session = request.getSession();
+            int cus_seq = (int) session.getAttribute("cus_seq");
+
+            cartDAO cartDao = new cartDAO();
+            // 장바구니에서 항목 삭제
+            int deleteResult = cartDao.deleteCartAll(cus_seq);
+
+            // 삭제 결과에 따라 메시지 설정
+            String message;
+            if(deleteResult > 0) {
+                message = "장바구니 항목이 삭제되었습니다.";
+            } else {
+                message = "장바구니 항목 삭제에 실패했습니다.";
+            }
+
+            // 삭제 결과 메시지를 request에 저장하여 페이지로 전달
+            request.setAttribute("message", message);
+            
+         // 장바구니 페이지로 리다이렉트
+              response.sendRedirect(request.getContextPath() + "/customer/customerCartOut.cc");
+        }else if(action.equals("/updateCart.cc")) {
 			System.out.println(action);
 			request.setCharacterEncoding("utf-8");
 			
@@ -202,8 +223,8 @@ public class CartController extends HttpServlet {
 	        out.flush();
 	        out.close(); // 리소스 해제
 		}
-		
-		else if (action.equals("/customerBuyOrder.cc")) {
+		//제품 리스트에서 바로구매 클릭 시 이동
+		else if (action.equals("/customerBuyOrder.cc")) { 
 		    System.out.println(action);
 		    request.setCharacterEncoding("utf-8");
 		    HttpSession session = request.getSession();
@@ -212,6 +233,9 @@ public class CartController extends HttpServlet {
 		    String bookSeqStr = request.getParameter("book_seq");
 		    String cartICountStr = request.getParameter("cartICount");
 		    String priceStr = request.getParameter("totalCartPrice");
+		    System.out.println("book_seq" + bookSeqStr);
+		    System.out.println("cartICount" + cartICountStr);
+		    System.out.println("cus_seq" + cusSeq);
 
 		    // 파라미터 값이 null인지 확인하고 처리
 		    if (bookSeqStr == null || cartICountStr == null || priceStr == null) {
@@ -232,31 +256,77 @@ public class CartController extends HttpServlet {
 		    RequestDispatcher dispatcher = request.getRequestDispatcher("customer/customerBuyOrder.jsp");
 		    dispatcher.forward(request,response);
 		}
+		//장바구니에서 주문하기 버튼 클릭시 이동
+		else if (action.equals("/customerBuyOrders.cc")) {
+		    System.out.println(action);
+		    request.setCharacterEncoding("utf-8");
+		    HttpSession session = request.getSession();
+		    int cusSeq = (Integer) session.getAttribute("cus_seq");
+		    
+		    cartDTO dto = new cartDTO();
+		    dto.setCusSeq(cusSeq);
+		    
+		    cartDAO dao = new cartDAO();
+		    List<cartDTO> cartList = dao.getCartList(cusSeq);
+		    int totalPrice = dao.totalCartPrice(cusSeq);
+		    
+		    request.setAttribute("cartList", cartList);
+		    request.setAttribute("totalPrice", totalPrice);
+		    
+		    RequestDispatcher dispatcher = request.getRequestDispatcher("customer/customerBuyOrders.jsp");
+		    dispatcher.forward(request,response);
+		}
 		else if (action.equals("/customerCartInsert.cc")) {
+		    request.setCharacterEncoding("utf-8");
 			HttpSession session = request.getSession();
             int cusSeq =(int)session.getAttribute("cus_seq");
 
-            // 장바구니에 책 집어넣기
-            
             // 가져온 책
             int book_seq = Integer.parseInt(request.getParameter("book_seq"));
+            int cartICount = Integer.parseInt(request.getParameter("cartICount"));
             
-            System.out.println(book_seq + "-----------");
-            		
             cartDAO cartDao = new cartDAO();
             List<cartDTO> cartList = cartDao.getCartList(cusSeq);
-            System.out.println("cart conn ok!");
             
             int totalCartPrice = cartDao.totalCartPrice(cusSeq);
-            
-            // 장바구니 페이지로 전달할 데이터 설정
-            request.setAttribute("cartList", cartList);
-            request.setAttribute("cusSeq", cusSeq);
-            request.setAttribute("totalCartPrice", totalCartPrice);
 
-            // forward
-            String path = "./customer/customerCart.jsp"; // 장바구니 페이지의 JSP 파일 경로
-            request.getRequestDispatcher(path).forward(request, response);
+            Map<String, Integer> map = new HashMap<>();
+            
+            Boolean same = false;
+            
+            if(cartList != null) {
+            	for (cartDTO c : cartList) {
+            		if (book_seq == c.getBook_seq()) {
+            			same = true;
+            		} 
+            	}
+            } 
+            
+        	map.put("cusSeq", cusSeq);
+			map.put("cart_i_count", cartICount);
+			map.put("book_seq", book_seq);
+			
+			if (!same) {
+				cartDao.insertCart(map);
+				System.out.println("이거까지 되고 있니??????");
+			} else {
+    			cartDTO cart = new cartDTO();
+    			cart.setCusSeq(cusSeq);
+    			cart.setBook_seq(book_seq);
+    			int cart_i_seq = cartDao.getCart(cart);
+    			cartDao.updateCartNew(cart_i_seq, cartICount);
+    		}
+			
+			cartList = cartDao.getCartList(cusSeq);
+			totalCartPrice = cartDao.totalCartPrice(cusSeq);
+			 // 장바구니 페이지로 전달할 데이터 설정
+            request.setAttribute("cartList", cartList);
+            request.setAttribute("cartICount", cartICount);
+            PrintWriter out = response.getWriter();
+            out.write("{\"status\":\"success\",\"totalCartPrice\":" + totalCartPrice + "}");
+            out.flush();
+            
+         
         }      
 	}
 }

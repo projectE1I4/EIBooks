@@ -263,7 +263,9 @@ public class ReviewDAO {
 				
 				dto = new ReviewDTO(bookNum, pur_i_seq, reviewNum, grade, content);
 				dto.setCusInfo(cDto);
+				System.out.println("마이리뷰 왜 널임?   " + dto);
 			}
+			System.out.println("pstmt" + pstmt);
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -558,5 +560,86 @@ public class ReviewDAO {
 		}
 	}
 
+	public double reviewAvg(ReviewDTO dto) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		double gradeAvg = 0.0;
+		
+		String sql = "SELECT AVG(grade) AS avg_grade "
+				+ " FROM review r "
+				+ " JOIN books b ON r.book_seq = b.book_seq "
+				+ " WHERE b.book_seq = ? ";
+		
+		System.out.println(sql);
+		conn = JDBCConnect.getConnection();
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, dto.getBookNum());
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				gradeAvg = rs.getDouble("avg_grade");
+				
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCConnect.close(rs, pstmt, conn);
+		}
+		
+		return gradeAvg;
+	}
+
+	public List<ReviewDTO> selectTopList(ReviewDTO dto){
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		List<ReviewDTO> topReviews = new ArrayList<ReviewDTO>();
+		
+		String sql = "select * from review r "
+				+ " join customer c "
+				+ " on c.cus_seq = r.cus_seq "
+				+ " join purchase_item i "
+				+ " on r.pur_i_seq = i.pur_i_seq "
+				+ " where r.book_seq = ? and depth = 1 "
+				+ " order by r.grade desc, r.regDate asc "
+				+ " limit 4 ";
+		
+		System.out.println(sql);
+		conn = JDBCConnect.getConnection();
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, dto.getBookNum());
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				int grade = rs.getInt("r.grade");
+				String reviewDate = rs.getString("r.regDate");
+				String content = rs.getString("content");
+				
+				String cus_id = rs.getString("c.cus_id");
+				CustomerDTO cDto = new CustomerDTO();
+				cDto.setCus_id(cus_id);
+				
+				ReviewDTO dtos = new ReviewDTO();
+				dtos.setGrade(grade);
+				dtos.setReviewDate(reviewDate);
+				dtos.setContent(content);
+				dtos.setCusInfo(cDto);
+				topReviews.add(dtos);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCConnect.close(rs, pstmt, conn);
+		}
+		
+		return topReviews;
+	}
 	
 }

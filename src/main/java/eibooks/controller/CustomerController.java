@@ -4,6 +4,7 @@ import eibooks.common.PageDTO;
 import eibooks.dao.CustomerDAO;
 import eibooks.dto.AddressDTO;
 import eibooks.dto.CustomerDTO;
+import org.json.JSONObject;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -33,7 +34,7 @@ public class CustomerController extends HttpServlet {
 
         String uri = request.getRequestURI();
         String action = uri.substring(uri.lastIndexOf("/"));
-        System.out.println(uri);
+//        System.out.println(uri);
 
         if (action.equals("/customerList.cs")) {
 
@@ -190,6 +191,12 @@ public class CustomerController extends HttpServlet {
                 return;
             }
 
+            if (name == null || !name.matches("^[a-zA-Z가-힣\\s]+$")) {
+                request.setAttribute("errorMessage", "이름에는 특수문자가 포함될 수 없습니다.");
+                request.getRequestDispatcher("/auth/signup.jsp").forward(request, response);
+                return;
+            }
+
             if (tel == null || !tel.replaceAll("-", "").matches("^\\d{11}$")) {
                 request.setAttribute("errorMessage", "전화번호는 '-'를 제외하고 숫자 11자리여야 합니다.");
                 request.getRequestDispatcher("/auth/signup.jsp").forward(request, response);
@@ -249,7 +256,14 @@ public class CustomerController extends HttpServlet {
                 session.setAttribute("cus_id", customer.getCus_id());
                 session.setAttribute("cus_seq", customer.getCus_seq());
                 session.setAttribute("name", customer.getName());
-                response.sendRedirect("/EIBooks/");  // 로그인 후 이동할 페이지로 리다이렉션
+                session.setAttribute("manager_YN", customer.getManager_YN());
+
+                if ("Y".equals(session.getAttribute("manager_YN"))) {
+                    System.out.println("관리자 접속");
+                    response.sendRedirect("/EIBooks/admin/main.bo");
+                } else {
+                    response.sendRedirect("/EIBooks/");
+                }
             }
 
         } else if (action.equals("/checkIdProc.cs")) { // 아이디 중복검사
@@ -264,6 +278,99 @@ public class CustomerController extends HttpServlet {
             out.print("{\"exists\":" + exists + "}");
             out.flush();
             out.close();
+
+        } else if (action.equals("/findId.cs")) { // 아이디 찾기 페이지로 이동
+
+            request.getRequestDispatcher("/auth/findId.jsp").forward(request, response);
+
+        } else if (action.equals("/findIdProc.cs")) { // 아이디 찾기 프록시
+
+            String name = request.getParameter("name");
+            String tel = request.getParameter("tel");
+
+            CustomerDAO dao = new CustomerDAO();
+            CustomerDTO dto = new CustomerDTO();
+            dto.setName(name);
+            dto.setTel(tel);
+            CustomerDTO customer = dao.findCustomerInfo(dto);
+
+            // proc주소 노출방지를 위해 ajax 통신으로 출력
+            response.setContentType("application/json;charset=UTF-8");
+            PrintWriter out = response.getWriter();
+
+            JSONObject jsonResponse = new JSONObject();
+            if (customer != null) {
+                String message = customer.getName() + " 회원님의 아이디는 " + customer.getCus_id() + " 입니다.";
+                jsonResponse.put("success", true);
+                jsonResponse.put("message", message);
+            } else {
+                jsonResponse.put("success", false);
+                jsonResponse.put("message", "존재하지 않는 정보입니다.");
+            }
+
+            out.print(jsonResponse.toString());
+            out.close();
+
+        } else if (action.equals("/verification.cs")) { // 비밀번호 변경 전 본인인증페이지 이동
+
+            request.getRequestDispatcher("/auth/verification.jsp").forward(request, response);
+
+        } else if (action.equals("/verificationProc.cs")) { // 비밀번호 재설정 전 본인확인
+            String cus_id = request.getParameter("cus_id");
+            String name = request.getParameter("name");
+            String tel = request.getParameter("tel");
+
+            CustomerDAO dao = new CustomerDAO();
+            CustomerDTO dto = new CustomerDTO();
+            dto.setCus_id(cus_id);
+            dto.setName(name);
+            dto.setTel(tel);
+
+            CustomerDTO customer = dao.findCustomerInfo(dto);
+            JSONObject jsonResponse = new JSONObject();
+
+            response.setContentType("application/json;charset=UTF-8");
+            PrintWriter out = response.getWriter();
+
+            if (customer == null) {
+                jsonResponse.put("success", false);
+                jsonResponse.put("message", "해당하는 정보가 없습니다.");
+            } else {
+                jsonResponse.put("success", true);
+                jsonResponse.put("message", "본인인증 성공\n2초 뒤 비밀번호 재설정 페이지로 이동합니다.");
+            }
+            System.out.println("Verification Response: " + jsonResponse.toString()); // 응답 로그 추가
+            out.print(jsonResponse.toString());
+            out.close();
+
+        } else if (action.equals("/resetPassword.cs")) { // 비밀번호 재설정 페이지 이동
+
+            request.getRequestDispatcher("/auth/resetPassword.jsp").forward(request, response);
+
+        } else if (action.equals("/resetPasswordProc.cs")) { // 비밀번호 재설정 처리
+            String cus_id = request.getParameter("cus_id");
+            String newPassword = request.getParameter("newPassword");
+
+            CustomerDTO customer = new CustomerDTO();
+            customer.setCus_id(cus_id);
+            customer.setPassword(newPassword);
+
+            CustomerDAO dao = new CustomerDAO();
+            String resultMessage = dao.updateCustomerPassword(customer);
+
+            JSONObject jsonResponse = new JSONObject();
+
+            if (resultMessage.equals("비밀번호가 성공적으로 변경되었습니다.")) {
+                jsonResponse.put("success", true);
+            } else {
+                jsonResponse.put("success", false);
+            }
+            jsonResponse.put("message", resultMessage);
+
+            response.setContentType("application/json;charset=UTF-8");
+            PrintWriter out = response.getWriter();
+            out.print(jsonResponse.toString());
+            out.close();
         } else if (action.equals("/logoutProc.cs")) {
 
             HttpSession session = request.getSession();
@@ -271,10 +378,10 @@ public class CustomerController extends HttpServlet {
             response.sendRedirect("/EIBooks/");
 
         } else if (action.equals("/updateMyPage.cs")) {
-            // 임시 seq
-        	HttpSession session = request.getSession();
-            int cus_seq =(int)session.getAttribute("cus_seq");
 
+            HttpSession session = request.getSession();
+            int cus_seq = (int) session.getAttribute("cus_seq");
+            
             CustomerDTO dto = new CustomerDTO();
             dto.setCus_seq(cus_seq);
 
@@ -288,17 +395,50 @@ public class CustomerController extends HttpServlet {
 
         } else if (action.equals("/updateMyPageProc.cs")) {
 
-            int cus_seq = Integer.parseInt(request.getParameter("cus_seq"));
+        	int cus_seq = Integer.parseInt(request.getParameter("cus_seq"));
             String cus_id = request.getParameter("cus_id");
+        	String password = request.getParameter("password");
+            String confirmPassword = request.getParameter("confirmPassword");
             String name = request.getParameter("name");
-            String password = request.getParameter("password");
             String tel = request.getParameter("tel");
-            String email = request.getParameter("email");
             String postalCode = request.getParameter("postalCode");
             String addr = request.getParameter("addr");
             String addr_detail = request.getParameter("addr_detail");
+            String email = request.getParameter("email");
+
 
             CustomerDAO dao = new CustomerDAO();
+
+            if (password == null || !password.matches("^(?=.*[a-zA-Z])(?=.*\\d)(?=.*[!@#$%^&*])[A-Za-z\\d!@#$%^&*]{8,}$")) {
+                request.setAttribute("errorMessage", "비밀번호는 8글자 이상이어야 하며, 영문, 숫자, 특수문자를 포함해야 합니다.");
+                request.getRequestDispatcher("/customer/updateMyPage.cs").forward(request, response);
+                return;
+            }
+
+            if (!password.equals(confirmPassword)) {
+                request.setAttribute("errorMessage", "비밀번호와 비밀번호 확인이 일치하지 않습니다.");
+                request.getRequestDispatcher("/customer/updateMyPage.cs").forward(request, response);
+                return;
+            }
+
+            if (name == null || !name.matches("^[가-힣a-zA-Z\\\\s]*$")) {
+                request.setAttribute("errorMessage", "이름에는 특수문자가 포함될 수 없습니다.");
+                request.getRequestDispatcher("/customer/updateMyPage.cs").forward(request, response);
+                return;
+            }
+
+            if (tel == null || !tel.replaceAll("-", "").matches("^\\d{11}$")) {
+                request.setAttribute("errorMessage", "전화번호는 '-'를 제외하고 숫자 11자리여야 합니다.");
+                request.getRequestDispatcher("/customer/updateMyPage.cs").forward(request, response);
+                return;
+            }
+
+            if (postalCode == null || !postalCode.matches("^\\d{5}$")) {
+                request.setAttribute("errorMessage", "우편번호는 숫자 5자리여야 합니다.");
+                request.getRequestDispatcher("/customer/updateMyPage.cs").forward(request, response);
+                return;
+            }
+        	
             AddressDTO aDto = new AddressDTO();
             aDto.setPostalCode(postalCode);
             aDto.setAddr(addr);
@@ -310,7 +450,7 @@ public class CustomerController extends HttpServlet {
             dao.updateCustomer(dto);
             dao.updateAddress(dto);
 
-            String path = "./customer/updateMyPage.cs";
+            String path = "./updateMyPage.cs";
             request.getRequestDispatcher(path).forward(request, response);
 
         } else if (action.equals("/deleteMyPageProc.cs")) {

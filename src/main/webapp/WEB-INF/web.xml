@@ -1,47 +1,55 @@
-<!DOCTYPE web-app PUBLIC
- "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
- "http://java.sun.com/dtd/web-app_2_3.dtd" >
+<web-app xmlns="http://java.sun.com/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+         version="2.5">
 
-<web-app>
-  <display-name>Archetype Created Web Application</display-name>
-  <servlet>
-  	<servlet-name>BookController</servlet-name>
-  	<display-name>BookController</display-name>
-  	<description></description>
-  	<servlet-class>eibooks.controller.BookController</servlet-class>
-  </servlet>
-  <servlet>
-  	<servlet-name>OrderController</servlet-name>
-  	<display-name>OrderController</display-name>
-  	<description></description>
-  	<servlet-class>eibooks.controller.OrderController</servlet-class>
-  </servlet>
-  <servlet>
-  	<servlet-name>CustomerController</servlet-name>
-  	<display-name>CustomerController</display-name>
-  	<description></description>
-  	<servlet-class>eibooks.controller.CustomerController</servlet-class>
-  </servlet>
-  <servlet>
-  	<servlet-name>UserController</servlet-name>
-  	<display-name>UserController</display-name>
-  	<description></description>
-  	<servlet-class>eibooks.controller.UserController</servlet-class>
-  </servlet>
-  <servlet-mapping>
-  	<servlet-name>BookController</servlet-name>
-  	<url-pattern>/BookController</url-pattern>
-  </servlet-mapping>
-  <servlet-mapping>
-  	<servlet-name>OrderController</servlet-name>
-  	<url-pattern>/OrderController</url-pattern>
-  </servlet-mapping>
-  <servlet-mapping>
-  	<servlet-name>CustomerController</servlet-name>
-  	<url-pattern>/CustomerController</url-pattern>
-  </servlet-mapping>
-  <servlet-mapping>
-  	<servlet-name>UserController</servlet-name>
-  	<url-pattern>/UserController</url-pattern>
-  </servlet-mapping>
+    <display-name>Archetype Created Web Application</display-name>
+    <filter>
+        <filter-name>LoginCheckFilter</filter-name>
+        <filter-class>eibooks.filter.LoginCheckFilter</filter-class>
+    </filter>
+
+    <filter>
+        <filter-name>AdminCheckFilter</filter-name>
+        <filter-class>eibooks.filter.AdminCheckFilter</filter-class>
+    </filter>
+
+    <filter>
+        <filter-name>LoggedInRedirectFilter</filter-name>
+        <filter-class>eibooks.filter.LoggedInRedirectFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>LoginCheckFilter</filter-name>
+        <url-pattern>/customer/*</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>LoginCheckFilter</filter-name>
+        <url-pattern>/review/*</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>AdminCheckFilter</filter-name>
+        <url-pattern>/admin/*</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>LoggedInRedirectFilter</filter-name>
+        <url-pattern>/auth/signup.cs</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>LoggedInRedirectFilter</filter-name>
+        <url-pattern>/auth/login.cs</url-pattern>
+    </filter-mapping>
+    <servlet>
+    	<description>
+    	</description>
+    	<display-name>QnaController</display-name>
+    	<servlet-name>QnaController</servlet-name>
+    	<servlet-class>eibooks.controller.QnaController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+    	<servlet-name>QnaController</servlet-name>
+    	<url-pattern>/QnaController</url-pattern>
+    </servlet-mapping>
 </web-app>
