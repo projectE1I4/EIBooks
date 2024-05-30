@@ -152,7 +152,7 @@ function decreaseBtn(bookSeq) {
 		</div>
 		<div class="info_box">
 			<div class="book_price">
-				<p><%=dto.getPrice() %><span>원</span></p>
+				<p class="price"><%=dto.getPrice() %></p><p>원</p>
 			</div>
 			<div class="publisher_wrap">
 				<p>출판사: <span><%=dto.getPublisher() %></span></p>
@@ -168,13 +168,15 @@ function decreaseBtn(bookSeq) {
 		</div>		
 		<div class="buy_wrap">
 			<div class="quantity_wrap">
-				<button type="button"class="btn inde_btn" onclick="decreaseBtn(<%=dto.getBook_seq()%>)">-</button>
-        		<input id="quantity" type="number" name="<%=dto.getBook_seq() %>" value="1" min="1" readonly style="width:30px;">
+        		<input id="quantity" type="number" name="cartICount" value="1" min="1" readonly">
+           		<div class="inde_btn_wrap">
            		<button type="button" class="btn inde_btn" onclick="increaseBtn(<%=dto.getBook_seq()%>)">+</button>
+				<button type="button"class="btn inde_btn" onclick="decreaseBtn(<%=dto.getBook_seq()%>)">-</button>           		
+           		</div>
         	</div>
         	<div class="buyBtn_wrap">
-				<input class="btn" type="submit" value="바로구매" onclick="buying(<%=dto.getBook_seq()%>)"/>
-				<input class="btn" type="submit" value="장바구니" onclick="goToCustomerCart(<%=dto.getBook_seq()%>);"/>				        	
+				<input class="btn buyNow" type="submit" value="바로구매" onclick="buying(<%=dto.getBook_seq()%>)"/>
+				<input class="btn goCart" type="submit" value="장바구니" onclick="goToCustomerCart(<%=dto.getBook_seq()%>);"/>				        	
         	</div>
 		</div>
 	</div>
@@ -192,24 +194,39 @@ int reviewCount = (int)request.getAttribute("reviewCount"); // 리뷰 개수
 double reviewAvg = Math.round((double)request.getAttribute("reviewAvg") * 10) / 10.0; // 별점 평균
 List<ReviewDTO> topReviews = (List<ReviewDTO>)request.getAttribute("topReviews"); // 리뷰 4개 연결
 %>
-<h2>도서 리뷰 <%=reviewAvg %>/5</h2>
-<a href="/EIBooks/review/reviewList.do?bookNum=<%=book_seq%>">전체보기 (<%=reviewCount %>개)</a>
-<ul>
+<section class="review">
+<div class="review_top">
+	<div class="title_wrap">
+		<h2>도서 리뷰</h2><h2><%=reviewAvg %> / 5</h2>
+	</div>
+<a href="/EIBooks/review/reviewList.do?bookNum=<%=book_seq%>" class="review_link"> 전체보기 (<%=reviewCount %>개)</a>
+</div>
+<ul class="review_list">
 <% if(topReviews.isEmpty()) { %>	
-<li><b>리뷰가 없습니다.</b></li>
+<li class="empty">리뷰가 없습니다.</li>
 <% } else { %>
 	<%for(ReviewDTO rDto:topReviews) {%>
-		<li>
-			<ul>
-				<li><%=rDto.getGrade() %></li>
-				<li><%=rDto.getCusInfo().getCus_id() %></li>
-				<li><%=rDto.getReviewDate() %></li>
-				<li><%=rDto.getContent() %></li>
+		<li class="notEmpty">
+			<ul class="review_wrap">
+				<li class="stars"><% if (rDto.getGrade() != 0 && rDto.getGrade() <6){
+					for (int i = 0; i < rDto.getGrade(); i++ ){
+						%><div class="star_wrap"><img src="../styles/images/star_full.png" /></div><%
+					}
+					for (int j=0; j < 5 - rDto.getGrade(); j++){
+						%>
+						<div class="star_wrap"><img src="../styles/images/star_empty.png" /></div>
+						 <%
+					}
+					
+					}%></li>
+				<li class="info_wrap"><p><%=rDto.getCusInfo().getCus_id() %></p> <p><%=rDto.getReviewDate() %></p></li>
+				<li class="content_wrap"><p><%=rDto.getContent() %></p></li>
 			</ul>
 		</li>
 	<%} %>
 <%} %>
 </ul>
+</section>
 </main>
 
 <footer id="footer"></footer>
