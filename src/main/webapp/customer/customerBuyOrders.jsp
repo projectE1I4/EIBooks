@@ -41,38 +41,12 @@
 
 %>
 <!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- <meta name="viewport" content="width=1280"> -->
-  <meta name="format-detection" content="telephone=no">
-  <meta name="description" content="EIBooks">
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="EIBooks">
-  <meta property="og:description" content="EIBooks">
-  <meta property="og:image" content="http://hyerin1225.dothome.co.kr/EIBooks/images/EIBooks_logo.jpg"/>
-  <meta property="og:url" content="http://hyerin1225.dothome.co.kr/EIBooks"/>
-  <title>EIBooks</title>
-  <link rel="icon" href="images/favicon.png">
-  <link rel="apple-touch-icon" href="images/favicon.png">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/EIBooks/styles/css/jquery-ui.min.css">
-  <link rel="stylesheet" href="/EIBooks/styles/css/swiper-bundle.min.css">
-  <link rel="stylesheet" href="/EIBooks/styles/css/aos.css">
-  <link rel="stylesheet" href="/EIBooks/styles/css/common.css?v=<?php echo time(); ?>">
-  <link rel="stylesheet" href="/EIBooks/styles/css/header.css?v=<?php echo time(); ?>">
-  <link rel="stylesheet" href="/EIBooks/styles/css/footer.css?v=<?php echo time(); ?>">
-  <link rel="stylesheet" href="/EIBooks/styles/css/main.css?v=<?php echo time(); ?>">
-  <link rel="stylesheet" href="/EIBooks/styles/css/cart/customerBuyOrders.css?v=<?php echo time(); ?>">
-  <script src="/EIBooks/styles/js/jquery-3.7.1.min.js"></script>
-  <script src="/EIBooks/styles/js/jquery-ui.min.js"></script>
-  <script src="/EIBooks/styles/js/swiper-bundle.min.js"></script>
-  <script src="/EIBooks/styles/js/aos.js"></script>
-  <script src="/EIBooks/styles/js/ui-common.js?v=<?php echo time(); ?>"></script>
-  <script type="text/javascript">   
+	<html lang="ko">
+	<%@ include file="/common/head.jsp" %>
+  	<link rel="stylesheet" href="/EIBooks/styles/css/cart/customerBuyOrders.css?v=<?php echo time(); ?>">
+</head>
+<body data-cus-seq="<%= request.getAttribute("cusSeq") %>" data-cart-seq="<%= request.getAttribute("cartSeq") %>">
+<script type="text/javascript">   
 	$(document).ready(function() {
 	
 	    // .arrow_icon 클릭 시 셀렉트 요소 클릭 트리거
@@ -80,9 +54,7 @@
 	        $('#mySelect').click();
 	    });
 	});
-   </script>
-   
-<title>장바구니 주문하기</title>
+</script>
 <script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery-3.7.1.min.js"></script>
 <script type="text/javascript">
 $(function(){
@@ -94,59 +66,52 @@ function buy() {
 	    console.log("버튼눌림");
 		location.href="<%=request.getContextPath()%>/cartOrder.or";
 	}
-
 </script>
-</head>
-<body data-cus-seq="<%= request.getAttribute("cusSeq") %>" data-cart-seq="<%= request.getAttribute("cartSeq") %>">
+
+
 <%@ include file="../common/header.jsp" %>
-<h2>주문 / 결제</h2>
-
-<form id="cartForm" action="customerBuyOrder.cc" method="post">
-    <table border="1" width="95%">
-        <tr>
-            <th>수령자명</th>
-            <td><%= customer.getName() %></td>
-        </tr>
-        <tr>
-            <th>연락처</th>
-            <td><%= customer.getTel() %></td>
-        </tr>
-        <tr>
-            <th>이메일</th>
-            <td><%= customer.getEmail() %></td>
-        </tr>
-        <tr>
-            <th>배송지</th>
-            <td>
-                <%= addrInfo.getPostalCode() %><br>
-                <%= addrInfo.getAddr() %><br>
-                <%= addrInfo.getAddr_detail() %>
-            </td>
-        </tr>
-        
-        <tr>
-        	<th width="20%">이미지</th>
-        	<th width="20%">도서명</th>
-        	<th width="20%">수량</th>
-        	<th width="20%">가격</th>
-        </tr>
-        <% for (cartDTO dto : cartList) { %>
-        <tr>
-        	<td><img src="<%=dto.getBookInfo().getImageFile() %>"></td>
-        	<td><%=dto.getBookInfo().getTitle() %></td>
-        	<td><%=dto.getCartICount() %>권</td>
-        	<td><%=dto.getBookInfo().getPrice() %>원</td>
-        </tr>
-        <% } %>
-    </table>
-
-</form>
-<div>
-	<h3>총 가격: <span id="totalPrice"><%=map.get("totalCartPrice") - 3000 %></span>원</h3>
-    <h3>배송비: <span>3000</span>원</h3>
-    <h3>총 가격: <span id="totalCartPrice"><%=map.get("totalCartPrice") %></span>원</h3>
-    <button type="button" id="buyButton" onclick="buy();">결제하기</button>
+<div id="wrap">
+	<main id="container">
+		<div class="inner" style="flex-direction: column;">
+			<h1>주문 / 결제</h1>
+			<div class = "buyOrder">
+				<div class = left>
+					<form id="cartForm" action="customerBuyOrder.cc" method="post">
+				    <ul>
+				    	<li>
+				            <p>수령자명 <span><%= customer.getName() %></span></p>
+				        </li>
+				        <li>
+				            <p>연락처<span><%= customer.getTel() %></span></p>
+				        </li>
+				        <li>
+				            <p>이메일<span><%= customer.getEmail() %></span></p>
+				        </li>
+				        <li>
+				            <p>배송지<span>
+				                <%= addrInfo.getPostalCode() %>, <%= addrInfo.getAddr() %>, <%= addrInfo.getAddr_detail() %>
+				            </span></p>
+				        </li>
+				     </ul>
+				        <% for (cartDTO dto : cartList) { %>
+				        <div class = "book">
+			        		<img src="<%=dto.getBookInfo().getImageFile() %>">
+				        	<p><%=dto.getBookInfo().getTitle() %></p>
+				        	<p><%=dto.getCartICount() %>권</p>
+				        	<p><%=dto.getBookInfo().getPrice() %>원</p>
+				    	</div>
+				        <% } %>
+					</form>
+				</div>
+				<div class = "right">
+					<p>상품 금액<span id="totalPrice"><%=map.get("totalCartPrice") - 3000 %></span>원</p>
+				    <p>배송비<span>+ 3000 원</span></p>
+				    <p>최종 결제 금액<span id="totalCartPrice"><%=map.get("totalCartPrice") %></span>원</p>
+				    <button type="button" id="buyButton" onclick="buy();">결제하기</button>
+				</div>
+			</div>
+		</div>
+	</main>
 </div>
-
 </body>
 </html>
