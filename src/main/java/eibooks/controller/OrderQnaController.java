@@ -251,7 +251,7 @@ public class OrderQnaController extends HttpServlet {
             request.setAttribute("state", state);
 
             // forward
-            String path = "./reply.jsp"; // 전체 주문 목록 페이지의 JSP 파일 경로
+            String path = "./reply.jsp?pageNum=" + pageNum; // 전체 주문 목록 페이지의 JSP 파일 경로
             request.getRequestDispatcher(path).forward(request, response);
             
 		} else if(action.equals("/replyWrite.oq")) {
@@ -340,7 +340,7 @@ public class OrderQnaController extends HttpServlet {
 			request.setAttribute("paging", paging);
             
 			// forward
-            String path = "/EIBooks/orderQna/reply.oq";
+            String path = "/EIBooks/orderQna/reply.oq?pageNum=" + pageNum;
             response.sendRedirect(path);
             
 		} else if(action.equals("/replyUpdate.oq")) {
@@ -424,7 +424,7 @@ public class OrderQnaController extends HttpServlet {
             request.setAttribute("paging", paging);
             
 			// forward
-            String path = "/EIBooks/orderQna/reply.oq";
+            String path = "/EIBooks/orderQna/reply.oq?pageNum=" + pageNum;
             response.sendRedirect(path);
             
 		}  else if(action.equals("/replyDeleteProc.oq")) {

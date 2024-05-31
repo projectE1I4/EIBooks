@@ -85,7 +85,7 @@ $(document).ready( function() {
 		if(state == "답변완료"){
 			console.log(reviewCount);
 			alert("이미 작성한 리뷰가 있습니다.");
-			location.href = "<%=request.getContextPath() %>/qna/replyUpdate.qq?qna_seq=<%=qna_seq %>";
+			location.href = "<%=request.getContextPath() %>/qna/replyUpdate.qq?qna_seq=<%=qna_seq %>&pageNum=<%=p.getPageNum()%>";
 			return;
 		}else if(form.content.value === ""){
 			alert('내용을 입력해주세요.');
@@ -121,7 +121,7 @@ $(document).ready( function() {
 	
 	function isReply(qna_seq) {
 		isReply = 1;
-		location.href="replyWrite.qq?qna_seq=" + qna_seq + "&isReply=<%=isReply %>";
+		location.href="replyWrite.qq?qna_seq=" + qna_seq + "&isReply=<%=isReply %>&pageNum=<%=p.getPageNum()%>";
 	}
 	
 	window.onload = function() {
@@ -250,7 +250,7 @@ $(document).ready( function() {
 											<% if (qna_seq == reply.getQna_seq() && isReply == 1) { %>
 												<ul class="reply_form">
 													<li class="">
-														<form class="write_form" name="writeForm" method="post" action="/EIBooks/qna/replyUpdateProc.qq">
+														<form class="write_form" name="writeForm" method="post" action="/EIBooks/qna/replyUpdateProc.qq?pageNum=<%=p.getPageNum()%>">
 															<div class="text_area">
 																<textarea class="write_content" name="content" oninput="limitText(this, 500)"><%=reply.getContent() %></textarea>
 															</div>

@@ -252,7 +252,7 @@ public class QnaController extends HttpServlet {
 			request.setAttribute("paging", paging);
             
 			// forward
-            String path = "/EIBooks/qna/reply.qq";
+            String path = "/EIBooks/qna/reply.qq?pageNum=" + pageNum;
             response.sendRedirect(path);
             
 		} else if(action.equals("/replyUpdate.qq")) {
@@ -338,7 +338,7 @@ public class QnaController extends HttpServlet {
 			request.setAttribute("paging", paging);
             
 			// forward
-            String path = "/EIBooks/qna/reply.qq";
+            String path = "/EIBooks/qna/reply.qq?pageNum=" + pageNum;
             response.sendRedirect(path);
             
 		}  else if(action.equals("/replyDeleteProc.qq")) {
