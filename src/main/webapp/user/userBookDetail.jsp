@@ -340,48 +340,48 @@ List<ReviewDTO> topReviews = (List<ReviewDTO>)request.getAttribute("topReviews")
 </div>
 
 <% if(!qnaList.isEmpty()) { %>
-	<div class="pagination">
-		<%if(p.isPrev()) {%>
-		<a class="first arrow" href="replyList.do?pageNum=1">
-			<span class="blind">첫 페이지</span>
-		</a>
-		<%} else { %>
-			<a class="first arrow off"><span class="blind">첫 페이지</span></a>
+			<div class="pagination">
+				<%if(p.isPrev()) {%>
+				<a class="first arrow" href="userBookDetail.bo?book_seq=<%=book_seq %>&pageNum=1">
+					<span class="blind">첫 페이지</span>
+				</a>
+				<%} else { %>
+					<a class="first arrow off"><span class="blind">첫 페이지</span></a>
+				<% } %>
+				
+				<%if(p.isPrev()) {%>
+				<a class="prev arrow" href="userBookDetail.bo?book_seq=<%=book_seq %>&pageNum=<%=p.getStartPage()-1 %>">
+					<span class="blind">이전 페이지</span>
+				</a>
+				<%} else { %>
+					<a class="prev arrow off"><span class="blind">이전 페이지</span></a>
+				<%} %>
+				
+				<%for(int i=p.getStartPage(); i<=p.getEndPage(); i++) {%>
+					<%if(i == p.getPageNum()) {%>
+						<a class="number active"><%=i %></a>
+					<%}else {%>
+						<a class="number" href="userBookDetail.bo?book_seq=<%=book_seq %>&pageNum=<%=i %>"><%=i %></a>
+					<%} %>
+				<%} %>
+				
+				<%if(p.isNext()) {%>
+				<a class="next arrow" href="userBookDetail.bo?book_seq=<%=book_seq %>&pageNum=<%=p.getEndPage()+1 %>">
+					<span class="blind">다음 페이지</span>
+				</a>
+				<%} else {%>
+					<a class="next arrow off"><span class="blind">다음 페이지</span></a>
+				<%} %>
+				
+				<%if(p.isNext()) {%>
+				<a class="last arrow" href="userBookDetail.bo?pageNum=<%=p.getRealEnd() %>">
+					<span class="blind">마지막 페이지</span>
+				</a>
+				<%} else { %>
+					<a class="last arrow off"><span class="blind">마지막 페이지</span></a>
+				<%} %>
+			</div>
 		<% } %>
-		
-		<%if(p.isPrev()) {%>
-		<a class="prev arrow" href="replyList.do?pageNum=<%=p.getStartPage()-1 %>">
-			<span class="blind">이전 페이지</span>
-		</a>
-		<%} else { %>
-			<a class="prev arrow off"><span class="blind">이전 페이지</span></a>
-		<%} %>
-		
-		<%for(int i=p.getStartPage(); i<=p.getEndPage(); i++) {%>
-			<%if(i == p.getPageNum()) {%>
-				<a class="number active"><%=i %></a>
-			<%}else {%>
-				<a class="number" href="replyList.do?pageNum=<%=i %>"><%=i %></a>
-			<%} %>
-		<%} %>
-		
-		<%if(p.isNext()) {%>
-		<a class="next arrow" href="replyList.do?pageNum=<%=p.getEndPage()+1 %>">
-			<span class="blind">다음 페이지</span>
-		</a>
-		<%} else {%>
-			<a class="next arrow off"><span class="blind">다음 페이지</span></a>
-		<%} %>
-		
-		<%if(p.isNext()) {%>
-		<a class="last arrow" href="replyList.do?pageNum=<%=p.getRealEnd() %>">
-			<span class="blind">마지막 페이지</span>
-		</a>
-		<%} else { %>
-			<a class="last arrow off"><span class="blind">마지막 페이지</span></a>
-		<%} %>
-	</div>
-<% } %>
 <div class="btn_wrap">
 	<a class="btn insert_btn" href="<%=request.getContextPath()%>/qna/qnaWrite.qq?book_seq=<%=book_seq %>">작성하기</a>
 </div>

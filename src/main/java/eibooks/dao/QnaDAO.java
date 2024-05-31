@@ -521,5 +521,45 @@ public class QnaDAO {
 				JDBCConnect.close(pstmt, conn);
 			}
 		}
+
+		public int selectBookCount(QnaDTO dto) {
+			Connection conn = null;
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;		
+
+			int book_seq = 0;
+			int totalCount = 0;
+			
+			String sql = "select count(qna_seq) as cnt from qna ";
+			
+			if (dto != null) {
+				book_seq = dto.getBook_seq();
+				sql += "where book_seq = ? ";
+			}
+
+			try {
+				conn = JDBCConnect.getConnection();
+				
+				pstmt = conn.prepareStatement(sql);
+				
+				if (dto != null) {
+					pstmt.setInt(1, book_seq);
+				}
+				
+				rs = pstmt.executeQuery();
+				
+				if(rs.next()) {
+					totalCount = rs.getInt("cnt");
+				}
+				
+			} catch(Exception e) {
+				e.printStackTrace();
+				
+			} finally {
+				JDBCConnect.close(rs, pstmt, conn);
+				
+			}
+			return totalCount;
+		}
 		
 }

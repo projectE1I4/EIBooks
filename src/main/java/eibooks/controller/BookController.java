@@ -391,7 +391,6 @@ public class BookController extends HttpServlet {
 
 			request.setAttribute("dto", dto);
 			
-			
 			//qna
 			Map<String, String> map = new HashMap<>();
 			
@@ -399,7 +398,7 @@ public class BookController extends HttpServlet {
 			map.put("protect_YN", protect_YN);
 				
 			// paging info
-			int amount = 10;
+			int amount = 5;
 			int pageNum = 1;
 			
 			String sPageNum = request.getParameter("pageNum");
@@ -415,13 +414,14 @@ public class BookController extends HttpServlet {
             
 			QnaDAO qDao = new QnaDAO();
             List<QnaDTO> qnaList = qDao.getQnaAllListNew(map);
-            int totalCount = qDao.selectCount(qDto);
+            int totalCount = qDao.selectBookCount(qDto);
             
             // Paging
  			PageDTO paging = new PageDTO(pageNum, amount, totalCount);
          			
             request.setAttribute("qnaList", qnaList);
             request.setAttribute("paging", paging);
+            request.setAttribute("totalCount", totalCount);
 
 			request.getRequestDispatcher("./userBookDetail.jsp").forward(request, response);
 		}

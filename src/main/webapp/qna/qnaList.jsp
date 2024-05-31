@@ -209,7 +209,7 @@ $(document).ready( function() {
 		<% if(!qnaList.isEmpty()) { %>
 			<div class="pagination">
 				<%if(p.isPrev()) {%>
-				<a class="first arrow" href="replyList.do?pageNum=1">
+				<a class="first arrow" href="qnaList.qq?pageNum=1">
 					<span class="blind">첫 페이지</span>
 				</a>
 				<%} else { %>
@@ -217,7 +217,7 @@ $(document).ready( function() {
 				<% } %>
 				
 				<%if(p.isPrev()) {%>
-				<a class="prev arrow" href="replyList.do?pageNum=<%=p.getStartPage()-1 %>">
+				<a class="prev arrow" href="qnaList.qq?pageNum=<%=p.getStartPage()-1 %>">
 					<span class="blind">이전 페이지</span>
 				</a>
 				<%} else { %>
@@ -228,12 +228,12 @@ $(document).ready( function() {
 					<%if(i == p.getPageNum()) {%>
 						<a class="number active"><%=i %></a>
 					<%}else {%>
-						<a class="number" href="replyList.do?pageNum=<%=i %>"><%=i %></a>
+						<a class="number" href="qnaList.qq?pageNum=<%=i %>"><%=i %></a>
 					<%} %>
 				<%} %>
 				
 				<%if(p.isNext()) {%>
-				<a class="next arrow" href="replyList.do?pageNum=<%=p.getEndPage()+1 %>">
+				<a class="next arrow" href="qnaList.qq?pageNum=<%=p.getEndPage()+1 %>">
 					<span class="blind">다음 페이지</span>
 				</a>
 				<%} else {%>
@@ -241,7 +241,7 @@ $(document).ready( function() {
 				<%} %>
 				
 				<%if(p.isNext()) {%>
-				<a class="last arrow" href="replyList.do?pageNum=<%=p.getRealEnd() %>">
+				<a class="last arrow" href="qnaList.qq?pageNum=<%=p.getRealEnd() %>">
 					<span class="blind">마지막 페이지</span>
 				</a>
 				<%} else { %>
