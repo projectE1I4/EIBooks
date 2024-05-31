@@ -165,7 +165,7 @@ function decreaseBtn(bookSeq) {
 </head>
 <body>
 
-<%@ include file="../common/menu.jsp" %>
+<%@ include file="../common/header.jsp" %>
 <header id="header"></header>
 <main class="container">
 <section class="detail_top">

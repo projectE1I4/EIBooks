@@ -6,14 +6,6 @@
   --txt-color-600: #000;
 }
 
-#wrap {
-  height: 2500px;
-  background-color: #E9EAEE;
-}
-
-.inner {
-  padding: 130px;
-}
 .productView {
   background-color: #fff;
   padding: 100px;
@@ -56,7 +48,6 @@
   top: 434px;
   left: 0;
   width: 100%;
-  height: 100%;
   cursor: pointer;
 }
 .productView .product_info {

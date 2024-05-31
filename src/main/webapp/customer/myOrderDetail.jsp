@@ -16,7 +16,7 @@ List<OrderDTO> orderList = (List<OrderDTO>)request.getAttribute("orderList");
 </head>
 <body>
 
-<%@ include file="../common/menu.jsp" %>
+<%@ include file="../common/header.jsp" %>
 <!-- 제목 --> 
 <h2>주문 상세 내역</h2>
 <br>

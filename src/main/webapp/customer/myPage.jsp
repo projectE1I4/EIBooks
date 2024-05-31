@@ -34,7 +34,7 @@ function goToPage(pur_seq) {
 </head>
 <body>
 
-<%@ include file="../common/menu.jsp" %>
+<%@ include file="../common/header.jsp" %>
 
 <!-- 제목 --> 
 <h2>마이페이지</h2>

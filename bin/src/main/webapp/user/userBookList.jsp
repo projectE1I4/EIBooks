@@ -18,7 +18,7 @@
 <title>도서 목록 보기</title>
 </head>
 <body>
-<%@ include file="../common/menu.jsp" %>
+<%@ include file="../common/header.jsp" %>
 <!-- 제목 --> 
 <h2>도서 목록 보기</h2>
 

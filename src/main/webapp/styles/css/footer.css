@@ -1,18 +1,12 @@
-#wrap {
-  height: 5000px;
+#footer_wrap {
+  width: 1280px;
+  margin: 0 auto;
 }
-
-#footer {
-  width: 100%;
-  padding: 60px 0 50px 0;
-  font-family: 'Pretendard',sans-serif;
-}
-#footer .inner {
+#footer_wrap .inner {
   max-width: 1280px;
+  height: 100px;
   margin: 0 auto;
   display: flex;
-  justify-content: space-between;
-  padding: 0 20px;
 }
 #footer .inner .img_wrap {
   width: 197px;

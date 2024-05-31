@@ -229,7 +229,7 @@ function buying(book_seq){
 </head>
 <body>
 	<div id="wrap">
-		<%@ include file="../common/menu.jsp"%>
+		<%@ include file="../common/header.jsp"%>
 		<!-- 제목 -->
 		<header id="header"></header>
 		<main id="container">

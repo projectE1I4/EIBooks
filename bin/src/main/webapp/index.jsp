@@ -7,7 +7,7 @@
 <title>인덱스</title>
 </head>
 <body>
-<%@ include file="../common/menu.jsp" %>
+<%@ include file="../common/header.jsp" %>
 집에 보내주세요
 </body>
 </html>
