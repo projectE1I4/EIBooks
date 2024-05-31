@@ -477,6 +477,30 @@ public class ReviewController extends HttpServlet {
 			dao.deleteWrite(dto);
 			dao.deleteReply(dto);
 			
+			int amount = 5;
+			int pageNum = 1;
+			
+			String sPageNum = request.getParameter("pageNum");
+			if(sPageNum != null) pageNum = Integer.parseInt(sPageNum);
+			int offset = (pageNum-1) * amount;
+			
+			Map<String, String> map = new HashMap<>();
+			
+			map.put("offset", offset+"");
+			map.put("amount", amount+"");
+			
+			// DAO
+			List<ReviewDTO> reviewList = dao.selectAllList(map);
+			int allReviewCount = dao.allReviewCount();
+			
+			// paging DTO
+			PageDTO paging = new PageDTO(pageNum, amount, allReviewCount);
+			
+			// request - setAtt
+			request.setAttribute("reviewList", reviewList);
+			request.setAttribute("paging", paging);
+			request.setAttribute("allReviewCount", allReviewCount);
+			
 			String path = "/EIBooks/review/replyList.do?userNum=" + userNum;
 			response.sendRedirect(path);
 			

@@ -13,23 +13,19 @@
 .tit_wrap {
 	margin: 50px 0 20px 0;
 	position: relative;
-	display: flex;
-	justify-content: space-between;
-	align-items: cetner;
 }
 .tit_wrap h1 {
 	font-size: 32px;
+	font-weight: 700;
 }
-.tit_wrap .btn_wrap {
-	margin-right: 122px;
-}
+
 .sort_wrap {
     position: absolute;
     display: inline-block;
     width: 116px;
     height: 36px;
     right: 0px;
-    top: 0px;
+    top: 5px;
 }
 .sort_main {
 	background-color: #fff;
@@ -85,6 +81,7 @@
 }
 
 
+
 .info {
 	width: 300px;
 }
@@ -108,9 +105,8 @@
 	height: 140px;
 	padding-left: 30px;
 }
-.book_info .book_image img {
-	min-width: 80px;
-	max-width: 80px;
+.book_info .book_image {
+	width: 100px;
 }
 .book_info .book_text {
 	text-align: left;
@@ -130,7 +126,7 @@
 }
 .board_list_wrap .title_text {
 	text-align: left;
-	padding-left: 30px;
+	padding-left: 50px;
 	overflow: hidden;
 	white-space: nowrap; 
 	text-overflow: ellipsis; 
@@ -142,21 +138,59 @@
 	align-items: center;
 	gap: 10px;
 }
-.col {
-	height: 110px;
-}
 .col em {
 	color: #6A5AFF;
 }
 .reply_wrap {
-    display: none;
     background-color: #f8f8f8;
 }
+.reply_wrap .delete_btn {
+  display: block; 
+  width: 30px; 
+  height: 30px; 
+  background: url(../../images/delete.png) no-repeat center center;
+  background-size: 30px;
+}
+.reply_wrap_content .cus_content {
+	display: flex;
+}
 .reply_wrap_content .cus_content p {
-	width: 100%;
-	padding: 30px;
+	width: 1050px;
+	padding: 30px 50px;
 	text-align: left;
+	justify-content: center;
+	align-items: center;
 	word-wrap: break-word;
+}
+.reply_wrap_content .cus_content .btn_wrap {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 10px;
+	width: 230px;
+}
+.reply_wrap_content .cus_content .btn_wrap .insert_btn {
+	background-color: #6A5AFF;
+	color: #fff;
+	border: none;
+}
+.write_btn_wrap {
+	height: 70px;
+	text-align: right;
+	margin-right: 30px;
+}
+.write_btn_wrap .write_btn {
+	background-color: #6A5AFF;
+	color: #fff;
+	border: none;
+}
+.reply_input .text_area {
+	padding: 30px;
+	padding-top: 0;
+}
+.reply_input textarea {
+	background-color: #fff;
+	height: 150px;
 }
 .admin_content_wrap {
 	width: 1280px;
@@ -165,38 +199,43 @@
 	padding: 30px 0;
 	border-top: 1px solid #ddd;
 }
+.admin_content_wrap img {
+	width: 30px;
+	margin-left: 100px;
+}
 .admin_name {
-	width: 300px;
+	width: 170px;
 }
 .admin_content {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    padding: 0 30px;
+	padding: 0 50px;
+	text-align: left;
+    width: calc(100% - 230px);
 }
 .admin_content p {
-	text-align: left;
+	word-wrap: break-word;
+}
+.admin_content_wrap .btn_wrap {
+	width: 230px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 20px;
+}
+.update_btn {
+	display: block; 
+	width: 30px; 
+	height: 30px; 
+	background: url(../../images/edit.png) no-repeat center center;
+	background-size: 30px;
 }
 
-.author {
-	display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 1;
-    overflow: hidden;
-}
-.insert_btn {
-    background-color: #6A5AFF;
-    color: #fff;
-    border: none;
-    height: 37px;
-    border-radius: 7px;
+.col {
+    height: 110px;
 }
 .img_wrap {
 	text-align: left;
 }
 .img_wrap img {
 	width: 200px;
-	max-height: 200px; 
 	padding: 0 30px 30px 30px;
 }

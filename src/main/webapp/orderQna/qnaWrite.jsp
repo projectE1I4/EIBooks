@@ -8,6 +8,7 @@
     pageEncoding="UTF-8"%>
 <%
 List<OrderDTO> orderList = (List<OrderDTO>)request.getAttribute("orderList");
+String pageNum = (String)request.getAttribute("pageNum");
 %>    
 <!DOCTYPE html>
 <html>
@@ -63,7 +64,6 @@ function previewImage(event) {
     }
     reader.readAsDataURL(event.target.files[0]);
 }
-
 </script>
 </head>
 <body>
@@ -109,7 +109,7 @@ function previewImage(event) {
 							            	<div class="txt">
 							            		<p><%=o.getPur_seq() %></p>
 								                <div class="title_i">
-								                	<p><%=o.getBookInfo().getTitle() %></p>
+								                	<p><%=o.getBookInfo().getTitle() %>
 								                	<%
 								                	OrderDTO dto = new OrderDTO();
 							            			dto.setPur_seq(o.getPur_seq());	
@@ -118,7 +118,7 @@ function previewImage(event) {
 							            			
 							            			if(titleCnt > 0) {
 								                	%>
-								                	<p>외 <%=titleCnt %>권</p>
+								                	<p class="pos">외 <em><%=titleCnt %></em>권</p>
 								                	<% } %>
 								                </div>
 								                <p><%=o.getOrderDate() %></p>

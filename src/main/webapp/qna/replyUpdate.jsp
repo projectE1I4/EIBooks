@@ -193,7 +193,7 @@ $(document).ready( function() {
 										<div class="book_text">
 											<p><%=qna.getBookInfo().getPublisher() %></p>
 											<strong><%=qna.getBookInfo().getTitle() %></strong>
-											<p><%=qna.getBookInfo().getAuthor() %></p>
+											<p class="author"><%=qna.getBookInfo().getAuthor() %></p>
 										</div>
 									</div>
 								</td>
@@ -276,7 +276,7 @@ $(document).ready( function() {
 		<% if(!qnaList.isEmpty()) { %>
 			<div class="pagination">
 				<%if(p.isPrev()) {%>
-				<a class="first arrow" href="reply.qq?pageNum=1">
+				<a class="first arrow" href="replyUpdate.qq?book_seq=<%=book_seq %>&qna_seq=<%=qna_seq %>&isReply=1&pageNum=1">
 					<span class="blind">첫 페이지</span>
 				</a>
 				<%} else { %>
@@ -284,7 +284,7 @@ $(document).ready( function() {
 				<% } %>
 				
 				<%if(p.isPrev()) {%>
-				<a class="prev arrow" href="reply.qq?pageNum=<%=p.getStartPage()-1 %>">
+				<a class="prev arrow" href="replyUpdate.qq?book_seq=<%=book_seq %>&qna_seq=<%=qna_seq %>&isReply=1&pageNum=<%=p.getStartPage()-1 %>">
 					<span class="blind">이전 페이지</span>
 				</a>
 				<%} else { %>
@@ -295,12 +295,12 @@ $(document).ready( function() {
 					<%if(i == p.getPageNum()) {%>
 						<a class="number active"><%=i %></a>
 					<%}else {%>
-						<a class="number" href="reply.qq?pageNum=<%=i %>"><%=i %></a>
+						<a class="number" href="replyUpdate.qq?book_seq=<%=book_seq %>&qna_seq=<%=qna_seq %>&isReply=1&pageNum=<%=i %>"><%=i %></a>
 					<%} %>
 				<%} %>
 				
 				<%if(p.isNext()) {%>
-				<a class="next arrow" href="reply.qq?pageNum=<%=p.getEndPage()+1 %>">
+				<a class="next arrow" href="replyUpdate.qq?book_seq=<%=book_seq %>&qna_seq=<%=qna_seq %>&isReply=1&pageNum=<%=p.getEndPage()+1 %>">
 					<span class="blind">다음 페이지</span>
 				</a>
 				<%} else {%>
@@ -308,7 +308,7 @@ $(document).ready( function() {
 				<%} %>
 				
 				<%if(p.isNext()) {%>
-				<a class="last arrow" href="reply.qq?pageNum=<%=p.getRealEnd() %>">
+				<a class="last arrow" href="replyUpdate.qq?book_seq=<%=book_seq %>&qna_seq=<%=qna_seq %>&isReply=1&pageNum=<%=p.getRealEnd() %>">
 					<span class="blind">마지막 페이지</span>
 				</a>
 				<%} else { %>

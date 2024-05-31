@@ -218,6 +218,308 @@ public class OrderQnaController extends HttpServlet {
 			String path = "/EIBooks/orderQna/qnaList.oq";
 			response.sendRedirect(path);
 			
+		} else if(action.equals("/reply.oq")) {
+			Map<String, String> map = new HashMap<>();
+			
+			HttpSession session = request.getSession();
+			int cus_seq = (int)session.getAttribute("cus_seq");
+			
+			String state = request.getParameter("state");
+			map.put("state", state);
+				
+			// paging info
+			int amount = 5;
+			int pageNum = 1;
+			
+			String sPageNum = request.getParameter("pageNum");
+			if(sPageNum != null) pageNum = Integer.parseInt(sPageNum);
+			int offset = (pageNum-1) * amount;
+
+			map.put("offset", offset + "");
+			map.put("amount", amount + "");
+			map.put("cus_seq", cus_seq + "");
+			
+			OrderQnaDAO dao = new OrderQnaDAO();
+            List<OrderQnaDTO> qnaList = dao.getQnaAllList(map);
+            int totalCount = dao.selectAllCount();
+            
+            // Paging
+ 			PageDTO paging = new PageDTO(pageNum, amount, totalCount);
+         			
+            request.setAttribute("qnaList", qnaList);
+            request.setAttribute("paging", paging);
+            request.setAttribute("state", state);
+
+            // forward
+            String path = "./reply.jsp"; // 전체 주문 목록 페이지의 JSP 파일 경로
+            request.getRequestDispatcher(path).forward(request, response);
+            
+		} else if(action.equals("/replyWrite.oq")) {
+			// 값 받기
+			HttpSession session = request.getSession();
+			int cus_seq = (int)session.getAttribute("cus_seq");
+			
+			String sPur_q_seq = request.getParameter("pur_q_seq");
+			int pur_q_seq = Integer.parseInt(sPur_q_seq);
+			
+			Map<String, String> map = new HashMap<>();
+			
+			// paging info
+			int amount = 5;
+			int pageNum = 1;
+			
+			String sPageNum = request.getParameter("pageNum");
+			if(sPageNum != null) pageNum = Integer.parseInt(sPageNum);
+			int offset = (pageNum-1) * amount;
+
+			map.put("offset", offset + "");
+			map.put("amount", amount + "");
+			map.put("cus_seq", cus_seq + "");
+			
+			OrderQnaDAO dao = new OrderQnaDAO();
+            List<OrderQnaDTO> qnaList = dao.getQnaAllList(map);
+            int totalCount = dao.selectAllCount();
+			
+            // Paging
+ 			PageDTO paging = new PageDTO(pageNum, amount, totalCount);
+         			
+            request.setAttribute("qnaList", qnaList);
+            request.setAttribute("paging", paging);
+			
+			// forward
+			String path = "./replyWrite.jsp?pur_q_seq=" + pur_q_seq;
+			request.getRequestDispatcher(path).forward(request, response);
+			
+		}  else if(action.equals("/replyWriteProc.oq")) {
+			request.setCharacterEncoding("utf-8"); // 한글 처리
+			
+			// 값 받기
+			HttpSession session = request.getSession();
+			int cus_seq = (int)session.getAttribute("cus_seq");
+			
+			String sPur_q_seq = request.getParameter("pur_q_seq");
+			int pur_q_seq = Integer.parseInt(sPur_q_seq);
+			
+			// 폼 값
+			String content = request.getParameter("content");
+			
+			OrderQnaDTO dto = new OrderQnaDTO();
+			dto.setCus_seq(cus_seq);
+			dto.setContent(content);
+			dto.setRef_seq(pur_q_seq);
+			
+			OrderQnaDAO dao = new OrderQnaDAO();
+			dao.insertReply(dto);
+			
+			OrderQnaDTO oDto = new OrderQnaDTO();
+			oDto.setPur_q_seq(pur_q_seq);
+			oDto.setState("답변완료");
+			dao.updateState(oDto);
+			
+			// 페이징
+			int amount = 5;
+			int pageNum = 1;
+			
+			String sPageNum = request.getParameter("pageNum");
+			if(sPageNum != null) pageNum = Integer.parseInt(sPageNum);
+			int offset = (pageNum-1) * amount;
+			
+			Map<String, String> map = new HashMap<>();
+			
+			map.put("offset", offset+"");
+			map.put("amount", amount+"");
+			
+			List<OrderQnaDTO> qnaList = dao.getQnaAllList(map);
+            int totalCount = dao.selectAllCount();
+			
+			// paging DTO
+			PageDTO paging = new PageDTO(pageNum, amount, totalCount);
+			
+			// request - setAtt
+			request.setAttribute("qnaList", qnaList);
+			request.setAttribute("paging", paging);
+            
+			// forward
+            String path = "/EIBooks/orderQna/reply.oq";
+            response.sendRedirect(path);
+            
+		} else if(action.equals("/replyUpdate.oq")) {
+			// 값 받기
+			HttpSession session = request.getSession();
+			int cus_seq = (int)session.getAttribute("cus_seq");
+			
+			String sPur_q_seq = request.getParameter("pur_q_seq");
+			int pur_q_seq = Integer.parseInt(sPur_q_seq);
+			
+			Map<String, String> map = new HashMap<>();
+			
+			// paging info
+			int amount = 5;
+			int pageNum = 1;
+			
+			String sPageNum = request.getParameter("pageNum");
+			if(sPageNum != null) pageNum = Integer.parseInt(sPageNum);
+			int offset = (pageNum-1) * amount;
+
+			map.put("offset", offset + "");
+			map.put("amount", amount + "");
+			map.put("cus_seq", cus_seq + "");
+			
+			OrderQnaDAO dao = new OrderQnaDAO();
+            List<OrderQnaDTO> qnaList = dao.getQnaAllList(map);
+            int totalCount = dao.selectAllCount();
+			
+            // Paging
+ 			PageDTO paging = new PageDTO(pageNum, amount, totalCount);
+         			
+            request.setAttribute("qnaList", qnaList);
+            request.setAttribute("paging", paging);
+			
+			// forward
+			String path = "./replyUpdate.jsp?pur_q_seq=" + pur_q_seq;
+			request.getRequestDispatcher(path).forward(request, response);
+			
+		}  else if(action.equals("/replyUpdateProc.oq")) {
+			
+			// 값 받기
+			HttpSession session = request.getSession();
+			int cus_seq = (int)session.getAttribute("cus_seq");
+
+			String sPur_q_seq = request.getParameter("pur_q_seq");
+			int pur_q_seq = Integer.parseInt(sPur_q_seq);
+			
+			// 폼 값
+			String content = request.getParameter("content");
+			
+			// DTO
+			OrderQnaDTO dto = new OrderQnaDTO();
+			dto.setContent(content);
+			dto.setPur_q_seq(pur_q_seq);
+			
+			OrderQnaDAO dao = new OrderQnaDAO();
+			dao.updateReply(dto);
+			
+			// 페이징
+			Map<String, String> map = new HashMap<>();
+			
+			int amount = 5;
+			int pageNum = 1;
+			
+			String sPageNum = request.getParameter("pageNum");
+			if(sPageNum != null) pageNum = Integer.parseInt(sPageNum);
+			int offset = (pageNum-1) * amount;
+
+			map.put("offset", offset + "");
+			map.put("amount", amount + "");
+			map.put("cus_seq", cus_seq + "");
+			
+			OrderQnaDAO oDao = new OrderQnaDAO();
+            List<OrderQnaDTO> qnaList = oDao.getQnaAllList(map);
+            int totalCount = oDao.selectAllCount();
+			
+            // Paging
+ 			PageDTO paging = new PageDTO(pageNum, amount, totalCount);
+         			
+            request.setAttribute("qnaList", qnaList);
+            request.setAttribute("paging", paging);
+            
+			// forward
+            String path = "/EIBooks/orderQna/reply.oq";
+            response.sendRedirect(path);
+            
+		}  else if(action.equals("/replyDeleteProc.oq")) {
+			request.setCharacterEncoding("utf-8");
+
+			HttpSession session = request.getSession();
+			int cus_seq = (int)session.getAttribute("cus_seq");
+			
+			String sPur_q_seq = request.getParameter("pur_q_seq");
+			int pur_q_seq = Integer.parseInt(sPur_q_seq);
+			
+			String sRef_seq = request.getParameter("ref_seq");
+			int ref_seq = Integer.parseInt(sRef_seq);
+			
+			// 회원의 처리 상태 변경
+			OrderQnaDTO dto = new OrderQnaDTO();
+			dto.setPur_q_seq(ref_seq);
+			dto.setState("답변대기");
+			
+			OrderQnaDAO dao = new OrderQnaDAO();
+			dao.updateState(dto);
+			
+			// 관리자 댓글 삭제
+			dto.setPur_q_seq(pur_q_seq);
+			dao.deleteWrite(dto);
+			
+			// 페이징
+			Map<String, String> map = new HashMap<>();
+			
+			int amount = 5;
+			int pageNum = 1;
+			
+			String sPageNum = request.getParameter("pageNum");
+			if(sPageNum != null) pageNum = Integer.parseInt(sPageNum);
+			int offset = (pageNum-1) * amount;
+
+			map.put("offset", offset + "");
+			map.put("amount", amount + "");
+			map.put("cus_seq", cus_seq + "");
+			
+			OrderQnaDAO oDao = new OrderQnaDAO();
+            List<OrderQnaDTO> qnaList = oDao.getQnaAllList(map);
+            int totalCount = oDao.selectAllCount();
+			
+            // Paging
+ 			PageDTO paging = new PageDTO(pageNum, amount, totalCount);
+         			
+            request.setAttribute("qnaList", qnaList);
+            request.setAttribute("paging", paging);
+			
+			String path = "/EIBooks/orderQna/reply.oq";
+			response.sendRedirect(path);
+			
+		}  else if(action.equals("/depthOneDeleteProc.oq")) {
+			request.setCharacterEncoding("utf-8");
+
+			HttpSession session = request.getSession();
+			int cus_seq = (int)session.getAttribute("cus_seq");
+			
+			String sPur_q_seq = request.getParameter("pur_q_seq");
+			int pur_q_seq = Integer.parseInt(sPur_q_seq);
+
+			OrderQnaDTO dto = new OrderQnaDTO();
+			dto.setPur_q_seq(pur_q_seq);
+			
+			OrderQnaDAO dao = new OrderQnaDAO();
+			dao.deleteWrite(dto);
+			
+			// 페이징
+			Map<String, String> map = new HashMap<>();
+			
+			int amount = 5;
+			int pageNum = 1;
+			
+			String sPageNum = request.getParameter("pageNum");
+			if(sPageNum != null) pageNum = Integer.parseInt(sPageNum);
+			int offset = (pageNum-1) * amount;
+
+			map.put("offset", offset + "");
+			map.put("amount", amount + "");
+			map.put("cus_seq", cus_seq + "");
+			
+			OrderQnaDAO oDao = new OrderQnaDAO();
+            List<OrderQnaDTO> qnaList = oDao.getQnaAllList(map);
+            int totalCount = oDao.selectAllCount();
+			
+            // Paging
+ 			PageDTO paging = new PageDTO(pageNum, amount, totalCount);
+         			
+            request.setAttribute("qnaList", qnaList);
+            request.setAttribute("paging", paging);
+			
+			String path = "/EIBooks/orderQna/reply.oq";
+			response.sendRedirect(path);
+			
 		}
 	}
 

@@ -113,7 +113,7 @@ $(document).ready( function() {
 		<div class="tit_wrap">
 		<h1>1:1 문의</h1>
 		<div class="btn_wrap">
-			<a class="btn insert_btn" href="<%=request.getContextPath()%>/orderQna/qnaWrite.oq">작성하기</a>
+			<a class="btn insert_btn" href="<%=request.getContextPath()%>/orderQna/qnaWrite.oq?pageNum=<%=p.getPageNum()%>">작성하기</a>
 		</div>
 		<ul class="sort_wrap">
 				<li class="sort_main">
@@ -173,9 +173,9 @@ $(document).ready( function() {
 										<div class="cus_content">
 											<p><%=qna.getContent() %></p>
 										</div>
-										<% if(!qna.getImageFile().isEmpty()) { %>
+										<% if(qna.getImageFile() != null && !qna.getImageFile().isEmpty()) { %>
 											<div class="img_wrap">
-						                        <img src="<%=qna.getImageFile() %>" alt="표지이미지">
+						                        <img src="<%=qna.getImageFile() %>" alt="첨부파일">
 						                    </div>
 					                    <% } %>
 										<%
@@ -203,7 +203,7 @@ $(document).ready( function() {
 		<% if(!qnaList.isEmpty()) { %>
 			<div class="pagination">
 				<%if(p.isPrev()) {%>
-				<a class="first arrow" href="qnaList.qq?pageNum=1">
+				<a class="first arrow" href="qnaList.oq?pageNum=1">
 					<span class="blind">첫 페이지</span>
 				</a>
 				<%} else { %>
@@ -211,7 +211,7 @@ $(document).ready( function() {
 				<% } %>
 				
 				<%if(p.isPrev()) {%>
-				<a class="prev arrow" href="qnaList.qq?pageNum=<%=p.getStartPage()-1 %>">
+				<a class="prev arrow" href="qnaList.oq?pageNum=<%=p.getStartPage()-1 %>">
 					<span class="blind">이전 페이지</span>
 				</a>
 				<%} else { %>
@@ -222,12 +222,12 @@ $(document).ready( function() {
 					<%if(i == p.getPageNum()) {%>
 						<a class="number active"><%=i %></a>
 					<%}else {%>
-						<a class="number" href="qnaList.qq?pageNum=<%=i %>"><%=i %></a>
+						<a class="number" href="qnaList.oq?pageNum=<%=i %>"><%=i %></a>
 					<%} %>
 				<%} %>
 				
 				<%if(p.isNext()) {%>
-				<a class="next arrow" href="qnaList.qq?pageNum=<%=p.getEndPage()+1 %>">
+				<a class="next arrow" href="qnaList.oq?pageNum=<%=p.getEndPage()+1 %>">
 					<span class="blind">다음 페이지</span>
 				</a>
 				<%} else {%>
@@ -235,7 +235,7 @@ $(document).ready( function() {
 				<%} %>
 				
 				<%if(p.isNext()) {%>
-				<a class="last arrow" href="qnaList.qq?pageNum=<%=p.getRealEnd() %>">
+				<a class="last arrow" href="qnaList.oq?pageNum=<%=p.getRealEnd() %>">
 					<span class="blind">마지막 페이지</span>
 				</a>
 				<%} else { %>

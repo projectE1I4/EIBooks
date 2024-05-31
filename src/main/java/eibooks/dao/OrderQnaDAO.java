@@ -3,6 +3,7 @@ package eibooks.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -138,6 +139,37 @@ public class OrderQnaDAO {
 			if (dto != null) {
 				pstmt.setInt(1, cus_seq);
 			}
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				totalCount = rs.getInt("cnt");
+			}
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+			
+		} finally {
+			JDBCConnect.close(rs, pstmt, conn);
+			
+		}
+		return totalCount;
+	}
+	
+
+	public int selectAllCount() {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;		
+
+		int totalCount = 0;
+		
+		String sql = "select count(pur_q_seq) as cnt from order_qna ";
+
+		try {
+			conn = JDBCConnect.getConnection();
+			
+			pstmt = conn.prepareStatement(sql);
 			
 			rs = pstmt.executeQuery();
 			
@@ -315,4 +347,166 @@ public class OrderQnaDAO {
 			JDBCConnect.close(pstmt, conn);
 		}
 	}
+
+	public List<OrderQnaDTO> getQnaAllList(Map<String, String> map) {
+		List<OrderQnaDTO> qnaList = new ArrayList<>();
+
+		//DB연결
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		int amount = Integer.parseInt(map.get("amount"));
+		int offset = Integer.parseInt(map.get("offset"));
+		String state = map.get("state");
+		
+		try {
+			//conn
+			conn = JDBCConnect.getConnection();
+
+			//sql + 쿼리창
+			String sql= "select * from order_qna q "
+					+ "join books b "
+					+ "on q.book_seq = b.book_seq "
+					+ "join customer c "
+					+ "on q.cus_seq = c.cus_seq "
+					+ "join purchase_item i "
+					+ "on q.pur_i_seq = i.pur_i_seq ";
+			
+			if (state != null) {
+				sql += "where state = ? ";
+			}
+			
+			sql += "limit ? offset ? "; // 2page
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			if (state != null) {
+				pstmt.setString(1, state);
+				pstmt.setInt(2, amount);
+				pstmt.setInt(3, offset);
+			} else {
+				pstmt.setInt(1, amount);
+				pstmt.setInt(2, offset);
+			}
+
+			rs = pstmt.executeQuery();
+
+			while(rs.next()) {
+				
+				OrderQnaDTO qna = new OrderQnaDTO();
+				qna.setPur_q_seq(rs.getInt("pur_q_seq"));
+				qna.setBook_seq(rs.getInt("book_seq"));
+				qna.setPur_seq(rs.getInt("pur_seq"));
+				qna.setType(rs.getString("q.type"));
+				qna.setTitle(rs.getString("q.title"));
+				qna.setContent(rs.getString("q.content"));
+				qna.setImageFile(rs.getString("q.imageFile"));
+				qna.setRegDate(rs.getString("q.regDate"));
+				qna.setState(rs.getString("state"));
+				qna.setDepth(rs.getInt("depth"));
+				qna.setRef_seq(rs.getInt("ref_seq"));
+				
+				OrderDTO order = new OrderDTO();
+				order.setPur_seq(rs.getInt("pur_seq"));
+				order.setPur_i_seq(rs.getInt("pur_i_seq"));
+				order.setBook_seq(rs.getInt("book_seq"));
+				
+				BookDTO book = new BookDTO();
+				book.setTitle(rs.getString("b.title"));
+				book.setAuthor(rs.getString("author"));
+				book.setPublisher(rs.getString("publisher"));
+				book.setImageFile(rs.getString("imageFile"));
+				book.setPrice(rs.getInt("price"));
+				
+				CustomerDTO customer = new CustomerDTO();
+				customer.setCus_seq(rs.getInt("cus_seq"));
+				customer.setCus_id(rs.getString("cus_id"));
+				customer.setName(rs.getString("name"));
+				
+				qna.setOrderInfo(order);
+				qna.setBookInfo(book);
+				qna.setCusInfo(customer);
+                
+				// 장바구니에 담긴 각 도서의 정보를 가져와서 추가
+				qnaList.add(qna);
+
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			
+		} finally {
+			JDBCConnect.close(rs, pstmt, conn);
+		}
+
+		return qnaList;
+	}
+
+	public void insertReply(OrderQnaDTO dto) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		
+		try {
+			conn = JDBCConnect.getConnection();
+			
+			String sql = " insert into order_qna (cus_seq, content, depth, ref_seq) VALUES (?, ?, 2, ?) ";
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, dto.getCus_seq());
+			pstmt.setString(2, dto.getContent());
+			pstmt.setInt(3, dto.getRef_seq());
+			
+			pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			JDBCConnect.close(pstmt, conn);
+		}
+	}
+
+	public void updateState(OrderQnaDTO dto) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		
+		try {
+			conn = JDBCConnect.getConnection();
+			
+			String sql = "update order_qna set state = ? where pur_q_seq = ?";
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, dto.getState());
+			pstmt.setInt(2, dto.getPur_q_seq()); 
+			
+			pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			JDBCConnect.close(pstmt, conn);
+		}
+	}
+
+	public void updateReply(OrderQnaDTO dto) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		
+		try {
+			conn = JDBCConnect.getConnection();
+			
+			String sql = " update order_qna set content = ? where pur_q_seq = ? ";
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, dto.getContent());
+			pstmt.setInt(2, dto.getPur_q_seq());
+			
+			pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			JDBCConnect.close(pstmt, conn);
+		}
+	}
+
 }

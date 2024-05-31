@@ -143,7 +143,7 @@ $(document).ready( function() {
 										<div class="book_text">
 											<p><%=qna.getBookInfo().getPublisher() %></p>
 											<strong><%=qna.getBookInfo().getTitle() %></strong>
-											<p><%=qna.getBookInfo().getAuthor() %></p>
+											<p class="author"><%=qna.getBookInfo().getAuthor() %></p>
 										</div>
 									</div>
 								</td>
