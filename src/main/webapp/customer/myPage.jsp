@@ -41,11 +41,11 @@ function goToPage(pur_seq) {
 <div class="side_menu_wrap">
 <h2>마이페이지</h2>
 <ul class="side_menu">
-	<li>
-		<a href="/EIBooks/customer/updateMyPage.cs">회원정보 수정</a>
-	</li>
 	<li class="list_mypage">
 		<a href="/EIBooks/customer/myPage.or">나의 주문목록</a>
+	</li>
+	<li>
+		<a href="/EIBooks/customer/updateMyPage.cs">회원정보 수정</a>
 	</li>
 	<li>
 		<a href="/EIBooks/qna/qnaList.qq">상품문의 내역</a>
