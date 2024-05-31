@@ -320,7 +320,7 @@ public class OrderQnaDAO {
 		String type = dto.getType();
 		String title = dto.getTitle();
 		String content = dto.getContent();
-		String imageFile = dto.getImageFile();
+		String imageFile = dto.getImageFile(); 
 		
 		String sql= "insert into order_qna(cus_seq, book_seq, pur_seq, pur_i_seq, type, title, content, state, imageFile) "
 				+ "values(?, ?, ?, ?, ?, ?, ?, '답변대기', ?) ";
