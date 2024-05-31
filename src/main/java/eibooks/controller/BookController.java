@@ -52,6 +52,7 @@ public class BookController extends HttpServlet {
 		String action = uri.substring(uri.lastIndexOf("/"));
 		System.out.println(uri);
 		
+		
 		if(action.equals("/productList.bo")) {
 			// move. get, 2. forward - reqeust.setAttribute("v","o")			
 			System.out.println(action);
@@ -424,6 +425,26 @@ public class BookController extends HttpServlet {
             request.setAttribute("paging", paging);
 
 			request.getRequestDispatcher("./userBookDetail.jsp").forward(request, response);
+		}
+		else if(action.equals("/userMain.bo")) {
+			// move. get, 2. forward - reqeust.setAttribute("v","o")
+			// action에 저장한 값 bookList.bo가 출력되는지 확인
+			System.out.println(action);
+
+			int amount = 8;
+			
+			// BookDAO 가져옴
+			BookDAO dao = new BookDAO();
+
+			List<BookDTO> bestBooks = dao.BestBooks();
+			List<BookDTO> newBooks = dao.newBooks();
+			
+
+			request.setAttribute("bestBooks", bestBooks);
+			request.setAttribute("newBooks", newBooks);
+
+			// forward
+			request.getRequestDispatcher("./user/main.jsp").forward(request, response);
 		}
 
 

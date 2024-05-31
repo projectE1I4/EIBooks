@@ -4,7 +4,9 @@ main {
 	margin: 0 auto;
 	width: 1280px;
 }
+
 .main_slider {
+	margin-top: 10px;
 	height:400px;
 	position: relative;
 	margin-bottom: 10px;
@@ -32,7 +34,7 @@ main {
 }
 
 .main_search {
-	background-color: #eee;
+	background-color: #f9f9f9;
 	height: 150px;
 	display:flex;
 	align-items: center;
@@ -61,11 +63,17 @@ main {
 	margin-left: 10px;
 }
 
+.ad {
+	border-radius: 10px;
+	margin-bottom: 10px;
+	overflow:hidden;
+}
+
 .category {
 	margin-bottom: 10px;
 }
 .category .category_wrap {
-	height: 300px;
+	height: 250px;
 	display: flex;
 	justify-content: center;
 	border: 3px solid #eee;
@@ -74,10 +82,11 @@ main {
 .category .category_wrap .category_list {
 	display: flex;
 	justify-content:space-between;
+	align-items:center;
 	gap: 40px;
 }
 .category .category_list li {
-	margin-top: 100px;
+	margin-top: 10px;
 }
 .category .category_list li a {
 	display:block;
@@ -89,52 +98,269 @@ main {
 	line-height: 110px;
 	font-weight: 700;
 	transition: all 0.5s;
+	box-shadow: 1px 1px 3px 3px #eee;
 }
 .category .category_list li:hover a {
 	background: var(--point-color1);
 	color: #fff;
 }
+
+.ad_line {
+	margin-bottom: 10px;
+}
+
+.ad_line .line {
+	width: 99%;
+	height: 2px;
+	background-color: var(--point-color1);
+	margin: 0 auto;
+	opacity: 0.3;
+}
+
 .bestSeller {
-	margin-bottom: 150px;
+	margin-bottom: 10px;
 }
 .bestSeller .bestSeller_wrap{
 	display: flex;
 	justify-content: center;
-	border: 1px solid blue;
-	height: 410px;
+	border: 3px solid #eee;
+	border-radius: 10px;
+	height: 480px;
+	position: relative;
+	overflow: hidden;
+	padding:0 50px;
 }
 
 .bestSeller .bestSeller_wrap .bestSeller_top {
-	display:flex;
-	flex-direction:row;
-	justify-content: space-between;
 	width:100%;
 }
 .bestSeller .bestSeller_wrap .bestSeller_top h3{
 	font-size: 40px;
+	position: absolute;
+	left: 10px;
+	top: 10px;
+	color: var(--txt-color-600);
 }
-.bestSeller .bestSeller_wrap .bestSeller_btnWrap {
-	width: 30px;
+.bestSeller .bestSeller_wrap .bestSeller_top h3::before{
+	content: "";
 	height: 20px;
+	width: 200px;
+	background: var(--point-color1);
+	position: absolute;
+	left:0px;
+	bottom: 10px;
+	opacity: 0.3;
+	margin-right: 10px;
+}
+.bestSeller .swiper-container {
+	margin-top: 80px;
+}
+.bestSeller .swiper-wrapper {
+	display: flex;
+	flex-wrap: nowrap;
+	margin-bottom: 20px;
+	
+}
+.bestSeller .best_slider .best_slide {
+	display: flex;
+	justify-content: center;
+    align-items: center;
+    text-align: center; /* 텍스트를 가운데 정렬 */
+    box-sizing: border-box; /* 내부 여백을 포함하여 크기 계산 */
+    padding: 10px;
+    transition: all 0.3s;
+}
+.bestSeller .best_slider .best_slide:hover {
+	transform: translateY(-5px);
+}
+
+.bestSeller .best_slide .best_book_wrap {
+	display: flex;
+	flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.best_slider .swiper-slide.best-slide {
+    flex: 0 0 33.3333%; /* 한 번에 3개의 슬라이드 */
+}
+
+.bestSeller .best_slide .best_book_wrap .img_wrap{
+	width: 100%;
+	height: 300px;
+	display:flex;
+	justify-content: center;
+	align-items: center;
+	
+}
+
+.bestSeller .best_slide .best_book_wrap .img_wrap img {
+	max-width: 100%;
+	max-height: 100%;
+	box-shadow: 3px 3px 5px 5px #ddd;
+}
+
+
+.bestSeller .best_slide .best_book_wrap .title_wrap{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+    margin-top: 10px; /* 이미지와 제목 사이의 간격 */
+}
+.bestSeller .best_slide .best_book_wrap .title_wrap p {
+	margin: 0;
+	padding: 0;
+	width: 200px;
+	font-size: 18px;
+	transition: all 0.3s;
+}
+.bestSeller .best_slide:hover .best_book_wrap .title_wrap p{
+	color: var(--point-color1);
+}
+
+.best_slider .swiper-pagination {
+	position: absolute;
+	left: 0;
+	bottom: 0;
+}
+.best_slider .swiper-pagination-bullet-active {
+	background: var(--point-color1);
+}
+.best_slider .swiper-button-next:after,
+.best_slider .swiper-button-prev:after
+{
+	display: none;	
+}
+.best_slider .swiper-button-next {
+	background: url(../../images/main_slide_right_black.png) no-repeat center/ 120%;
+}
+.best_slider .swiper-button-prev {
+	background: url(../../images/main_slide_left_black.png) no-repeat center left/ 120%;
+}
+
+.newList {
+	margin-bottom: 10px;
 }
 
 .newList .newList_wrap{
 	display: flex;
 	justify-content: center;
-	border: 1px solid blue;
-	height: 410px;
+	border: 3px solid #eee;
+	border-radius: 10px;
+	height: 480px;
+	position: relative;
+	overflow: hidden;
+	padding:0 50px;
 }
 
 .newList .newList_wrap .newList_top {
-	display:flex;
-	flex-direction:row;
-	justify-content: space-between;
 	width:100%;
 }
 .newList .newList_wrap .newList_top h3{
 	font-size: 40px;
+	position: absolute;
+	left: 10px;
+	top: 10px;
+	color: var(--txt-color-600);
 }
-.newList .newList_wrap .newList_btnWrap {
-	width: 30px;
+
+.newList .newList_wrap .newList_top h3::before{
+	content: "";
 	height: 20px;
+	width: 400px;
+	background: var(--point-color1);
+	position: absolute;
+	left:0px;
+	bottom: 10px;
+	opacity: 0.3;
+	margin-right: 10px;
+}
+.newList .swiper-container {
+	margin-top: 80px;
+}
+.newList .swiper-wrapper {
+	display: flex;
+	flex-wrap: nowrap;
+	margin-bottom: 20px;
+	
+}
+.newList .new_slider .new_slide {
+	display: flex;
+	justify-content: center;
+    align-items: center;
+    text-align: center; /* 텍스트를 가운데 정렬 */
+    box-sizing: border-box; /* 내부 여백을 포함하여 크기 계산 */
+    padding: 10px;
+    transition: all 0.3s;
+}
+.newList .new_slider .new_slide:hover {
+	transform: translateY(-5px);
+}
+
+.newList .new_slider .new_book_wrap {
+	display: flex;
+	flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.new_slider .swiper-slide.new_slide {
+    flex: 0 0 33.3333%; /* 한 번에 3개의 슬라이드 */
+}
+
+.newList .new_slider .new_book_wrap .img_wrap{
+	width: 100%;
+	height: 300px;
+	display:flex;
+	justify-content: center;
+	align-items: center;
+	
+}
+
+.newList .new_slide .new_book_wrap .img_wrap img {
+	max-width: 100%;
+	max-height: 100%;
+	box-shadow: 3px 3px 5px 5px #ddd;
+}
+
+
+.newList .new_slide .new_book_wrap .title_wrap{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+    margin-top: 10px; /* 이미지와 제목 사이의 간격 */
+}
+.newList .new_slide .new_book_wrap .title_wrap p {
+	margin: 0;
+	padding: 0;
+	width: 200px;
+	font-size: 18px;
+	transition: all 0.3s;
+}
+.newList .new_slide:hover .new_book_wrap .title_wrap p{
+	color: var(--point-color1);
+}
+
+.new_slider .swiper-pagination {
+	position: absolute;
+	left: 0;
+	bottom: 0;
+}
+.new_slider .swiper-pagination-bullet-active {
+	background: var(--point-color1);
+}
+.new_slider .swiper-button-next:after,
+.new_slider .swiper-button-prev:after
+{
+	display: none;	
+}
+.new_slider .swiper-button-next {
+	background: url(../../images/main_slide_right_black.png) no-repeat center/ 120%;
+}
+.new_slider .swiper-button-prev {
+	background: url(../../images/main_slide_left_black.png) no-repeat center left/ 120%;
 }

@@ -24,7 +24,7 @@
   <meta property="og:image" content="http://hyerin1225.dothome.co.kr/EIBooks/images/EIBooks_logo.jpg"/>
   <meta property="og:url" content="http://hyerin1225.dothome.co.kr/EIBooks"/>
   <title>EIBooks</title>
-  <link rel="icon" href="images/favicon.png">
+  <link rel="icon" href="/EIBooks/styles/images/favicon.png">
   <link rel="apple-touch-icon" href="images/favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

@@ -720,5 +720,91 @@ public class BookDAO {
         }
         return viewcount;
     }
+    public List<BookDTO> BestBooks() {
+    	
+        // DB 연결
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        // List로 bookList 선언
+        List<BookDTO> bestBooks = new ArrayList<>();
+
+        try {
+            // 2. connection
+            conn = JDBCConnect.getConnection();
+
+            // 3. sql창
+            String sql = "select book_seq, title, author, imageFile from books order by viewCount desc";
+            sql += " limit 8"; 
+            pstmt = conn.prepareStatement(sql);
+            // 리스트 번호
+            // offset
+
+            // 4. execute
+            rs = pstmt.executeQuery();
+
+            // 5. rs처리 : id값만 list에 저장
+            while (rs.next()) {
+                int book_seq = rs.getInt("book_seq");
+                String title = rs.getString("title");
+                String author = rs.getString("author");
+                String imageFile = rs.getString("imageFile");
+
+                BookDTO dto = new BookDTO(book_seq, title, author, imageFile);
+                bestBooks.add(dto);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        } finally {
+            JDBCConnect.close(rs, pstmt, conn);
+
+        }
+        return bestBooks;
+    }
+public List<BookDTO> newBooks() {
+    	
+        // DB 연결
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        // List로 bookList 선언
+        List<BookDTO> newBooks = new ArrayList<>();
+
+        try {
+            // 2. connection
+            conn = JDBCConnect.getConnection();
+
+            // 3. sql창
+            String sql = "select book_seq, title, author, imageFile from books order by pubDate desc";
+            sql += " limit 8"; 
+            pstmt = conn.prepareStatement(sql);
+            // 리스트 번호
+            // offset
+
+            // 4. execute
+            rs = pstmt.executeQuery();
+
+            // 5. rs처리 : id값만 list에 저장
+            while (rs.next()) {
+                int book_seq = rs.getInt("book_seq");
+                String title = rs.getString("title");
+                String author = rs.getString("author");
+                String imageFile = rs.getString("imageFile");
+
+                BookDTO dto = new BookDTO(book_seq, title, author, imageFile);
+                newBooks.add(dto);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        } finally {
+            JDBCConnect.close(rs, pstmt, conn);
+
+        }
+        return newBooks;
+    }
 
 }

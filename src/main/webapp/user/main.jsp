@@ -1,9 +1,14 @@
+<%@page import="java.util.ArrayList"%>
+<%@page import="java.util.List"%>
 <%@page import="eibooks.dto.BookDTO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
-	BookDTO dto = new BookDTO();
-	
+	List<BookDTO> bestBooks = (List<BookDTO>)request.getAttribute("bestBooks");
+	List<BookDTO> newBooks = (List<BookDTO>)request.getAttribute("newBooks");
+	if(bestBooks == null) {
+		bestBooks = new ArrayList<>();
+	}
 
 %>    
 <!DOCTYPE html>
@@ -38,7 +43,7 @@
   <script src="/EIBooks/styles/js/swiper-bundle.min.js"></script>
   <script src="/EIBooks/styles/js/aos.js"></script>
   <script src="/EIBooks/styles/js/ui-common.js?v=<?php echo time(); ?>"></script>
-  <script type="text/javascript">   
+  <script type="text/javascript">
     $(document).ready( function() {
     
       $("#header").load("../styles/common/header.html");  // 원하는 파일 경로를 삽입하면 된다
@@ -73,6 +78,9 @@
 			<input class="search_btn" type="submit" value="">
 		</div>
 	</section>
+	<section class="ad">
+		<img src="../styles/images/ad1.png" alt="광고"/>
+	</section>
 	<section class="category">
 		<div class="category_wrap">
 			<ul class="category_list">
@@ -84,7 +92,8 @@
 			</ul>
 		</div>
 	</section>
-	<section class="ad">
+	<section class="ad_line">
+		<div class="line"></div>
 	</section>
 	<section class="bestSeller">
 		<div class="bestSeller_wrap">
@@ -92,14 +101,26 @@
 				<h3>베스트셀러</h3>
 				<div class="swiper-container best_slider">
 					<div class="swiper-wrapper">
-						<div class="swiper-slide"></div>
-						<div class="swiper-slide"></div>
-						<div class="swiper-slide"></div>
-						<div class="swiper-slide"></div>
-						<div class="swiper-slide"></div>
-						<div class="swiper-slide"></div>
-						<div class="swiper-slide"></div>
-						<div class="swiper-slide"></div>
+						<% if(bestBooks.isEmpty()){ %>
+						<div class="swiper-slide best_slide">
+							<p>best not Found</p>
+						</div>
+						<%}else{ %>
+							<%for (BookDTO best : bestBooks){ %>
+								<div class="swiper-slide best_slide">
+									<div class="best_book_wrap">
+										<div class="img_wrap">
+											<a href="userBookDetail.bo?book_seq=<%=best.getBook_seq() %>" >
+												<img src="<%=best.getImageFile() %>" />
+											</a>								
+										</div>
+										<div class="title_wrap">
+											<p><%=best.getTitle() %></p>								
+										</div>
+									</div>
+								</div>
+							<%} %>
+						<%} %>
 					</div>
 				<div class="swiper-pagination"></div>
 			
@@ -116,14 +137,26 @@
 				<h3>주목 할 만한 신간 리스트</h3>
 				<div class="swiper-container new_slider">
 					<div class="swiper-wrapper">
-						<div class="swiper-slide"></div>
-						<div class="swiper-slide"></div>
-						<div class="swiper-slide"></div>
-						<div class="swiper-slide"></div>
-						<div class="swiper-slide"></div>
-						<div class="swiper-slide"></div>
-						<div class="swiper-slide"></div>
-						<div class="swiper-slide"></div>
+						<% if(newBooks.isEmpty()){ %>
+						<div class="swiper-slide new_slide">
+							<p>best not Found</p>
+						</div>
+						<%}else{ %>
+							<%for (BookDTO newB : newBooks){ %>
+								<div class="swiper-slide new_slide">
+									<div class="new_book_wrap">
+										<div class="img_wrap">
+											<a href="userBookDetail.bo?book_seq=<%=newB.getBook_seq() %>" >
+												<img src="<%=newB.getImageFile() %>" />
+											</a>								
+										</div>
+										<div class="title_wrap">
+											<p><%=newB.getTitle() %></p>								
+										</div>
+									</div>
+								</div>
+							<%} %>
+						<%} %>
 					</div>
 				<div class="swiper-pagination"></div>
 			

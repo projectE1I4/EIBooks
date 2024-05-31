@@ -15,9 +15,16 @@ public class BookDTO {
     private String isbn13;
     private String pubDate;
     private int viewCount;
-
+    
     public BookDTO() {
+    }
+
+    public BookDTO(int book_seq, String title, String author, String imageFile) {
         super();
+        this.book_seq = book_seq;
+        this.title = title;
+        this.author = author;
+        this.imageFile = imageFile;
     }
 
     public BookDTO(String title, String author, String publisher, String category, String imageFile,
