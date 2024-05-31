@@ -26,6 +26,7 @@ int cusCnt = (int)request.getAttribute("cusCnt");
 	<%@ include file="/common/header.jsp" %>
 	<main id="container">
 		<div class="inner">
+			<div id="admin_main">
 			<div class="box_wrap">
 				<h3>회원 관리</h3>
 				<div class="content">
@@ -63,6 +64,7 @@ int cusCnt = (int)request.getAttribute("cusCnt");
 				<div class="box2">
 					<a href="/EIBooks/qna/reply.qq">전체 상품 문의 확인</a>
 				</div>
+			</div>
 			</div>
 		</div>
 	</main>
