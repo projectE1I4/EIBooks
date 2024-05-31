@@ -96,17 +96,17 @@ function buy() {
 				        <% for (cartDTO dto : cartList) { %>
 				        <div class = "book">
 			        		<img src="<%=dto.getBookInfo().getImageFile() %>">
-				        	<p><%=dto.getBookInfo().getTitle() %></p>
-				        	<p><%=dto.getCartICount() %>권</p>
+				        	<p class = "title"><%=dto.getBookInfo().getTitle() %></p>
+				        	<p class = "quantity"><%=dto.getCartICount() %>권</p>
 				        	<p><%=dto.getBookInfo().getPrice() %>원</p>
 				    	</div>
 				        <% } %>
 					</form>
 				</div>
 				<div class = "right">
-					<p>상품 금액<span id="totalPrice"><%=map.get("totalCartPrice") - 3000 %></span>원</p>
+					<p>상품 금액<span id="totalPrice"><%=map.get("totalCartPrice") - 3000 %>&nbsp;원</span></p>
 				    <p>배송비<span>+ 3000 원</span></p>
-				    <p>최종 결제 금액<span id="totalCartPrice"><%=map.get("totalCartPrice") %></span>원</p>
+				    <p>최종 결제 금액<span id="totalCartPrice"><%=map.get("totalCartPrice") %>&nbsp;원</span></p>
 				    <button type="button" id="buyButton" onclick="buy();">결제하기</button>
 				</div>
 			</div>
