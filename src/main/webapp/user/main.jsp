@@ -1,5 +1,11 @@
+<%@page import="eibooks.dto.BookDTO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%
+	BookDTO dto = new BookDTO();
+	
+
+%>    
 <!DOCTYPE html>
 <html>
 <head>
@@ -77,6 +83,8 @@
 				<li><a href="userBookList.bo?pageNum=1&searchWord=&category=인문학">에세이</a></li>
 			</ul>
 		</div>
+	</section>
+	<section class="ad">
 	</section>
 	<section class="bestSeller">
 		<div class="bestSeller_wrap">

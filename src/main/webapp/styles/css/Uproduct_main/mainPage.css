@@ -8,6 +8,8 @@ main {
 	height:400px;
 	position: relative;
 	margin-bottom: 10px;
+	border-radius: 10px;
+	overflow:hidden;
 }
 .main_slider .swiper-pagination {
 	position: absolute;
@@ -26,7 +28,7 @@ main {
 	background: url(../../images/main_slide_right_white.png) no-repeat center/ 120%;
 }
 .main_slider .swiper-button-prev {
-	background: url(../../images/main_slide_left_white.png) no-repeat center/ 120%;
+	background: url(../../images/main_slide_left_white.png) no-repeat center left/ 120%;
 }
 
 .main_search {
