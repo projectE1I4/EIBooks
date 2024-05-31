@@ -115,15 +115,18 @@ public class OrderQnaController extends HttpServlet {
 
 			MultipartRequest mr = new MultipartRequest(request, saveDirectory, maxPostSize, encoding);
 
-			String imageFile = mr.getFilesystemName("imageFile");
-			String ext = imageFile.substring(imageFile.lastIndexOf("."));
-			String now = new SimpleDateFormat("yyyyMMdd_HmsS").format(new Date());
-			imageFile = now + ext;
-
-			File file = new File(saveDirectory + File.separator + imageFile);
-			mr.getFile("imageFile").renameTo(file);
-
-			imageFile = "/EIBooks/Uploads/" + imageFile;
+			String imageFile = "";
+			if(mr.getFilesystemName("imageFile") != null) {
+				imageFile = mr.getFilesystemName("imageFile");
+				String ext = imageFile.substring(imageFile.lastIndexOf("."));
+				String now = new SimpleDateFormat("yyyyMMdd_HmsS").format(new Date());
+				imageFile = now + ext;
+				
+				File file = new File(saveDirectory + File.separator + imageFile);
+				mr.getFile("imageFile").renameTo(file);
+				
+				imageFile = "/EIBooks/Uploads/" + imageFile;
+			}
 			
 			String sBook_seq = mr.getParameter("book_seq");
 			int book_seq = Integer.parseInt(sBook_seq);
@@ -171,6 +174,49 @@ public class OrderQnaController extends HttpServlet {
 			// forward
             String path = "/EIBooks/orderQna/qnaList.oq";
             response.sendRedirect(path);
+			
+		} else if(action.equals("/deleteProc.oq")) {
+
+			HttpSession session = request.getSession();
+			int cus_seq = (int)session.getAttribute("cus_seq");
+
+			String sPur_q_seq = request.getParameter("pur_q_seq");
+			int pur_q_seq = Integer.parseInt(sPur_q_seq);
+			
+			Map<String, String> map = new HashMap<>();
+
+			// paging info
+			int amount = 10;
+			int pageNum = 1;
+
+			String sPageNum = request.getParameter("pageNum");
+			if(sPageNum != null) pageNum = Integer.parseInt(sPageNum);
+			int offset = (pageNum-1) * amount;
+
+			map.put("offset", offset+"");
+			map.put("amount", amount+"");
+			map.put("cus_seq", cus_seq + "");
+
+			OrderQnaDTO dto = new OrderQnaDTO();
+			dto.setCus_seq(cus_seq);
+			
+			OrderQnaDAO dao = new OrderQnaDAO();
+			List<OrderQnaDTO> qnaList = dao.getQnaList(map);
+			int totalCount = dao.selectCount(dto);
+			
+			// paging DTO
+			PageDTO paging = new PageDTO(pageNum, amount, totalCount);
+			
+			// 리뷰 delete dao
+			OrderQnaDTO dDto = new OrderQnaDTO();
+			dDto.setPur_q_seq(pur_q_seq);
+			dao.deleteWrite(dDto);
+
+			request.setAttribute("qnaList", qnaList);
+			request.setAttribute("paging", paging);
+
+			String path = "/EIBooks/orderQna/qnaList.oq";
+			response.sendRedirect(path);
 			
 		}
 	}

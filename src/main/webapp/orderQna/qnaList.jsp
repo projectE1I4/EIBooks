@@ -74,10 +74,10 @@ $(document).ready( function() {
     });
 });
 
-	function del(book_seq, qna_seq){
+	function del(pur_q_seq){
 		const input = confirm("정말 삭제하시겠습니까?");
 		if(input){
-			location.href = "<%=request.getContextPath()%>/qna/deleteProc.qq?book_seq=" + book_seq + "&qna_seq=" + qna_seq;
+			location.href = "<%=request.getContextPath()%>/orderQna/deleteProc.oq?pur_q_seq=" + pur_q_seq;
 		}else{
 			alert("삭제를 취소했습니다.");
 			return;
@@ -105,6 +105,9 @@ $(document).ready( function() {
 			</li>
 			<li>
 				<a href="/EIBooks/qna/qnaList.qq">상품문의 내역</a>
+			</li>
+			<li>
+				<a href="/EIBooks/orderQna/qnaList.oq">1:1문의 내역</a>
 			</li>
 		</ul>
 		<div class="tit_wrap">
@@ -157,7 +160,7 @@ $(document).ready( function() {
 									<div class="col">
 										<em><%=qna.getState() %></em>
 										<% if (qna.getState().equals("답변대기")) { %>
-											<a class="btn delete_btn" href="javascript:del('<%=qna.getBook_seq() %>','<%=qna.getPur_q_seq() %>');">
+											<a class="btn delete_btn" href="javascript:del('<%=qna.getPur_q_seq() %>');">
 												삭제
 											</a>
 										<% } %>
@@ -170,9 +173,11 @@ $(document).ready( function() {
 										<div class="cus_content">
 											<p><%=qna.getContent() %></p>
 										</div>
-										<div class="img_wrap">
-					                        <img src="<%=qna.getImageFile() %>" alt="표지이미지">
-					                    </div>
+										<% if(!qna.getImageFile().isEmpty()) { %>
+											<div class="img_wrap">
+						                        <img src="<%=qna.getImageFile() %>" alt="표지이미지">
+						                    </div>
+					                    <% } %>
 										<%
 										OrderQnaDAO dao = new OrderQnaDAO();
 										OrderQnaDTO reply = dao.selectReply(qna);

@@ -89,50 +89,51 @@ function previewImage(event) {
 							</select>
 						</div>
 						<div class="qna_input">
-							<p>주문내역</p>
-							<select class="choose" name="pur_seq">
-								<%
+							<div class="purchase">
+							    <p>주문내역</p>
+							    <em>3개월 이내의 주문내역</em>
+							</div>
+						    <div class="info_wrap">
+						    <%
 							 	OrderDTO prevItem = null;
 							   	int cnt = 0;
-								
-								for(OrderDTO o : orderList) {
-									// 이전 항목과 현재 항목이 동일한지 확인
-							        boolean isSameItem = prevItem != null && prevItem.getPur_seq() == o.getPur_seq();
+						   	
+							   	for (int i = 0; i < orderList.size(); i++) {
+							    	boolean isSameItem = prevItem != null && prevItem.getPur_seq() == orderList.get(i).getPur_seq();
 							        if(!isSameItem) { // 이전 항목과 다를 경우에만 표시
-									%>
-									<option value="<%=o.getPur_seq() %>">
-										<%=o.getPur_seq() %>&nbsp;&nbsp;&nbsp;
-										<%
-										OrderDTO dto = new OrderDTO();
-										dto.setPur_seq(o.getPur_seq());
-										OrderQnaDAO dao = new OrderQnaDAO();
-										
-										List<OrderDTO> order = dao.getOrderDetail(dto);
-										String title = "";
-										
-										int titleCnt = 0;
-										for (OrderDTO d : order) {
-											if (o.getPur_seq() == d.getPur_seq()) {
-												title = d.getBookInfo().getTitle();
-												titleCnt++;
-											}
-										}
-										%>
-										<%=title %>
-										<% if(titleCnt - 1 > 0) { %>
-											외 <%=titleCnt - 1 %>권
-										<% } %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-										<%=o.getOrderDate() %>
-									</option>
-								<%
+							    	%>
+							        <% OrderDTO o = orderList.get(i); %>
+							        <div class="radio_wrap">
+							            <input type="radio" id="info_text_<%= i %>" name="pur_seq" value="<%= o.getPur_seq() %>">
+							            <label for="info_text_<%= i %>">
+							            	<div class="txt">
+							            		<p><%=o.getPur_seq() %></p>
+								                <div class="title_i">
+								                	<p><%=o.getBookInfo().getTitle() %></p>
+								                	<%
+								                	OrderDTO dto = new OrderDTO();
+							            			dto.setPur_seq(o.getPur_seq());	
+							            			OrderDAO dao = new OrderDAO();
+							            			int titleCnt = dao.selectTitleCount(dto);
+							            			
+							            			if(titleCnt > 0) {
+								                	%>
+								                	<p>외 <%=titleCnt %>권</p>
+								                	<% } %>
+								                </div>
+								                <p><%=o.getOrderDate() %></p>
+							            	</div>
+							            </label>
+							        </div>
+							    <%
 							        } // if(!isSameItem)
-							        prevItem = o; // 현재 항목을 이전 항목으로 설정
+							        prevItem = orderList.get(i); // 현재 항목을 이전 항목으로 설정
 							    	
 							    } // for
 								%>
-
-							</select>
+						    </div>
 						</div>
+						
 						
 						<div class="qna_input">
 							<p>제목</p>
@@ -143,7 +144,7 @@ function previewImage(event) {
 							<textarea class="write_content" name="content" oninput="limitText(this, 500)"></textarea>
 						</div>
 						 <div class="img_wrap">
-                            <img id="imagePreview" src="" alt="Preview"><br>
+                            <img id="imagePreview" src="/EIBooks/styles/images/photo.svg" alt="Preview">
                             <input type="file" name="imageFile" onchange="previewImage(event)">
                         </div>
 						<div class="write_btn_wrap">

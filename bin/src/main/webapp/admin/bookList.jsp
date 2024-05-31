@@ -11,12 +11,12 @@ int totalCount = (int)request.getAttribute("totalCount");
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="EUC-KR">
+<meta charset="UTF">
 <title>Book List</title>
 </head>
 <body>
 
-<%@ include file="../common/header.jsp" %>
+<%@ include file="../common/menu.jsp" %>
 <h2>Board List</h2>
 <form  method="get">
 <table border="1" width="90%">

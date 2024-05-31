@@ -152,7 +152,7 @@
                     <hr>
                     <div class="info_wrap">
                         <div class="img_wrap">
-                            <img id="imagePreview" src="" alt="Preview"><br>
+                            <img id="imagePreview" src="/EIBooks/styles/images/photo_eee.svg" alt="Preview"><br>
                             <input type="file" name="imageFile" onchange="previewImage(event)">
                         </div>
                         <div class="product_info">

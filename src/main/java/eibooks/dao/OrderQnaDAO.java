@@ -74,6 +74,7 @@ public class OrderQnaDAO {
 				qna.setType(rs.getString("q.type"));
 				qna.setTitle(rs.getString("q.title"));
 				qna.setContent(rs.getString("q.content"));
+				qna.setImageFile(rs.getString("q.imageFile"));
 				qna.setRegDate(rs.getString("q.regDate"));
 				qna.setState(rs.getString("state"));
 				qna.setDepth(rs.getInt("depth"));
@@ -205,15 +206,18 @@ public class OrderQnaDAO {
 
 		int cus_seq = dto.getCus_seq();
 		
+		
 		try {
 			//conn
 			conn = JDBCConnect.getConnection();
 
 			//sql + 쿼리창
-			String sql= "select DATE_FORMAT(orderDate, '%Y-%m-%d') as orderDate_i, i.* from purchase p "
-					+ "join purchase_item i "
-					+ "on p.pur_seq = i.pur_seq "
-					+ "where p.cus_seq = ? ";
+			String sql= "select DATE_FORMAT(orderDate, '%Y-%m-%d') as orderDate_i, i.*, b.* from purchase_item i "
+					+ "join books b "
+					+ "on i.book_seq = b.book_seq "
+					+ "join purchase p "
+					+ "on i.pur_seq = p.pur_seq "
+					+ "where i.cus_seq = ? and orderDate >= date_sub(now(), interval 3 month) ";
 			
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, cus_seq);
@@ -228,6 +232,17 @@ public class OrderQnaDAO {
 				order.setPur_i_seq(rs.getInt("pur_i_seq"));
 				order.setOrderDate(rs.getString("orderDate_i"));
 				
+				BookDTO book = new BookDTO();
+				book.setImageFile(rs.getString("imageFile"));
+				book.setTitle(rs.getString("b.title"));
+				book.setAuthor(rs.getString("author"));
+				book.setPublisher(rs.getString("publisher"));
+				book.setPubDate(rs.getString("pubDate"));
+				book.setIsbn13(rs.getString("isbn13"));
+				book.setPrice(rs.getInt("price"));
+				
+				order.setBookInfo(book);
+				
 				orderList.add(order);
 
 			}
@@ -241,74 +256,6 @@ public class OrderQnaDAO {
 		return orderList;
 	}
 	
-	// 주문 내역의 도서 정보
-	public List<OrderDTO> getOrderDetail(OrderDTO dto) {
-		List<OrderDTO> orderList = new ArrayList<>();
-
-		//DB연결
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		
-		int pur_seq = dto.getPur_seq();
-
-		try {
-			//conn
-			conn = JDBCConnect.getConnection();
-
-			//sql + 쿼리창
-			String sql= "select rpad(substr(b.title, 1, 10), 13, '.') as title_i, i.*, b.* from purchase_item i "
-					+ "join purchase p "
-					+ "on i.pur_seq = p.pur_seq "
-					+ "join books b "
-					+ "on i.book_seq = b.book_seq "
-					+ "join customer c "
-					+ "on i.cus_seq = c.cus_seq "
-					+ "join customer_addr a "
-					+ "on i.cus_seq = a.cus_seq "
-					+ "where i.pur_seq = ? "
-					+ "order by pur_i_seq;";
-			
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, pur_seq);
-
-			rs = pstmt.executeQuery();
-
-			while(rs.next()) {
-				
-				OrderDTO order = new OrderDTO();
-				order.setPur_i_seq(rs.getInt("pur_i_seq"));
-				order.setPur_seq(rs.getInt("pur_seq"));
-				order.setBook_seq(rs.getInt("book_seq"));
-				order.setCus_seq(rs.getInt("cus_seq"));
-				order.setPur_i_count(rs.getInt("pur_i_count"));
-				order.setOrderDate(rs.getString("orderDate"));
-				
-				BookDTO book = new BookDTO();
-				book.setBook_seq(rs.getInt("book_seq"));
-				book.setImageFile(rs.getString("imageFile"));
-				book.setTitle(rs.getString("title_i"));
-				book.setPublisher(rs.getString("publisher"));
-				book.setPubDate(rs.getString("pubDate"));
-				book.setIsbn13(rs.getString("isbn13"));
-				book.setPrice(rs.getInt("price"));
-				
-				order.setBookInfo(book);
-                
-				// 장바구니에 담긴 각 도서의 정보를 가져와서 추가
-				orderList.add(order);
-
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			
-		} finally {
-			JDBCConnect.close(rs, pstmt, conn);
-		}
-
-		return orderList;
-	}
-
 	public void insertOrderQna(OrderQnaDTO dto) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -322,8 +269,8 @@ public class OrderQnaDAO {
 		String content = dto.getContent();
 		String imageFile = dto.getImageFile(); 
 		
-		String sql= "insert into order_qna(cus_seq, book_seq, pur_seq, pur_i_seq, type, title, content, state, imageFile) "
-				+ "values(?, ?, ?, ?, ?, ?, ?, '답변대기', ?) ";
+		String sql= " insert into order_qna(cus_seq, book_seq, pur_seq, pur_i_seq, type, title, content, state, imageFile) "
+				+ " values(?, ?, ?, ?, ?, ?, ?, '답변대기', ?) ";
 		try {
 			//conn
 			conn = JDBCConnect.getConnection();
@@ -336,12 +283,34 @@ public class OrderQnaDAO {
 			pstmt.setString(5, type);
 			pstmt.setString(6, title);
 			pstmt.setString(7, content);
-			pstmt.setString(7, imageFile);
+			pstmt.setString(8, imageFile);
 			pstmt.executeUpdate();
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 			
+		} finally {
+			JDBCConnect.close(pstmt, conn);
+		}
+	}
+
+	public void deleteWrite(OrderQnaDTO dto) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		
+		try {
+			conn = JDBCConnect.getConnection();
+			
+			String sql = "delete from order_qna "
+					+ " where pur_q_seq = ? ";
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, dto.getPur_q_seq());
+			
+			pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
 		} finally {
 			JDBCConnect.close(pstmt, conn);
 		}
