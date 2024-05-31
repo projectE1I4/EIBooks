@@ -74,7 +74,7 @@
 
 </head>
 <body data-cus-seq="<%= request.getAttribute("cusSeq") %>" data-cart-seq="<%= request.getAttribute("cartSeq") %>">
-<%@ include file="../common/menu.jsp" %>
+<%@ include file="../common/header.jsp" %>
 <div id="customer_wrap" class="customer">
 	<!-- 헤더 -->
 

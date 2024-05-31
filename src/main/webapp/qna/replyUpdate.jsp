@@ -104,7 +104,7 @@ $(document).ready( function() {
 	}
 
 	function del(qna_seq){
-		const input = confirm("리뷰를 삭제하시겠습니까?");
+		const input = confirm("문의를 삭제하시겠습니까?");
 		if(input){
 			location.href = "<%=request.getContextPath()%>/qna/depthOneDeleteProc.qq?qna_seq=" + qna_seq;
 		}else{
@@ -113,7 +113,7 @@ $(document).ready( function() {
 		}
 	}
 	function delReply(qna_seq, ref_seq){
-		const input = confirm("답글을 삭제하시겠습니까?");
+		const input = confirm("답변을 삭제하시겠습니까?");
 		if(input){
 			location.href = "<%=request.getContextPath()%>/qna/replyDeleteProc.qq?qna_seq=" + qna_seq + "&ref_seq=" + ref_seq;
 		}else{
@@ -140,7 +140,7 @@ $(document).ready( function() {
 </head>
 <body>
 
-<%@ include file="../common/menu.jsp" %>
+<%@ include file="../common/header.jsp" %>
 <div id="skip_navi">
   <a href="#container">본문바로가기</a>
 </div>
@@ -229,7 +229,7 @@ $(document).ready( function() {
 										
 										if(reply.getContent() != null) {
 										%>
-										<div class="admin_wrap reply">
+										<div class="admin_content_wrap reply">
 											<img src="../styles/images/arrow_right.png">
 											<div class="admin_name"><p>관리자</p></div>
 											<% if(qna_seq != reply.getQna_seq()) { %>
@@ -279,7 +279,7 @@ $(document).ready( function() {
 		<% if(!qnaList.isEmpty()) { %>
 			<div class="pagination">
 				<%if(p.isPrev()) {%>
-				<a class="first arrow" href="replyList.do?pageNum=1">
+				<a class="first arrow" href="reply.qq?pageNum=1">
 					<span class="blind">첫 페이지</span>
 				</a>
 				<%} else { %>
@@ -287,7 +287,7 @@ $(document).ready( function() {
 				<% } %>
 				
 				<%if(p.isPrev()) {%>
-				<a class="prev arrow" href="replyList.do?pageNum=<%=p.getStartPage()-1 %>">
+				<a class="prev arrow" href="reply.qq?pageNum=<%=p.getStartPage()-1 %>">
 					<span class="blind">이전 페이지</span>
 				</a>
 				<%} else { %>
@@ -298,12 +298,12 @@ $(document).ready( function() {
 					<%if(i == p.getPageNum()) {%>
 						<a class="number active"><%=i %></a>
 					<%}else {%>
-						<a class="number" href="replyList.do?pageNum=<%=i %>"><%=i %></a>
+						<a class="number" href="reply.qq?pageNum=<%=i %>"><%=i %></a>
 					<%} %>
 				<%} %>
 				
 				<%if(p.isNext()) {%>
-				<a class="next arrow" href="replyList.do?pageNum=<%=p.getEndPage()+1 %>">
+				<a class="next arrow" href="reply.qq?pageNum=<%=p.getEndPage()+1 %>">
 					<span class="blind">다음 페이지</span>
 				</a>
 				<%} else {%>
@@ -311,7 +311,7 @@ $(document).ready( function() {
 				<%} %>
 				
 				<%if(p.isNext()) {%>
-				<a class="last arrow" href="replyList.do?pageNum=<%=p.getRealEnd() %>">
+				<a class="last arrow" href="reply.qq?pageNum=<%=p.getRealEnd() %>">
 					<span class="blind">마지막 페이지</span>
 				</a>
 				<%} else { %>

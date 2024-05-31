@@ -48,14 +48,14 @@ $(document).ready( function() {
 function limitText(field, maxLength) {
 	if (field.value.length > maxLength) {
 		field.value = field.value.substring(0, maxLength);
-		alert('문의는 최대 ' + maxLength + '자까지 작성할 수 있습니다.');
+		alert('최대 ' + maxLength + '자까지 작성할 수 있습니다.');
 	}
 }
 </script>
 </head>
 <body>
 
-<%@ include file="../common/menu.jsp" %>
+<%@ include file="../common/header.jsp" %>
 <div id="skip_navi">
   <a href="#container">본문바로가기</a>
 </div>
@@ -84,7 +84,7 @@ function limitText(field, maxLength) {
 						</div>
 						<div class="qna_input">
 							<p>제목</p>
-							<input type="text" name="title">
+							<input type="text" name="title" oninput="limitText(this, 50)">
 							<div class="checkbox_wrap">
 								<input type="checkbox" id="protect_YN" name="protect_YN" value="Y">
 								<label for="protect_YN">비밀글</label>

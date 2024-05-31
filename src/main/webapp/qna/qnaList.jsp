@@ -49,9 +49,6 @@ String state = (String)request.getAttribute("state");
 <script>
 $(document).ready( function() {
     
-    $("#header").load("../styles/common/header.html");  // 원하는 파일 경로를 삽입하면 된다
-    $("#footer").load("../styles/common/footer.html");  // 추가 인클루드를 원할 경우 이런식으로 추가하면 된다
-  
     $('.sort_main').click(function() {
         $(this).next('.sort_menu').slideToggle();
         $(this).toggleClass('rotate');
@@ -94,7 +91,7 @@ $(document).ready( function() {
 </script>
 </head>
 <body>
-<%@ include file="../common/menu.jsp" %>
+<%@ include file="../common/header.jsp" %>
 
 <div id="skip_navi">
   <a href="#container">본문바로가기</a>
@@ -162,7 +159,7 @@ $(document).ready( function() {
 										<div class="book_text">
 											<p><%=qna.getBookInfo().getPublisher() %></p>
 											<strong><%=qna.getBookInfo().getTitle() %></strong>
-											<p><%=qna.getBookInfo().getAuthor() %></p>
+											<p class="author"><%=qna.getBookInfo().getAuthor() %></p>
 										</div>
 									</div>
 								</td>
@@ -192,7 +189,7 @@ $(document).ready( function() {
 										
 										if(reply.getContent() != null) {
 										%>
-										<div class="admin_wrap">
+										<div class="admin_content_wrap">
 											<div class="admin_name"><p>관리자</p></div>
 											<div class="admin_content"><p><%=reply.getContent() %></p></div>
 										</div>
@@ -209,7 +206,7 @@ $(document).ready( function() {
 		<% if(!qnaList.isEmpty()) { %>
 			<div class="pagination">
 				<%if(p.isPrev()) {%>
-				<a class="first arrow" href="replyList.do?pageNum=1">
+				<a class="first arrow" href="qnaList.qq?pageNum=1">
 					<span class="blind">첫 페이지</span>
 				</a>
 				<%} else { %>
@@ -217,7 +214,7 @@ $(document).ready( function() {
 				<% } %>
 				
 				<%if(p.isPrev()) {%>
-				<a class="prev arrow" href="replyList.do?pageNum=<%=p.getStartPage()-1 %>">
+				<a class="prev arrow" href="qnaList.qq?pageNum=<%=p.getStartPage()-1 %>">
 					<span class="blind">이전 페이지</span>
 				</a>
 				<%} else { %>
@@ -228,12 +225,12 @@ $(document).ready( function() {
 					<%if(i == p.getPageNum()) {%>
 						<a class="number active"><%=i %></a>
 					<%}else {%>
-						<a class="number" href="replyList.do?pageNum=<%=i %>"><%=i %></a>
+						<a class="number" href="qnaList.qq?pageNum=<%=i %>"><%=i %></a>
 					<%} %>
 				<%} %>
 				
 				<%if(p.isNext()) {%>
-				<a class="next arrow" href="replyList.do?pageNum=<%=p.getEndPage()+1 %>">
+				<a class="next arrow" href="qnaList.qq?pageNum=<%=p.getEndPage()+1 %>">
 					<span class="blind">다음 페이지</span>
 				</a>
 				<%} else {%>
@@ -241,7 +238,7 @@ $(document).ready( function() {
 				<%} %>
 				
 				<%if(p.isNext()) {%>
-				<a class="last arrow" href="replyList.do?pageNum=<%=p.getRealEnd() %>">
+				<a class="last arrow" href="qnaList.qq?pageNum=<%=p.getRealEnd() %>">
 					<span class="blind">마지막 페이지</span>
 				</a>
 				<%} else { %>

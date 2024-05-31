@@ -6,8 +6,9 @@
   --txt-color-600: #000;
 }
 
-#wrap {
+#container {
 	width: 1280px;
+	margin: 0 auto;
 }
 .tit_wrap {
 	margin: 50px 0 20px 0;
@@ -125,6 +126,9 @@
 .board_list_wrap .title_text {
 	text-align: left;
 	padding-left: 50px;
+	overflow: hidden;
+	white-space: nowrap; 
+	text-overflow: ellipsis; 
 }
 .col {
 	display: flex;
@@ -151,10 +155,11 @@
 }
 .reply_wrap_content .cus_content p {
 	width: 1050px;
-	padding: 30px 0 30px 350px ;
+	padding: 30px 30px 30px 350px ;
 	text-align: left;
 	justify-content: center;
 	align-items: center;
+	word-wrap: break-word;
 }
 .reply_wrap_content .cus_content .btn_wrap {
 	display: flex;
@@ -186,14 +191,14 @@
 	background-color: #fff;
 	height: 150px;
 }
-.admin_wrap {
+.admin_content_wrap {
 	width: 1280px;
 	display: flex;
 	align-items: center;
 	padding: 30px 0;
 	border-top: 1px solid #ddd;
 }
-.admin_wrap img {
+.admin_content_wrap img {
 	width: 30px;
 	margin-left: 100px;
 }
@@ -205,7 +210,10 @@
 	text-align: left;
 	width: calc(100% - 530px);
 }
-.admin_wrap .btn_wrap {
+.admin_content p {
+	word-wrap: break-word;
+}
+.admin_content_wrap .btn_wrap {
 	width: 230px;
 	display: flex;
 	justify-content: center;

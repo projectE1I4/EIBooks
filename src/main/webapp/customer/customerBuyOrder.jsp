@@ -61,7 +61,7 @@ function buy() {
 </script>
 </head>
 <body data-cus-seq="<%= request.getAttribute("cusSeq") %>" data-cart-seq="<%= request.getAttribute("cartSeq") %>">
-<%@ include file="../common/menu.jsp" %>
+<%@ include file="../common/header.jsp" %>
 <h2>주문 / 결제</h2>
 
 <form id="cartForm" action="customerBuyOrder.cc" method="post">

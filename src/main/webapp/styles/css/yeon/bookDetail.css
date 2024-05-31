@@ -25,10 +25,6 @@
 	margin-right: 10px;
 }
 
-.reply_wrap {
-	display: none;
-}
-
 .num {
 	width: 100px;
 }
@@ -63,12 +59,23 @@
 	text-overflow: ellipsis; 
 	text-align: left;
 }
+
+.reply_wrap {
+	display: none;
+}
+
 .reply_content {
 	border-top: 1px solid #eee;
 	text-align: left;
+    word-wrap: break-word;
 }
 .cus_content p {
 	padding: 15px 30px;
+}
+.title_text {
+	overflow: hidden;
+	white-space: nowrap; 
+	text-overflow: ellipsis; 
 }
 .admin_wrap {
 	background-color: #f8f8f8;

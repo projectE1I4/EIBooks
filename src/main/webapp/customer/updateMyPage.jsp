@@ -115,7 +115,7 @@ System.out.println(customer);
 </head>
 <body>
 
-<%@ include file="../common/menu.jsp" %>
+<%@ include file="../common/header.jsp" %>
 
 <h2>마이페이지</h2>
 <ul>

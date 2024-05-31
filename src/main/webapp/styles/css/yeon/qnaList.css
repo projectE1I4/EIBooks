@@ -6,8 +6,9 @@
   --txt-color-600: #000;
 }
 
-#wrap {
+#container {
 	width: 1280px;
+	margin: 0 auto;
 }
 .tit_wrap {
 	margin: 50px 0 20px 0;
@@ -103,8 +104,9 @@
 	height: 140px;
 	padding-left: 30px;
 }
-.book_info .book_image {
-	width: 100px;
+.book_info .book_image img {
+	min-width: 80px;
+	max-width: 80px;
 }
 .book_info .book_text {
 	text-align: left;
@@ -125,6 +127,9 @@
 .board_list_wrap .title_text {
 	text-align: left;
 	padding-left: 50px;
+	overflow: hidden;
+	white-space: nowrap; 
+	text-overflow: ellipsis; 
 }
 .col {
 	display: flex;
@@ -142,10 +147,11 @@
 }
 .reply_wrap_content .cus_content p {
 	width: 100%;
-	padding: 30px 0 30px 350px ;
+	padding: 30px 30px 30px 350px ;
 	text-align: left;
+	word-wrap: break-word;
 }
-.admin_wrap {
+.admin_content_wrap {
 	width: 1280px;
 	display: flex;
 	align-items: center;
@@ -158,4 +164,11 @@
 .admin_content {
 	padding: 0 50px;
 	text-align: left;
+}
+
+.author {
+	display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    overflow: hidden;
 }

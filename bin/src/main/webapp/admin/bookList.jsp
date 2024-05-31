@@ -16,7 +16,7 @@ int totalCount = (int)request.getAttribute("totalCount");
 </head>
 <body>
 
-<%@ include file="../common/menu.jsp" %>
+<%@ include file="../common/header.jsp" %>
 <h2>Board List</h2>
 <form  method="get">
 <table border="1" width="90%">

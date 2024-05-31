@@ -95,7 +95,7 @@ public class QnaController extends HttpServlet {
 			Map<String, String> map = new HashMap<>();
 
 			// paging info
-			int amount = 5;
+			int amount = 10;
 			int pageNum = 1;
 
 			String sPageNum = request.getParameter("pageNum");
@@ -136,7 +136,7 @@ public class QnaController extends HttpServlet {
 			map.put("state", state);
 				
 			// paging info
-			int amount = 10;
+			int amount = 5;
 			int pageNum = 1;
 			
 			String sPageNum = request.getParameter("pageNum");
@@ -147,11 +147,9 @@ public class QnaController extends HttpServlet {
 			map.put("amount", amount + "");
 			
 			QnaDTO dto = new QnaDTO();
-			dto.setCus_seq(cus_seq);
-            
 			QnaDAO dao = new QnaDAO();
             List<QnaDTO> qnaList = dao.getQnaAllList(map);
-            int totalCount = dao.selectCount(dto);
+            int totalCount = dao.selectAllCount();
             
             // Paging
  			PageDTO paging = new PageDTO(pageNum, amount, totalCount);
