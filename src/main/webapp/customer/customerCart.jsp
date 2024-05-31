@@ -15,38 +15,12 @@
 %>
 
 <!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- <meta name="viewport" content="width=1280"> -->
-  <meta name="format-detection" content="telephone=no">
-  <meta name="description" content="EIBooks">
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="EIBooks">
-  <meta property="og:description" content="EIBooks">
-  <meta property="og:image" content="http://hyerin1225.dothome.co.kr/EIBooks/images/EIBooks_logo.jpg"/>
-  <meta property="og:url" content="http://hyerin1225.dothome.co.kr/EIBooks"/>
-  <title>EIBooks</title>
-  <link rel="icon" href="images/favicon.png">
-  <link rel="apple-touch-icon" href="images/favicon.png">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/EIBooks/styles/css/jquery-ui.min.css">
-  <link rel="stylesheet" href="/EIBooks/styles/css/swiper-bundle.min.css">
-  <link rel="stylesheet" href="/EIBooks/styles/css/aos.css">
-  <link rel="stylesheet" href="/EIBooks/styles/css/common.css?v=<?php echo time(); ?>">
-  <link rel="stylesheet" href="/EIBooks/styles/css/header.css?v=<?php echo time(); ?>">
-  <link rel="stylesheet" href="/EIBooks/styles/css/footer.css?v=<?php echo time(); ?>">
-  <link rel="stylesheet" href="/EIBooks/styles/css/main.css?v=<?php echo time(); ?>">
+<html lang="ko">
+<%@ include file="/common/head.jsp" %>
   <link rel="stylesheet" href="/EIBooks/styles/css/cart/customerCart.css?v=<?php echo time(); ?>">
-  <script src="/EIBooks/styles/js/jquery-3.7.1.min.js"></script>
-  <script src="/EIBooks/styles/js/jquery-ui.min.js"></script>
-  <script src="/EIBooks/styles/js/swiper-bundle.min.js"></script>
-  <script src="/EIBooks/styles/js/aos.js"></script>
-  <script src="/EIBooks/styles/js/ui-common.js?v=<?php echo time(); ?>"></script>
-  <script type="text/javascript">   
+  </head>
+<body data-cus-seq="<%= request.getAttribute("cusSeq") %>" data-cart-seq="<%= request.getAttribute("cartSeq") %>">
+<script type="text/javascript">   
 	$(document).ready(function() {
 	
 	    // .arrow_icon 클릭 시 셀렉트 요소 클릭 트리거
@@ -78,17 +52,66 @@
 	    // AJAX 요청 보내기
 	    xhr.send("cus_seq=" + encodeURIComponent(cusSeq));
 	}
-   </script>
-   
-   
-<title>회원 장바구니 목록 보기</title>
-</head>
-<body data-cus-seq="<%= request.getAttribute("cusSeq") %>" data-cart-seq="<%= request.getAttribute("cartSeq") %>">
+</script>
+<script>
+//주문 제출 함수
+function submitOrder() {
+    // 장바구니가 비어 있는지 확인
+    var cartList = document.getElementById("cartForm");
+    if (cartList.getElementsByClassName("list_left").length === 0) {
+        alert("장바구니에 아무것도 없습니다.");
+        return;
+    }
+	console.log("버튼 눌림");
+	location.href="<%=request.getContextPath()%>/customerBuyOrders.cc";
+}
+
+
+
+//수량 증가 함수
+function increaseBtn(cartISeq) {
+    var inputField = document.querySelector("#quantity" + cartISeq);
+    inputField.stepUp(1);
+    updateCart(cartISeq, inputField.value); // AJAX 요청 보내기
+}
+
+// 수량 감소 함수
+function decreaseBtn(cartISeq) {
+    var inputField = document.querySelector("#quantity" + cartISeq);
+    inputField.stepDown(1);
+    updateCart(cartISeq, inputField.value); // AJAX 요청 보내기
+}
+
+// AJAX 요청 함수
+function updateCart(cartISeq, cartICount) {
+	//객체 생성
+    var xhr = new XMLHttpRequest();
+	//open()메서드 사용하여 요청 설정
+    xhr.open("POST", "updateCart.cc", true);
+    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    //onreadystatechange => 서버로부터의 응답 처리
+    xhr.onreadystatechange = function() {
+    	 if (xhr.readyState == 4 && xhr.status == 200) {
+    	        var response = JSON.parse(xhr.responseText);
+    	        console.log("변동됨");
+    	        document.getElementById("price" + cartISeq).innerText = response.totalPrice + "원";
+    	        document.getElementById("totalPrice").innerText = response.totalCartPrice - 3000;
+    	        document.getElementById("totalCartPrice").innerText = response.totalCartPrice;
+    	    }
+    };
+    var cusSeq = document.body.getAttribute('data-cus-seq'); // cusSeq 값을 읽어옵니다.
+    xhr.send("cartISeq=" + cartISeq + "&cartICount=" + cartICount + "&cusSeq=" + cusSeq);
+}
+
+// 페이지 로드 시 총 가격 가져오기
+window.onload = function() {
+	//totalCartPrice();
+};
+
+</script>
 <%@ include file="../common/header.jsp" %>
 
-<div id="customer_wrap" class="customer">
-	<!-- 헤더 -->
-
+<div id="wrap">
 	<main id="container">
 		<div class="inner">
 			<h1> 장바구니</h1>
@@ -156,63 +179,6 @@
 	</main>
 
 </div>
- 
-<script>
-//주문 제출 함수
-function submitOrder() {
-    // 장바구니가 비어 있는지 확인
-    var cartList = document.getElementById("cartForm");
-    if (cartList.getElementsByClassName("list_left").length === 0) {
-        alert("장바구니에 아무것도 없습니다.");
-        return;
-    }
-	console.log("버튼 눌림");
-	location.href="<%=request.getContextPath()%>/customerBuyOrders.cc";
-}
-
-
-
-//수량 증가 함수
-function increaseBtn(cartISeq) {
-    var inputField = document.querySelector("#quantity" + cartISeq);
-    inputField.stepUp(1);
-    updateCart(cartISeq, inputField.value); // AJAX 요청 보내기
-}
-
-// 수량 감소 함수
-function decreaseBtn(cartISeq) {
-    var inputField = document.querySelector("#quantity" + cartISeq);
-    inputField.stepDown(1);
-    updateCart(cartISeq, inputField.value); // AJAX 요청 보내기
-}
-
-// AJAX 요청 함수
-function updateCart(cartISeq, cartICount) {
-	//객체 생성
-    var xhr = new XMLHttpRequest();
-	//open()메서드 사용하여 요청 설정
-    xhr.open("POST", "updateCart.cc", true);
-    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    //onreadystatechange => 서버로부터의 응답 처리
-    xhr.onreadystatechange = function() {
-    	 if (xhr.readyState == 4 && xhr.status == 200) {
-    	        var response = JSON.parse(xhr.responseText);
-    	        console.log("변동됨");
-    	        document.getElementById("price" + cartISeq).innerText = response.totalPrice + "원";
-    	        document.getElementById("totalPrice").innerText = response.totalCartPrice - 3000;
-    	        document.getElementById("totalCartPrice").innerText = response.totalCartPrice;
-    	    }
-    };
-    var cusSeq = document.body.getAttribute('data-cus-seq'); // cusSeq 값을 읽어옵니다.
-    xhr.send("cartISeq=" + cartISeq + "&cartICount=" + cartICount + "&cusSeq=" + cusSeq);
-}
-
-// 페이지 로드 시 총 가격 가져오기
-window.onload = function() {
-	//totalCartPrice();
-};
-
-</script>
 </body>
 </html>
 
