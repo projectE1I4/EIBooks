@@ -5,7 +5,7 @@
 .detail_top {
 	height: 60px;
 	border: 3px solid #eee;
-	border-radius: 10px;
+	border-radius: 15px;
 	display: flex;
 	align-items:center;
 	padding: 10px;
@@ -13,7 +13,7 @@
 }
 .detail_top .category {
 	border: 3px solid #eee;
-	border-radius: 10px;
+	border-radius: 15px;
 	width: 130px;	
 	display:flex;
 	justify-content:center;
@@ -28,14 +28,14 @@
 .detail_main {
 	padding: 10px 50px;
 	border: 3px solid #eee;
-	border-radius: 10px;
+	border-radius: 15px;
 	position: relative;
 }
 .detail_main .book_info {
 }
 .detail_main .book_info .title_Author li{
 	border: 3px solid #eee;
-	border-radius: 10px;
+	border-radius: 15px;
 }
 .detail_main .book_info .title_Author .book_title{
 	margin-bottom: 5px;
@@ -167,7 +167,7 @@
 	width: 800px;
 	height: 145px;
 	background: #eee;
-	border-radius: 10px;
+	border-radius: 15px;
 	padding: 10px;
 }
 .detail_main .discription>p{
@@ -179,7 +179,7 @@
 .review {
 	margin-top: 10px;
 	border: 3px solid #eee;
-	border-radius: 10px;
+	border-radius: 15px;
 	padding: 10px;
 	margin-bottom: 10px;
 }

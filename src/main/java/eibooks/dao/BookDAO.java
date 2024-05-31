@@ -740,6 +740,8 @@ public class BookDAO {
             pstmt = conn.prepareStatement(sql);
             // 리스트 번호
             // offset
+            
+            System.out.println("best"+pstmt);
 
             // 4. execute
             rs = pstmt.executeQuery();
@@ -783,7 +785,7 @@ public List<BookDTO> newBooks() {
             pstmt = conn.prepareStatement(sql);
             // 리스트 번호
             // offset
-
+            System.out.println("new"+pstmt);
             // 4. execute
             rs = pstmt.executeQuery();
 
