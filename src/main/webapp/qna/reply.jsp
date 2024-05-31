@@ -69,7 +69,7 @@ $(document).ready( function() {
 });
 
 	function del(qna_seq){
-		const input = confirm("리뷰를 삭제하시겠습니까?");
+		const input = confirm("문의를 삭제하시겠습니까?");
 		if(input){
 			location.href = "<%=request.getContextPath()%>/qna/depthOneDeleteProc.qq?qna_seq=" + qna_seq;
 		}else{
@@ -78,7 +78,7 @@ $(document).ready( function() {
 		}
 	}
 	function delReply(qna_seq, ref_seq){
-		const input = confirm("답글을 삭제하시겠습니까?");
+		const input = confirm("답변을 삭제하시겠습니까?");
 		if(input){
 			location.href = "<%=request.getContextPath()%>/qna/replyDeleteProc.qq?qna_seq=" + qna_seq + "&ref_seq=" + ref_seq;
 		}else{

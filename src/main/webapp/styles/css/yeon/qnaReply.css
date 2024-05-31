@@ -151,10 +151,11 @@
 }
 .reply_wrap_content .cus_content p {
 	width: 1050px;
-	padding: 30px 0 30px 350px ;
+	padding: 30px 30px 30px 350px ;
 	text-align: left;
 	justify-content: center;
 	align-items: center;
+	word-wrap: break-word;
 }
 .reply_wrap_content .cus_content .btn_wrap {
 	display: flex;
@@ -204,6 +205,9 @@
 	padding: 0 50px;
 	text-align: left;
 	width: calc(100% - 530px);
+}
+.admin_content p {
+	word-wrap: break-word;
 }
 .admin_wrap .btn_wrap {
 	width: 230px;

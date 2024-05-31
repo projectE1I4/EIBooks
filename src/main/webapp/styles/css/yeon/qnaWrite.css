@@ -26,6 +26,12 @@
     overflow: hidden;
     margin-bottom: 20px;
 }
+
+.qna_form select {
+  width: 125px;
+  border: 1px solid #ccc;
+  padding: 5px;
+}
 .qna_form p {
 	font-size: 20px;
 	font-weight: 500;
@@ -50,6 +56,7 @@
 .qna_form .qna_input .write_content {
 	width: 975px;
 	border: 1px solid #ddd;
+	height: 200px;
 }
 .write_btn_wrap {
     display: flex;

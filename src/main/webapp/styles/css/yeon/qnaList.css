@@ -142,8 +142,9 @@
 }
 .reply_wrap_content .cus_content p {
 	width: 100%;
-	padding: 30px 0 30px 350px ;
+	padding: 30px 30px 30px 350px ;
 	text-align: left;
+	word-wrap: break-word;
 }
 .admin_wrap {
 	width: 1280px;
