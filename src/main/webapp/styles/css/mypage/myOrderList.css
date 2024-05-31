@@ -1,10 +1,9 @@
 #mypage {
 	display: flex;
-	border: 1px solid red;
+	width:85%;
 }
 .side_menu_wrap {
-	width: 45%;
-	border: 1px solid green;
+	/*width: 45%;*/
 }
 .side_menu_wrap h2 {
 	font-size: 24px;
@@ -13,6 +12,9 @@
 }
 .side_menu {
 	width: 200px;
+	display: flex;
+	flex-direction: column;
+	gap: 15px;
 }
 .side_menu .list_mypage a {
 	color: var(--point-color1);
@@ -22,7 +24,6 @@
 
 .content {
 	width: 100%;
-	border:1px solid blue;
 }
 .tit_wrap {
 	display: flex;

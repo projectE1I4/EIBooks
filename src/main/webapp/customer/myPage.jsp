@@ -111,8 +111,9 @@ function goToPage(pur_seq) {
 					<span>수령인: <%=orderItem.getCustomerInfo().getName() %></span>
 					<span class="price"><%	
 					int totalPrice = dao.selectTotalPrice(dto);
+					String sPrice = String.format("%,d", dao.selectTotalPrice(dto)); // 천 단위로 문자열 사이에 ',' 콤마 넣는 함수
 				%>
-				<%=totalPrice %> 원</span>
+				<%=sPrice %> 원</span>
 				</div>
 			</div>
 		</div>
@@ -121,7 +122,6 @@ function goToPage(pur_seq) {
         prevItem = orderItem; // 현재 항목을 이전 항목으로 설정
        
     } // for
-} // else
 %>  
 	</div>
 	
@@ -143,13 +143,11 @@ function goToPage(pur_seq) {
 		<%} %>
 		
 		<%for (int i = p.getStartPage(); i <= p.getEndPage(); i++) {%>
-		<%if (i == p.getPageNum()) {%>
-		<a class="number active"><%=i %>
-		</a>
-		<%} else {%>
-		<a class="number" href="myPage.or?<% if(searchWord != null) { %>searchWord=<%=searchWord %>&<%}%>pageNum=<%=i%>"><%=i %>
-		</a>
-		<%} %>
+			<%if (i == p.getPageNum()) {%>
+			<a class="number active"><%=i %></a>
+			<%} else {%>
+			<a class="number" href="myPage.or?<% if(searchWord != null) { %>searchWord=<%=searchWord %>&<%}%>pageNum=<%=i%>"><%=i %></a>
+			<%} %>
 		<%} %>
 		
 		<%if (p.isNext()) {%>
@@ -168,6 +166,7 @@ function goToPage(pur_seq) {
 		<a class="last arrow off"><span class="blind">마지막 페이지</span></a>
 		<%} %>
 	</div>
+	<%} %> <!-- else -->
 </div>
 </div>
 </div>
