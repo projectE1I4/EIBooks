@@ -28,7 +28,7 @@ public class ReviewDAO {
 				+ " on c.cus_seq = r.cus_seq "
 				+ " join purchase_item i "
 				+ " on r.pur_i_seq = i.pur_i_seq "
-				+ " where r.book_seq = ? and depth = 1 ";
+				+ " where r.book_seq = ?  ";
 		if (orderBy != null && orderBy.equals("latest")) {
 			sql += " order by r.regDate desc ";
 		} else if (orderBy != null && orderBy.equals("oldest")) {
@@ -61,7 +61,6 @@ public class ReviewDAO {
 				int reviewNum = rs.getInt("re_seq");
 				String reviewDate = rs.getString("r.regDate");
 				String content = rs.getString("r.content");
-				String ref_YN = rs.getString("ref_YN");
 				
 				String cus_id = rs.getString("c.cus_id");
 				CustomerDTO cDto = new CustomerDTO();
@@ -69,7 +68,6 @@ public class ReviewDAO {
 				
 				ReviewDTO dtos = new ReviewDTO(bookNum, userNum, pur_seq, pur_i_seq, reviewNum, grade, content, reviewDate);
 				dtos.setCusInfo(cDto);
-				dtos.setRef_YN(ref_YN);
 				reviews.add(dtos);
 			}
 		} catch (SQLException e) {
@@ -146,8 +144,7 @@ public class ReviewDAO {
 		int totalCount = 0;
 		
 		String sql = "select count(re_seq) as cnt from review "
-				+ " where book_seq = ? "
-				+ " and depth = 1 ";
+				+ " where book_seq = ? ";
 		
 		System.out.println(sql);
 		conn = JDBCConnect.getConnection();
@@ -206,7 +203,7 @@ public class ReviewDAO {
 		int reviewCount = 0;
 		
 		String sql = "select count(re_seq) as reviewCnt from review "
-				+ " where pur_i_seq = ? and depth = 1 ";
+				+ " where pur_i_seq = ? ";
 		
 		System.out.println(sql);
 		conn = JDBCConnect.getConnection();
@@ -239,7 +236,7 @@ public class ReviewDAO {
 				+ " on r.cus_seq = c.cus_seq "
 				+ " join purchase_item i "
 				+ " on r.pur_i_seq = i.pur_i_seq "
-				+ " where r.pur_i_seq = ? and depth = 1 ";
+				+ " where r.pur_i_seq = ? ";
 		
 		conn = JDBCConnect.getConnection();
 		
@@ -263,7 +260,6 @@ public class ReviewDAO {
 				
 				dto = new ReviewDTO(bookNum, pur_i_seq, reviewNum, grade, content);
 				dto.setCusInfo(cDto);
-				System.out.println("마이리뷰 왜 널임?   " + dto);
 			}
 			System.out.println("pstmt" + pstmt);
 			
@@ -336,13 +332,12 @@ public class ReviewDAO {
 		try {
 			conn = JDBCConnect.getConnection();
 			
-			String sql = " INSERT INTO review (cus_seq, book_seq, content, depth, ref_seq) VALUES (?, ?, ?, 2, ?);";
+			String sql = " INSERT INTO review (cus_seq, book_seq, content) VALUES (?, ?, ?);";
 			pstmt = conn.prepareStatement(sql);
 			
 			pstmt.setInt(1, dto.getUserNum());
 			pstmt.setInt(2, dto.getBookNum());
 			pstmt.setString(3, dto.getContent());
-			pstmt.setInt(4, dto.getRef_seq());
 			
 			pstmt.executeUpdate();
 			
@@ -361,8 +356,7 @@ public class ReviewDAO {
 		
 		int allReviews = 0;
 		
-		String sql = "select count(re_seq) as allReviewCnt from review "
-				+ " where depth = 1 ";
+		String sql = "select count(re_seq) as allReviewCnt from review ";
 		
 		System.out.println(sql);
 		conn = JDBCConnect.getConnection();
@@ -395,7 +389,6 @@ public class ReviewDAO {
 				+ " on c.cus_seq = r.cus_seq "
 				+ " join purchase_item i "
 				+ " on r.pur_i_seq = i.pur_i_seq "
-				+ " where depth = 1 "
 				+ " order by r.regDate desc "
 				+ " limit ? offset ? ";
 		
@@ -418,16 +411,12 @@ public class ReviewDAO {
 				int grade = rs.getInt("grade");
 				String reviewDate = rs.getString("r.regDate");
 				String content = rs.getString("content");
-				String refYN = rs.getString("ref_YN");
-				int ref_seq = rs.getInt("ref_seq");
 
 				String cus_id = rs.getString("c.cus_id");
 				CustomerDTO cDto = new CustomerDTO();
 				cDto.setCus_id(cus_id);
 				
 				ReviewDTO dtos = new ReviewDTO(bookNum, userNum, pur_seq, pur_i_seq, reviewNum, grade, content, reviewDate);
-				dtos.setRef_YN(refYN); 
-				dtos.setRef_seq(ref_seq);
 				dtos.setCusInfo(cDto);
 				reviews.add(dtos);
 			}
@@ -605,7 +594,7 @@ public class ReviewDAO {
 				+ " on c.cus_seq = r.cus_seq "
 				+ " join purchase_item i "
 				+ " on r.pur_i_seq = i.pur_i_seq "
-				+ " where r.book_seq = ? and depth = 1 "
+				+ " where r.book_seq = ? "
 				+ " order by r.grade desc, r.regDate asc "
 				+ " limit 4 ";
 		

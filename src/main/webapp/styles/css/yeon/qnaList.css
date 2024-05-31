@@ -6,8 +6,9 @@
   --txt-color-600: #000;
 }
 
-#wrap {
+#container {
 	width: 1280px;
+	margin: 0 auto;
 }
 .tit_wrap {
 	margin: 50px 0 20px 0;
@@ -150,7 +151,7 @@
 	text-align: left;
 	word-wrap: break-word;
 }
-.admin_wrap {
+.admin_content_wrap {
 	width: 1280px;
 	display: flex;
 	align-items: center;
@@ -163,4 +164,11 @@
 .admin_content {
 	padding: 0 50px;
 	text-align: left;
+}
+
+.author {
+	display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    overflow: hidden;
 }
