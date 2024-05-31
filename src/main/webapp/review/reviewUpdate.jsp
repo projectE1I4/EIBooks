@@ -196,19 +196,6 @@ function del(reviewNum){
 		</li>
 		<%} %>
 	</ul>
-	
-	<%
-        ReviewDAO dao = new ReviewDAO();
-        ReviewDTO reply = dao.selectReply(dto);
-        if (reply.getContent() != null) {
-     %>
-        <ul class="reply reply_info">
-        <img class="reply_icon" src="../styles/images/arrow_right.png" alt=""/>
-            <li>관리자</li>
-            <li><%= reply.getReviewDate() %></li>
-            <li class="reply content reply_content"><%= reply.getContent() %></li>
-        </ul>
-        <% } %>
         
 	</li>
 	<%} %>
