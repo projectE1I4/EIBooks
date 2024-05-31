@@ -52,7 +52,7 @@
 	    // AJAX 요청 보내기
 	    xhr.send("cus_seq=" + encodeURIComponent(cusSeq));
 	}
-</script>
+   </script>
 <script>
 //주문 제출 함수
 function submitOrder() {
@@ -177,7 +177,6 @@ window.onload = function() {
 			</div>
 		</div>		
 	</main>
-
 </div>
 </body>
 </html>
