@@ -1,3 +1,6 @@
+#container .inner {
+	display: block;
+}
 #main_wrap {
 }
 main {
