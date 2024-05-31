@@ -1,0 +1,152 @@
+#mypage {
+	display: flex;
+	width:85%;
+}
+.side_menu_wrap {
+	/*width: 45%;*/
+}
+.side_menu_wrap h2 {
+	font-size: 24px;
+	font-weight: 500;
+	margin-bottom: 20px;
+}
+.side_menu {
+	width: 200px;
+	display: flex;
+	flex-direction: column;
+	gap: 15px;
+}
+.side_menu .list_mypage a {
+	color: var(--point-color1);
+	font-weight: 700;
+	font-size: 20px;
+}
+
+.content {
+	width: 100%;
+}
+.tit_wrap {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	border-bottom: 2px solid #000;
+	padding-bottom: 20px;
+}
+.tit_wrap h1 {
+	font-size: 32px;
+}
+.search_wrap {
+	position: relative;
+}
+.search_text {
+	border-radius: 15px;
+}
+.search_btn {
+	border: none;
+	 border-radius: 50%;
+     cursor: pointer;
+     width: 30px;
+     height: 30px;
+     text-indent: -9999px;
+     position: absolute;
+     right: 5px;
+     top: 50%;
+     transform: translateY(-50%);
+     background-color: var(--point-color1);
+    -webkit-mask-image: url('../../images/search_black.svg');
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-size: cover;
+    mask-image: url('../../images/search_black.svg');
+    mask-repeat: no-repeat;
+    mask-size: cover;
+}
+
+.card_area{
+	padding: 20px;
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	width: 100%;
+}
+.card_area b {
+	text-align: center;
+}
+.card_wrap {
+	background-color: #fff;
+	border: 1px solid #ccc;
+	border-radius: 15px;
+	padding: 20px 25px;
+	display: flex;
+	justify-content: space-between;
+	width: 800px;
+	height: 180px;
+}
+.card_wrap .numbering {
+	border: 1px solid var(--point-color1);
+	background-color: #fff;
+	border-radius: 15px;
+	color: var(--point-color1);
+	padding: 0 10px;
+}
+
+.left_info {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	width: 70%;
+}
+.left_info .top_info {
+	display: flex;
+	gap: 20px;
+	align-items: center;
+}
+
+.left_info .bottom_info {
+	display: flex;
+	flex-direction: row;
+}
+.left_info .title {
+	font-size: 20px;
+	font-weight: 500;
+	overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+	word-wrap: break-word;
+}
+.left_info .etc_text {
+	font-size: 20px;
+	margin-left: 10px;
+	width: 50%;
+	color: var(--txt-color-400);
+}
+
+.left_info .detail_btn {
+	width: 150px;
+	cursor: pointer;
+	transition: 0.3s ease;
+	font-size: 14px;
+}
+.card_wrap:hover .detail_btn {
+	color: #fff;
+	background-color: var(--point-color1);
+
+}
+
+.right_info {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+.right_info span {
+	text-align: right;
+}
+.right_info .price {
+	font-weight: 500;
+	font-size: 20px;
+	color: var(--point-color1);
+}
+.right_info .bottom_info {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+}
