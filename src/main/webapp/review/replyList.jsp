@@ -62,15 +62,7 @@ $(document).ready( function() {
 			return;
 		}
 	}
-	function delReply(reviewNum, ref_seq){
-		const input = confirm("답글을 삭제하시겠습니까?");
-		if(input){
-			location.href = "<%=request.getContextPath()%>/review/replyDeleteProc.do?reviewNum=" + reviewNum + "&ref_seq=" + ref_seq;
-		}else{
-			alert("삭제를 취소했습니다.");
-			return;
-		}
-	}
+
 </script>
 <style type="text/css">
 
@@ -129,39 +121,11 @@ $(document).ready( function() {
             
             <%if(!(userNum == dto.getUserNum())) {%>
             <li class="review_btn_wrap">
-            	<% if(dto.getRef_YN().equals("Y")) { %>
-            			<a>
-						 <img src="../styles/images/review_comment.svg" alt="답글 달기" class="disable_btn"/>
-						</a>
-					<% } else { %>
-						<a href="replyWrite.do?bookNum=<%=dto.getBookNum() %>&reviewNum=<%=dto.getReviewNum() %>&isReply=1&pageNum=<%=p.getPageNum() %>">
-						<img src="../styles/images/review_comment.svg" alt="답글 달기"/>
-						</a> 
-				<% } %>
 				<a href="javascript:del('<%=dto.getReviewNum() %>')"><img src="../styles/images/delete.svg" alt="리뷰 삭제하기"/></a>
             </li>
 		<% } %>
 		</ul>
 		
-		<%
-		ReviewDAO dao = new ReviewDAO();
-		ReviewDTO reply = dao.selectReply(dto);
-		System.out.println(reply);
-		if (reply.getContent() != null) {
-		%>
-		<ul class="reply reply_info">
-			<img class="reply_icon" src="../styles/images/arrow_right.png" alt=""/>
-            <li>관리자</li>
-            <li><%= reply.getReviewDate() %></li>
-            <li class="reply content reply_content"><%= reply.getContent() %></li>
-            <%if(userNum == reply.getUserNum()) {%>
-            <li class="review_btn_wrap">
-            	<a href="replyUpdate.do?reviewNum=<%=reply.getReviewNum() %>&isReply=1"><img src="../styles/images/edit.svg" alt="답글 수정하기"/></a> 
-				<a href="javascript:delReply('<%=reply.getReviewNum() %>', '<%=reply.getRef_seq()%>')"><img src="../styles/images/delete.svg" alt="답글 삭제하기"/></a>
-            </li>
-            <%} %>
-		</ul>
-		<%} %>
 	</li>
 		<%} %>
 </ul>
