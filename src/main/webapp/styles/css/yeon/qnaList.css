@@ -103,8 +103,9 @@
 	height: 140px;
 	padding-left: 30px;
 }
-.book_info .book_image {
-	width: 100px;
+.book_info .book_image img {
+	min-width: 80px;
+	max-width: 80px;
 }
 .book_info .book_text {
 	text-align: left;
@@ -125,6 +126,9 @@
 .board_list_wrap .title_text {
 	text-align: left;
 	padding-left: 50px;
+	overflow: hidden;
+	white-space: nowrap; 
+	text-overflow: ellipsis; 
 }
 .col {
 	display: flex;

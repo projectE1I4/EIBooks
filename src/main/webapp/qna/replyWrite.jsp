@@ -147,7 +147,7 @@ $(document).ready( function() {
 </head>
 <body>
 
-<%@ include file="../common/menu.jsp" %>
+<%@ include file="../common/header.jsp" %>
 <div id="skip_navi">
   <a href="#container">본문바로가기</a>
 </div>
