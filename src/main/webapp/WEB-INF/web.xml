@@ -48,8 +48,19 @@
     	<servlet-name>QnaController</servlet-name>
     	<servlet-class>eibooks.controller.QnaController</servlet-class>
     </servlet>
+    <servlet>
+    	<description>
+    	</description>
+    	<display-name>OrderQnaController</display-name>
+    	<servlet-name>OrderQnaController</servlet-name>
+    	<servlet-class>eibooks.controller.OrderQnaController</servlet-class>
+    </servlet>
     <servlet-mapping>
     	<servlet-name>QnaController</servlet-name>
     	<url-pattern>/QnaController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+    	<servlet-name>OrderQnaController</servlet-name>
+    	<url-pattern>/OrderQnaController</url-pattern>
     </servlet-mapping>
 </web-app>

@@ -37,12 +37,10 @@ public class QnaController extends HttpServlet {
 	}
 	
 	protected void doProcess(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("doProcess");
 		request.setCharacterEncoding("utf-8"); // 한글처리
 
 		String uri = request.getRequestURI();
 		String action = uri.substring(uri.lastIndexOf("/"));
-		System.out.println(uri);
 		
 		if(action.equals("/qnaList.qq")) {
 			Map<String, String> map = new HashMap<>();
@@ -82,6 +80,7 @@ public class QnaController extends HttpServlet {
             // forward
             String path = "./qnaList.jsp"; // 전체 주문 목록 페이지의 JSP 파일 경로
             request.getRequestDispatcher(path).forward(request, response);
+            
 		} else if(action.equals("/deleteProc.qq")) {
 			String sBook_seq = request.getParameter("book_seq");
 			int book_seq = Integer.parseInt(sBook_seq);
@@ -126,6 +125,7 @@ public class QnaController extends HttpServlet {
 
 			String path = "/EIBooks/qna/qnaList.qq";
 			response.sendRedirect(path);
+			
 		} else if(action.equals("/reply.qq")) {
 			Map<String, String> map = new HashMap<>();
 			
@@ -161,6 +161,7 @@ public class QnaController extends HttpServlet {
             // forward
             String path = "./reply.jsp"; // 전체 주문 목록 페이지의 JSP 파일 경로
             request.getRequestDispatcher(path).forward(request, response);
+            
 		} else if(action.equals("/replyWrite.qq")) {
 			// 값 받기
 			String sBook_seq = request.getParameter("book_seq");
@@ -387,7 +388,7 @@ public class QnaController extends HttpServlet {
 			String path = "/EIBooks/qna/reply.qq";
 			response.sendRedirect(path);
 			
-		}  else if(action.equals("/qnaWrite.qq")) {
+		} else if(action.equals("/qnaWrite.qq")) {
 			// 값 받기
 			String sBook_seq = request.getParameter("book_seq");
 			int book_seq = Integer.parseInt(sBook_seq);

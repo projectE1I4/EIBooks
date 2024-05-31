@@ -1,18 +1,14 @@
-<%@page import="eibooks.dao.QnaDAO"%>
-<%@page import="eibooks.dao.OrderDAO"%>
-<%@page import="eibooks.dto.OrderDTO"%>
-<%@page import="eibooks.dao.BookDAO"%>
-<%@page import="eibooks.dto.BookDTO"%>
-<%@page import="eibooks.dto.QnaDTO"%>
-<%@page import="java.util.List"%>
+<%@page import="eibooks.dao.OrderQnaDAO"%>
 <%@page import="eibooks.common.PageDTO"%>
+<%@page import="eibooks.dto.OrderQnaDTO"%>
+<%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
-List<QnaDTO> qnaList = (List<QnaDTO>)request.getAttribute("qnaList");
+List<OrderQnaDTO> qnaList = (List<OrderQnaDTO>)request.getAttribute("qnaList");
 PageDTO p = (PageDTO)request.getAttribute("paging");
 String state = (String)request.getAttribute("state");
-%>  
+%>      
 <!DOCTYPE html>
 <html>
 <head>
@@ -39,7 +35,7 @@ String state = (String)request.getAttribute("state");
 <link rel="stylesheet" href="/EIBooks/styles/css/header.css?v=<?php echo time(); ?>">
 <link rel="stylesheet" href="/EIBooks/styles/css/footer.css?v=<?php echo time(); ?>">
 <link rel="stylesheet" href="/EIBooks/styles/css/main.css?v=<?php echo time(); ?>">
-<link rel="stylesheet" href="/EIBooks/styles/css/yeon/qnaList.css?v=<?php echo time(); ?>">
+<link rel="stylesheet" href="/EIBooks/styles/css/yeon/qnaList2.css?v=<?php echo time(); ?>">
 <script src="/EIBooks/styles/js/jquery-3.7.1.min.js"></script>
 <script src="/EIBooks/styles/js/jquery-ui.min.js"></script>
 <script src="/EIBooks/styles/js/swiper-bundle.min.js"></script>
@@ -91,6 +87,7 @@ $(document).ready( function() {
 </script>
 </head>
 <body>
+
 <%@ include file="../common/header.jsp" %>
 
 <div id="skip_navi">
@@ -111,7 +108,10 @@ $(document).ready( function() {
 			</li>
 		</ul>
 		<div class="tit_wrap">
-		<h1>상품 문의</h1>
+		<h1>1:1 문의</h1>
+		<div class="btn_wrap">
+			<a class="btn insert_btn" href="<%=request.getContextPath()%>/orderQna/qnaWrite.oq">작성하기</a>
+		</div>
 		<ul class="sort_wrap">
 				<li class="sort_main">
 				<%= "전체보기".equals(state) ? "전체보기" :
@@ -122,13 +122,13 @@ $(document).ready( function() {
 				<li class="sort_menu">
 					<ul>
 						<li>
-							<a href="/EIBooks/qna/qnaList.qq">전체보기</a>
+							<a href="/EIBooks/orderQna/qnaList.oq">전체보기</a>
 						</li>
 						<li>
-							<a href="/EIBooks/qna/qnaList.qq?state=답변대기">답변대기</a>
+							<a href="/EIBooks/orderQna/qnaList.oq?state=답변대기">답변대기</a>
 						</li>
 						<li>
-							<a href="/EIBooks/qna/qnaList.qq?state=답변완료">답변완료</a>
+							<a href="/EIBooks/orderQna/qnaList.oq?state=답변완료">답변완료</a>
 						</li>
 					</ul>
 				</li>
@@ -138,9 +138,8 @@ $(document).ready( function() {
 			<table>
 				<thead>
 					<tr>
-						<th class="info">상품 정보</th>
-						<th class="title">제목</th>
-						<th class="type">문의 유형</th>
+						<th class="title">내용</th>
+						<th class="pur_seq">주문 번호</th>
 						<th class="date">작성일</th>
 						<th class="state">처리 상태</th>
 					</tr>
@@ -149,49 +148,42 @@ $(document).ready( function() {
 					<% if(qnaList.isEmpty()) { %>	
 						<tr><td colspan="8">&nbsp;<b>Data Not Found!!</b></td></tr>
 					<% } else { %>
-						<% for(QnaDTO qna : qnaList){ %>	
+						<% for(OrderQnaDTO qna : qnaList){ %>	
 							<tr class="qna_wrap">
-								<td>
-									<div class="book_info">
-										<div class="book_image">
-											<img src="<%=qna.getBookInfo().getImageFile()%>" alt="표지이미지">
-										</div>
-										<div class="book_text">
-											<p><%=qna.getBookInfo().getPublisher() %></p>
-											<strong><%=qna.getBookInfo().getTitle() %></strong>
-											<p class="author"><%=qna.getBookInfo().getAuthor() %></p>
-										</div>
-									</div>
-								</td>
 								<td class="title_text"><%=qna.getTitle() %></td>
-								<td><%=qna.getType() %></td>
+								<td><%=qna.getPur_seq() %></td>
 								<td><%=qna.getRegDate() %></td>
 								<td>
 									<div class="col">
 										<em><%=qna.getState() %></em>
 										<% if (qna.getState().equals("답변대기")) { %>
-											<a class="btn delete_btn" href="javascript:del('<%=qna.getBook_seq() %>','<%=qna.getQna_seq() %>');">삭제
-												<span class="blind">삭제</span>
+											<a class="btn delete_btn" href="javascript:del('<%=qna.getBook_seq() %>','<%=qna.getPur_q_seq() %>');">
+												삭제
 											</a>
 										<% } %>
 									</div>
 								</td>
 							</tr>
 							<tr class="reply_wrap">
-								<td colspan="5">
+								<td colspan="4">
 									<div class="reply_wrap_content">
 										<div class="cus_content">
 											<p><%=qna.getContent() %></p>
 										</div>
+										<div class="img_wrap">
+					                        <img src="<%=qna.getImageFile() %>" alt="표지이미지">
+					                    </div>
 										<%
-										QnaDAO dao = new QnaDAO();
-										QnaDTO reply = dao.selectReply(qna);
+										OrderQnaDAO dao = new OrderQnaDAO();
+										OrderQnaDTO reply = dao.selectReply(qna);
 										
 										if(reply.getContent() != null) {
 										%>
 										<div class="admin_content_wrap">
-											<div class="admin_name"><p>관리자</p></div>
-											<div class="admin_content"><p><%=reply.getContent() %></p></div>
+											<div class="admin_content">
+												<p><%=reply.getContent() %></p>
+												<p><%=reply.getRegDate() %></p>
+											</div>
 										</div>
 										<% } %> <!-- if(reply) -->
 									</div>
@@ -246,7 +238,11 @@ $(document).ready( function() {
 				<%} %>
 			</div>
 		<% } %>
+		
+		
+		
 	</main>
 </div>
+
 </body>
 </html>
