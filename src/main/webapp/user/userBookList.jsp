@@ -234,6 +234,9 @@ function buying(book_seq){
 		<header id="header"></header>
 		<main id="container">
 			<section class="list_main">
+			<div class="category_area">
+			
+			
 				<!-- 카테고리 -->
 				<!-- all / 만화 / 소설,시,희곡, / 수험서, 자격증 / 인문학 -->
 				<div class="category">
@@ -254,6 +257,7 @@ function buying(book_seq){
 								href="userBookList.bo?pageNum=1&searchWord=&category=인문학">[인문학]</a></li>
 						</ul>
 					</div>
+				</div>
 				</div>
 				<!-- 전체 목록 -->
 				<div class="main_contents">

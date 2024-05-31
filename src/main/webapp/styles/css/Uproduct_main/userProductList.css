@@ -8,15 +8,21 @@
   display: flex;
 }
 
+.category_area {
+	height: 3218px;
+	position: relative;
+	margin-top: 20px;
+}
 /*카테고리*/
 .category {
   width: 200px;
   height: 300px;
   border: 3px solid #eee;
-  border-radius: 10px;
+  border-radius: 15px;
   padding: 20px;
-  margin-top: 20px;
   margin-right: 10px;
+  position: sticky;
+  top: 20px;
 }
 
 .category .catrgory_wrap .category_title {
@@ -57,7 +63,7 @@
 /*middle_bar: 옵션 창*/
 .middle_bar {
 	border: 3px solid #eee;
-	border-radius: 10px;
+	border-radius: 15px;
 	display: flex;
 	padding: 10px;
 	margin: 20px 0;
@@ -143,7 +149,7 @@
 .main_books {
   width: 100%;
   border: 3px solid #eee;
-  border-radius: 10px;
+  border-radius: 15px;
   padding: 10px;
 }
 
