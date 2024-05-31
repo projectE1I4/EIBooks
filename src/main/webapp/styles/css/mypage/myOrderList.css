@@ -1,8 +1,10 @@
 #mypage {
 	display: flex;
+	border: 1px solid red;
 }
 .side_menu_wrap {
 	width: 45%;
+	border: 1px solid green;
 }
 .side_menu_wrap h2 {
 	font-size: 24px;
@@ -12,7 +14,16 @@
 .side_menu {
 	width: 200px;
 }
+.side_menu .list_mypage a {
+	color: var(--point-color1);
+	font-weight: 700;
+	font-size: 20px;
+}
 
+.content {
+	width: 100%;
+	border:1px solid blue;
+}
 .tit_wrap {
 	display: flex;
 	justify-content: space-between;
@@ -54,6 +65,10 @@
 	display: flex;
 	flex-direction: column;
 	gap: 10px;
+	width: 100%;
+}
+.card_area b {
+	text-align: center;
 }
 .card_wrap {
 	background-color: #fff;
@@ -101,6 +116,7 @@
 	font-size: 20px;
 	margin-left: 10px;
 	width: 50%;
+	color: var(--txt-color-400);
 }
 
 .left_info .detail_btn {

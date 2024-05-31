@@ -18,7 +18,6 @@
 	PageDTO p = (PageDTO)request.getAttribute("paging");
 	int totalCount = (int)request.getAttribute("totalCount");
 	String searchWord = (String)request.getAttribute("searchWord");
-	out.print(orderList.size());
 %>      
 <!DOCTYPE html>
 <html lang="ko">
@@ -45,7 +44,7 @@ function goToPage(pur_seq) {
 	<li>
 		<a href="/EIBooks/customer/updateMyPage.cs">회원정보 수정</a>
 	</li>
-	<li>
+	<li class="list_mypage">
 		<a href="/EIBooks/customer/myPage.or">나의 주문목록</a>
 	</li>
 	<li>
@@ -75,14 +74,12 @@ function goToPage(pur_seq) {
 <% } else {
    	OrderDTO prevItem = null;
    	int cnt = 0;
-   	out.print(orderList);
     for(OrderDTO orderItem : orderList) {
     	
     	// 이전 항목과 현재 항목이 동일한지 확인
         boolean isSameItem = prevItem != null && prevItem.getPur_seq() == orderItem.getPur_seq();
         if(!isSameItem) { // 이전 항목과 다를 경우에만 표시
         	 cnt++;
-        out.print(cnt);
 %>
 
 		<div class="card_wrap">
