@@ -1,0 +1,447 @@
+:root {
+  --point-color1: #6A5AFF;
+  --txt-color-400: #999;
+  --txt-color-500: #333;
+  --txt-color-600: #000;
+  --btn-border-radius: 15px;
+  --btn-color: #333;
+  --btn-border-color: #ccc;
+  --btn-disable-bgcolor: #E4E4E4;
+  --btn-disable-color: #6f6f6f;
+}
+
+/* 로그인 스타일링 부분 */
+
+#login {
+  width: 400px;
+  padding: 70px 30px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background-color: #fff;
+}
+
+#login h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--txt-color-500);
+}
+
+#login .form-group {
+  margin-bottom: 15px;
+}
+
+#login .form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 14px;
+  color: var(--txt-color-500);
+}
+
+#login .form-group input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 14px;
+  color: var(--txt-color-500);
+}
+
+#login .form-group input::placeholder {
+  color: var(--txt-color-400);
+}
+
+#login .error-message {
+  color: red;
+  font-size: 12px;
+  margin-top: 5px;
+}
+#login .btn-group {
+  margin-top: 10px;
+}
+
+#login .btn {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  background-color: var(--txt-color-500);
+  color: white;
+  border: none;
+  border-radius: var(--btn-border-radius);
+  cursor: pointer;
+  font-size: 14px;
+}
+
+#login .btn:hover {
+  background-color: #555;
+}
+
+#login .btn[disabled] {
+  background-color: var(--btn-disable-bgcolor);
+  color: var(--btn-disable-color);
+  cursor: not-allowed;
+}
+
+#login .extra-links {
+  margin-top: 30px;
+  text-align: center;
+  font-size: 14px;
+  display: flex;
+  justify-content: space-around;
+}
+
+#login .extra-links a {
+  color: var(--point-color1);
+  text-decoration: none;
+  margin: 0 5px;
+}
+
+#login .extra-links a:hover {
+  text-decoration: underline;
+}
+
+/*  회원가입 부분 스타일링 */
+
+#signup {
+  width: 500px;
+  padding: 30px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background-color: #fff;
+}
+
+#signup .anoterpage a{
+  color: #ccc;
+  display: block;
+  margin-bottom: 20px;
+  font-size: 12px;
+}
+
+#signup h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--txt-color-500);
+}
+
+#signup .form-group {
+  margin-bottom: 15px;
+}
+
+#signup .form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 14px;
+  color: var(--txt-color-500);
+}
+
+#signup .form-group input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 14px;
+  color: var(--txt-color-500);
+}
+
+#signup .form-group input::placeholder {
+  color: var(--txt-color-400);
+}
+
+#signup .form-group span.optional {
+  font-size: 12px;
+  color: var(--txt-color-400);
+}
+
+#signup .error-message {
+  color: red;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+#signup .check-result {
+  margin-top: 5px;
+  font-size: 12px;
+}
+
+#signup .btn-group {
+  margin-top: 30px;
+}
+
+#signup .btn {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  background-color: var(--txt-color-500);
+  color: white;
+  border: none;
+  border-radius: var(--btn-border-radius);
+  cursor: pointer;
+  font-size: 14px;
+}
+#signup .check {
+  width: 90px;
+   height: 35px;
+}
+
+#signup .btn:hover {
+  background-color: #555;
+}
+
+#signup .btn[disabled] {
+  background-color: var(--btn-disable-bgcolor);
+  color: var(--btn-disable-color);
+  cursor: not-allowed;
+}
+
+/* 아이디 찾기 부분 스타일링 */
+#findId {
+  width: 400px;
+  padding: 30px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background-color: #fff;
+}
+
+#findId .anoterpage a {
+  color: #ccc;
+  display: block;
+  margin-bottom: 20px;
+  font-size: 12px;
+}
+
+#findId h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--txt-color-500);
+}
+
+#findId .form-group {
+  margin-bottom: 15px;
+}
+
+#findId .form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 14px;
+  color: var(--txt-color-500);
+}
+
+#findId .form-group input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 14px;
+  color: var(--txt-color-500);
+}
+
+#findId .form-group input::placeholder {
+  color: var(--txt-color-400);
+}
+
+#findId .error-message {
+  color: red;
+  font-size: 14px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+#findId .success-message {
+  color: green;
+  font-size: 14px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+#findId .btn {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  background-color: var(--txt-color-500);
+  color: white;
+  border: none;
+  border-radius: var(--btn-border-radius);
+  cursor: pointer;
+  font-size: 14px;
+}
+
+#findId .btn:hover {
+  background-color: #555;
+}
+
+#findId .btn[disabled] {
+  background-color: var(--btn-disable-bgcolor);
+  color: var(--btn-disable-color);
+  cursor: not-allowed;
+}
+
+/* 본인인증 부분 스타일링 */
+#verification {
+  width: 400px;
+  padding: 30px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background-color: #fff;
+}
+
+#verification .anoterpage a {
+  color: #ccc;
+  display: block;
+  margin-bottom: 20px;
+  font-size: 12px;
+}
+
+#verification h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--txt-color-500);
+}
+
+#verification .form-group {
+  margin-bottom: 15px;
+}
+
+#verification .form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 14px;
+  color: var(--txt-color-500);
+}
+
+#verification .form-group input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 14px;
+  color: var(--txt-color-500);
+}
+
+#verification .form-group input::placeholder {
+  color: var(--txt-color-400);
+}
+
+#verification .error-message {
+  color: red;
+  font-size: 14px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+#verification .success-message {
+  color: green;
+  font-size: 14px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+#verification .btn {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  background-color: var(--txt-color-500);
+  color: white;
+  border: none;
+  border-radius: var(--btn-border-radius);
+  cursor: pointer;
+  font-size: 14px;
+}
+
+#verification .btn:hover {
+  background-color: #555;
+}
+
+#verification .btn[disabled] {
+  background-color: var(--btn-disable-bgcolor);
+  color: var(--btn-disable-color);
+  cursor: not-allowed;
+}
+
+/* 비밀번호 재설정 부분 스타일링 */
+#resetPassword {
+  width: 400px;
+  padding: 30px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background-color: #fff;
+}
+
+#resetPassword h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--txt-color-500);
+}
+
+#resetPassword .form-group {
+  margin-bottom: 15px;
+}
+
+#resetPassword .form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 14px;
+  color: var(--txt-color-500);
+}
+
+#resetPassword .form-group input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 14px;
+  color: var(--txt-color-500);
+}
+
+#resetPassword .form-group input::placeholder {
+  color: var(--txt-color-400);
+}
+
+#resetPassword .form-group input[readonly] {
+  background-color: #f9f9f9;
+  color: var(--txt-color-400);
+}
+
+#resetPassword .error-message {
+  color: red;
+  font-size: 14px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+#resetPassword .success-message {
+  color: green;
+  font-size: 14px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+#resetPassword .btn {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  background-color: var(--txt-color-500);
+  color: white;
+  border: none;
+  border-radius: var(--btn-border-radius);
+  cursor: pointer;
+  font-size: 14px;
+}
+
+#resetPassword .btn:hover {
+  background-color: #555;
+}
+
+#resetPassword .btn[disabled] {
+  background-color: var(--btn-disable-bgcolor);
+  color: var(--btn-disable-color);
+  cursor: not-allowed;
+}

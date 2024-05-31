@@ -281,8 +281,8 @@ public class BookController extends HttpServlet {
 			int bookCnt = bDao.getBookCount();
 
 			CustomerDAO cDao = new CustomerDAO();
-			int cusCnt = cDao.getCustomerCount();
-
+//			int cusCnt = cDao.getCustomerCount();
+			int cusCnt = cDao.selectTotalCount();
 			request.setAttribute("bookCnt", bookCnt);
 			request.setAttribute("cusCnt", cusCnt);
 
