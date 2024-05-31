@@ -20,60 +20,57 @@
 	String searchWord = (String)request.getAttribute("searchWord");
 %>      
 <!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>myPage.jsp</title>
-
+<html lang="ko">
+<%@ include file="/common/head.jsp" %>
+<link rel="stylesheet" href="/EIBooks/styles/css/mypage/myOrderList.css?v=<?php echo time(); ?>">
+</head>
+<body>
 <script type="text/javascript">
 function goToPage(pur_seq) {
 	location.href = "myOrderDetail.or?pur_seq=" + pur_seq;
 }
 </script>
-
-</head>
-<body>
-
+<div id="skip_navi">
+  <a href="#container">본문바로가기</a>
+</div>
+<div id="wrap">
 <%@ include file="../common/header.jsp" %>
-
-<!-- 제목 --> 
+<main id="container">
+<div class="inner">
+<div id="mypage">
+<div class="side_menu_wrap">
 <h2>마이페이지</h2>
-<ul>
+<ul class="side_menu">
 	<li>
 		<a href="/EIBooks/customer/updateMyPage.cs">회원정보 수정</a>
 	</li>
-	<li>
+	<li class="list_mypage">
 		<a href="/EIBooks/customer/myPage.or">나의 주문목록</a>
 	</li>
 	<li>
 		<a href="/EIBooks/qna/qnaList.qq">상품문의 내역</a>
 	</li>
+	<li>
+		<a href="/EIBooks/orderQna/qnaList.oq">1:1문의 내역</a>
+	</li>
 </ul>
+</div>
 
-<form  method="get">
-<table width="80%">
-	<tr>	
-	<td align="right">
-		<input type="text" name="searchWord" <% if(searchWord != null) { %>value="<%=searchWord %>"<% } %>>
-		<input type="submit" value="Search" >
-	</td>
-	</tr>
-</table>
-</form>
-<br>
-<!-- 주문 목록 -->
-<table border="1" width="80%">
-<tr>
-    <th width="10%">NO</th>
-    <th width="20%">주문일자</th>
-    <th width="15%">주문번호</th>
-    <th width="12%">수령인</th>
-    <th width="28%">상품 정보</th>
-    <th width="15%">가격</th>
-</tr>
+<div class="content">
+	<div class="tit_wrap">
+		<h1>주문 조회</h1>
+		<form  method="get">
+		<div class="search_wrap">
+			<input class="search_text" type="text" name="searchWord" <% if(searchWord != null) { %>value="<%=searchWord %>"<% } %>>
+			<input class="search_btn" type="submit" value="Search" >
+		</div>
+		</form>
+	</div>
+	
+	<div class="card_area">
 <% 
     if(orderList.isEmpty()) { %>  
-    <tr><td colspan="8">&nbsp; 주문 목록이 없습니다.</td></tr>
+    <b>주문 목록이 없습니다.</b>
 <% } else {
    	OrderDTO prevItem = null;
    	int cnt = 0;
@@ -83,55 +80,97 @@ function goToPage(pur_seq) {
         boolean isSameItem = prevItem != null && prevItem.getPur_seq() == orderItem.getPur_seq();
         if(!isSameItem) { // 이전 항목과 다를 경우에만 표시
         	 cnt++;
-%>			
-		<tr onclick="goToPage(<%=orderItem.getPur_seq()%>)">
-			<td align="center"><%=cnt %></td>
-			<td align="center"><%=orderItem.getOrderDate() %></td>
-		    <td align="center"><%=orderItem.getPur_seq() %></td>
-		    <td align="center"><%=orderItem.getCustomerInfo().getName() %>
-		    <td>
-		    	<%=orderItem.getBookInfo().getTitle() %>
-		    	<% 
-		    		OrderDTO dto = new OrderDTO(); 
-		    		int pur_seq = orderItem.getPur_seq();
-		    		dto.setPur_seq(pur_seq);
-		    		OrderDAO dao = new OrderDAO();
-		    		int titleCnt = dao.selectTitleCount(dto);
-		    		
-		    		if (titleCnt != 0) {
-		    	%>
-		    		외 <%=titleCnt %>권
-		    	<% } %>
-		    </td>
-		    <td align="right">
-		    <%	
-				int totalPrice = dao.selectTotalPrice(dto); 
-			%>
-			<%=totalPrice %>원
-			</td>
-		</tr>
+%>
+
+		<div class="card_wrap">
+			<div class="left_info">
+				<div class="top_info">
+					<span class="numbering">No.<%=cnt %></span>
+					<span>주문번호 <%=orderItem.getPur_seq() %></span>
+				</div>
+				<div class="bottom_info">
+					<span class="title"><%=orderItem.getBookInfo().getTitle() %></span>
+					<% 
+			    		OrderDTO dto = new OrderDTO(); 
+			    		int pur_seq = orderItem.getPur_seq();
+			    		dto.setPur_seq(pur_seq);
+			    		OrderDAO dao = new OrderDAO();
+			    		int titleCnt = dao.selectTitleCount(dto);
+			    		
+			    		if (titleCnt != 0) {
+			    	%>
+			    		<span class="etc_text">외 <%=titleCnt %>권</span>
+			    	<% } %>
+		    	</div>
+		    	<input class="detail_btn btn" type="button" value="주문 상세 내역 보기" onclick="goToPage(<%=orderItem.getPur_seq()%>)">
+			</div>
+			
+			<div class="right_info">
+				<span><%=orderItem.getOrderDate() %></span>
+				<div class="bottom_info">
+					<span>수령인: <%=orderItem.getCustomerInfo().getName() %></span>
+					<span class="price"><%	
+					int totalPrice = dao.selectTotalPrice(dto);
+					String sPrice = String.format("%,d", dao.selectTotalPrice(dto)); // 천 단위로 문자열 사이에 ',' 콤마 넣는 함수
+				%>
+				<%=sPrice %> 원</span>
+				</div>
+			</div>
+		</div>
 <%
         } // if(!isSameItem)
         prevItem = orderItem; // 현재 항목을 이전 항목으로 설정
        
     } // for
-} // else
 %>  
-	<tr>
-	<td colspan="6">
-	<%if(p.isPrev()) {%><a href="myPage.or?<% if(searchWord != null) { %>searchWord=<%=searchWord %>&<%}%>pageNum=1">[First]</a><% } %>
-	<%if(p.isPrev()) {%><a href="myPage.or?<% if(searchWord != null) { %>searchWord=<%=searchWord %>&<%}%>pageNum=<%=p.getStartPage()-1%>">[Prev]</a><% } %>
-	<%for(int i=p.getStartPage(); i<= p.getEndPage(); i++) {%>
-		<%if(i == p.getPageNum()){%>
-			<b>[<%=i %>]</b>
-		<%}else{ %>
-		<a href="myPage.or?<% if(searchWord != null) { %>searchWord=<%=searchWord %>&<%}%>pageNum=<%=i%>">[<%=i %>]</a>
+	</div>
+	
+	<div class="pagination">
+		<%if (p.isPrev()) {%>
+		<a class="first arrow" href="myPage.or?<% if(searchWord != null) { %>searchWord=<%=searchWord %>&<%}%>pageNum=1">
+		    <span class="blind">첫 페이지</span>
+		</a>
+		<%} else { %>
+		<a class="first arrow off"><span class="blind">첫 페이지</span></a>
+		<% } %>
+		
+		<%if (p.isPrev()) {%>
+		<a class="prev arrow" href="myPage.or?<% if(searchWord != null) { %>searchWord=<%=searchWord %>&<%}%>pageNum=<%=p.getStartPage()-1%>">
+		    <span class="blind">이전 페이지</span>
+		</a>
+		<%} else { %>
+		<a class="prev arrow off"><span class="blind">이전 페이지</span></a>
 		<%} %>
-	<%} %>
-	<%if(p.isNext()){%><a href="myPage.or?<% if(searchWord != null) { %>searchWord=<%=searchWord %>&<%}%>pageNum=<%=p.getEndPage()+1%>">[Next]</a><% } %>
-	<%if(p.isNext()){%><a href="myPage.or?<% if(searchWord != null) { %>searchWord=<%=searchWord %>&<%}%>pageNum=<%=p.getRealEnd()%>">[Last]</a><% } %>
-	</td>
-	</tr>
-</table>
+		
+		<%for (int i = p.getStartPage(); i <= p.getEndPage(); i++) {%>
+			<%if (i == p.getPageNum()) {%>
+			<a class="number active"><%=i %></a>
+			<%} else {%>
+			<a class="number" href="myPage.or?<% if(searchWord != null) { %>searchWord=<%=searchWord %>&<%}%>pageNum=<%=i%>"><%=i %></a>
+			<%} %>
+		<%} %>
+		
+		<%if (p.isNext()) {%>
+		<a class="next arrow" href="myPage.or?<% if(searchWord != null) { %>searchWord=<%=searchWord %>&<%}%>pageNum=<%=p.getEndPage()+1%>">
+		    <span class="blind">다음 페이지</span>
+		</a>
+		<%} else { %>
+		<a class="next arrow off"><span class="blind">다음 페이지</span></a>
+		<%} %>
+		
+		<%if (p.isNext()) {%>
+		<a class="last arrow" href="myPage.or?<% if(searchWord != null) { %>searchWord=<%=searchWord %>&<%}%>pageNum=<%=p.getRealEnd()%>">
+		    <span class="blind">마지막 페이지</span>
+		</a>
+		<%} else {%>
+		<a class="last arrow off"><span class="blind">마지막 페이지</span></a>
+		<%} %>
+	</div>
+	<%} %> <!-- else -->
+</div>
+</div>
+</div>
+</main>
+</div>
 </body>
 </html>

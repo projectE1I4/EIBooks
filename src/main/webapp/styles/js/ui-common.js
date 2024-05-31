@@ -27,13 +27,9 @@ $(function () {
 });
 
 const bestSeller = new Swiper('.best_slider', {
-  // Optional parameters
-  slidesPerView: 4,
-  slidesPerGroup: 4,
-  spaceBetween: 20,
-  centeredSlides:true,
   loop: true,
-  effect: 'fade',
+	slidesPerView: 3,
+	spaceBetween: 10,
 
   // If we need pagination
   pagination: {
@@ -45,17 +41,13 @@ const bestSeller = new Swiper('.best_slider', {
     nextEl: '.swiper-button-next',
     prevEl: '.swiper-button-prev',
   },
-
 });
 
 const newBookList = new Swiper('.new_slider', {
-  // Optional parameters
-  slidesPerView: 4,
-  slidesPerGroup: 4,
-  spaceBetween: 20,
-  centeredSlides:true,
   loop: true,
-  effect: 'fade',
+	slidesPerView: 3,
+	spaceBetween: 10,
+
   // If we need pagination
   pagination: {
     el: '.swiper-pagination',
