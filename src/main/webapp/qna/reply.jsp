@@ -45,9 +45,6 @@ String state = (String)request.getAttribute("state");
 <script>
 $(document).ready( function() {
     
-    $("#header").load("../styles/common/header.html");  // 원하는 파일 경로를 삽입하면 된다
-    $("#footer").load("../styles/common/footer.html");  // 추가 인클루드를 원할 경우 이런식으로 추가하면 된다
-  
     $('.sort_main').click(function() {
         $(this).next('.sort_menu').slideToggle();
         $(this).toggleClass('rotate');
@@ -96,7 +93,6 @@ $(document).ready( function() {
   <a href="#container">본문바로가기</a>
 </div>
 <div id="wrap">
-	<header id="header"></header>
 	<main id="container">
 		<div class="tit_wrap">
 		<h1>상품 문의(관리자)</h1>
@@ -180,7 +176,7 @@ $(document).ready( function() {
 										
 										if(reply.getContent() != null) {
 										%>
-										<div class="admin_wrap">
+										<div class="admin_content_wrap">
 											<img src="../styles/images/arrow_right.png">
 											<div class="admin_name"><p>관리자</p></div>
 											<div class="admin_content"><p><%=reply.getContent() %></p></div>

@@ -6,8 +6,9 @@
   --txt-color-600: #000;
 }
 
-#wrap {
+#container {
 	width: 1280px;
+	margin: 0 auto;
 }
 .tit_wrap {
 	margin: 50px 0 20px 0;
@@ -190,14 +191,14 @@
 	background-color: #fff;
 	height: 150px;
 }
-.admin_wrap {
+.admin_content_wrap {
 	width: 1280px;
 	display: flex;
 	align-items: center;
 	padding: 30px 0;
 	border-top: 1px solid #ddd;
 }
-.admin_wrap img {
+.admin_content_wrap img {
 	width: 30px;
 	margin-left: 100px;
 }
@@ -212,7 +213,7 @@
 .admin_content p {
 	word-wrap: break-word;
 }
-.admin_wrap .btn_wrap {
+.admin_content_wrap .btn_wrap {
 	width: 230px;
 	display: flex;
 	justify-content: center;

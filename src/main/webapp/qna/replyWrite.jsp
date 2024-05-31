@@ -236,7 +236,7 @@ $(document).ready( function() {
 										
 										if(reply.getContent() != null) {
 										%>
-										<div class="admin_wrap reply">
+										<div class="admin_content_wrap reply">
 											<img src="../styles/images/arrow_right.png">
 											<div class="admin_name"><p>관리자</p></div>
 											<div class="admin_content"><p><%=reply.getContent() %></p></div>
