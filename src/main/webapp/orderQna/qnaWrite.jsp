@@ -1,8 +1,13 @@
-<%@page import="eibooks.dto.BookDTO"%>
+<%@page import="eibooks.dao.OrderQnaDAO"%>
+<%@page import="java.util.HashMap"%>
+<%@page import="java.util.Map"%>
+<%@page import="eibooks.dao.OrderDAO"%>
+<%@page import="java.util.List"%>
+<%@page import="eibooks.dto.OrderDTO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
-BookDTO book = (BookDTO)request.getAttribute("book");
+List<OrderDTO> orderList = (List<OrderDTO>)request.getAttribute("orderList");
 %>    
 <!DOCTYPE html>
 <html>
@@ -30,7 +35,7 @@ BookDTO book = (BookDTO)request.getAttribute("book");
 <link rel="stylesheet" href="/EIBooks/styles/css/header.css?v=<?php echo time(); ?>">
 <link rel="stylesheet" href="/EIBooks/styles/css/footer.css?v=<?php echo time(); ?>">
 <link rel="stylesheet" href="/EIBooks/styles/css/main.css?v=<?php echo time(); ?>">
-<link rel="stylesheet" href="/EIBooks/styles/css/yeon/qnaWrite.css?v=<?php echo time(); ?>">
+<link rel="stylesheet" href="/EIBooks/styles/css/yeon/qnaWrite2.css?v=<?php echo time(); ?>">
 <script src="/EIBooks/styles/js/jquery-3.7.1.min.js"></script>
 <script src="/EIBooks/styles/js/jquery-ui.min.js"></script>
 <script src="/EIBooks/styles/js/swiper-bundle.min.js"></script>
@@ -48,6 +53,17 @@ function limitText(field, maxLength) {
 		alert('최대 ' + maxLength + '자까지 작성할 수 있습니다.');
 	}
 }
+
+function previewImage(event) {
+    let reader = new FileReader();
+
+    reader.onload = function () {
+        let output = document.getElementById('imagePreview');
+        output.src = reader.result;
+    }
+    reader.readAsDataURL(event.target.files[0]);
+}
+
 </script>
 </head>
 <body>
@@ -60,38 +76,81 @@ function limitText(field, maxLength) {
 	<header id="header"></header>
 	<main id="container">
 		<div class="inner">
-			<h2>상품문의</h2>
-			<div class="info">
-				<div><img src="<%=book.getImageFile() %>"></div>
-				<div>
-					<p><%=book.getPublisher() %></p>
-					<p><%=book.getTitle() %></p>
-					<p><%=book.getAuthor() %></p>
-				</div>
-			</div>
+			<h2>1:1문의</h2>
 			<ul class="qna_form">
 				<li class="">
-					<form class="write_form" name="writeForm" method="post" action="/EIBooks/qna/qnaWriteProc.qq?book_seq=<%=book.getBook_seq() %>">
+					<form class="write_form" enctype="multipart/form-data" name="writeForm" method="post" action="/EIBooks/orderQna/qnaWriteProc.oq">
 						<div class="qna_input">
 							<p>문의유형</p>
-							<select name="type">
-								<option value="상품상세문의">상품상세문의</option>
-								<option value="재입고">재입고</option>
+							<select name="type" id="typeSelect">
+								<option value="배송">배송</option>
+								<option value="주문/결제">주문/결제</option>
+								<option value="취소/교환/환불">취소/교환/환불</option>
 							</select>
 						</div>
 						<div class="qna_input">
+							<p>주문내역</p>
+							<select class="choose" name="pur_seq">
+								<%
+							 	OrderDTO prevItem = null;
+							   	int cnt = 0;
+								
+								for(OrderDTO o : orderList) {
+									// 이전 항목과 현재 항목이 동일한지 확인
+							        boolean isSameItem = prevItem != null && prevItem.getPur_seq() == o.getPur_seq();
+							        if(!isSameItem) { // 이전 항목과 다를 경우에만 표시
+									%>
+									<option value="<%=o.getPur_seq() %>">
+										<%=o.getPur_seq() %>&nbsp;&nbsp;&nbsp;
+										<%
+										OrderDTO dto = new OrderDTO();
+										dto.setPur_seq(o.getPur_seq());
+										OrderQnaDAO dao = new OrderQnaDAO();
+										
+										List<OrderDTO> order = dao.getOrderDetail(dto);
+										String title = "";
+										
+										int titleCnt = 0;
+										for (OrderDTO d : order) {
+											if (o.getPur_seq() == d.getPur_seq()) {
+												title = d.getBookInfo().getTitle();
+												titleCnt++;
+											}
+										}
+										%>
+										<%=title %>
+										<% if(titleCnt - 1 > 0) { %>
+											외 <%=titleCnt - 1 %>권
+										<% } %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+										<%=o.getOrderDate() %>
+									</option>
+								<%
+							        } // if(!isSameItem)
+							        prevItem = o; // 현재 항목을 이전 항목으로 설정
+							    	
+							    } // for
+								%>
+
+							</select>
+						</div>
+						
+						<div class="qna_input">
 							<p>제목</p>
 							<input type="text" name="title" oninput="limitText(this, 50)">
-							<div class="checkbox_wrap">
-								<input type="checkbox" id="protect_YN" name="protect_YN" value="Y">
-								<label for="protect_YN">비밀글</label>
-							</div>
 						</div>
 						<div class="qna_input text_area">
 							<p>내용</p>
 							<textarea class="write_content" name="content" oninput="limitText(this, 500)"></textarea>
 						</div>
+						 <div class="img_wrap">
+                            <img id="imagePreview" src="" alt="Preview"><br>
+                            <input type="file" name="imageFile" onchange="previewImage(event)">
+                        </div>
 						<div class="write_btn_wrap">
+						<% for(OrderDTO o : orderList) { %>
+							<input type="hidden" name="book_seq" value="<%=o.getBook_seq() %>">
+					    	<input type="hidden" name="pur_i_seq" value="<%=o.getPur_i_seq() %>">
+						<% } %>
 							<input class="btn" type="button" value="취소" onclick="goToPage()">
 							<input class="btn write_btn" type="submit" value="작성하기">
 						</div>

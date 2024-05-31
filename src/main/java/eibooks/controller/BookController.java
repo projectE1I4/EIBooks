@@ -134,7 +134,7 @@ public class BookController extends HttpServlet {
 			File file = new File(saveDirectory + File.separator + imageFile);
 			mr.getFile("imageFile").renameTo(file);
 
-			imageFile = "file:///C:/Mid/jspws/EIBooks/src/main/webapp/Uploads/" + imageFile;
+			imageFile = "/EIBooks/Uploads/" + imageFile;
 
 			// 1. 값 받기
 			String title = mr.getParameter("title");
