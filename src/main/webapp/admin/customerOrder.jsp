@@ -1,112 +1,149 @@
-<%@page import="eibooks.dao.OrderDAO"%>
-<%@page import="eibooks.dto.OrderDTO"%>
-<%@page import="eibooks.common.PageDTO"%>
-<%@page import="java.util.List"%>
+<%@page import="eibooks.dao.OrderDAO" %>
+<%@page import="eibooks.dto.OrderDTO" %>
+<%@page import="eibooks.common.PageDTO" %>
+<%@page import="java.util.List" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+         pageEncoding="UTF-8" %>
 <%
     //회원별 주문 목록 리스트 가져오기
     int cus_seq = Integer.parseInt(request.getParameter("cus_seq"));
-    List<OrderDTO> orderList = (List<OrderDTO>)request.getAttribute("orderList");
-	PageDTO p = (PageDTO)request.getAttribute("paging");
-	String orderBy = (String)request.getAttribute("orderBy");
-%>    
+    List<OrderDTO> orderList = (List<OrderDTO>) request.getAttribute("orderList");
+    PageDTO p = (PageDTO) request.getAttribute("paging");
+    String orderBy = (String) request.getAttribute("orderBy");
+    // 디폴트값이 오래된순이길래 첫페이지에 오래된순 텍스트가 처음부터 바뀌어있도록 아래 코드를 추가함(작업자:길현지)
+    if (orderBy == null) {
+        orderBy = "old"; // 디폴트값을 "old"로 설정
+    }
+%>
 <!DOCTYPE html>
 <html lang="ko">
-  <%@ include file="/common/head.jsp" %>
-
-<script type="text/javascript">
-function goToPage(pur_seq) {
-	location.href = "orderView.or?pur_seq=" + pur_seq;
-}
-</script>
-
+<%@ include file="/common/head.jsp" %>
+<link rel="stylesheet" href="/EIBooks/styles/css/customerManage/customerOrder.css?v=<%= new java.util.Date().getTime() %>">
 </head>
 <body>
+<script type="text/javascript">
+    function goToPage(pur_seq) {
+        location.href = "orderView.or?pur_seq=" + pur_seq;
+    }
+</script>
+<div id="wrap" class="admin">
+    <%@ include file="../common/header.jsp" %>
+    <main id="container">
+        <div class="inner">
+            <div id="customerOrder" class="board_list_wrap">
+                <div class="top">
+                    <div class="title">
+                        <h2>고객별 주문내역 확인하기</h2>
+                    </div>
+                    <div class="sort">
+                        <ul>
+                            <li class="<%= "recent".equals(orderBy) ? "selected" : "" %>">
+                                <a href="customerOrder.or?cus_seq=<%=cus_seq %>&orderBy=recent">최신순</a>
+                            </li>
+                            <li class="<%= "old".equals(orderBy) ? "selected" : "" %>">
+                                <a href="customerOrder.or?cus_seq=<%=cus_seq %>&orderBy=old">오래된순</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="content">
+                    <table class="customerList">
+                        <caption>주문 목록 테이블</caption>
+                        <thead class="col">
+                        <tr>
+                            <th class="col1">주문 번호</th>
+                            <th class="col2">도서 명</th>
+                            <th class="col3">총 금액</th>
+                            <th class="col4">주문일자</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <% if (orderList.isEmpty()) { %>
+                        <tr>
+                            <td colspan="4">&nbsp; 주문 목록이 없습니다.</td>
+                        </tr>
+                        <% } else {
+                            OrderDTO prevItem = null;
+                            for (OrderDTO orderItem : orderList) {
+                                boolean isSameItem = prevItem != null && prevItem.getPur_seq() == orderItem.getPur_seq();
+                                if (!isSameItem) {
+                        %>
+                        <tr onclick="goToPage(<%=orderItem.getPur_seq()%>)">
+                            <td><%=orderItem.getPur_seq() %></td>
+                            <td>
+                                <%=orderItem.getBookInfo().getTitle() %>
+                                <%
+                                    OrderDTO dto = new OrderDTO();
+                                    int pur_seq = orderItem.getPur_seq();
+                                    dto.setPur_seq(pur_seq);
+                                    OrderDAO dao = new OrderDAO();
+                                    int titleCnt = dao.selectTitleCount(dto);
+                                    if (titleCnt != 0) {
+                                %>
+                                외 <%=titleCnt %>권
+                                <% } %>
+                            </td>
+                            <td align="right">
+                                <%
+                                    int totalPrice = dao.selectTotalPrice(dto);
+                                %>
+                                <%=totalPrice %>원
+                            </td>
+                            <td><%=orderItem.getOrderDate() %></td>
+                        </tr>
+                        <%
+                                    }
+                                    prevItem = orderItem;
+                                }
+                            } %>
+                        </tbody>
+                    </table>
+                    <div class="pagination">
+                        <% if (p.isPrev()) { %>
+                        <a class="first arrow" href="customerOrder.or?cus_seq=<%=cus_seq %><% if(orderBy != null) { %>&orderBy=<%=orderBy %><%}%>&pageNum=1">
+                            <span class="blind">첫 페이지</span>
+                        </a>
+                        <% } else { %>
+                        <a class="first arrow off"><span class="blind">첫 페이지</span></a>
+                        <% } %>
 
-<%@ include file="../common/header.jsp" %>
-<!-- 제목 --> 
-<h2>주문 목록 보기(관리자)</h2>
+                        <% if (p.isPrev()) { %>
+                        <a class="prev arrow" href="customerOrder.or?cus_seq=<%=cus_seq %><% if(orderBy != null) { %>&orderBy=<%=orderBy %><%}%>&pageNum=<%=p.getStartPage()-1%>">
+                            <span class="blind">이전 페이지</span>
+                        </a>
+                        <% } else { %>
+                        <a class="prev arrow off"><span class="blind">이전 페이지</span></a>
+                        <% } %>
 
-<!-- CustomerDAO 파일 받오면 수정하기 -->
-<%=cus_seq %>님의 주문 이력
-<!-- 정렬 -->
-<ul>
-	<li>
-		<a href="customerOrder.or?cus_seq=<%=cus_seq %>&orderBy=recent">최신순</a>
-	</li>
-	<li>
-		<a href="customerOrder.or?cus_seq=<%=cus_seq %>&orderBy=old">오래된순</a>
-	</li>
-</ul>
+                        <% for (int i = p.getStartPage(); i <= p.getEndPage(); i++) { %>
+                        <% if (i == p.getPageNum()) { %>
+                        <a class="number active"><%=i %></a>
+                        <% } else { %>
+                        <a class="number" href="customerOrder.or?cus_seq=<%=cus_seq %><% if(orderBy != null) { %>&orderBy=<%=orderBy %><%}%>&pageNum=<%=i %>"><%=i %></a>
+                        <% } %>
+                        <% } %>
 
-<!-- 주문 목록 -->
-<table border="1" width="80%">
-<tr>
-    <th width="10%">주문 번호</th>
-    <th width="28%">도서 명</th>
-    <th width="12%">총 금액</th>
-    <th width="20%">주문일자</th>
-</tr>
-<% 
-    if(orderList.isEmpty()) { %>  
-    <tr><td colspan="8">&nbsp; 주문 목록이 없습니다.</td></tr>
-<% } else {
-   	OrderDTO prevItem = null;
-   	int cnt = 0;
-    for(OrderDTO orderItem : orderList) {
-    	
-    	// 이전 항목과 현재 항목이 동일한지 확인
-        boolean isSameItem = prevItem != null && prevItem.getPur_seq() == orderItem.getPur_seq();
-        if(!isSameItem) { // 이전 항목과 다를 경우에만 표시
-%>
-		<tr onclick="goToPage(<%=orderItem.getPur_seq()%>)">
-		    <td><%=orderItem.getPur_seq() %></td>
-		    <td>
-		    	<%=orderItem.getBookInfo().getTitle() %>
-		    	<% 
-		    		OrderDTO dto = new OrderDTO(); 
-		    		int pur_seq = orderItem.getPur_seq();
-		    		dto.setPur_seq(pur_seq);
-		    		OrderDAO dao = new OrderDAO();
-		    		int titleCnt = dao.selectTitleCount(dto);
-		    		
-		    		if (titleCnt != 0) {
-		    	%>
-		    		외 <%=titleCnt %>권
-		    	<% } %>
-		    </td>
-		    <td align="right">
-		    <%	
-				int totalPrice = dao.selectTotalPrice(dto); 
-			%>
-			<%=totalPrice %>원
-			</td>
-		    <td><%=orderItem.getOrderDate() %></td>
-		</tr>
-<%
-        } // if(!isSameItem)
+                        <% if (p.isNext()) { %>
+                        <a class="next arrow" href="customerOrder.or?cus_seq=<%=cus_seq %><% if(orderBy != null) { %>&orderBy=<%=orderBy %><%}%>&pageNum=<%=p.getEndPage()+1%>">
+                            <span class="blind">다음 페이지</span>
+                        </a>
+                        <% } else { %>
+                        <a class="next arrow off"><span class="blind">다음 페이지</span></a>
+                        <% } %>
 
-        prevItem = orderItem; // 현재 항목을 이전 항목으로 설정
-    } // for
-} // else
-%>  
-	<tr>
-	<td colspan="6">
-	<%if(p.isPrev()) {%><a href="customerOrder.or?<% if(orderBy != null) { %>orderBy=<%=orderBy %>&<%}%>pageNum=1">[First]</a><% } %>
-	<%if(p.isPrev()) {%><a href="customerOrder.or?<% if(orderBy != null) { %>orderBy=<%=orderBy %>&<%}%>pageNum=<%=p.getStartPage()-1%>">[Prev]</a><% } %>
-	<%for(int i=p.getStartPage(); i<= p.getEndPage(); i++) {%>
-		<%if(i == p.getPageNum()){%>
-			<b>[<%=i %>]</b>
-		<%}else{ %>
-		<a href="customerOrder.or?<% if(orderBy != null) { %>orderBy=<%=orderBy %>&<%}%>pageNum=<%=i%>">[<%=i %>]</a>
-		<%} %>
-	<%} %>
-	<%if(p.isNext()){%><a href="customerOrder.or?<% if(orderBy != null) { %>orderBy=<%=orderBy %>&<%}%>pageNum=<%=p.getEndPage()+1%>">[Next]</a><% } %>
-	<%if(p.isNext()){%><a href="customerOrder.or?<% if(orderBy != null) { %>orderBy=<%=orderBy %>&<%}%>pageNum=<%=p.getRealEnd()%>">[Last]</a><% } %>
-	</td>
-	</tr>
-</table>
-<%@ include file="../common/footer.jsp" %>
+                        <% if (p.isNext()) { %>
+                        <a class="last arrow" href="customerOrder.or?cus_seq=<%=cus_seq %><% if(orderBy != null) { %>&orderBy=<%=orderBy %>&<%}%>pageNum=<%=p.getRealEnd()%>">
+                            <span class="blind">마지막 페이지</span>
+                        </a>
+                        <% } else { %>
+                        <a class="last arrow off"><span class="blind">마지막 페이지</span></a>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <%@ include file="../common/footer.jsp" %>
+</div>
 </body>
 </html>

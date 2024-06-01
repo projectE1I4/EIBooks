@@ -154,12 +154,16 @@ $(document).ready( function() {
 				</thead>
 				<tbody>
 					<% if(qnaList.isEmpty()) { %>	
-						<tr><td colspan="8">&nbsp;<b>Data Not Found!!</b></td></tr>
+						<tr><td colspan="8">&nbsp;<b>문의가 없습니다.</b></td></tr>
 					<% } else { %>
 						<% for(OrderQnaDTO qna : qnaList){ %>	
 							<tr class="qna_wrap">
 								<td class="title_text"><%=qna.getTitle() %></td>
-								<td><%=qna.getPur_seq() %></td>
+								<td>
+									<a class="orderView" href="/EIBooks/admin/orderView.or?pur_seq=<%=qna.getPur_seq() %>">
+										<%=qna.getPur_seq() %>
+									</a>
+								</td>
 								<td><%=qna.getRegDate() %></td>
 								<td>
 									<div class="col">

@@ -312,7 +312,7 @@ public class QnaDAO {
 		int cus_seq = 0;
 		int totalCount = 0;
 		
-		String sql = "select count(qna_seq) as cnt from qna ";
+		String sql = "select count(qna_seq) as cnt from qna where depth = 1 ";
 
 		try {
 			conn = JDBCConnect.getConnection();
