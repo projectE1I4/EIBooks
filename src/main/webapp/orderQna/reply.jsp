@@ -108,7 +108,11 @@ $(document).ready( function() {
 						<% for(OrderQnaDTO qna : qnaList){ %>	
 							<tr class="qna_wrap">
 								<td class="title_text"><%=qna.getTitle() %></td>
-								<td><%=qna.getPur_seq() %></td>
+								<td>
+									<a class="orderView" href="/EIBooks/admin/orderView.or?pur_seq=<%=qna.getPur_seq() %>">
+										<%=qna.getPur_seq() %>
+									</a>
+								</td>
 								<td><%=qna.getRegDate() %></td>
 								<td>
 									<div class="col">

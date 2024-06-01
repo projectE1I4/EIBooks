@@ -157,6 +157,7 @@ $(document).ready( function() {
 						<% for(QnaDTO qna : qnaList){ %>	
 							<tr class="qna_wrap">
 								<td>
+									<a href="/EIBooks/admin/productView.bo?book_seq=<%=qna.getBook_seq() %>">
 									<div class="book_info">
 										<div class="book_image">
 											<img src="<%=qna.getBookInfo().getImageFile()%>" alt="표지이미지">
@@ -167,6 +168,7 @@ $(document).ready( function() {
 											<p class="author"><%=qna.getBookInfo().getAuthor() %></p>
 										</div>
 									</div>
+									</a>
 								</td>
 								<td class="title_text"><%=qna.getTitle() %></td>
 								<td><%=qna.getType() %></td>
