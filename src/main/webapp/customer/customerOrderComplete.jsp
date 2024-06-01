@@ -63,7 +63,7 @@
 						<p>주문 정보를 찾을 수 없습니다.</p>
 					<% } %>
 					<div>
-						<button type="button" onclick="location.href='/EIBooks/'">메인으로 이동</button>
+						<button type="button" onclick="location.href='/EIBooks/userMain.bo'">메인으로 이동</button>
 						<button type="button" onclick="location.href='/EIBooks/customer/myPage.or'">주문 내역 확인</button>
 					</div>
 				</div>
