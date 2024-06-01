@@ -28,6 +28,10 @@
         <url-pattern>/review/*</url-pattern>
     </filter-mapping>
     <filter-mapping>
+        <filter-name>LoginCheckFilter</filter-name>
+        <url-pattern>/qna/*</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
         <filter-name>AdminCheckFilter</filter-name>
         <url-pattern>/admin/*</url-pattern>
     </filter-mapping>

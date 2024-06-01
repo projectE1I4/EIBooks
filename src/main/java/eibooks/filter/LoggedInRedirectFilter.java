@@ -22,7 +22,7 @@ public class LoggedInRedirectFilter implements Filter {
 
         if (session != null && session.getAttribute("customer") != null) {
             System.out.println("로그인상태에서 리디렉션 처리");
-            httpResponse.sendRedirect("/EIBooks/");  // 로그인된 상태에서 접근 시 루트 경로로 리다이렉션
+            httpResponse.sendRedirect("/EIBooks/userMain.bo");  // 로그인된 상태에서 접근 시 루트 경로로 리다이렉션
         } else {
             chain.doFilter(request, response);
         }
