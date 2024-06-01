@@ -88,21 +88,25 @@ function buying(book_seq){
 }
 
 function goToCustomerCart(book_seq){
-    var cartICount = $('input[name="cartICount"]').val();
-    $.ajax({
-        type: "POST",
-        url: "<%=request.getContextPath()%>/customerCartInsert.cc",
-        data: {
-            book_seq: book_seq,
-            cartICount: cartICount
-        },
-        success: function(response) {
-            alert("장바구니에 담겼습니다.");
-        },
-        error: function(xhr, status, error) {
-            console.error("Error: " + error);
-        }
-    });
+	if (<%=cus_seq%> == 0) {
+		location.href="/EIBooks/auth/login.cs";
+	} else {
+	    var cartICount = $('input[name="cartICount"]').val();
+	    $.ajax({
+	        type: "POST",
+	        url: "<%=request.getContextPath()%>/customerCartInsert.cc",
+	        data: {
+	            book_seq: book_seq,
+	            cartICount: cartICount
+	        },
+	        success: function(response) {
+	            alert("장바구니에 담겼습니다.");
+	        },
+	        error: function(xhr, status, error) {
+	            console.error("Error: " + error);
+	        }
+	    });
+	}
  }
 //수량 증가 함수
 function increaseBtn(bookSeq) {

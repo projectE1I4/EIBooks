@@ -12,6 +12,11 @@
 	String category = (String)request.getAttribute("category");
 	//String list = (String)request.getAttribute("list");
 	String list = request.getParameter("order");
+	
+	int cus_seq = 0;
+	if (session.getAttribute("cus_seq") != null) {
+		cus_seq = (int)session.getAttribute("cus_seq");
+	}
 %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -121,21 +126,25 @@ function makeSearch(data){
 
 // cart에 물건 담는 함수 AJAX
 function goToCustomerCart(book_seq){
-    var cartICount = $('input[name="'+book_seq+'"]').val();
-    $.ajax({
-        type: "POST",
-        url: "<%=request.getContextPath()%>/customerCartInsert.cc",
-        data: {
-            book_seq: book_seq,
-            cartICount: cartICount
-        },
-        success: function(response) {
-            alert("장바구니에 담겼습니다.");
-        },
-        error: function(xhr, status, error) {
-            console.error("Error: " + error);
-        }
-    });
+	if(<%=cus_seq%> == 0) {
+		location.href="/EIBooks/auth/login.cs";
+	} else {
+	    var cartICount = $('input[name="'+book_seq+'"]').val();
+	    $.ajax({
+	        type: "POST",
+	        url: "<%=request.getContextPath()%>/customerCartInsert.cc",
+	        data: {
+	            book_seq: book_seq,
+	            cartICount: cartICount
+	        },
+	        success: function(response) {
+	            alert("장바구니에 담겼습니다.");
+	        },
+	        error: function(xhr, status, error) {
+	            console.error("Error: " + error);
+	        }
+	    });
+	}
 }
 
 // JQUERY 메인 함수
