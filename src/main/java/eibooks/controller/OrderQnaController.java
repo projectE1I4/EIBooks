@@ -109,7 +109,7 @@ public class OrderQnaController extends HttpServlet {
 			HttpSession session = request.getSession();
 			int cus_seq = (int)session.getAttribute("cus_seq");
 			
-			String saveDirectory = "C:/Mid/jspws/EIBooks/src/main/webapp/Uploads";
+			String saveDirectory = "/Users/parkjinhee/Desktop/backendStudy/mid/EIBooks/src/main/webapp/Uploads";
 			String encoding = "UTF-8";
 			int maxPostSize = 1024 * 1000 * 10; // 1000kb -> 1M > 10M
 
