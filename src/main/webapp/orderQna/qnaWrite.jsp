@@ -15,9 +15,27 @@ String pageNum = (String)request.getAttribute("pageNum");
 <%@ include file="/common/head.jsp" %>
 <link rel="stylesheet" href="/EIBooks/styles/css/yeon/qnaWrite2.css?v=<?php echo time(); ?>">
 <script>
-$(document).ready( function() {
+
+function validateForm() {
+    const form = document.writeForm;
     
-});
+    if (form.pur_seq.value === "") {
+        alert('주문내역을 선택해주세요.');
+        form.pur_seq.focus();
+        return;
+    } else if (form.title.value === "") {
+        alert('제목을 입력해주세요.');
+        form.title.focus();
+        return;
+    } else if (form.content.value === "") {
+        alert('내용을 입력해주세요.');
+        form.content.focus();
+        return;
+    }
+
+    form.submit();
+
+}
 
 function limitText(field, maxLength) {
 	if (field.value.length > maxLength) {
@@ -123,7 +141,7 @@ function previewImage(event) {
 					    	<input type="hidden" name="pur_i_seq" value="<%=o.getPur_i_seq() %>">
 						<% } %>
 							<input class="btn" type="button" value="취소" onclick="goToPage()">
-							<input class="btn write_btn" type="submit" value="작성하기">
+							<input class="btn write_btn" type="button" value="작성하기" onclick="validateForm()">
 						</div>
 					</form>
 				</li>
