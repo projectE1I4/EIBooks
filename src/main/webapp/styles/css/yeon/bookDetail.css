@@ -21,7 +21,7 @@
 	font-size: 25px;
 	font-weight: 700;
 }
-.qna_tit a {
+.qna_tit .protect {
 	margin-right: 10px;
 }
 
@@ -48,7 +48,8 @@
 	text-align: left;
 	padding: 0 30px;
 }
-
+.qna_tit .btn_wrap {
+}
 .book_tit {
 	font-weight: 700;
 	width: 400px;
@@ -98,9 +99,10 @@
 	padding: 10px;
 	display: flex;
 	justify-content: flex-end;
+	align-items: center;
 }
 .insert_btn {
-	background-color: #6A5AFF;
-	color: #fff;
-	border: none;
+ 	background-color: #6A5AFF;
+    color: #fff;
+    border: none;
 }
