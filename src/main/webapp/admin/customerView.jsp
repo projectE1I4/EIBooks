@@ -68,7 +68,7 @@
                 </table>
                 <div class="actions">
                     <a href="updateCustomer.cs?cus_seq=<%=customer.getCus_seq() %>">수정하기</a>
-                    <a href="customerOrder.or">주문내역 보기</a>
+                    <a href="customerOrder.or?cus_seq=<%=customer.getCus_seq()%>">주문내역 보기</a>
                     <a href="customerList.cs">목록으로 돌아가기</a>
                 </div>
             </div>

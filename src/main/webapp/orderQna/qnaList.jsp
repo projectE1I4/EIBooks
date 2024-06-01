@@ -65,8 +65,7 @@ $(document).ready( function() {
 </div>
 
 <div id="wrap">
-<%@ include file="../common/header.jsp" %>
-
+	<%@ include file="../common/header.jsp" %>
 
 	<main id="container">
 		<div class="inner">
@@ -227,6 +226,7 @@ $(document).ready( function() {
 			</div> <!-- mypage -->
 		</div> <!-- inner -->
 	</main> <!-- container -->
+	<%@ include file="../common/footer.jsp" %>
 </div>
 
 </body>

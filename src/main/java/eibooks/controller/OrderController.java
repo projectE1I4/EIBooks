@@ -109,9 +109,8 @@ public class OrderController extends HttpServlet {
 			map.put("offset", offset + "");
 			map.put("amount", amount + "");
 			// map.put("orderBy", orderBy);
-			
-			HttpSession session = request.getSession();
-			int cus_seq = (int)session.getAttribute("cus_seq");
+
+			int cus_seq = Integer.parseInt(request.getParameter("cus_seq"));
 			OrderDTO dto = new OrderDTO();
 			dto.setCus_seq(cus_seq);
 			
