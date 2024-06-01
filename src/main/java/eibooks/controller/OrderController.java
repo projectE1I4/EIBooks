@@ -219,12 +219,22 @@ public class OrderController extends HttpServlet {
 			
 			HttpSession session = request.getSession();
 			Map<String, Integer> map = (Map<String, Integer>) session.getAttribute("orderMap");
-			System.out.println(session.getAttribute("orderMap"));
+			Map<String, Integer> buyMap = (Map<String, Integer>) session.getAttribute("buyMap");
+			int book_seq = 0;
+			OrderDAO orderdao = new OrderDAO();
+			if(map != null) {
+				book_seq = map.get("book_seq");
+				System.out.println(session.getAttribute("orderMap"));
+				orderdao.insertOrderList(map);
+			} else if (buyMap != null) {
+				book_seq = buyMap.get("book_seq");
+				System.out.println(session.getAttribute("buyMap"));
+				orderdao.insertOrderList(buyMap);
+			} else {
+				System.out.println("문제 발생");
+			}
 			
-			int book_seq = map.get("book_seq");
 			
-		    OrderDAO orderdao = new OrderDAO();
-		    orderdao.insertOrderList(map);
 			
             // forward
             String path = "./customer/customerOrderComplete.jsp"; // 회원 별 주문 목록 페이지의 JSP 파일 경로

@@ -212,12 +212,40 @@ public class CartController extends HttpServlet {
 		    cartDTO dto = new cartDTO();
 		    dto.setCusSeq(cusSeq);
 		    
-		    cartDAO dao = new cartDAO();
-		    List<cartDTO> cartList = dao.getCartList(cusSeq);
-		    int totalPrice = dao.totalCartPrice(cusSeq);
 		    
-		    request.setAttribute("cartList", cartList);
-		    request.setAttribute("totalPrice", totalPrice);
+		    if(request.getParameter("book_seq") != null) {
+		    	 String bookSeqStr = request.getParameter("book_seq");
+				    String cartICountStr = request.getParameter("cartICount");
+				    String priceStr = request.getParameter("totalCartPrice");
+				    System.out.println("book_seq" + bookSeqStr);
+				    System.out.println("cartICount" + cartICountStr);
+				    System.out.println("cus_seq" + cusSeq);
+
+				    // 파라미터 값이 null인지 확인하고 처리
+				    if (bookSeqStr == null || cartICountStr == null || priceStr == null) {
+				        System.out.println("필수 파라미터가 누락되었습니다.");
+				        response.sendError(HttpServletResponse.SC_BAD_REQUEST, "필수 파라미터가 누락되었습니다.");
+				        return;
+				    }
+
+				    int book_seq = Integer.parseInt(bookSeqStr);
+				    int cartICount = Integer.parseInt(cartICountStr);
+				    int price = Integer.parseInt(priceStr);
+
+
+				    request.setAttribute("book_seq", book_seq);
+				    request.setAttribute("cartICount", cartICount);
+				    request.setAttribute("totalCartPrice", price);
+		    } else {
+		    	cartDAO dao = new cartDAO();
+			    List<cartDTO> cartList = dao.getCartList(cusSeq);
+			    int totalPrice = dao.totalCartPrice(cusSeq);
+			    
+			    request.setAttribute("cartList", cartList);
+			    request.setAttribute("totalPrice", totalPrice);
+			    
+			    System.out.println("cartList" + cartList);
+		    }
 		    
 		    RequestDispatcher dispatcher = request.getRequestDispatcher("customer/customerBuyOrder.jsp");
 		    dispatcher.forward(request,response);
