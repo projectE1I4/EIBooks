@@ -88,21 +88,25 @@ function buying(book_seq){
 }
 
 function goToCustomerCart(book_seq){
-    var cartICount = $('input[name="cartICount"]').val();
-    $.ajax({
-        type: "POST",
-        url: "<%=request.getContextPath()%>/customerCartInsert.cc",
-        data: {
-            book_seq: book_seq,
-            cartICount: cartICount
-        },
-        success: function(response) {
-            alert("장바구니에 담겼습니다.");
-        },
-        error: function(xhr, status, error) {
-            console.error("Error: " + error);
-        }
-    });
+	if (<%=cus_seq%> == 0) {
+		location.href="/EIBooks/auth/login.cs";
+	} else {
+	    var cartICount = $('input[name="cartICount"]').val();
+	    $.ajax({
+	        type: "POST",
+	        url: "<%=request.getContextPath()%>/customerCartInsert.cc",
+	        data: {
+	            book_seq: book_seq,
+	            cartICount: cartICount
+	        },
+	        success: function(response) {
+	            alert("장바구니에 담겼습니다.");
+	        },
+	        error: function(xhr, status, error) {
+	            console.error("Error: " + error);
+	        }
+	    });
+	}
  }
 //수량 증가 함수
 function increaseBtn(bookSeq) {
@@ -220,11 +224,16 @@ List<ReviewDTO> topReviews = (List<ReviewDTO>)request.getAttribute("topReviews")
 <div class="board_list_wrap">
 	<div class="qna_tit">
 		<h2>Q&A 상품문의 (<%=qnaList.size() %>)</h2>
-		<% if(protect == false) { %>
-			<a href="/EIBooks/user/userBookDetail.bo?book_seq=<%=book_seq %>&protect_YN=N&protect=true">비밀글 제외</a>
-		<% } else { %>
-			<a href="/EIBooks/user/userBookDetail.bo?book_seq=<%=book_seq %>">비밀글 포함</a>
-		<% } %>
+		<div class="btn_wrap">
+			<% if(protect == false) { %>
+				<a class="protect" href="/EIBooks/user/userBookDetail.bo?book_seq=<%=book_seq %>&protect_YN=N&protect=true">비밀글 제외</a>
+			<% } else { %>
+				<a class="protect" href="/EIBooks/user/userBookDetail.bo?book_seq=<%=book_seq %>">비밀글 포함</a>
+			<% } %>
+			<div>
+				<a class="btn insert_btn" href="<%=request.getContextPath()%>/qna/qnaWrite.qq?book_seq=<%=book_seq %>">작성하기</a>
+			</div>
+		</div>
 	</div>
 	<% if(qnaList.isEmpty()) { %>	
 	<div class="not">
@@ -332,9 +341,7 @@ List<ReviewDTO> topReviews = (List<ReviewDTO>)request.getAttribute("topReviews")
 				<%} %>
 			</div>
 		<% } %>
-<div class="btn_wrap">
-	<a class="btn insert_btn" href="<%=request.getContextPath()%>/qna/qnaWrite.qq?book_seq=<%=book_seq %>">작성하기</a>
-</div>
+
 </section>
 </div>
 </main>
