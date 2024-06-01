@@ -479,7 +479,7 @@ public class CustomerController extends HttpServlet {
             if (isCheck) {
             	HttpSession session = request.getSession();
                 session.invalidate();
-            	path = "/EIBooks/index.jsp";
+            	path = "/EIBooks/userMain.bo";
             } else {
                 path = "/EIBooks/customer/deleteMypage.jsp?cus_seq=" + cus_seq;
             }
