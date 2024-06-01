@@ -55,7 +55,6 @@ public class CartController extends HttpServlet {
             HttpSession session = request.getSession();
             int cusSeq = (int) session.getAttribute("cus_seq");
 
-
             // 장바구니에 담긴 책 목록 조회
             cartDAO cartDao = new cartDAO();
             List<cartDTO> cartList = cartDao.getCartList(cusSeq);
