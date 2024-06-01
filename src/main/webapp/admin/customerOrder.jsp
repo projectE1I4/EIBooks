@@ -10,6 +10,10 @@
     List<OrderDTO> orderList = (List<OrderDTO>) request.getAttribute("orderList");
     PageDTO p = (PageDTO) request.getAttribute("paging");
     String orderBy = (String) request.getAttribute("orderBy");
+    // 디폴트값이 오래된순이길래 첫페이지에 오래된순 텍스트가 처음부터 바뀌어있도록 아래 코드를 추가함(작업자:길현지)
+    if (orderBy == null) {
+        orderBy = "old"; // 디폴트값을 "old"로 설정
+    }
 %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -33,10 +37,10 @@
                     </div>
                     <div class="sort">
                         <ul>
-                            <li>
+                            <li class="<%= "recent".equals(orderBy) ? "selected" : "" %>">
                                 <a href="customerOrder.or?cus_seq=<%=cus_seq %>&orderBy=recent">최신순</a>
                             </li>
-                            <li>
+                            <li class="<%= "old".equals(orderBy) ? "selected" : "" %>">
                                 <a href="customerOrder.or?cus_seq=<%=cus_seq %>&orderBy=old">오래된순</a>
                             </li>
                         </ul>

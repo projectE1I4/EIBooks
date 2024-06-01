@@ -40,8 +40,14 @@
 
 .board_list_wrap .top .sort ul li a {
   text-decoration: none;
-  color: var(--point-color1);
+  color: var(--txt-color-400);
   font-weight: bold;
+}
+
+.board_list_wrap .top .sort ul li.selected a {
+	text-decoration: none;
+	color: var(--point-color1);
+	font-weight: bold;
 }
 
 .board_list_wrap .content {
