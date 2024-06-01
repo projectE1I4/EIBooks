@@ -86,16 +86,25 @@
 .info_wrap .image_wrap {
 	height: 250px;
 	grid-row: 1 /span 2;
+	transition: all 0.3s;
+}
+.info_wrap .image_wrap:hover {
+	transform: rotateY(2deg) skewY( -2deg );
+	perspective: (100px);
 }
 .info_wrap .image_wrap img {
 	width: 100%;
 	box-shadow: 0px 0px 10px -2px #999;
+}
+.info_wrap .image_wrap:hover img {	
+	box-shadow: 1px 2px 5px 5px #ddd;
 }
 
 .info_wrap .info_box {
 	padding: 10px;
 }
 .info_box .book_price {
+	font-weight: 700;
 	font-size: 25px;
 	margin-bottom: 10px;
 	display: flex;
@@ -151,6 +160,7 @@
 }
 .info_wrap .buyBtn_wrap>.btn {
 	width: 103px;
+	cursor: pointer;
 }
 .info_wrap .buyBtn_wrap>.btn:hover {
 	color: #fff;
@@ -226,7 +236,7 @@
 	display:block;
 	font-size: 20px;
 	position: relative;
-	width: 150px;
+	width: 130px;
 	z-index: 1;
 	color: #000;
 }

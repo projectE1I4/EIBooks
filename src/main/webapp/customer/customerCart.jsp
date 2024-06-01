@@ -119,6 +119,8 @@ window.onload = function() {
             <input type = "button" onclick="deleteAll();" value="장바구니 비우기"/>
 
             <!-- 장바구니 목록 -->
+            <div class="cart_area">
+            <div class="cart_wrap">
             <form id="cartForm" method="post">
                 <%
                     if(cartList.isEmpty()) { %>
@@ -168,12 +170,16 @@ window.onload = function() {
                     }
                 %>
             </form>
+            </div>
             <!-- 총 가격 표시 -->
+            <div class="order_wrap">
             <div class = "order">
                 <p>상품 금액<span id="totalPrice"><%=totalCartPrice - 3000 %> 원</span></p>
                 <p>배송비<span>+ 3000 원</span></p>
                 <p>결제 예정 금액<span id="totalCartPrice"><%=totalCartPrice %> 원</span></p>
                 <button id="orderBtn" type="button" onclick="submitOrder()">주문하기</button>
+            </div>
+            </div>
             </div>
         </div>
     </main>

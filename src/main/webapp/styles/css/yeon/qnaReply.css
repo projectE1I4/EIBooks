@@ -191,6 +191,10 @@
 	background-color: #6A5AFF;
 	color: #fff;
 	border: none;
+	cursor: pointer;
+}
+.write_btn_wrap .btn {
+	cursor: pointer
 }
 .reply_input .text_area {
 	padding: 30px;

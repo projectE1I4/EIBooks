@@ -104,7 +104,9 @@
     display: block;
 }
 
-
+.board_list_wrap td {
+	cursor: pointer;
+}
 
 .info {
 	width: 300px;

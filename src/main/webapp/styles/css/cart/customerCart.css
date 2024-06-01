@@ -42,6 +42,7 @@ input[type="button"] {
     margin: 18px 0;
     border-radius: 15px;
     border: 1px solid var(--txt-color-400);
+    cursor: pointer;
 }
 input[type="button"]:hover {
     background-color: var(--point-color1);
@@ -61,6 +62,13 @@ input[type="button"]:hover {
     border-radius: 5px;
 }
 
+.inner .cart_area {
+	display: flex;
+	justify-content: space-between;
+}
+.inner .cart_wrap {
+	display: block;
+}
 .inner .list_left {
     border: 1px solid var(--txt-color-400);
     display: flex;
@@ -155,15 +163,16 @@ input[type="button"]:hover {
     color: #FFF;
     border : 1px solid var(--point-color1);
 }
-
+.inner .order_wrap {
+	position: relative;
+}
 .inner .order {
     display: flex;
     flex-direction: column;
     width: 320px;
     height: 300px;
-    position: absolute;
-    right: 28px;
-    top: 218px;
+    position: sticky;
+    top: 20px;
     border-radius: 5px;
     border: 1px solid var(--txt-color-400);
     padding: 35px 40px 30px 40px;

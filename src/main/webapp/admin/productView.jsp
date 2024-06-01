@@ -31,10 +31,10 @@
 <div id="skip_navi">
     <a href="#container">본문바로가기</a>
 </div>
-<div id="wrap">
+<div id="wrap" class="pv">
 	<%@ include file="../common/header.jsp" %>
     <main id="container">
-        <div class="inner">
+        <div class="product_view inner">
             <div class="productView">
                 <h2 class="title"><%=dto.getTitle() %>
                 </h2>

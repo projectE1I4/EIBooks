@@ -106,11 +106,13 @@
 						<% } %>
 					</form>
 				</div>
+				<div class="right_wrap">
 				<div class = "right">
 					<p>상품 금액<span id="totalPrice"><%=map.get("totalCartPrice") - 3000 %>&nbsp;원</span></p>
 					<p>배송비<span>+ 3000 원</span></p>
 					<p>최종 결제 금액<span id="totalCartPrice"><%=map.get("totalCartPrice") %>&nbsp;원</span></p>
 					<button type="button" id="buyButton" onclick="buy();">결제하기</button>
+				</div>
 				</div>
 			</div>
 		</div>

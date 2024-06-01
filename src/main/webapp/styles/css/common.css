@@ -293,10 +293,10 @@ table {
 } */
 
 /* 텍스트 선택 컬러 */
-/* ::selection {
-  background: #324554;
+::selection {
+  background: var(--point-color1);
   color: #ffffff;
-} */
+}
 
 /* legend,caption, 섹션제목 안보이게 */
 legend,

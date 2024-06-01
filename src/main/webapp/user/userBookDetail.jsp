@@ -196,7 +196,7 @@ List<ReviewDTO> topReviews = (List<ReviewDTO>)request.getAttribute("topReviews")
 		<div class="title_wrap">
 			<h2>도서 리뷰</h2><h2><%=reviewAvg %> / 5</h2>
 		</div>
-		<a href="/EIBooks/review/reviewList.do?bookNum=<%=book_seq%>" class="review_link"> 전체보기 (<%=reviewCount %>개)</a>
+		<a href="/EIBooks/review/reviewList.do?bookNum=<%=book_seq%>" class="review_link"> 전체보기 (<%=reviewCount %>)</a>
 	</div>
 	<ul class="review_list">
 	<% if(topReviews.isEmpty()) { %>	

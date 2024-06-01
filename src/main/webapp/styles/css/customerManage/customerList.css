@@ -34,6 +34,7 @@
   border: 1px solid #ccc;
   border-radius: 5px;
   padding: 5px;
+  cursor: pointer;
 }
 
 .board_list_wrap .search_wrap .search_input {
@@ -94,6 +95,7 @@
 }
 .board_list_wrap .customerList tr {
   transition: all 0.2s;
+  cursor: pointer;
 }
 .board_list_wrap .customerList tr:hover {
   background: #f6f6f6;

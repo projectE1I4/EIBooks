@@ -99,6 +99,7 @@
 	border: 1px solid #ddd;
 	display:flex;
 	justify-content: space-between;
+	cursor: pointer
 }
 
 .middle_bottom .sort>img {
@@ -149,6 +150,7 @@
 	width:40px;
 	height:40px;
 	margin-left: 10px;
+	cursor: pointer;
 }
 /*검색 끝*/
 

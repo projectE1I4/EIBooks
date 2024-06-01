@@ -70,6 +70,7 @@
 .product_info .flex_wrap select {
   border: 1px solid #ccc;
   padding: 5px;
+  cursor: pointer;
 }
 .product_info .flex_wrap .col {
   width: 80px;
@@ -101,6 +102,7 @@
 .product_info .stock_wrap input[type=button] {
   width: 40px;
   border: none;
+  cursor: pointer;
 }
 .product_info .stock_wrap input[type=text] {
   width: 100px;
@@ -114,4 +116,5 @@
 .product_info .btn_wrap input[type=button] {
   background-color: var(--point-color1);
   color: #fff;
+  cursor: pointer;
 }

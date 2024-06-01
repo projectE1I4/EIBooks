@@ -6,17 +6,17 @@
   --txt-color-600: #000;
 }
 
-#wrap {
-  height: 2500px;
+#wrap.pv {
   background-color: #E9EAEE;
 }
 
-.inner {
+.product_view.inner {
   padding: 130px;
 }
 .productView {
   background-color: #fff;
-  padding: 100px;
+  padding: 80px 100px;
+  border-radius: 5px;
 }
 .productView .title {
   font-size: 32px;
