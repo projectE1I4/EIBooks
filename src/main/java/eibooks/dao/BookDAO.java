@@ -378,7 +378,6 @@ public class BookDAO {
         if (isCategory) {
             sql += "category = ? ";
         }
-        System.out.println("니여기서뭐들어오니: " + map.get("list"));
         // 페이지 당 얼마나 보여줄 것인지, 정렬 방법에 대해서
         if (map.get("list") == null) {
             sql += "order by book_seq asc ";
@@ -422,10 +421,8 @@ public class BookDAO {
             pstmt.setInt(num, Integer.parseInt(map.get("amount"))); // amount 설정
             num += 1;
             pstmt.setInt(num, Integer.parseInt(map.get("offset"))); // offset 설정
-            System.out.println("searchWord: " + sql);
             num = 0;
 
-            System.out.println("1pstmt: " + pstmt);
 
             // 쿼리의 결과 등록
             rs = pstmt.executeQuery();
@@ -700,7 +697,6 @@ public class BookDAO {
 
             BookDTO dto = new BookDTO();
             pstmt.setInt(1, book_seq);
-            System.out.println("-------------book_seq" + dto.getBook_seq());
 
             // 4. execute
             rs = pstmt.executeQuery();
@@ -741,8 +737,6 @@ public class BookDAO {
             // 리스트 번호
             // offset
             
-            System.out.println("best"+pstmt);
-
             // 4. execute
             rs = pstmt.executeQuery();
 
@@ -785,7 +779,6 @@ public List<BookDTO> newBooks() {
             pstmt = conn.prepareStatement(sql);
             // 리스트 번호
             // offset
-            System.out.println("new"+pstmt);
             // 4. execute
             rs = pstmt.executeQuery();
 

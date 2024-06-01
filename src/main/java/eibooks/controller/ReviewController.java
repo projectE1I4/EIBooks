@@ -286,8 +286,6 @@ public class ReviewController extends HttpServlet {
 			OrderDAO oDao = new OrderDAO();
 			myReview.setPur_i_seq(pur_i_seq);
 			myReview = dao.selectView(myReview);
-			System.out.println("akdlfbqljdkjfslkdfjlsd     "+myReview);
-			/**/
 			
 			// request - setAtt
 			request.setAttribute("reviewList", reviewList);

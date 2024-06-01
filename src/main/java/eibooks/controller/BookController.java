@@ -319,8 +319,6 @@ public class BookController extends HttpServlet {
 			// 이놈이 지금 category 값을 못 가져오는 중임...
 			String category = request.getParameter("category");
 			String list = request.getParameter("list");
-			System.out.println("가져오자마자 userBookList - category Word:" + category);
-			System.out.println("가져오자마자 userBookList - list Word:" + list);
 
 			if (searchWord == null || searchWord.trim().equals("")) {
 				searchWord = "";

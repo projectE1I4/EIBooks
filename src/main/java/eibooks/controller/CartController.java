@@ -170,7 +170,6 @@ public class CartController extends HttpServlet {
             jsonResponse.put("message", message);
             jsonResponse.put("totalPrice", totalPrice);
             jsonResponse.put("totalCartPrice", totalCartPrice);
-            System.out.println("토탈가격 : " + totalCartPrice);
 
             // 응답 보내기
             response.setContentType("application/json");
@@ -316,7 +315,6 @@ public class CartController extends HttpServlet {
 
             if (!same) {
                 cartDao.insertCart(map);
-                System.out.println("이거까지 되고 있니??????");
             } else {
                 cartDTO cart = new cartDTO();
                 cart.setCusSeq(cusSeq);

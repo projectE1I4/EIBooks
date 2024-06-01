@@ -234,8 +234,6 @@ public class OrderController extends HttpServlet {
 				System.out.println("문제 발생");
 			}
 			
-			
-			
             // forward
             String path = "./customer/customerOrderComplete.jsp"; // 회원 별 주문 목록 페이지의 JSP 파일 경로
             request.getRequestDispatcher(path).forward(request, response);

@@ -12,6 +12,9 @@
 <link rel="stylesheet" href="/EIBooks/styles/css/customerManage/orderView.css?v=<%= new java.util.Date().getTime() %>">
 </head>
 <body>
+<div id="skip_navi">
+    <a href="#container">본문바로가기</a>
+</div>
 <div id="wrap" class="admin">
 	<%@ include file="../common/header.jsp" %>
 	<main id="container">

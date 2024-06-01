@@ -144,7 +144,6 @@ public class CustomerController extends HttpServlet {
             dto.setCus_seq(cus_seq);
             dao.deleteCustomer(dto);
 
-            System.out.println("실행됨");
             response.sendRedirect("customerList.cs");
 
         } else if (action.equals("/signup.cs")) { // 회원가입으로 이동

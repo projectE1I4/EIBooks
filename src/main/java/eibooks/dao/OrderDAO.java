@@ -182,7 +182,6 @@ public class OrderDAO {
 	                
 					// 장바구니에 담긴 각 도서의 정보를 가져와서 추가
 					orderList.add(order);
-					System.out.println(order);
 
 				}
 			} catch (Exception e) {
@@ -416,7 +415,6 @@ public class OrderDAO {
 	                
 					// 장바구니에 담긴 각 도서의 정보를 가져와서 추가
 					orderList.add(order);
-					System.out.println("order" + order);
 
 				}
 			} catch (Exception e) {
@@ -471,7 +469,6 @@ public class OrderDAO {
 	                
 					// 장바구니에 담긴 각 도서의 정보를 가져와서 추가
 					orderList.add(order);
-					System.out.println("order" + order);
 
 				}
 			} catch (Exception e) {

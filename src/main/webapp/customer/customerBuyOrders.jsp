@@ -70,6 +70,9 @@
 
 
 <div id="wrap">
+<div id="skip_navi">
+    <a href="#container">본문바로가기</a>
+</div>
 <%@ include file="../common/header.jsp" %>
 	<main id="container">
 		<div class="inner" style="flex-direction: column;">

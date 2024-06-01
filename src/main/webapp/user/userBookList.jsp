@@ -192,7 +192,9 @@ function buying(book_seq){
           + '&totalCartPrice=' + (price*cartICount);                                                                                                                                                                                                                                                                                                                                                                                              
 }
 </script>
-
+<div id="skip_navi">
+    <a href="#container">본문바로가기</a>
+</div>
 <div id="wrap">
 <%@ include file="../common/header.jsp"%>
 <!-- 제목 -->

@@ -58,11 +58,6 @@ public class UserBookController extends HttpServlet {
 			String category = request.getParameter("category");
 			String list = request.getParameter("order");
 			
-			System.out.println("order가 맞니 : us.uapi" + list);
-			
-			//여기서도 검색 시 이미 빈문자
-			System.out.println("userSearch.uapi-" + category);
-			System.out.println("userSearch.uapi-list" + list);
 			
 			if (searchWord == null) {
 				searchWord = "";

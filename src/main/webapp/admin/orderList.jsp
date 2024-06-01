@@ -21,6 +21,9 @@
         location.href = "orderView.or?pur_seq=" + pur_seq;
     }
 </script>
+<div id="skip_navi">
+    <a href="#container">본문바로가기</a>
+</div>
 <div id="wrap" class="admin">
     <%@ include file="../common/header.jsp" %>
     <main id="container">

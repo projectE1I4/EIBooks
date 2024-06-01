@@ -93,7 +93,6 @@ public class QnaDAO {
                 
 				// 장바구니에 담긴 각 도서의 정보를 가져와서 추가
 				qnaList.add(qna);
-				System.out.println(qna);
 
 			}
 		} catch (Exception e) {
@@ -291,7 +290,6 @@ public class QnaDAO {
                 
 				// 장바구니에 담긴 각 도서의 정보를 가져와서 추가
 				qnaList.add(qna);
-				System.out.println(qna);
 
 			}
 		} catch (Exception e) {
@@ -484,7 +482,6 @@ public class QnaDAO {
 	                
 					// 장바구니에 담긴 각 도서의 정보를 가져와서 추가
 					qnaList.add(qna);
-					System.out.println(qna);
 
 				}
 			} catch (Exception e) {

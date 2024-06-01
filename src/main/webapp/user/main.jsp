@@ -27,6 +27,9 @@
     	location.href = "<%=request.getContextPath()%>/user/userBookList.bo?pageNum=1&searchWord="+searchWord+"&category=";
     }
     </script>
+<div id="skip_navi">
+    <a href="#container">본문바로가기</a>
+</div>
 <div id="wrap">
 <%@ include file="/common/header.jsp" %>
 <main id="container">

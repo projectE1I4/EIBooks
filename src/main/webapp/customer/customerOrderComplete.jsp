@@ -31,7 +31,6 @@
 	<%@ include file="/common/head.jsp" %>
 	<link rel="stylesheet" href="/EIBooks/styles/css/cart/customerOrderComplete.css?v=<?php echo time(); ?>">
 </head>
-<title>주문 완료</title>
 <body data-cus-seq="<%= request.getAttribute("cusSeq") %>" data-cart-seq="<%= request.getAttribute("cartSeq") %>">
 <script type="text/javascript">   
 	$(document).ready(function() {
@@ -46,7 +45,9 @@
 	}
 </script>
 <%@ include file="../common/header.jsp" %>
-
+<div id="skip_navi">
+    <a href="#container">본문바로가기</a>
+</div>
 <div id="wrap">
 	<main id="container">
 		<div class="inner">

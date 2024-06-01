@@ -37,7 +37,6 @@ public class cartDAO {
 			pstmt.setInt(1, cusSeq);
 
 			rs = pstmt.executeQuery();
-			System.out.println("회원 seq는 잘 불러왔니? = " + cusSeq);
 
 			while(rs.next()) {
 				cartDTO cartItem = new cartDTO();
@@ -61,8 +60,6 @@ public class cartDAO {
 				// 장바구니에 담긴 각 도서의 정보를 가져와서 추가
 				cartList.add(cartItem);
 				
-				System.out.println("cartItem: " + cartItem.toString());
-
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -113,7 +110,6 @@ public class cartDAO {
 			Connection conn = null;
 			PreparedStatement pstmt = null;
 			int rs = 0;
-			System.out.println("insertCart 출력");
 			try {
 				//DB 연결
 		        conn = JDBCConnect.getConnection();
@@ -124,7 +120,6 @@ public class cartDAO {
 				pstmt.setInt(2, map.get("cart_i_count"));
 				pstmt.setInt(3, map.get("cusSeq"));
 				
-				System.out.println("rs" + pstmt);
 				rs = pstmt.executeUpdate();
 				
 			} catch(Exception e) {
@@ -285,7 +280,6 @@ public class cartDAO {
 	        pstmt = conn.prepareStatement(sql);
 	        pstmt.setInt(1, cusSeq);
 	        rs = pstmt.executeQuery();
-	        System.out.println("pstmt = " + pstmt);
 
 	        while (rs.next()) {
 	        	total.add(rs.getInt("totalPrice"));

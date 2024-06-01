@@ -5,6 +5,9 @@
 <link rel="stylesheet" href="<%= request.getContextPath() %>/styles/css/auth/auth.css?v=<%= new java.util.Date().getTime() %>">
 </head>
 <body>
+<div id="skip_navi">
+    <a href="#container">본문바로가기</a>
+</div>
 <div id="wrap">
     <%@ include file="/common/header.jsp" %>
     <main id="container">

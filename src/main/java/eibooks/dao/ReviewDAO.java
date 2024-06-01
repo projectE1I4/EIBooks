@@ -205,7 +205,6 @@ public class ReviewDAO {
 		String sql = "select count(re_seq) as reviewCnt from review "
 				+ " where pur_i_seq = ? ";
 		
-		System.out.println(sql);
 		conn = JDBCConnect.getConnection();
 		
 		try {
@@ -261,7 +260,6 @@ public class ReviewDAO {
 				dto = new ReviewDTO(bookNum, pur_i_seq, reviewNum, grade, content);
 				dto.setCusInfo(cDto);
 			}
-			System.out.println("pstmt" + pstmt);
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -358,7 +356,6 @@ public class ReviewDAO {
 		
 		String sql = "select count(re_seq) as allReviewCnt from review ";
 		
-		System.out.println(sql);
 		conn = JDBCConnect.getConnection();
 		
 		try {
@@ -392,7 +389,6 @@ public class ReviewDAO {
 				+ " order by r.regDate desc "
 				+ " limit ? offset ? ";
 		
-		System.out.println(sql);
 		conn = JDBCConnect.getConnection();
 		
 		try {
@@ -561,7 +557,6 @@ public class ReviewDAO {
 				+ " JOIN books b ON r.book_seq = b.book_seq "
 				+ " WHERE b.book_seq = ? ";
 		
-		System.out.println(sql);
 		conn = JDBCConnect.getConnection();
 		
 		try {
@@ -598,7 +593,6 @@ public class ReviewDAO {
 				+ " order by r.grade desc, r.regDate asc "
 				+ " limit 4 ";
 		
-		System.out.println(sql);
 		conn = JDBCConnect.getConnection();
 		
 		try {
