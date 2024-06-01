@@ -33,7 +33,7 @@
             <div id="customerOrder" class="board_list_wrap">
                 <div class="top">
                     <div class="title">
-                        <h2>고객 주문내역 확인하기</h2>
+                        <h2>고객별 주문내역 확인하기</h2>
                     </div>
                     <div class="sort">
                         <ul>
