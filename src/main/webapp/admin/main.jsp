@@ -70,6 +70,7 @@ int cusCnt = (int)request.getAttribute("cusCnt");
 			</div>
 		</div>
 	</main>
+	<%@ include file="../common/footer.jsp" %>
 </div>
 </body>
 </html>
