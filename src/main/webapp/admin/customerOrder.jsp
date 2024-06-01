@@ -10,6 +10,10 @@
     List<OrderDTO> orderList = (List<OrderDTO>) request.getAttribute("orderList");
     PageDTO p = (PageDTO) request.getAttribute("paging");
     String orderBy = (String) request.getAttribute("orderBy");
+    // 디폴트값이 오래된순이길래 첫페이지에 오래된순 텍스트가 처음부터 바뀌어있도록 아래 코드를 추가함(작업자:길현지)
+    if (orderBy == null) {
+        orderBy = "old"; // 디폴트값을 "old"로 설정
+    }
 %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -33,10 +37,10 @@
                     </div>
                     <div class="sort">
                         <ul>
-                            <li>
+                            <li class="<%= "recent".equals(orderBy) ? "selected" : "" %>">
                                 <a href="customerOrder.or?cus_seq=<%=cus_seq %>&orderBy=recent">최신순</a>
                             </li>
-                            <li>
+                            <li class="<%= "old".equals(orderBy) ? "selected" : "" %>">
                                 <a href="customerOrder.or?cus_seq=<%=cus_seq %>&orderBy=old">오래된순</a>
                             </li>
                         </ul>
@@ -96,7 +100,7 @@
                     </table>
                     <div class="pagination">
                         <% if (p.isPrev()) { %>
-                        <a class="first arrow" href="customerOrder.or?<% if(orderBy != null) { %>orderBy=<%=orderBy %>&<%}%>pageNum=1">
+                        <a class="first arrow" href="customerOrder.or?cus_seq=<%=cus_seq %><% if(orderBy != null) { %>&orderBy=<%=orderBy %><%}%>&pageNum=1">
                             <span class="blind">첫 페이지</span>
                         </a>
                         <% } else { %>
@@ -104,7 +108,7 @@
                         <% } %>
 
                         <% if (p.isPrev()) { %>
-                        <a class="prev arrow" href="customerOrder.or?<% if(orderBy != null) { %>orderBy=<%=orderBy %>&<%}%>pageNum=<%=p.getStartPage()-1%>">
+                        <a class="prev arrow" href="customerOrder.or?cus_seq=<%=cus_seq %><% if(orderBy != null) { %>&orderBy=<%=orderBy %><%}%>&pageNum=<%=p.getStartPage()-1%>">
                             <span class="blind">이전 페이지</span>
                         </a>
                         <% } else { %>
@@ -115,12 +119,12 @@
                         <% if (i == p.getPageNum()) { %>
                         <a class="number active"><%=i %></a>
                         <% } else { %>
-                        <a class="number" href="customerOrder.or?<% if(orderBy != null) { %>orderBy=<%=orderBy %>&<%}%>pageNum=<%=i %>"><%=i %></a>
+                        <a class="number" href="customerOrder.or?cus_seq=<%=cus_seq %><% if(orderBy != null) { %>&orderBy=<%=orderBy %><%}%>&pageNum=<%=i %>"><%=i %></a>
                         <% } %>
                         <% } %>
 
                         <% if (p.isNext()) { %>
-                        <a class="next arrow" href="customerOrder.or?<% if(orderBy != null) { %>orderBy=<%=orderBy %>&<%}%>pageNum=<%=p.getEndPage()+1%>">
+                        <a class="next arrow" href="customerOrder.or?cus_seq=<%=cus_seq %><% if(orderBy != null) { %>&orderBy=<%=orderBy %><%}%>&pageNum=<%=p.getEndPage()+1%>">
                             <span class="blind">다음 페이지</span>
                         </a>
                         <% } else { %>
@@ -128,7 +132,7 @@
                         <% } %>
 
                         <% if (p.isNext()) { %>
-                        <a class="last arrow" href="customerOrder.or?<% if(orderBy != null) { %>orderBy=<%=orderBy %>&<%}%>pageNum=<%=p.getRealEnd()%>">
+                        <a class="last arrow" href="customerOrder.or?cus_seq=<%=cus_seq %><% if(orderBy != null) { %>&orderBy=<%=orderBy %>&<%}%>pageNum=<%=p.getRealEnd()%>">
                             <span class="blind">마지막 페이지</span>
                         </a>
                         <% } else { %>
