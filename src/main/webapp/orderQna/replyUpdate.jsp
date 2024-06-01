@@ -114,9 +114,10 @@ $(document).ready( function() {
 <div id="skip_navi">
   <a href="#container">본문바로가기</a>
 </div>
-<div id="wrap">
+<div id="wrap" class="admin">
 	<%@ include file="../common/header.jsp" %>
 	<main id="container">
+		<div class="inner">
 		<div class="tit_wrap">
 		<h1>1:1 문의</h1>
 		<ul class="sort_wrap">
@@ -153,7 +154,7 @@ $(document).ready( function() {
 				</thead>
 				<tbody>
 					<% if(qnaList.isEmpty()) { %>	
-						<tr><td colspan="8">&nbsp;<b>Data Not Found!!</b></td></tr>
+						<tr><td colspan="8">&nbsp;<b>문의가 없습니다.</b></td></tr>
 					<% } else { %>
 						<% for(OrderQnaDTO qna : qnaList){ %>	
 							<tr class="qna_wrap">
@@ -171,22 +172,22 @@ $(document).ready( function() {
 									<div class="reply_wrap_content">
 										<div class="cus_content reply">
 											<p><%=qna.getContent() %></p>
-											<div class="btn_wrap">
-												<% if(qna.getState().equals("답변대기") && pur_q_seq != qna.getPur_q_seq()) { %>
-												<a class="btn insert_btn" href="<%=request.getContextPath()%>/orderQna/replyWrite.oq?pur_q_seq=<%=qna.getPur_q_seq()%>&isReply=1&pageNum=<%=p.getPageNum() %>">답변 달기
-													<span class="blind">답변 달기</span>
-												</a>
-												<% } %>
-												<a class="btn" href="javascript:del('<%=qna.getPur_q_seq() %>');">
-													삭제
-												</a>
-											</div>
-										</div>
 										<% if(qna.getImageFile() != null && !qna.getImageFile().isEmpty()) { %>
 											<div class="img_wrap">
 						                        <img src="<%=qna.getImageFile() %>" alt="표지이미지">
 						                    </div>
 					                    <% } %>
+										</div>
+										<div class="btn_wrap">
+											<% if(qna.getState().equals("답변대기") && pur_q_seq != qna.getPur_q_seq()) { %>
+											<a class="btn insert_btn" href="<%=request.getContextPath()%>/orderQna/replyWrite.oq?pur_q_seq=<%=qna.getPur_q_seq()%>&isReply=1&pageNum=<%=p.getPageNum() %>">답변 달기
+												<span class="blind">답변 달기</span>
+											</a>
+											<% } %>
+											<a class="btn" href="javascript:del('<%=qna.getPur_q_seq() %>');">
+												삭제
+											</a>
+										</div>
 										<%
 										OrderQnaDAO dao = new OrderQnaDAO();
 										OrderQnaDTO reply = dao.selectReply(qna);
@@ -261,7 +262,7 @@ $(document).ready( function() {
 				<%} %>
 			</div>
 		<% } %>
-		
+		</div>
 	</main>
 	<%@ include file="../common/footer.jsp" %>
 </div>

@@ -62,9 +62,10 @@ $(document).ready( function() {
 <div id="skip_navi">
   <a href="#container">본문바로가기</a>
 </div>
-<div id="wrap">
+<div id="wrap" class="admin">
 	<%@ include file="../common/header.jsp" %>
 	<main id="container">
+		<div class="inner">
 		<div class="tit_wrap">
 		<h1>상품 문의(관리자)</h1>
 		<ul class="sort_wrap">
@@ -102,7 +103,7 @@ $(document).ready( function() {
 				</thead>
 				<tbody>
 					<% if(qnaList.isEmpty()) { %>	
-						<tr><td colspan="8">&nbsp;<b>Data Not Found!!</b></td></tr>
+						<tr><td colspan="8">&nbsp;<b>문의가 없습니다.</b></td></tr>
 					<% } else { %>
 						<% for(QnaDTO qna : qnaList){ %>	
 							<tr class="qna_wrap">
@@ -213,6 +214,7 @@ $(document).ready( function() {
 				<%} %>
 			</div>
 		<% } %>
+		</div>
 	</main>
 	<%@ include file="../common/footer.jsp" %>
 </div>

@@ -97,7 +97,7 @@ int oqCnt = (int)request.getAttribute("oqCnt");
 				<h3>마이 페이지</h3>
 				<div class="content">
 					<div class="box">
-						<a href="/EIBooks/customer/myPage.or">
+						<a class="link_btn2" href="/EIBooks/customer/myPage.or">
 							관리자<br>마이 페이지					
 						</a>
 					</div>

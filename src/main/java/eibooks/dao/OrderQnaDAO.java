@@ -164,7 +164,7 @@ public class OrderQnaDAO {
 
 		int totalCount = 0;
 		
-		String sql = "select count(pur_q_seq) as cnt from order_qna ";
+		String sql = "select count(pur_q_seq) as cnt from order_qna where depth = 1 ";
 
 		try {
 			conn = JDBCConnect.getConnection();
