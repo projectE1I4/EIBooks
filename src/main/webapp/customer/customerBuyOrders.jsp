@@ -69,8 +69,8 @@
 </script>
 
 
-<%@ include file="../common/header.jsp" %>
 <div id="wrap">
+<%@ include file="../common/header.jsp" %>
 	<main id="container">
 		<div class="inner" style="flex-direction: column;">
 			<h1>주문 / 결제</h1>
@@ -112,6 +112,7 @@
 			</div>
 		</div>
 	</main>
+	<%@ include file="../common/footer.jsp" %>
 </div>
 </body>
 </html>
