@@ -114,6 +114,7 @@ public class CartController extends HttpServlet {
             
          // 장바구니 페이지로 리다이렉트
               response.sendRedirect(request.getContextPath() + "/customer/customerCart.cc");
+              
         }else if(action.equals("/updateCart.cc")) {
 			System.out.println(action);
 			request.setCharacterEncoding("utf-8");

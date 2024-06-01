@@ -45,7 +45,7 @@
 	    xhr.onreadystatechange = function() {
 	        if (xhr.readyState === 4 && xhr.status === 200) {
 	            // 요청이 성공적으로 완료되면 페이지 리다이렉트
-	            window.location.href = "./customerCartOut.cc";
+	            window.location.href = "./customerCart.cc";
 	        }
 	    };
 	
