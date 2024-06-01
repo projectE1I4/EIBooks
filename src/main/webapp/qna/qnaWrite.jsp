@@ -9,9 +9,23 @@ BookDTO book = (BookDTO)request.getAttribute("book");
 <%@ include file="/common/head.jsp" %>
 <link rel="stylesheet" href="/EIBooks/styles/css/yeon/qnaWrite.css?v=<?php echo time(); ?>">
 <script>
-$(document).ready( function() {
+
+function validateForm() {
+    const form = document.writeForm;
     
-});
+    if (form.title.value === "") {
+        alert('제목을 입력해주세요.');
+        form.title.focus();
+        return;
+    } else if (form.content.value === "") {
+        alert('내용을 입력해주세요.');
+        form.content.focus();
+        return;
+    }
+
+    form.submit();
+
+}
 
 function limitText(field, maxLength) {
 	if (field.value.length > maxLength) {
@@ -63,14 +77,14 @@ function limitText(field, maxLength) {
 						</div>
 						<div class="write_btn_wrap">
 							<input class="btn" type="button" value="취소" onclick="goToPage()">
-							<input class="btn write_btn" type="submit" value="작성하기">
+							<input class="btn write_btn" type="button" value="작성하기" onclick="validateForm()">
 						</div>
 					</form>
 				</li>
 			</ul>
 		</div>
 	</main>
-	<%@ include file="../common/footer.jsp" %>
+	
 </div>	
 
 </body>
