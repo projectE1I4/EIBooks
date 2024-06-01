@@ -1,46 +1,40 @@
 /* 컬러 변수 */
 :root {
-  --point-color1: #6a5aff;
-  --txt-color-400: #999;
-  --txt-color-500: #333;
-  --txt-color-600: #000;
+    --point-color1: #6a5aff;
+    --txt-color-400: #999;
+    --txt-color-500: #333;
+    --txt-color-600: #000;
 }
 #container .inner {
-	display: flex;
-	flex-direction: column;
+    display: flex;
+    flex-direction: column;
 }
 .inner {
-  width: 1280px;
-  margin: 0 auto;
-  position: relative;
+    width: 1280px;
+    margin: 0 auto;
+    position: relative;
 }
-.cart_top_wrap {
-	display: flex;
-	justify-content : space-between;
-	align-items:center;
-	width: 100%;
-	border-bottom: 1px solid var(--txt-color-400);
-	margin-bottom: 50px;
+.inner h1 {
+    font-size: 35px;
+    font-weight: 600;
+    color: var(--txt-color-600);
+    margin-bottom: 50px;
+    border-bottom: 1px solid var(--txt-color-400);
+    padding-bottom: 35px;
 }
-
-.cart_top_wrap h1 {
-  font-size: 35px;
-  font-weight: 600;
-  color: var(--txt-color-600);
-  position: relative;
-  display: inline-block;
-  padding-right: 10px;
-}
-.cart_top_wrap h1::after {
+.inner h1::after {
     content: '';
-    position: absolute;
-    left: 100%;
-    top: 5px;
     width: 40px;
     height: 40px;
+    position: absolute;
+    left: 165px;
+    top: 87px;
     background: url(../../images/cart.png) no-repeat center / 100%;
 }
-input[type="button"].deleteAll {
+input[type="button"] {
+    position: absolute;
+    right: 30px;
+    top: 65px;
     background-color: #FFF;
     color: var(--txt-color-600);
     padding: 10px 15px;
@@ -49,35 +43,15 @@ input[type="button"].deleteAll {
     border-radius: 15px;
     border: 1px solid var(--txt-color-400);
 }
-input[type="button"].deleteAll:hover {
-	background-color: var(--point-color1);
+input[type="button"]:hover {
+    background-color: var(--point-color1);
     color: #FFF;
     border : 1px solid var(--point-color1);
-}
-
-.inner .cart_main {
-	width: 100%;
-	display: flex;
-	gap: 20px;
-	
-}
-.cart_main .cart_wrap {
-	display: block;
-    width: 72.1%;
-    min-height: 270px;
-}
-.cart_main .cart_list {
-	display: flex;
-	border: 1px solid var(--txt-color-400);
-	gap: 20px;
-	margin-bottom: 15px;
-	border-radius: 5px;
-	height: 270px;
-	width: 100%;
 }
 .inner .cart_empty {
     list-style-type: none;
     text-align: center;
+    width: 880px;
     height: 310px;
     font-size: 25px;
     font-weight: 600;
@@ -86,159 +60,144 @@ input[type="button"].deleteAll:hover {
     border: 1px solid var(--txt-color-400);
     border-radius: 5px;
 }
-.cart_list .cart_left {
-	width: 75%;
-}
-.cart_left .cart_form {
-	display: flex;
+
+.inner .list_left {
+    border: 1px solid var(--txt-color-400);
+    display: flex;
     align-items: center;
+    width: 880px;
+    height: 270px;
     border-radius: 5px;
+    margin-bottom: 15px;
+    position: relative;
 }
-.cart_left .cart_form img {
-	height: 240px;
-	margin: 15px 25px;
+.inner .list_left img {
+    width: 165px;
+    height: 240px;
+    margin: 0 25px;
 }
 
-.cart_left .cart_form ul {
-	list-style: none;
+.inner .list_left ul {
+    list-style: none;
 }
 
-.cart_left .cart_form li {
+.inner .list_left li {
     margin-bottom: 10px;
 }
-.cart_left .cart_form li:nth-child(1) {
-	font-size: 22px;
-	font-weight: 600;
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	max-width: 400px;
+.inner .list_left li:nth-child(1) {
+    font-size: 22px;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 400px;
 }
-.cart_right {
-	display: flex;
-	flex-direction: column;
-    justify-content: center;
-	align-items:center;
-	gap: 20px;
-	position: relative;
-	width: 25%;
-}
-.cart_right::before {
-	content:'';
-	position: absolute;
-	width:1px;
-	height:268px;
-	background: var(--txt-color-400);
-	left: 0px;
-    top: 0px;
-}
-.cart_right .quantity {
+.inner .list_left .quantity {
+    display: flex;
+    flex-direction: column;
     text-align: center;
+    position: absolute;
+    gap: 20px;
+    left: 710px;
+    padding-bottom: 75px;
 }
-.cart_right .quantity p {
-	font-size: 25px;
-	font-weight: 600;
+.inner .list_left .quantity p {
+    font-size: 25px;
+    font-weight: 600;
+}
+.inner .list_left .quantity::before {
+    content:'';
+    position: absolute;
+    width:1px;
+    height:250px;
+    background: var(--txt-color-400);
+    right: 175px;
+    top: -32px;
 }
 /* 수량 전체 버튼*/
-.cart_right .quantity .button {
+.inner .list_left .quantity .button {
     list-style: none;
     width: 130px;
     border-radius: 5px;
     padding: 3px 5px;
 }
 /* + - 버튼 */
-.cart_right .quantity button {
+.inner .list_left .quantity button {
     border: none;
     font-size: 30px;
     background: none;
 }
-.cart_right .quantity button:hover {
-	color: var(--point-color1);
+.inner .list_left .quantity button:hover {
+    color: var(--point-color1);
 }
 
-.cart_right input[type="number"] {
+.inner .quantity input[type="number"] {
     width: 50px;
     margin: 0 10px;
     border: none;
     font-size: 19px;
     font-weight: 600;
 }
-.cart_right .delete {
+.inner .list_left .delete {
+    position: absolute;
+    right: 65px;
+    bottom: 50px;
 }
-.cart_right .delete button {
+.inner .list_left .delete button {
     border: 1px solid var(--txt-color-400);
     background: #fff;
     border-radius: 15px;
     width: 80px;
     padding: 5px 0;
 }
-.cart_right .delete button:hover {
-	background-color: var(--point-color1);
+.inner .list_left .delete button:hover {
+    background-color: var(--point-color1);
     color: #FFF;
     border : 1px solid var(--point-color1);
 }
 
-.inner .order_wrap {
-	width: 26.5%;
-	height: auto;
-	position: relative;
-}
-
-.order_wrap .order {
+.inner .order {
     display: flex;
     flex-direction: column;
-    width: 100%;
-    height: 310px;
+    width: 320px;
+    height: 300px;
+    position: absolute;
+    right: 28px;
+    top: 218px;
     border-radius: 5px;
     border: 1px solid var(--txt-color-400);
     padding: 35px 40px 30px 40px;
     font-size: 20px;
-    position: sticky;
-    top: 20px;
 }
-.order_wrap .order p {
+.inner .order p {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 35px;
     font-weight: 600;
-    width: 100%
 }
-.order_wrap .order p:nth-child(2) {
-	margin-bottom: 20px;
+.inner .order p:nth-child(2) {
+    margin-bottom: 20px;
     border-bottom: 1px solid var(--txt-color-400);
     padding-bottom: 25px;
 }
-.order_wrap .order p:nth-child(3) {
-	margin-bottom: 25px;
+.inner .order p:nth-child(3) {
+    margin-bottom: 25px;
 }
 
 
-.order_wrap .order #orderBtn {
-	width: 100%;
+.inner .order #orderBtn {
+    width: 240px;
     height: 45px;
     border-radius: 15px;
     border: 1px solid var(--txt-color-400);
     background: #fff;
-	font-weight: 600;
+    font-weight: 600;
     color: var(--txt-color-600);
 }
 
-.order_wrap .order #orderBtn:hover {
-	background-color: var(--point-color1);
+.inner .order #orderBtn:hover {
+    background-color: var(--point-color1);
     color: #FFF;
     border : 1px solid var(--point-color1);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
