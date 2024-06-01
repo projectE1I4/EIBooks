@@ -154,7 +154,7 @@ $(document).ready( function() {
 				</thead>
 				<tbody>
 					<% if(qnaList.isEmpty()) { %>	
-						<tr><td colspan="8">&nbsp;<b>Data Not Found!!</b></td></tr>
+						<tr><td colspan="8">&nbsp;<b>문의가 없습니다.</b></td></tr>
 					<% } else { %>
 						<% for(OrderQnaDTO qna : qnaList){ %>	
 							<tr class="qna_wrap">
