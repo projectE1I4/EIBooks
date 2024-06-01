@@ -88,7 +88,7 @@ function buying(book_seq){
 }
 
 function goToCustomerCart(book_seq){
-    var cartICount = $('input[name="'+book_seq+'"]').val();
+    var cartICount = $('input[name="cartICount"]').val();
     $.ajax({
         type: "POST",
         url: "<%=request.getContextPath()%>/customerCartInsert.cc",
@@ -122,8 +122,8 @@ function decreaseBtn(bookSeq) {
 
 
 </script>
+<div class="wrap">
 <%@ include file="../common/header.jsp" %>
-<header id="header"></header>
 <main id="container">
 <div class="inner">
 <section class="detail_top">
@@ -169,10 +169,10 @@ function decreaseBtn(bookSeq) {
 						<input class="btn goCart" type="submit" value="장바구니" onclick="goToCustomerCart(<%=dto.getBook_seq()%>);"/>				        	
         			</div>
 				</div>
-			</div>
-			<div class="discription_wrap">
-				<strong>책 소개</strong>
-				<div class="discription"><p><%=dto.getDescription() %></p></div>
+				<div class="discription_wrap">
+					<strong>책 소개</strong>
+					<div class="discription"><p><%=dto.getDescription() %></p></div>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -339,5 +339,6 @@ List<ReviewDTO> topReviews = (List<ReviewDTO>)request.getAttribute("topReviews")
 </div>
 </main>
 <%@ include file="../common/footer.jsp"%>
+</div>
 </body>
 </html>

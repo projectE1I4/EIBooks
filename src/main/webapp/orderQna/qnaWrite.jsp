@@ -8,40 +8,12 @@
     pageEncoding="UTF-8"%>
 <%
 List<OrderDTO> orderList = (List<OrderDTO>)request.getAttribute("orderList");
+String pageNum = (String)request.getAttribute("pageNum");
 %>    
 <!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<!-- <meta name="viewport" content="width=1280"> -->
-<meta name="format-detection" content="telephone=no">
-<meta name="description" content="EIBooks">
-<meta property="og:type" content="website">
-<meta property="og:title" content="EIBooks">
-<meta property="og:description" content="EIBooks">
-<meta property="og:image" content="http://hyerin1225.dothome.co.kr/EIBooks/images/EIBooks_logo.jpg" />
-<meta property="og:url" content="http://hyerin1225.dothome.co.kr/EIBooks" />
-<title>EIBooks</title>
-<link rel="icon" href="images/favicon.png">
-<link rel="apple-touch-icon" href="images/favicon.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/EIBooks/styles/css/jquery-ui.min.css">
-<link rel="stylesheet" href="/EIBooks/styles/css/swiper-bundle.min.css">
-<link rel="stylesheet" href="/EIBooks/styles/css/aos.css">
-<link rel="stylesheet" href="/EIBooks/styles/css/common.css?v=<?php echo time(); ?>">
-<link rel="stylesheet" href="/EIBooks/styles/css/header.css?v=<?php echo time(); ?>">
-<link rel="stylesheet" href="/EIBooks/styles/css/footer.css?v=<?php echo time(); ?>">
-<link rel="stylesheet" href="/EIBooks/styles/css/main.css?v=<?php echo time(); ?>">
+<html lang="ko">
+<%@ include file="/common/head.jsp" %>
 <link rel="stylesheet" href="/EIBooks/styles/css/yeon/qnaWrite2.css?v=<?php echo time(); ?>">
-<script src="/EIBooks/styles/js/jquery-3.7.1.min.js"></script>
-<script src="/EIBooks/styles/js/jquery-ui.min.js"></script>
-<script src="/EIBooks/styles/js/swiper-bundle.min.js"></script>
-<script src="/EIBooks/styles/js/aos.js"></script>
-<script src="/EIBooks/styles/js/ui-common.js?v=<?php echo time(); ?>"></script>
-<title>review/replyList.jsp</title>
 <script>
 $(document).ready( function() {
     
@@ -63,17 +35,15 @@ function previewImage(event) {
     }
     reader.readAsDataURL(event.target.files[0]);
 }
-
 </script>
 </head>
 <body>
 
-<%@ include file="../common/header.jsp" %>
 <div id="skip_navi">
   <a href="#container">본문바로가기</a>
 </div>
 <div id="wrap">
-	<header id="header"></header>
+	<%@ include file="../common/header.jsp" %>
 	<main id="container">
 		<div class="inner">
 			<h2>1:1문의</h2>
@@ -89,50 +59,51 @@ function previewImage(event) {
 							</select>
 						</div>
 						<div class="qna_input">
-							<p>주문내역</p>
-							<select class="choose" name="pur_seq">
-								<%
+							<div class="purchase">
+							    <p>주문내역</p>
+							    <em>3개월 이내의 주문내역</em>
+							</div>
+						    <div class="info_wrap">
+						    <%
 							 	OrderDTO prevItem = null;
 							   	int cnt = 0;
-								
-								for(OrderDTO o : orderList) {
-									// 이전 항목과 현재 항목이 동일한지 확인
-							        boolean isSameItem = prevItem != null && prevItem.getPur_seq() == o.getPur_seq();
+						   	
+							   	for (int i = 0; i < orderList.size(); i++) {
+							    	boolean isSameItem = prevItem != null && prevItem.getPur_seq() == orderList.get(i).getPur_seq();
 							        if(!isSameItem) { // 이전 항목과 다를 경우에만 표시
-									%>
-									<option value="<%=o.getPur_seq() %>">
-										<%=o.getPur_seq() %>&nbsp;&nbsp;&nbsp;
-										<%
-										OrderDTO dto = new OrderDTO();
-										dto.setPur_seq(o.getPur_seq());
-										OrderQnaDAO dao = new OrderQnaDAO();
-										
-										List<OrderDTO> order = dao.getOrderDetail(dto);
-										String title = "";
-										
-										int titleCnt = 0;
-										for (OrderDTO d : order) {
-											if (o.getPur_seq() == d.getPur_seq()) {
-												title = d.getBookInfo().getTitle();
-												titleCnt++;
-											}
-										}
-										%>
-										<%=title %>
-										<% if(titleCnt - 1 > 0) { %>
-											외 <%=titleCnt - 1 %>권
-										<% } %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-										<%=o.getOrderDate() %>
-									</option>
-								<%
+							    	%>
+							        <% OrderDTO o = orderList.get(i); %>
+							        <div class="radio_wrap">
+							            <input type="radio" id="info_text_<%= i %>" name="pur_seq" value="<%= o.getPur_seq() %>">
+							            <label for="info_text_<%= i %>">
+							            	<div class="txt">
+							            		<p><%=o.getPur_seq() %></p>
+								                <div class="title_i">
+								                	<p><%=o.getBookInfo().getTitle() %>
+								                	<%
+								                	OrderDTO dto = new OrderDTO();
+							            			dto.setPur_seq(o.getPur_seq());	
+							            			OrderDAO dao = new OrderDAO();
+							            			int titleCnt = dao.selectTitleCount(dto);
+							            			
+							            			if(titleCnt > 0) {
+								                	%>
+								                	<p class="pos">외 <em><%=titleCnt %></em>권</p>
+								                	<% } %>
+								                </div>
+								                <p><%=o.getOrderDate() %></p>
+							            	</div>
+							            </label>
+							        </div>
+							    <%
 							        } // if(!isSameItem)
-							        prevItem = o; // 현재 항목을 이전 항목으로 설정
+							        prevItem = orderList.get(i); // 현재 항목을 이전 항목으로 설정
 							    	
 							    } // for
 								%>
-
-							</select>
+						    </div>
 						</div>
+						
 						
 						<div class="qna_input">
 							<p>제목</p>
@@ -143,7 +114,7 @@ function previewImage(event) {
 							<textarea class="write_content" name="content" oninput="limitText(this, 500)"></textarea>
 						</div>
 						 <div class="img_wrap">
-                            <img id="imagePreview" src="" alt="Preview"><br>
+                            <img id="imagePreview" src="/EIBooks/styles/images/photo.svg" alt="Preview">
                             <input type="file" name="imageFile" onchange="previewImage(event)">
                         </div>
 						<div class="write_btn_wrap">
@@ -159,6 +130,7 @@ function previewImage(event) {
 			</ul>
 		</div>
 	</main>
+	<%@ include file="../common/footer.jsp" %>
 </div>	
 
 </body>

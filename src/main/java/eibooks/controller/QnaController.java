@@ -202,7 +202,6 @@ public class QnaController extends HttpServlet {
 			request.getRequestDispatcher(path).forward(request, response);
 			
 		}  else if(action.equals("/replyWriteProc.qq")) {
-			request.setCharacterEncoding("utf-8"); // 한글 처리
 			
 			// 값 받기
 			String sBook_seq = request.getParameter("book_seq");
@@ -253,13 +252,13 @@ public class QnaController extends HttpServlet {
 			request.setAttribute("paging", paging);
             
 			// forward
-            String path = "/EIBooks/qna/reply.qq";
+            String path = "/EIBooks/qna/reply.qq?pageNum=" + pageNum;
             response.sendRedirect(path);
             
-		}  else if(action.equals("/replyUpdate.qq")) {
+		} else if(action.equals("/replyUpdate.qq")) {
 			// 값 받기
 			HttpSession session = request.getSession();
-			int userNum = (int)session.getAttribute("cus_seq");
+			int cus_seq = (int)session.getAttribute("cus_seq");
 			
 			String sQna_seq = request.getParameter("qna_seq");
 			int qna_seq = Integer.parseInt(sQna_seq);
@@ -339,7 +338,7 @@ public class QnaController extends HttpServlet {
 			request.setAttribute("paging", paging);
             
 			// forward
-            String path = "/EIBooks/qna/reply.qq";
+            String path = "/EIBooks/qna/reply.qq?pageNum=" + pageNum;
             response.sendRedirect(path);
             
 		}  else if(action.equals("/replyDeleteProc.qq")) {

@@ -70,18 +70,22 @@
 }
 
 .book_info .info_area {
-	margin: 20px 50px;
+	margin: 20px 0;
 }
 .book_info .info_area .info_wrap {
-	display:flex;
-	min-height:380px;
+	width:92%;
+	display:grid;
+	grid-template-columns: calc(22.2% - 10px) clac(65.5% - 10px) 12.2%;
+	grid-template-rows: 160px 1fr;
+	min-height:200px;
 	max-height: 500px; 
 	padding-bottom: 50px;
+	gap: 20px;
+	margin: 0 auto;
 }
 .info_wrap .image_wrap {
-	width: 250px;
 	height: 250px;
-	margin-right: 20px;	
+	grid-row: 1 /span 2;
 }
 .info_wrap .image_wrap img {
 	width: 100%;
@@ -101,17 +105,16 @@
 }
 .info_box .etc_wrap {
 	display: flex;
-	width: 400px;
+	width: 350px;
 	justify-content:space-between;
 	margin-bottom: 10px;
-	padding-right: 80px;
 }
 .info_box .viewCount_wrap {
 	margin-bottom: 10px;
 }
 .info_wrap .buy_wrap {
-	margin-left: 270px;
 	margin-top: 10px;
+	justify-self: end;
 }
 .buy_wrap .quantity_wrap {
 	display: flex;
@@ -157,13 +160,12 @@
 	margin-bottom: 5px;
 }
 
-.info_area .discription_wrap{
-	position: absolute;
-	bottom: 50px;
-	left: 300px;	
+/*자주 위치 문제가 발생함.*/
+.info_wrap .discription_wrap{
+	grid-column: 2 / span 2;
 }
 .discription_wrap .discription{
-	width: 800px;
+	width: 100%;
 	height: 145px;
 	background: #eee;
 	border-radius: 15px;
@@ -260,7 +262,7 @@
 	display: grid;
 	width: 100%;
 	gap: 10px;
-	grid-template-columns: 1fr 1fr;
+	grid-template-columns: calc(50% - 5px) calc(50% - 5px);
 	
 }
 .review_list .empty{
@@ -268,7 +270,7 @@
 }
 
 .review_list .notEmpty {
-	width: calc( (1255px - 10px) / 2 );
+	width: 100%;
 	border: 3px solid #eee;
 	border-radius: 5px;
 	height: 160px; 

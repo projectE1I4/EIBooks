@@ -64,10 +64,15 @@ int cusCnt = (int)request.getAttribute("cusCnt");
 				<div class="box2">
 					<a href="/EIBooks/qna/reply.qq">전체 상품 문의 확인</a>
 				</div>
+				
+				<div class="box2">
+					<a href="/EIBooks/orderQna/reply.oq">전체 1:1 문의 확인</a>
+				</div>
 			</div>
 			</div>
 		</div>
 	</main>
+	<%@ include file="../common/footer.jsp" %>
 </div>
 </body>
 </html>

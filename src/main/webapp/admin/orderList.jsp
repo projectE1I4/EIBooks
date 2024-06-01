@@ -12,10 +12,8 @@
 	String orderBy = (String)request.getAttribute("orderBy");
 %>
 <!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>orderList.jsp</title>
+<html lang="ko">
+  <%@ include file="/common/head.jsp" %>
 
 <script type="text/javascript">
 function goToPage(pur_seq) {
@@ -110,6 +108,6 @@ function goToPage(pur_seq) {
 	</td>
 	</tr>
 </table>
-
+<%@ include file="../common/footer.jsp" %>
 </body>
 </html>

@@ -68,8 +68,9 @@
         }
     }
 </script>
-<%@ include file="../common/header.jsp" %>
 <div id="wrap">
+<%@ include file="../common/header.jsp" %>
+
     <main id="container">
         <div class="inner">
             <div id="review_list_area">
@@ -199,6 +200,8 @@
             </div>
         </div>
     </main>
+
+<%@ include file="../common/footer.jsp" %>
 </div>
 </body>
 </html>

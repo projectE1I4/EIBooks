@@ -16,6 +16,7 @@
 }
 .tit_wrap h1 {
 	font-size: 32px;
+	font-weight: 700;
 }
 
 .sort_wrap {
@@ -104,8 +105,9 @@
 	height: 140px;
 	padding-left: 30px;
 }
-.book_info .book_image {
-	width: 100px;
+.book_info .book_image img {
+	min-width: 80px;
+	max-width: 80px;
 }
 .book_info .book_text {
 	text-align: left;
@@ -226,4 +228,10 @@
 	height: 30px; 
 	background: url(../../images/edit.png) no-repeat center center;
 	background-size: 30px;
+}
+.author {
+	display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    overflow: hidden;
 }

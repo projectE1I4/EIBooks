@@ -420,7 +420,7 @@ input[type='radio']:checked + label:after {
   content: '';
   position: absolute;
   left: 5px;
-  top: 50%;
+  top: 11px;
   transform: translateY(-50%);
   margin-top: 1px;
   width: 10px;

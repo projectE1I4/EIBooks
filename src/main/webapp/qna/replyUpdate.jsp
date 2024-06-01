@@ -23,39 +23,10 @@ if(request.getParameter("isReply") != null) {
 }
 %>      
 <!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<!-- <meta name="viewport" content="width=1280"> -->
-<meta name="format-detection" content="telephone=no">
-<meta name="description" content="EIBooks">
-<meta property="og:type" content="website">
-<meta property="og:title" content="EIBooks">
-<meta property="og:description" content="EIBooks">
-<meta property="og:image" content="http://hyerin1225.dothome.co.kr/EIBooks/images/EIBooks_logo.jpg" />
-<meta property="og:url" content="http://hyerin1225.dothome.co.kr/EIBooks" />
-<title>EIBooks</title>
-<link rel="icon" href="images/favicon.png">
-<link rel="apple-touch-icon" href="images/favicon.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/EIBooks/styles/css/jquery-ui.min.css">
-<link rel="stylesheet" href="/EIBooks/styles/css/swiper-bundle.min.css">
-<link rel="stylesheet" href="/EIBooks/styles/css/aos.css">
-<link rel="stylesheet" href="/EIBooks/styles/css/common.css?v=<?php echo time(); ?>">
-<link rel="stylesheet" href="/EIBooks/styles/css/header.css?v=<?php echo time(); ?>">
-<link rel="stylesheet" href="/EIBooks/styles/css/footer.css?v=<?php echo time(); ?>">
-<link rel="stylesheet" href="/EIBooks/styles/css/main.css?v=<?php echo time(); ?>">
+<html lang="ko">
+<%@ include file="/common/head.jsp" %>
 <link rel="stylesheet" href="/EIBooks/styles/css/yeon/qnaReply.css?v=<?php echo time(); ?>">
 <link rel="stylesheet" href="/EIBooks/styles/css/yeon/qnaReplyWrite.css?v=<?php echo time(); ?>">
-<script src="/EIBooks/styles/js/jquery-3.7.1.min.js"></script>
-<script src="/EIBooks/styles/js/jquery-ui.min.js"></script>
-<script src="/EIBooks/styles/js/swiper-bundle.min.js"></script>
-<script src="/EIBooks/styles/js/aos.js"></script>
-<script src="/EIBooks/styles/js/ui-common.js?v=<?php echo time(); ?>"></script>
-<title>review/replyList.jsp</title>
 <script>
 $(document).ready( function() {
     
@@ -85,7 +56,7 @@ $(document).ready( function() {
 		if(state == "답변완료"){
 			console.log(reviewCount);
 			alert("이미 작성한 리뷰가 있습니다.");
-			location.href = "<%=request.getContextPath() %>/qna/replyUpdate.qq?qna_seq=<%=qna_seq %>";
+			location.href = "<%=request.getContextPath() %>/qna/replyUpdate.qq?qna_seq=<%=qna_seq %>&pageNum=<%=p.getPageNum()%>";
 			return;
 		}else if(form.content.value === ""){
 			alert('내용을 입력해주세요.');
@@ -121,7 +92,7 @@ $(document).ready( function() {
 	
 	function isReply(qna_seq) {
 		isReply = 1;
-		location.href="replyWrite.qq?qna_seq=" + qna_seq + "&isReply=<%=isReply %>";
+		location.href="replyWrite.qq?qna_seq=" + qna_seq + "&isReply=<%=isReply %>&pageNum=<%=p.getPageNum()%>";
 	}
 	
 	window.onload = function() {
@@ -137,12 +108,11 @@ $(document).ready( function() {
 </head>
 <body>
 
-<%@ include file="../common/header.jsp" %>
 <div id="skip_navi">
   <a href="#container">본문바로가기</a>
 </div>
 <div id="wrap">
-	<header id="header"></header>
+	<%@ include file="../common/header.jsp" %>
 	<main id="container">
 		<div class="tit_wrap">
 		<h1>상품 문의(관리자)</h1>
@@ -193,7 +163,7 @@ $(document).ready( function() {
 										<div class="book_text">
 											<p><%=qna.getBookInfo().getPublisher() %></p>
 											<strong><%=qna.getBookInfo().getTitle() %></strong>
-											<p><%=qna.getBookInfo().getAuthor() %></p>
+											<p class="author"><%=qna.getBookInfo().getAuthor() %></p>
 										</div>
 									</div>
 								</td>
@@ -250,7 +220,7 @@ $(document).ready( function() {
 											<% if (qna_seq == reply.getQna_seq() && isReply == 1) { %>
 												<ul class="reply_form">
 													<li class="">
-														<form class="write_form" name="writeForm" method="post" action="/EIBooks/qna/replyUpdateProc.qq">
+														<form class="write_form" name="writeForm" method="post" action="/EIBooks/qna/replyUpdateProc.qq?pageNum=<%=p.getPageNum()%>">
 															<div class="text_area">
 																<textarea class="write_content" name="content" oninput="limitText(this, 500)"><%=reply.getContent() %></textarea>
 															</div>
@@ -276,7 +246,7 @@ $(document).ready( function() {
 		<% if(!qnaList.isEmpty()) { %>
 			<div class="pagination">
 				<%if(p.isPrev()) {%>
-				<a class="first arrow" href="reply.qq?pageNum=1">
+				<a class="first arrow" href="replyUpdate.qq?book_seq=<%=book_seq %>&qna_seq=<%=qna_seq %>&isReply=1&pageNum=1">
 					<span class="blind">첫 페이지</span>
 				</a>
 				<%} else { %>
@@ -284,7 +254,7 @@ $(document).ready( function() {
 				<% } %>
 				
 				<%if(p.isPrev()) {%>
-				<a class="prev arrow" href="reply.qq?pageNum=<%=p.getStartPage()-1 %>">
+				<a class="prev arrow" href="replyUpdate.qq?book_seq=<%=book_seq %>&qna_seq=<%=qna_seq %>&isReply=1&pageNum=<%=p.getStartPage()-1 %>">
 					<span class="blind">이전 페이지</span>
 				</a>
 				<%} else { %>
@@ -295,12 +265,12 @@ $(document).ready( function() {
 					<%if(i == p.getPageNum()) {%>
 						<a class="number active"><%=i %></a>
 					<%}else {%>
-						<a class="number" href="reply.qq?pageNum=<%=i %>"><%=i %></a>
+						<a class="number" href="replyUpdate.qq?book_seq=<%=book_seq %>&qna_seq=<%=qna_seq %>&isReply=1&pageNum=<%=i %>"><%=i %></a>
 					<%} %>
 				<%} %>
 				
 				<%if(p.isNext()) {%>
-				<a class="next arrow" href="reply.qq?pageNum=<%=p.getEndPage()+1 %>">
+				<a class="next arrow" href="replyUpdate.qq?book_seq=<%=book_seq %>&qna_seq=<%=qna_seq %>&isReply=1&pageNum=<%=p.getEndPage()+1 %>">
 					<span class="blind">다음 페이지</span>
 				</a>
 				<%} else {%>
@@ -308,7 +278,7 @@ $(document).ready( function() {
 				<%} %>
 				
 				<%if(p.isNext()) {%>
-				<a class="last arrow" href="reply.qq?pageNum=<%=p.getRealEnd() %>">
+				<a class="last arrow" href="replyUpdate.qq?book_seq=<%=book_seq %>&qna_seq=<%=qna_seq %>&isReply=1&pageNum=<%=p.getRealEnd() %>">
 					<span class="blind">마지막 페이지</span>
 				</a>
 				<%} else { %>
@@ -317,7 +287,7 @@ $(document).ready( function() {
 			</div>
 		<% } %>
 	</main>
-	<footer id="footer"></footer>
+	<%@ include file="../common/footer.jsp" %>
 </div>
 
 </body>

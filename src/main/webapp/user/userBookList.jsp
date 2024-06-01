@@ -260,68 +260,58 @@ function buying(book_seq){
 				</div>
 				
 				<div class="result_cnt">전체 수 :	<%=totalCount%></div>
-			
+				
 			</div>
-		
 		</div>
 		
-			<div class="main_books">							
-				<div id="userBooks">
-					<!-- AJAX로 생성 -->
-				</div>
+		<div class="main_books">							
+			<div id="userBooks">
+			<!-- AJAX로 생성 -->
 			</div>
+		</div>
 		
-	<div class="pagination">
-<%
-// 여기서 이미 list가 popular로 고정인데? list 
-%> 
-<%if(p.isPrev()) {%>
-<a class="first arrow" href="userBookList.bo?pageNum=1&searchWord=<%=searchWord%>&category=<%=category%>&order=<%=list%>">
-	<span class="blind">첫 페이지</span>
-</a>
-<%} else { %>
-	<a class="first arrow off"><span class="blind">첫 페이지</span></a>
-<% } %>
+		<!-- 페이징 -->
+		<div class="pagination">
+		<%if(p.isPrev()) {%>
+			<a class="first arrow" href="userBookList.bo?pageNum=1&searchWord=<%=searchWord%>&category=<%=category%>&order=<%=list%>">
+				<span class="blind">첫 페이지</span></a>
+		<%} else { %>
+			<a class="first arrow off"><span class="blind">첫 페이지</span></a>
+		<% } %>
 
-<%if(p.isPrev()) {%>
-<a class="prev arrow" href="userBookList.bo?pageNum=<%=p.getStartPage()-1%>&searchWord=<%=searchWord%>&category=<%=category%>&order=<%=list%>">
-	<span class="blind">이전 페이지</span>
-</a>
-<%} else { %>
-	<a class="prev arrow off"><span class="blind">이전 페이지</span></a>
-<%} %>
+		<%if(p.isPrev()) {%>
+			<a class="prev arrow" href="userBookList.bo?pageNum=<%=p.getStartPage()-1%>&searchWord=<%=searchWord%>&category=<%=category%>&order=<%=list%>">
+				<span class="blind">이전 페이지</span></a>
+		<%} else { %>
+			<a class="prev arrow off"><span class="blind">이전 페이지</span></a>
+		<%} %>
 
-<%for(int i=p.getStartPage(); i<=p.getEndPage(); i++) {%>
-	<%if(i == p.getPageNum()) {%>
-		<a class="number active"><%=i %></a>
-	<%}else {%>
-		<a class="number" href="userBookList.bo?pageNum=<%=i%>&searchWord=<%=searchWord%>&category=<%=category%>&order=<%=list%>"><%=i %></a>
-	<%} %>
-<%} %>
+		<%for(int i=p.getStartPage(); i<=p.getEndPage(); i++) {%>
+			<%if(i == p.getPageNum()) {%>
+				<a class="number active"><%=i %></a>
+			<%}else {%>
+				<a class="number" href="userBookList.bo?pageNum=<%=i%>&searchWord=<%=searchWord%>&category=<%=category%>&order=<%=list%>"><%=i %></a>
+			<%} %>
+		<%} %>
 
-<%if(p.isNext()) {%>
-<a class="next arrow" href="userBookList.bo?pageNum=<%=p.getEndPage()+1%>&searchWord=<%=searchWord%>&category=<%=category%>&order=<%=list%>">
-	<span class="blind">다음 페이지</span>
-</a>
-<%} else { %>
-	<a class="next arrow off"><span class="blind">다음 페이지</span></a>
-<%} %>
+		<%if(p.isNext()) {%>
+			<a class="next arrow" href="userBookList.bo?pageNum=<%=p.getEndPage()+1%>&searchWord=<%=searchWord%>&category=<%=category%>&order=<%=list%>">
+				<span class="blind">다음 페이지</span></a>
+		<%} else { %>
+			<a class="next arrow off"><span class="blind">다음 페이지</span></a>
+		<%} %>
 
-<%if(p.isNext()) {%>
-<a class="last arrow" href="userBookList.bo?pageNum=<%=p.getRealEnd()%>&searchWord=<%=searchWord%>&category=<%=category%>&order=<%=list%>">
-	<span class="blind">마지막 페이지</span>
-</a>
-<%} else {%>
-	<a class="last arrow off"><span class="blind">마지막 페이지</span></a>
-<%} %>
+		<%if(p.isNext()) {%>
+			<a class="last arrow" href="userBookList.bo?pageNum=<%=p.getRealEnd()%>&searchWord=<%=searchWord%>&category=<%=category%>&order=<%=list%>">
+				<span class="blind">마지막 페이지</span></a>
+		<%} else {%>
+			<a class="last arrow off"><span class="blind">마지막 페이지</span></a>
+		<%} %>
+		</div>
+	</section>
 </div>
-			</section>
-
-
-			
-</div>
-		</main>
+</main>
 <%@ include file="../common/footer.jsp"%>
-	</div>
+</div>
 </body>
 </html>

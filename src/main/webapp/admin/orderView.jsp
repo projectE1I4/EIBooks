@@ -8,10 +8,8 @@ OrderDTO order = (OrderDTO)request.getAttribute("order");
 List<OrderDTO> orderList = (List<OrderDTO>)request.getAttribute("orderList");
 %>
 <!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>orderView.jsp</title>
+<html lang="ko">
+  <%@ include file="/common/head.jsp" %>
 </head>
 <body>
 
@@ -117,6 +115,6 @@ List<OrderDTO> orderList = (List<OrderDTO>)request.getAttribute("orderList");
 	}
 %>
 </table>
-
+<%@ include file="../common/footer.jsp" %>
 </body>
 </html>

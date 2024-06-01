@@ -4,11 +4,12 @@
 int cus_seq = (int)session.getAttribute("cus_seq");
 %>    
 <!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>deleteMyPage.jsp</title>
+<html lang="ko">
+<%@ include file="/common/head.jsp" %>
+<link rel="stylesheet" href="/EIBooks/styles/css/mypage/deleteMyPage.css?v=<?php echo time(); ?>">
+</head>
 
+<body>
 <script type="text/javascript">
 function validateForm() {
     const form = document.writeForm;
@@ -55,70 +56,67 @@ function validateForm() {
 }
 </script>
 
-<style>
-	.box {
-		border : 1px solid black;
-		width : 500px;
-		height : 420px
-	}
-	.info {
-		padding: 30px 30px 0px 30px;
-	}
-	.info h2 {
-		margin-left: 18px;
-	}
-	.info strong, .info a {
-		margin-left: 18px;
-	}
-	.info em {
-		color: red;
-	}
-	.info input[type=text], input[type=password] {
-		display: block;
-		margin: 5px auto;
-	}
-	
-	.btn_wrap {
-		display: flex;
-		margin-right: 18px;
-	}
-	.info input[type=button] {
-		margin-left: auto; 
-	}
-</style>
-</head>
-<body>
+<div id="skip_navi">
+  <a href="#container">본문바로가기</a>
+</div>
+
+<div id="wrap">
 <%@ include file="../common/header.jsp" %>
+
+<main id="container">
+<div class="inner">
+<div id="mypage">
+
+<div class="side_menu_wrap">
 <h2>마이페이지</h2>
-<ul>
-	<li>
-		<a href="/EIBooks/customer/updateMyPage.cs">회원정보 수정</a>
-	</li>
+<ul class="side_menu">
 	<li>
 		<a href="/EIBooks/customer/myPage.or">나의 주문목록</a>
 	</li>
+	<li class="list_mypage">
+		<a href="/EIBooks/customer/updateMyPage.cs">회원정보 수정</a>
+	</li>
+	<li>
+		<a href="/EIBooks/qna/qnaList.qq">상품문의 내역</a>
+	</li>
+	<li>
+		<a href="/EIBooks/orderQna/qnaList.oq">1:1문의 내역</a>
+	</li>
 </ul>
+</div>
 
-<form name="writeForm" method="post" action="<%=request.getContextPath() %>/deleteMyPageProc.cs">
-<div class="box">
-	<div class="info">
-		<h2>회원 탈퇴</h2>
-	</div>
-	<div class="info">
-		<strong>비밀번호</strong><em>*</em>
-		<input type="password" name="password" style="width:90%">
-	</div>
-	<div class="info">
-		<strong>비밀번호 확인</strong><em>*</em>
-		<input type="password" name="password_confirm" style="width:90%" placeholder="한 번 더 입력해주세요">
+<div class="content">
+
+	<div class="tit_wrap">
+		<h1>회원 탈퇴</h1>
 	</div>
 	
-	<div class="info btn_wrap">
-		<input type="hidden" name="cus_seq" value="<%=cus_seq %>">
-		<input type="button" value="탈퇴" onclick="validateForm();">
+	<div class="card_area">
+		<div class="card_wrap">
+			<form name="writeForm" method="post" action="<%=request.getContextPath() %>/deleteMyPageProc.cs">
+				<div class="info">
+					<strong>비밀번호<em>*</em></strong>
+					<input type="password" name="password" placeholder="비밀번호를 입력해주세요.">
+				</div>
+				<div class="info">
+					<strong>비밀번호 확인<em>*</em></strong>
+					<input type="password" name="password_confirm" placeholder="한 번 더 입력해주세요.">
+				</div>
+				
+				<div class="info btn_wrap">
+					<input type="hidden" name="cus_seq" value="<%=cus_seq %>">
+					<input type="button" value="탈퇴하기" onclick="validateForm();" class="btn">
+				</div>
+			</form>
+		</div>
 	</div>
-</div>
-</form>
 
+</div> <!-- content -->
+</div> <!-- mypage -->
+</div> <!-- inner -->
+</main> <!-- container -->
+
+<%@ include file="../common/footer.jsp" %>
+</div> <!-- wrap -->
 </body>
 </html>
