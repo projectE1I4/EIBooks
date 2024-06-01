@@ -295,7 +295,7 @@ public class CustomerDAO {
         ResultSet rs = null;
         CustomerDTO customer = null;
 
-        String sql = "SELECT c.cus_seq, c.cus_id, c.password, c.name, c.tel, c.email, c.regDate, c.manager_YN, " +
+        String sql = "SELECT c.cus_seq, c.cus_id, c.password, c.name, c.tel, c.email, c.regDate, c.manager_YN, c.del_YN, " +
             "a.postalCode, a.addr, a.addr_detail " +
             "FROM customer c " +
             "LEFT JOIN customer_addr a ON c.cus_seq = a.cus_seq " +
@@ -317,6 +317,7 @@ public class CustomerDAO {
                 customer.setEmail(rs.getString("email"));
                 customer.setRegDate(rs.getString("regDate"));
                 customer.setManager_YN(rs.getString("manager_YN"));
+                customer.setDel_YN(rs.getString("del_YN"));
 
                 AddressDTO addr = new AddressDTO();
                 addr.setPostalCode(rs.getString("postalCode"));

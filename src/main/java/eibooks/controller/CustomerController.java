@@ -240,7 +240,7 @@ public class CustomerController extends HttpServlet {
             CustomerDAO dao = new CustomerDAO();
             CustomerDTO customer = dao.getCustomerById(cus_id);
 
-            if (customer == null) {
+            if (customer == null || customer.getDel_YN().equals("Y")) {
                 // 유효성 검사를 서버에서 처리하는 경우
                 // 아이디가 존재하지 않는 경우
                 request.setAttribute("errorMessageId", "아이디가 존재하지 않습니다.");
@@ -257,6 +257,7 @@ public class CustomerController extends HttpServlet {
                 session.setAttribute("cus_seq", customer.getCus_seq());
                 session.setAttribute("name", customer.getName());
                 session.setAttribute("manager_YN", customer.getManager_YN());
+                session.setAttribute("del_YN", customer.getDel_YN());
 
                 if ("Y".equals(session.getAttribute("manager_YN"))) {
                     System.out.println("관리자 접속");
