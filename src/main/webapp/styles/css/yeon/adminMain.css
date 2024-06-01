@@ -6,16 +6,17 @@
     --txt-color-600: #000;
 }
 
-#container {
-    margin: 100px auto;
-}
-
-.inner {
+#wrap.admin #container .inner {
     width: 1440px;
     margin: 0 auto;
+    padding: 130px 0;
+}
+
+#admin_main {
     display: flex;
     justify-content: space-between;
     gap: 30px;
+    align-items: center;
 }
 
 .inner .box_wrap {
@@ -75,6 +76,7 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    gap: 30px;
 }
 
 .inner .col .box2 {

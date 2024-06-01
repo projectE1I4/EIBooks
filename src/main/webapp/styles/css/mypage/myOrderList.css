@@ -152,3 +152,6 @@
 	flex-direction: column;
 	align-items: flex-end;
 }
+input[type='text'] {
+	border: 1px solid #ddd;
+}
