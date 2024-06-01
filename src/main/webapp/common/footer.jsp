@@ -4,7 +4,7 @@
         <div class="inner">
             <div class="footer_left">
                 <div class="img_wrap">
-                    <img src="/EIBooks/styles/images/EIBooks_logo.svg" alt="">
+                    <img src="/EIBooks/styles/images/EIBooks_logo.png" alt="">
                 </div>
                 <div class="address_wrap">
                     <p class="address">서울특별시 종로구 우정국로2길 21 9층</p>
