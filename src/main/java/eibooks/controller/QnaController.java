@@ -353,6 +353,10 @@ public class QnaController extends HttpServlet {
 			String sRef_seq = request.getParameter("ref_seq");
 			int ref_seq = Integer.parseInt(sRef_seq);
 			
+			int pageNum = 1;
+			String sPageNum = request.getParameter("pageNum");
+			if(sPageNum != null) pageNum = Integer.parseInt(sPageNum);
+			
 			// 회원의 처리 상태 변경
 			QnaDTO dto = new QnaDTO();
 			dto.setQna_seq(ref_seq);
@@ -365,7 +369,7 @@ public class QnaController extends HttpServlet {
 			dto.setQna_seq(qna_seq);
 			dao.deleteWrite(dto);
 			
-			String path = "/EIBooks/qna/reply.qq";
+			String path = "/EIBooks/qna/reply.qq?pageNum=" + pageNum;
 			response.sendRedirect(path);
 			
 		}  else if(action.equals("/depthOneDeleteProc.qq")) {

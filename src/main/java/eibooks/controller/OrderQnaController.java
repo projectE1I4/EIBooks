@@ -475,7 +475,7 @@ public class OrderQnaController extends HttpServlet {
             request.setAttribute("qnaList", qnaList);
             request.setAttribute("paging", paging);
 			
-			String path = "/EIBooks/orderQna/reply.oq";
+			String path = "/EIBooks/orderQna/reply.oq?pageNum=" + pageNum;
 			response.sendRedirect(path);
 			
 		}  else if(action.equals("/depthOneDeleteProc.oq")) {
