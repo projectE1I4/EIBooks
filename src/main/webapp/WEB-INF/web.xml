@@ -36,10 +36,6 @@
         <url-pattern>/customerBuyOrder.cc</url-pattern>
     </filter-mapping>
     <filter-mapping>
-        <filter-name>LoginCheckFilter</filter-name>
-        <url-pattern>/customerCartInsert.cc</url-pattern>
-    </filter-mapping>
-    <filter-mapping>
         <filter-name>AdminCheckFilter</filter-name>
         <url-pattern>/admin/*</url-pattern>
     </filter-mapping>
