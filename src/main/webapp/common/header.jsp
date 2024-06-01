@@ -44,7 +44,7 @@
                 <ul>
                     <li><p class="userInfo"><strong><%=SessionCustomer.getCus_id() %>(<%=SessionCustomer.getName() %>)</strong>님 환영합니다.</p></li>
                     <li><a href="<%=request.getContextPath()%>/user/userBookList.bo?pageNum=1&searchWord=&category=&order=latest">도서 리스트</a></li>
-                    <li><a href="<%=request.getContextPath()%>/customer/customerCartOut.cc">장바구니</a></li>
+                    <li><a href="<%=request.getContextPath()%>/customer/customerCart.cc">장바구니</a></li>
                     <li><a class="btn mypage_btn" href="<%=request.getContextPath()%>/customer/myPage.or">마이 페이지</a></li>
                     <li><a class="btn logout_btn" href="logoutProc.cs">로그아웃</a></li>
                 </ul>
