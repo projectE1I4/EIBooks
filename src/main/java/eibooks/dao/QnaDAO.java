@@ -422,7 +422,8 @@ public class QnaDAO {
 				conn = JDBCConnect.getConnection();
 
 				//sql + 쿼리창
-				String sql= "select RPAD(substr(cus_id, 1, 3), 6, '*') as cus_id_p, q.*, b.*, c.* "
+				String sql= "select RPAD(substr(cus_id, 1, 3), 6, '*') as cus_id_q, "
+						+ "DATE_FORMAT(q.regDate, '%Y-%m-%d') as regDate_q, q.*, b.*, c.* "
 						+ "from qna q "
 						+ "join books b "
 						+ "on q.book_seq = b.book_seq "
@@ -462,7 +463,7 @@ public class QnaDAO {
 					qna.setTitle(rs.getString("q.title"));
 					qna.setContent(rs.getString("content"));
 					qna.setProtect_YN(rs.getString("protect_YN"));
-					qna.setRegDate(rs.getString("q.regDate"));
+					qna.setRegDate(rs.getString("regDate_q"));
 					qna.setState(rs.getString("state"));
 					qna.setDepth(rs.getInt("depth"));
 					qna.setRef_seq(rs.getInt("ref_seq"));
@@ -475,7 +476,7 @@ public class QnaDAO {
 					book.setPrice(rs.getInt("price"));
 					
 					CustomerDTO customer = new CustomerDTO();
-					customer.setCus_id(rs.getString("cus_id_p"));
+					customer.setCus_id(rs.getString("cus_id_q"));
 					customer.setName(rs.getString("name"));
 					
 					qna.setBookInfo(book);
