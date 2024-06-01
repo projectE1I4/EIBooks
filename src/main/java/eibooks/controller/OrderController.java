@@ -94,7 +94,7 @@ public class OrderController extends HttpServlet {
             
 		} else if(action.equals("/customerOrder.or")) {
 			
-			// String orderBy = request.getParameter("orderBy");
+			String orderBy = request.getParameter("orderBy");
 			// System.out.println(orderBy);
 			Map<String, String> map = new HashMap<>();
 			
@@ -108,7 +108,7 @@ public class OrderController extends HttpServlet {
 
 			map.put("offset", offset + "");
 			map.put("amount", amount + "");
-			// map.put("orderBy", orderBy);
+			map.put("orderBy", orderBy);
 
 			int cus_seq = Integer.parseInt(request.getParameter("cus_seq"));
 			OrderDTO dto = new OrderDTO();
@@ -126,7 +126,7 @@ public class OrderController extends HttpServlet {
             request.setAttribute("orderList", orderList);
             request.setAttribute("paging", paging);
 			request.setAttribute("totalCount", totalCount);
-			// request.setAttribute("orderBy", orderBy);
+			request.setAttribute("orderBy", orderBy);
 
             // forward
             String path = "./customerOrder.jsp"; // 회원 별 주문 목록 페이지의 JSP 파일 경로
