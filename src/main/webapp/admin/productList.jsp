@@ -11,9 +11,7 @@
     String searchWord = (String) request.getAttribute("searchWord");
 %>
 <!DOCTYPE html>
-
-<html>
-<head>
+<html lang="ko">
   <%@ include file="/common/head.jsp" %>
   <link rel="stylesheet" href="/EIBooks/styles/css/yeon/productList.css?v=<?php echo time(); ?>">
   <script type="text/javascript">   

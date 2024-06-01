@@ -11,13 +11,9 @@ List<OrderDTO> orderList = (List<OrderDTO>)request.getAttribute("orderList");
 String pageNum = (String)request.getAttribute("pageNum");
 %>    
 <!DOCTYPE html>
-<html>
 <html lang="ko">
 <%@ include file="/common/head.jsp" %>
 <link rel="stylesheet" href="/EIBooks/styles/css/yeon/qnaWrite2.css?v=<?php echo time(); ?>">
-</head>
-
-<body>
 <script>
 $(document).ready( function() {
     
@@ -40,14 +36,14 @@ function previewImage(event) {
     reader.readAsDataURL(event.target.files[0]);
 }
 </script>
-
+</head>
+<body>
 
 <div id="skip_navi">
   <a href="#container">본문바로가기</a>
 </div>
-
 <div id="wrap">
-<%@ include file="../common/header.jsp" %>
+	<%@ include file="../common/header.jsp" %>
 	<main id="container">
 		<div class="inner">
 			<h2>1:1문의</h2>
@@ -134,6 +130,7 @@ function previewImage(event) {
 			</ul>
 		</div>
 	</main>
+	<%@ include file="../common/footer.jsp" %>
 </div>	
 
 </body>

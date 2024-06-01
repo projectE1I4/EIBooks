@@ -12,8 +12,7 @@
 	String orderBy = (String)request.getAttribute("orderBy");
 %>
 <!DOCTYPE html>
-<html>
-<head>
+<html lang="ko">
   <%@ include file="/common/head.jsp" %>
 
 <script type="text/javascript">

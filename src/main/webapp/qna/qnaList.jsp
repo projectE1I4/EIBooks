@@ -232,6 +232,7 @@ $(document).ready( function() {
 			</div> <!-- mypage -->
 		</div> <!-- inner -->
 	</main> <!-- container -->
+	<%@ include file="../common/footer.jsp" %>
 </div> <!-- wrap -->
 </body>
 </html>

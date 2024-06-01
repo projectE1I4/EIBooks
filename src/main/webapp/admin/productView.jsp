@@ -7,8 +7,7 @@
     int book_seq = Integer.parseInt(sBook_seq);
 %>
 <!DOCTYPE html>
-<html>
-<head>
+<html lang="ko">
  	<%@ include file="/common/head.jsp" %>
     <link rel="stylesheet" href="/EIBooks/styles/css/yeon/productView.css?v=<?php echo time(); ?>">
     <script type="text/javascript">
