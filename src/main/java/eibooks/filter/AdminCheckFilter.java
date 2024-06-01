@@ -21,7 +21,7 @@ public class AdminCheckFilter implements Filter {
         HttpSession session = httpRequest.getSession(false);
 
         if (session == null || !"Y".equals(session.getAttribute("manager_YN"))) {
-            httpResponse.sendRedirect("/EIBooks/");
+            httpResponse.sendRedirect("/EIBooks/userMain.bo");
         } else {
             chain.doFilter(request, response);
         }

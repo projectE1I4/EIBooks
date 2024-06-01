@@ -262,7 +262,7 @@ public class CustomerController extends HttpServlet {
                     System.out.println("관리자 접속");
                     response.sendRedirect("/EIBooks/admin/main.bo");
                 } else {
-                    response.sendRedirect("/EIBooks/");
+                    response.sendRedirect("/EIBooks/userMain.bo");
                 }
             }
 
@@ -375,7 +375,7 @@ public class CustomerController extends HttpServlet {
 
             HttpSession session = request.getSession();
             session.invalidate();
-            response.sendRedirect("/EIBooks/");
+            response.sendRedirect("/EIBooks/userMain.bo");
 
         } else if (action.equals("/updateMyPage.cs")) {
 
