@@ -10,8 +10,15 @@
 	width: 1280px;
 	margin: 0 auto;
 }
+#wrap.admin #container .inner {
+	display: block;
+	background-color: #fff;
+    margin: 100px auto;
+    padding: 28px;
+    border-radius: 8px;
+}
 .tit_wrap {
-	margin: 50px 0 20px 0;
+	margin-bottom: 20px;
 	position: relative;
 }
 .tit_wrap h1 {
@@ -86,16 +93,16 @@
 	width: 300px;
 }
 .title {
-	width: 540px;
+	width: 510px;
 }
 .pur_seq {
-	width: 220px;
+	width: 194px;
 }
 .date {
-	width: 300px;
+	width: 290px;
 }
 .state {
-	width: 220px;
+	width: 230px;
 }
 .book_info {
 	display: flex;
@@ -151,25 +158,28 @@
   background: url(../../images/delete.png) no-repeat center center;
   background-size: 30px;
 }
-.reply_wrap_content .cus_content {
+.reply_wrap_content {
 	display: flex;
 }
+.reply_wrap_content .cus_content {
+	width: 1004px;
+}
 .reply_wrap_content .cus_content p {
-	width: 1050px;
 	padding: 30px 50px;
 	text-align: left;
 	justify-content: center;
 	align-items: center;
 	word-wrap: break-word;
 }
-.reply_wrap_content .cus_content .btn_wrap {
+.reply_wrap_content .btn_wrap {
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	gap: 10px;
 	width: 230px;
+	margin-bottom: 10px;
 }
-.reply_wrap_content .cus_content .btn_wrap .insert_btn {
+.reply_wrap_content .btn_wrap .insert_btn {
 	background-color: #6A5AFF;
 	color: #fff;
 	border: none;
@@ -193,7 +203,7 @@
 	height: 150px;
 }
 .admin_content_wrap {
-	width: 1280px;
+	width: 1224px;
 	display: flex;
 	align-items: center;
 	padding: 30px 0;
@@ -237,5 +247,6 @@
 }
 .img_wrap img {
 	width: 200px;
+	max-height: 100px;
 	padding: 0 30px 30px 30px;
 }

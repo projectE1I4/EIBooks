@@ -10,8 +10,15 @@
 	width: 1280px;
 	margin: 0 auto;
 }
+#wrap.admin #container .inner {
+	display: block;
+	background-color: #fff;
+    margin: 100px auto;
+    padding: 28px;
+    border-radius: 8px;
+}
 .tit_wrap {
-	margin: 50px 0 20px 0;
+	margin-bottom: 20px;
 	position: relative;
 }
 .tit_wrap h1 {
@@ -89,10 +96,10 @@
 	width: 300px;
 }
 .type {
-	width: 200px;
+	width: 184px;
 }
 .date {
-	width: 250px;
+	width: 210px;
 }
 .state {
 	width: 230px;
@@ -156,7 +163,7 @@
 	display: flex;
 }
 .reply_wrap_content .cus_content p {
-	width: 1050px;
+    width: 994px;
 	padding: 30px 30px 30px 350px ;
 	text-align: left;
 	justify-content: center;
@@ -194,7 +201,7 @@
 	height: 150px;
 }
 .admin_content_wrap {
-	width: 1280px;
+    width: 1224px;
 	display: flex;
 	align-items: center;
 	padding: 30px 0;
