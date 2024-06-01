@@ -99,8 +99,12 @@
                         </tbody>
                     </table>
                     <div class="pagination">
+                        <% if (orderList.isEmpty()) { %>
+                        <a class="number active">1</a>
+                        <% } else { %>
                         <% if (p.isPrev()) { %>
-                        <a class="first arrow" href="customerOrder.or?cus_seq=<%=cus_seq %><% if(orderBy != null) { %>&orderBy=<%=orderBy %><%}%>&pageNum=1">
+                        <a class="first arrow"
+                           href="customerOrder.or?cus_seq=<%=cus_seq %><% if(orderBy != null) { %>&orderBy=<%=orderBy %>&<%}%>pageNum=1">
                             <span class="blind">첫 페이지</span>
                         </a>
                         <% } else { %>
@@ -108,7 +112,8 @@
                         <% } %>
 
                         <% if (p.isPrev()) { %>
-                        <a class="prev arrow" href="customerOrder.or?cus_seq=<%=cus_seq %><% if(orderBy != null) { %>&orderBy=<%=orderBy %><%}%>&pageNum=<%=p.getStartPage()-1%>">
+                        <a class="prev arrow"
+                           href="customerOrder.or?cus_seq=<%=cus_seq %><% if(orderBy != null) { %>&orderBy=<%=orderBy %>&<%}%>pageNum=<%=p.getStartPage()-1%>">
                             <span class="blind">이전 페이지</span>
                         </a>
                         <% } else { %>
@@ -119,12 +124,13 @@
                         <% if (i == p.getPageNum()) { %>
                         <a class="number active"><%=i %></a>
                         <% } else { %>
-                        <a class="number" href="customerOrder.or?cus_seq=<%=cus_seq %><% if(orderBy != null) { %>&orderBy=<%=orderBy %><%}%>&pageNum=<%=i %>"><%=i %></a>
+                        <a class="number"
+                           href="customerOrder.or?cus_seq=<%=cus_seq %><% if(orderBy != null) { %>&orderBy=<%=orderBy %>&<%}%>pageNum=<%=i %>"><%=i %></a>
                         <% } %>
                         <% } %>
-
                         <% if (p.isNext()) { %>
-                        <a class="next arrow" href="customerOrder.or?cus_seq=<%=cus_seq %><% if(orderBy != null) { %>&orderBy=<%=orderBy %><%}%>&pageNum=<%=p.getEndPage()+1%>">
+                        <a class="next arrow"
+                           href="customerOrder.or?cus_seq=<%=cus_seq %><% if(orderBy != null) { %>&orderBy=<%=orderBy %>&<%}%>pageNum=<%=p.getEndPage()+1%>">
                             <span class="blind">다음 페이지</span>
                         </a>
                         <% } else { %>
@@ -132,11 +138,13 @@
                         <% } %>
 
                         <% if (p.isNext()) { %>
-                        <a class="last arrow" href="customerOrder.or?cus_seq=<%=cus_seq %><% if(orderBy != null) { %>&orderBy=<%=orderBy %>&<%}%>pageNum=<%=p.getRealEnd()%>">
+                        <a class="last arrow"
+                           href="customerOrder.or?cus_seq=<%=cus_seq %><% if(orderBy != null) { %>&orderBy=<%=orderBy %>&<%}%>pageNum=<%=p.getRealEnd()%>">
                             <span class="blind">마지막 페이지</span>
                         </a>
                         <% } else { %>
                         <a class="last arrow off"><span class="blind">마지막 페이지</span></a>
+                        <% } %>
                         <% } %>
                     </div>
                 </div>

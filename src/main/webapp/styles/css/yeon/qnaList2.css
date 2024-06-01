@@ -10,24 +10,25 @@
 	width: 100%;
 	display: flex;
 	gap: 30px;
+	align-items: center;
 }
 .side_menu_wrap h2 {
 	font-size: 24px;
 	font-weight: 500;
-	margin-bottom: 20px;
 }
 .side_menu {
-	width: 200px;
 	display: flex;
-	flex-direction: column;
 	gap: 15px;
 	border-left: 3px solid var(--point-color1);
-	padding-left: 10px;
+	padding-left: 40px;
+	align-items: center;
+}
+.side_menu ul li {
+	display: flex;
 }
 .side_menu .list_mypage a {
 	color: var(--point-color1);
 	font-weight: 700;
-	font-size: 20px;
 }
 
 #container {
