@@ -57,11 +57,11 @@
 	<section class="category">
 		<div class="category_wrap">
 			<ul class="category_list">
-				<li><a href="userBookList.bo?pageNum=1&searchWord=&category=">all</a></li>
-				<li><a href="userBookList.bo?pageNum=1&searchWord=&category=만화">만화</a></li>
-				<li><a href="userBookList.bo?pageNum=1&searchWord=&category=소설/시/희곡">수험서/자격증</a></li>
-				<li><a href="userBookList.bo?pageNum=1&searchWord=&category=수험서/자격증">인문학</a></li>
-				<li><a href="userBookList.bo?pageNum=1&searchWord=&category=인문학">에세이</a></li>
+				<li><a href="<%=request.getContextPath()%>/user/userBookList.bo?pageNum=1&searchWord=&category=">all</a></li>
+				<li><a href="<%=request.getContextPath()%>/user/userBookList.bo?pageNum=1&searchWord=&category=만화">만화</a></li>
+				<li><a href="<%=request.getContextPath()%>/user/userBookList.bo?pageNum=1&searchWord=&category=소설/시/희곡">수험서/자격증</a></li>
+				<li><a href="<%=request.getContextPath()%>/user/userBookList.bo?pageNum=1&searchWord=&category=수험서/자격증">인문학</a></li>
+				<li><a href="<%=request.getContextPath()%>/user/userBookList.bo?pageNum=1&searchWord=&category=인문학">에세이</a></li>
 			</ul>
 		</div>
 	</section>
@@ -83,7 +83,7 @@
 								<div class="swiper-slide best_slide">
 									<div class="best_book_wrap">
 										<div class="img_wrap">
-											<a href="userBookDetail.bo?book_seq=<%=best.getBook_seq() %>" >
+											<a href="<%=request.getContextPath()%>/user/userBookDetail.bo?book_seq=<%=best.getBook_seq() %>" >
 												<img src="<%=best.getImageFile() %>" />
 											</a>								
 										</div>
@@ -119,7 +119,7 @@
 								<div class="swiper-slide new_slide">
 									<div class="new_book_wrap">
 										<div class="img_wrap">
-											<a href="userBookDetail.bo?book_seq=<%=newB.getBook_seq() %>" >
+											<a href="<%=request.getContextPath()%>/user/userBookDetail.bo?book_seq=<%=newB.getBook_seq() %>" >
 												<img src="<%=newB.getImageFile() %>" />
 											</a>								
 										</div>
