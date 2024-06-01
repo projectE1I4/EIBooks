@@ -269,7 +269,7 @@
 }
 
 .review_list .notEmpty {
-	width: calc( (1255px - 10px) / 2 );
+	width: calc( (1102px - 20px) / 2 );
 	border: 3px solid #eee;
 	border-radius: 5px;
 	height: 160px; 
