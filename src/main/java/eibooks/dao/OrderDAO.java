@@ -680,4 +680,36 @@ public class OrderDAO {
 			return order;
 		}
 		
+		public int getPurchaseCount() {
+	        Connection conn = null;
+	        PreparedStatement pstmt = null;
+	        ResultSet rs = null;
+
+	        int purCnt = 0;
+
+	        try {
+	            // 2. connection
+	            conn = JDBCConnect.getConnection();
+
+	            String sql = "select distinct count(pur_seq) as cnt from purchase";
+	            // 3. sql창
+	            pstmt = conn.prepareStatement(sql);
+
+	            // 4. execute
+	            rs = pstmt.executeQuery();
+
+	            if (rs.next()) {
+	            	purCnt = rs.getInt("cnt");
+	            }
+
+	        } catch (Exception e) {
+	            e.printStackTrace();
+
+	        } finally {
+	            JDBCConnect.close(rs, pstmt, conn);
+
+	        }
+	        return purCnt;
+	    }
+		
 }

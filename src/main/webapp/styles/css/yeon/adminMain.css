@@ -13,23 +13,32 @@
 .inner {
     width: 1440px;
     margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    gap: 30px;
-    padding
+}
+
+.inner .admin_do_wrap{
+	margin: 0px;
+	display: grid;
+	grid-template-columns: 260px 400px 260px;
+	grid-template-rows: 1fr 1fr;
+    gap: 20px;
+    justify-content: center;
+   	width: 1280px;
 }
 
 .inner .box_wrap {
     background-color: #fff;
-
-    height: 320px;
     padding: 40px 60px;
     border-radius: 10px;
 }
-
+.inner .box_wrap.one_box {
+	margin: 0 auto;
+}
+.inner .box_wrap.one_box h3 {
+	text-align: center;
+}
 .inner .box_wrap h3 {
     font-size: 24px;
-    margin-bottom: 30px;
+    margin-bottom: 10px;
     font-weight: 700;
 }
 
