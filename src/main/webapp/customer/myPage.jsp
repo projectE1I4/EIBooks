@@ -35,6 +35,7 @@ function goToPage(pur_seq) {
 </div>
 <div id="wrap">
 <%@ include file="../common/header.jsp" %>
+
 <main id="container">
 <div class="inner">
 <div id="mypage">
@@ -171,6 +172,8 @@ function goToPage(pur_seq) {
 </div>
 </div>
 </main>
+
+<%@ include file="../common/footer.jsp" %>
 </div>
 </body>
 </html>

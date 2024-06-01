@@ -21,6 +21,8 @@ import com.oreilly.servlet.MultipartRequest;
 import eibooks.common.PageDTO;
 import eibooks.dao.BookDAO;
 import eibooks.dao.CustomerDAO;
+import eibooks.dao.OrderDAO;
+import eibooks.dao.OrderQnaDAO;
 import eibooks.dao.QnaDAO;
 import eibooks.dao.ReviewDAO;
 import eibooks.dto.BookDTO;
@@ -278,15 +280,27 @@ public class BookController extends HttpServlet {
 			// move. get, 2. forward - reqeust.setAttribute("v","o")
 			System.out.println(action);
 
-
+			
 			BookDAO bDao = new BookDAO();
+			OrderDAO oDao = new OrderDAO();
+			ReviewDAO rDao = new ReviewDAO();
+			QnaDAO qDao = new QnaDAO();
+			OrderQnaDAO oqDao = new OrderQnaDAO();
 			int bookCnt = bDao.getBookCount();
+			int purCnt = oDao.getPurchaseCount();
+			int reCnt = rDao.allReviewCount();
+			int qCnt = qDao.selectAllCount();
+			int oqCnt = oqDao.selectAllCount();
 
 			CustomerDAO cDao = new CustomerDAO();
 //			int cusCnt = cDao.getCustomerCount();
 			int cusCnt = cDao.selectTotalCount();
 			request.setAttribute("bookCnt", bookCnt);
 			request.setAttribute("cusCnt", cusCnt);
+			request.setAttribute("purCnt", purCnt);
+			request.setAttribute("reCnt", reCnt);
+			request.setAttribute("qCnt", qCnt);
+			request.setAttribute("oqCnt", oqCnt);
 
 			// forward
 			String path =  "/admin/main.jsp"; // 1

@@ -4,6 +4,10 @@
 <%
 int bookCnt = (int)request.getAttribute("bookCnt");
 int cusCnt = (int)request.getAttribute("cusCnt");
+int purCnt = (int)request.getAttribute("purCnt");
+int reCnt = (int)request.getAttribute("reCnt");
+int qCnt = (int)request.getAttribute("qCnt");
+int oqCnt = (int)request.getAttribute("oqCnt");
 %>    
 <!DOCTYPE html>
 <html lang="ko">
@@ -26,7 +30,8 @@ int cusCnt = (int)request.getAttribute("cusCnt");
 	<%@ include file="/common/header.jsp" %>
 	<main id="container">
 		<div class="inner">
-			<div class="box_wrap">
+			<div class="admin_do_wrap">
+			<div class="box_wrap one_box">
 				<h3>회원 관리</h3>
 				<div class="content">
 					<div class="box">
@@ -51,22 +56,53 @@ int cusCnt = (int)request.getAttribute("cusCnt");
 					</div>
 				</div>
 			</div>
-			<div class="col">
-				<div class="box2">
-					<a href="/EIBooks/admin/orderList.or">전체 주문 확인</a>
+			<div class="box_wrap one_box">
+				<h3>주문 관리</h3>
+				<div class="content">
+					<div class="box">
+						<a href="/EIBooks/admin/orderList.or">
+						<strong><%=purCnt %></strong>
+						전체 주문 확인
+						</a>
+					</div>
 				</div>
-				
-				<div class="box2">
-					<a href="/EIBooks/review/replyList.do">전체 리뷰 확인</a>
+			</div>
+			<div class="box_wrap one_box">
+				<h3>리뷰 관리</h3>
+				<div class="content">
+					<div class="box">
+						<a href="/EIBooks/review/replyList.do">
+							<strong><%=reCnt %></strong>
+							전체 리뷰 확인					
+						</a>
+					</div>
 				</div>
-				
-				<div class="box2">
-					<a href="/EIBooks/qna/reply.qq">전체 상품 문의 확인</a>
+			</div>
+			<div class="box_wrap">
+				<h3>문의 관리</h3>
+				<div class="content">
+					<div class="box">
+						<a href="/EIBooks/qna/reply.qq">
+						<strong><%=qCnt %></strong>
+						전체 상품<br>문의 확인</a>
+					</div>
+					<div class="box">
+						<a href="/EIBooks/orderQna/reply.oq">
+						<strong><%=oqCnt %></strong>						
+						전체 1:1<br>문의 확인</a>
+					</div>
 				</div>
-				
-				<div class="box2">
-					<a href="/EIBooks/orderQna/reply.oq">전체 1:1 문의 확인</a>
+			</div>
+			<div class="box_wrap one_box">
+				<h3>마이 페이지</h3>
+				<div class="content">
+					<div class="box">
+						<a href="/EIBooks/customer/myPage.or">
+							관리자<br>마이 페이지					
+						</a>
+					</div>
 				</div>
+			</div>
 			</div>
 		</div>
 	</main>

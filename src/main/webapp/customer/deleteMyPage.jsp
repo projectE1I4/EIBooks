@@ -62,6 +62,7 @@ function validateForm() {
 
 <div id="wrap">
 <%@ include file="../common/header.jsp" %>
+
 <main id="container">
 <div class="inner">
 <div id="mypage">
@@ -114,6 +115,8 @@ function validateForm() {
 </div> <!-- mypage -->
 </div> <!-- inner -->
 </main> <!-- container -->
+
+<%@ include file="../common/footer.jsp" %>
 </div> <!-- wrap -->
 </body>
 </html>

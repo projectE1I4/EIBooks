@@ -85,6 +85,7 @@ int pur_seq = Integer.parseInt(sPur_seq);
 </script>
 <div id="wrap">
     <%@ include file="../common/header.jsp" %>
+    
     <main id="container">
         <div class="inner">
             <div id="review_list_area">
@@ -255,6 +256,8 @@ int pur_seq = Integer.parseInt(sPur_seq);
             </div>
         </div>
     </main>
+
+	<%@ include file="../common/footer.jsp" %>
 </div>
 </body>
 </html>

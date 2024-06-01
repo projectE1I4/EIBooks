@@ -1,101 +1,125 @@
-<%@page import="eibooks.dao.ReviewDAO"%>
-<%@page import="eibooks.dto.ReviewDTO"%>
-<%@page import="eibooks.dto.OrderDTO"%>
-<%@page import="java.util.List"%>
+<%@page import="eibooks.dao.ReviewDAO" %>
+<%@page import="eibooks.dto.ReviewDTO" %>
+<%@page import="eibooks.dto.OrderDTO" %>
+<%@page import="java.util.List" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+         pageEncoding="UTF-8" %>
 <%
-OrderDTO order = (OrderDTO)request.getAttribute("order");
-List<OrderDTO> orderList = (List<OrderDTO>)request.getAttribute("orderList");
-%>    
+    OrderDTO order = (OrderDTO) request.getAttribute("order");
+    List<OrderDTO> orderList = (List<OrderDTO>) request.getAttribute("orderList");
+%>
 <!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>myOrderDetail.jsp</title>
+<html lang="ko">
+<%@ include file="/common/head.jsp" %>
+<link rel="stylesheet" href="/EIBooks/styles/css/mypage/myOrderDetail.css?v=<?php echo time(); ?>">
 </head>
 <body>
+<div id="skip_navi">
+    <a href="#container">본문바로가기</a>
+</div>
+<!-- 제목 -->
+<div id="wrap">
+    <%@ include file="../common/header.jsp" %>
+    <main id="container">
+        <div class="inner">
+            <div id="mypage">
+                <div class="side_menu_wrap">
+                    <h2>마이페이지</h2>
+                    <ul class="side_menu">
+                        <li>
+                            <a href="/EIBooks/customer/updateMyPage.cs">회원정보 수정</a>
+                        </li>
+                        <li class="list_mypage">
+                            <a href="/EIBooks/customer/myPage.or">나의 주문목록</a>
+                        </li>
+                        <li>
+                            <a href="/EIBooks/qna/qnaList.qq">상품문의 내역</a>
+                        </li>
+                        <li>
+                            <a href="/EIBooks/orderQna/qnaList.oq">1:1문의 내역</a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- 컨텐츠 부분 -->
+                <div class="content">
+                    <div class="tit_wrap">
+                        <h1>주문 상세내역</h1>
+                    </div>
+                    <div class="user_info">
+                        <div class="delivery_info">
+                            <div class="number_orderdate">
+                                <span>주문번호&nbsp;<%=order.getPur_seq() %></span>
+                                <span><%=order.getOrderDate() %></span>
+                            </div>
+                            <div class="info_bottom">
+                                <div class="name">
+                                    <strong><%=order.getCustomerInfo().getName() %>
+                                    </strong>
+                                </div>
+                                <div class="tel">
+                                    <span><%=order.getCustomerInfo().getTel() %></span>
+                                </div>
+                                <% if (!order.getCustomerInfo().getEmail().equals("")) {%>
+                                <div class="email">
+                                    <span><%=order.getCustomerInfo().getEmail() %></span>
+                                </div>
+                                <% } %>
+                                <div class="postal_code">
+                                    <span><%=order.getCustomerInfo().getAddrInfo().getPostalCode() %></span>
+                                </div>
+                                <div class="address">
+                                    <span><%=order.getCustomerInfo().getAddrInfo().getAddr() %></span>
+                                    <% if (!order.getCustomerInfo().getAddrInfo().getAddr_detail().equals("")) {%>
+                                    <span><%=order.getCustomerInfo().getAddrInfo().getAddr_detail() %></span>
+                                    <% } %>
+                                </div>
+                            </div>
 
-<%@ include file="../common/header.jsp" %>
-<!-- 제목 --> 
-<h2>주문 상세 내역</h2>
-<br>
-<table border="1" width="80%">
+                        </div>
+                    </div>
+                    <div class="order_info_wrap">
+                        <h2>총 <%=orderList.size() %>권</h2>
+                        <div class="card_area">
+                            <% for (OrderDTO orderItem : orderList) { %>
+                            <div class="card">
+                                <div class="card_left">
+                                    <div class="img_wrap">
+                                        <img src="<%=orderItem.getBookInfo().getImageFile() %>" alt="표지이미지">
+                                    </div>
+                                    <div class="description">
+                                        <strong><%=orderItem.getBookInfo().getTitle() %>
+                                        </strong>
+                                        <span><%=orderItem.getBookInfo().getPrice() * orderItem.getPur_i_count() %>원</span>
+                                        <span><%=orderItem.getPur_i_count() %>권</span>
+                                    </div>
+                                </div>
+                                <div class="card_right">
+                                    <%
+                                        ReviewDTO dto = new ReviewDTO();
+                                        dto.setPur_i_seq(orderItem.getPur_i_seq());
+                                        ReviewDAO dao = new ReviewDAO();
+                                        dto = dao.selectView(dto);
+                                        System.out.println(dto);
 
-		<tr>
-			<td width="10%">주문번호</td>
-		    <td colspan="3"><%=order.getPur_seq() %></td>
-		</tr>
-		<tr>
-		    <td width="10%">주문일자</td>
-		    <td colspan="3"><%=order.getOrderDate() %></td>
-		</tr>
-		<tr>
-		    <td width="5%">수령인</td>
-		    <td><%=order.getCustomerInfo().getName() %></td>
-		</tr>
-		<tr>
-			<td width="5%">연락처</td>
-		    <td><%=order.getCustomerInfo().getTel() %></td>
-		</tr>
-		<tr>
-			<td width="5%">이메일</td>
-		    <td><%=order.getCustomerInfo().getEmail() %></td>
-		</tr>
-		<tr>
-		    <td width="5%">배송지</td>
-		    <td>
-		    	<ul>
-		    		<li><%=order.getCustomerInfo().getAddrInfo().getAddr() %></li>
-		    		<li><%=order.getCustomerInfo().getAddrInfo().getAddr_detail() %>(<%=order.getCustomerInfo().getAddrInfo().getPostalCode() %>)</li>
-		    	</ul>
-		    </td>
-		</tr>
+                                        if (dto != null) {
+                                    %>
+                                    <a class="btn update" href="../review/reviewUpdate.do?bookNum=<%=orderItem.getBook_seq()%>&pur_i_seq=<%=orderItem.getPur_i_seq()%>&reviewNum=<%=dto.getReviewNum()%>">
+                                        리뷰 수정</a>
+                                    <% } else { %>
+                                    <a class="btn write" href="./reviewWrite.do?bookNum=<%=orderItem.getBook_seq()%>&pur_seq=<%=orderItem.getPur_seq()%>&pur_i_seq=<%=orderItem.getPur_i_seq()%>">
+                                        리뷰 작성</a>
+                                    <% } %>
+                                </div>
 
-</table>
-<br><br>
-
-<table border="1" width="80%">
-<thead>
-	<th colspan="2" align="left">주문상품</th>
-	<th colspan="2" align="left">총<%=orderList.size() %>권</th>
-	<th align="center">리뷰</th>
-</thead>
-
-<tbody>
-<% 
-    if(orderList.isEmpty()) { %>  
-    <tr><td colspan="8">&nbsp; 주문 목록이 없습니다.</td></tr>
-<% } else {
-    for(OrderDTO orderItem : orderList) {
-%>
-<tr>
-	<td width="16%">
-		<img src="<%=orderItem.getBookInfo().getImageFile() %>" alt="표지이미지">
-	</td>
-	<td width=50%><%=orderItem.getBookInfo().getTitle() %></td>
-	<td width="10%" align="center"><%=orderItem.getPur_i_count() %>권</td>
-	<td width="10%" align="center"><%=orderItem.getBookInfo().getPrice() * orderItem.getPur_i_count() %>원</td>
-	<% 
-		ReviewDTO dto = new ReviewDTO();
-		dto.setPur_i_seq(orderItem.getPur_i_seq());
-		ReviewDAO dao = new ReviewDAO();
-		dto = dao.selectView(dto);
-		System.out.println(dto);
-		
-		if(dto != null) {
-	%>
-	<td align="center"><a href="../review/reviewUpdate.do?bookNum=<%=orderItem.getBook_seq()%>&pur_i_seq=<%=orderItem.getPur_i_seq()%>&reviewNum=<%=dto.getReviewNum()%>">리뷰 수정</a></td>
-	<% } else { %>
-	<td align="center"><a href="./reviewWrite.do?bookNum=<%=orderItem.getBook_seq()%>&pur_seq=<%=orderItem.getPur_seq()%>&pur_i_seq=<%=orderItem.getPur_i_seq()%>">리뷰 작성</a></td>
-	<% } %>
-</tr>
-<%
-	  } 
-	}
-%>
-</tbody>
-</table>
-
+                            </div>
+                            <% } %>
+                            </tr>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
 </body>
 </html>

@@ -6,10 +6,9 @@
     pageEncoding="UTF-8"%>
 <%
     //회원별 주문 목록 리스트 가져오기
-    int cus_seq = (int)session.getAttribute("cus_seq");
+    int cus_seq = Integer.parseInt(request.getParameter("cus_seq"));
     List<OrderDTO> orderList = (List<OrderDTO>)request.getAttribute("orderList");
 	PageDTO p = (PageDTO)request.getAttribute("paging");
-	int totalCount = (int)request.getAttribute("totalCount");
 	String orderBy = (String)request.getAttribute("orderBy");
 %>    
 <!DOCTYPE html>
