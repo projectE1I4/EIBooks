@@ -169,10 +169,10 @@ function decreaseBtn(bookSeq) {
 						<input class="btn goCart" type="submit" value="장바구니" onclick="goToCustomerCart(<%=dto.getBook_seq()%>);"/>				        	
         			</div>
 				</div>
-			</div>
-			<div class="discription_wrap">
-				<strong>책 소개</strong>
-				<div class="discription"><p><%=dto.getDescription() %></p></div>
+				<div class="discription_wrap">
+					<strong>책 소개</strong>
+					<div class="discription"><p><%=dto.getDescription() %></p></div>
+				</div>
 			</div>
 		</div>
 	</div>
