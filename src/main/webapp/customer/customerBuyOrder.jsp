@@ -27,16 +27,36 @@
     List<BookDTO> bookList = new ArrayList<>();
     BookDTO book = new BookDTO();
     //book.setBook_seq((int)request.getAttribute("book_seq"));
+    int cartICount = 0;
     
     BookDAO dao = new BookDAO();
     List<cartDTO> cartList = (List<cartDTO>)request.getAttribute("cartList");
-    int totalPrice = (int)request.getAttribute("totalPrice");
+    int totalPrice = 0;
+    int bookSeq = 0;
+    int oCusSeq =0;
+    if (request.getAttribute("totalPrice") == null){
+    totalPrice = (int) request.getAttribute("totalCartPrice");
+    book.setBook_seq((int)request.getAttribute("book_seq"));
+    bookSeq = (int)request.getAttribute("book_seq");
+    cartICount = (int)request.getAttribute("cartICount");
+    oCusSeq = (int) session.getAttribute("cus_seq");
+    } else {
+    	
+    totalPrice = (int)request.getAttribute("totalPrice");
+    }
     
     BookDTO resultBook = dao.getBook(book);
     
     // 결제하기 버튼 클릭 시 값을 map에 할당
     Map<String, Integer> map = (Map<String, Integer>) session.getAttribute("map");
-    session.setAttribute("cartMap", map);
+    if(map != null){
+	    session.setAttribute("cartMap", map);
+    } else {
+    	map.put("cusSeq", oCusSeq);
+		map.put("cart_i_count", cartICount);
+		map.put("book_seq", bookSeq);
+		session.setAttribute("buyMap", map);
+    }
    
 
 %>
@@ -64,7 +84,7 @@ $(function(){
 function buy() {
 		console.log("try");
 	    console.log("버튼눌림");
-		location.href="<%=request.getContextPath()%>/cartOrder.or";
+		location.href="<%=request.getContextPath()%>/orderInsert.or";
 	}
 </script>
 
@@ -93,6 +113,14 @@ function buy() {
 				            </span></p>
 				        </li>
 				     </ul>
+				     <%if (cartList == null) { %>
+				     	<div class="book">
+				     		<img src="<%=resultBook.getImageFile() %>">
+				        	<p class = "title"><%=resultBook.getTitle() %></p>
+				        	<p class = "quantity"><%=cartICount %>권</p>
+				        	<p><%=resultBook.getPrice() %>원</p>
+				     	</div>
+				     <%} else { %>
 				        <% for (cartDTO dto : cartList) { %>
 				        <div class = "book">
 			        		<img src="<%=dto.getBookInfo().getImageFile() %>">
@@ -100,6 +128,7 @@ function buy() {
 				        	<p class = "quantity"><%=dto.getCartICount() %>권</p>
 				        	<p><%=dto.getBookInfo().getPrice() %>원</p>
 				    	</div>
+				        <% } %>
 				        <% } %>
 					</form>
 				</div>

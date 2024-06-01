@@ -48,7 +48,7 @@ $(document).ready( function() {
 	function delReply(pur_q_seq, ref_seq){
 		const input = confirm("답변을 삭제하시겠습니까?");
 		if(input){
-			location.href = "<%=request.getContextPath()%>/orderQna/replyDeleteProc.oq?pur_q_seq=" + pur_q_seq + "&ref_seq=" + ref_seq;
+			location.href = "<%=request.getContextPath()%>/orderQna/replyDeleteProc.oq?pur_q_seq=" + pur_q_seq + "&ref_seq=" + ref_seq + "&pageNum=<%=p.getPageNum()%>";
 		}else{
 			alert("삭제를 취소했습니다.");
 			return;
