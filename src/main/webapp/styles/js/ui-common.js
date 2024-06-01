@@ -174,7 +174,7 @@ const newBookList = new Swiper('.new_slider', {
 
   $(window)
     .on('scroll', function () {
-      if ($(this).scrollTop() > $('.main_banner').height() - 200) {
+      if ($(this).scrollTop() > 200 ) {
         $('#footer .footer_btn').addClass('fade');
       } else {
         $('#footer .footer_btn').removeClass('fade');
