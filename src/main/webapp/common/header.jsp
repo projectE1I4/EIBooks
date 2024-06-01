@@ -9,10 +9,10 @@
         <!-- 로고 부분 -->
         <div class="logo">
             <% if (SessionCustomer != null && "Y".equals(managerYN)) { %>
-            <a href="<%=request.getContextPath()%>">
+            <a href="<%=request.getContextPath()%>/userMain.bo">
                 <img src="/EIBooks/styles/images/EIBooks_admin_logo.png" alt="EIbooks admin"></a>
             <% } else if (!"Y".equals(managerYN)) { %>
-            <a href="<%=request.getContextPath()%>">
+            <a href="<%=request.getContextPath()%>/userMain.bo">
                 <img src="/EIBooks/styles/images/EIBooks_logo.png" alt="EIbooks"></a>
             <% } %>
         </div>
