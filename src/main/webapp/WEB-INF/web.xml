@@ -32,6 +32,14 @@
         <url-pattern>/qna/*</url-pattern>
     </filter-mapping>
     <filter-mapping>
+        <filter-name>LoginCheckFilter</filter-name>
+        <url-pattern>/customerBuyOrder.cc</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>LoginCheckFilter</filter-name>
+        <url-pattern>/customerCartInsert.cc</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
         <filter-name>AdminCheckFilter</filter-name>
         <url-pattern>/admin/*</url-pattern>
     </filter-mapping>
@@ -46,25 +54,25 @@
         <url-pattern>/auth/login.cs</url-pattern>
     </filter-mapping>
     <servlet>
-    	<description>
-    	</description>
-    	<display-name>QnaController</display-name>
-    	<servlet-name>QnaController</servlet-name>
-    	<servlet-class>eibooks.controller.QnaController</servlet-class>
+        <description>
+        </description>
+        <display-name>QnaController</display-name>
+        <servlet-name>QnaController</servlet-name>
+        <servlet-class>eibooks.controller.QnaController</servlet-class>
     </servlet>
     <servlet>
-    	<description>
-    	</description>
-    	<display-name>OrderQnaController</display-name>
-    	<servlet-name>OrderQnaController</servlet-name>
-    	<servlet-class>eibooks.controller.OrderQnaController</servlet-class>
+        <description>
+        </description>
+        <display-name>OrderQnaController</display-name>
+        <servlet-name>OrderQnaController</servlet-name>
+        <servlet-class>eibooks.controller.OrderQnaController</servlet-class>
     </servlet>
     <servlet-mapping>
-    	<servlet-name>QnaController</servlet-name>
-    	<url-pattern>/QnaController</url-pattern>
+        <servlet-name>QnaController</servlet-name>
+        <url-pattern>/QnaController</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-    	<servlet-name>OrderQnaController</servlet-name>
-    	<url-pattern>/OrderQnaController</url-pattern>
+        <servlet-name>OrderQnaController</servlet-name>
+        <url-pattern>/OrderQnaController</url-pattern>
     </servlet-mapping>
 </web-app>
