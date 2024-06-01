@@ -32,10 +32,10 @@
                     </div>
                     <div class="sort">
                         <ul>
-                            <li>
+                            <li class="<%= "recent".equals(orderBy) ? "selected" : "" %>">
                                 <a href="orderList.or?orderBy=recent">최신순</a>
                             </li>
-                            <li>
+                            <li class="<%= "old".equals(orderBy) ? "selected" : "" %>">
                                 <a href="orderList.or?orderBy=old">오래된순</a>
                             </li>
                         </ul>
@@ -96,6 +96,9 @@
                         </tbody>
                     </table>
                     <div class="pagination">
+                        <% if (totalCount == 0) { %>
+                        <a class="number active">1</a>
+                        <% } else { %>
                         <% if (p.isPrev()) { %>
                         <a class="first arrow" href="orderList.or?<% if(orderBy != null) { %>orderBy=<%=orderBy %>&<%}%>pageNum=1">
                             <span class="blind">첫 페이지</span>
@@ -106,8 +109,7 @@
 
                         <% if (p.isPrev()) { %>
                         <a class="prev arrow" href="orderList.or?<% if(orderBy != null) { %>orderBy=<%=orderBy %>&<%}%>pageNum=<%=p.getStartPage()-1%>">
-                            <span class="blind">이전 페이지</span>
-                        </a>
+                            <span class="blind">이전 페이지</span></a>
                         <% } else { %>
                         <a class="prev arrow off"><span class="blind">이전 페이지</span></a>
                         <% } %>
@@ -119,21 +121,19 @@
                         <a class="number" href="orderList.or?<% if(orderBy != null) { %>orderBy=<%=orderBy %>&<%}%>pageNum=<%=i %>"><%=i %></a>
                         <% } %>
                         <% } %>
-
                         <% if (p.isNext()) { %>
                         <a class="next arrow" href="orderList.or?<% if(orderBy != null) { %>orderBy=<%=orderBy %>&<%}%>pageNum=<%=p.getEndPage()+1%>">
-                            <span class="blind">다음 페이지</span>
-                        </a>
+                            <span class="blind">다음 페이지</span></a>
                         <% } else { %>
                         <a class="next arrow off"><span class="blind">다음 페이지</span></a>
                         <% } %>
 
                         <% if (p.isNext()) { %>
                         <a class="last arrow" href="orderList.or?<% if(orderBy != null) { %>orderBy=<%=orderBy %>&<%}%>pageNum=<%=p.getRealEnd()%>">
-                            <span class="blind">마지막 페이지</span>
-                        </a>
+                            <span class="blind">마지막 페이지</span></a>
                         <% } else { %>
                         <a class="last arrow off"><span class="blind">마지막 페이지</span></a>
+                        <% } %>
                         <% } %>
                     </div>
                 </div>
