@@ -479,7 +479,7 @@ public class CustomerController extends HttpServlet {
             if (isCheck) {
                 path = "/EIBooks/index.jsp";
             } else {
-                path = "/EIBooks/customer/deleteMypage.jsp";
+                path = "/EIBooks/customer/deleteMypage.jsp?cus_seq=" + cus_seq;
             }
             response.sendRedirect(path);
         }
