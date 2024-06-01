@@ -1,0 +1,101 @@
+:root {
+  --point-color1: #6A5AFF;
+  --txt-color-400: #999;
+  --txt-color-500: #333;
+  --txt-color-600: #000;
+}
+
+.board_list_wrap {
+  background-color: #E9EAEE;
+  border-radius: 8px;
+  padding: 20px;
+  border-top: none;
+}
+
+.content-box {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  width: 800px;
+}
+
+.title {
+  margin-bottom: 20px;
+}
+
+.title h2 {
+  font-size: 24px;
+  color: var(--txt-color-600);
+  font-weight: 700;
+  margin-bottom: 40px;
+}
+
+.content h3 {
+  font-size: 20px;
+  color: var(--txt-color-500);
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.orderInfo, .orderDetails, .customerList {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.orderInfo th, .orderDetails th, .customerList th {
+  background-color: #f5f5f5;
+  padding: 10px;
+  border: 1px solid #ddd;
+  font-weight: bold;
+  text-align: center;
+  width: 20%;
+}
+
+.orderInfo td, .orderDetails td, .customerList td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+.orderInfo ul, .customerList ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.customerList img {
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+}
+
+.customerList .image-cell {
+  width: 200px; /* 이미지 크기에 맞게 td 길이 설정 */
+  min-width: 200px;
+  max-width: 200px;
+  text-align: center;
+}
+
+.customerList ul li {
+  margin-bottom: 5px;
+}
+
+.customerList tr {
+  transition: background-color 0.2s;
+}
+
+.customerList tr:hover {
+  background-color: #f6f6f6;
+}
+
+.customerList .book-title {
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.customerList .book-info {
+  max-width: 300px; /* 조정된 너비 */
+}
