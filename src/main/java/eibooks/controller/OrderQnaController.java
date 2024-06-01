@@ -59,7 +59,7 @@ public class OrderQnaController extends HttpServlet {
 			map.put("state", state);
 				
 			// paging info
-			int amount = 10;
+			int amount = 5;
 			int pageNum = 1;
 			
 			String sPageNum = request.getParameter("pageNum");
@@ -147,7 +147,7 @@ public class OrderQnaController extends HttpServlet {
 			Map<String, String> map = new HashMap<>();
 				
 			// paging info
-			int amount = 10;
+			int amount = 5;
 			int pageNum = 1;
 			
 			String sPageNum = request.getParameter("pageNum");
@@ -186,7 +186,7 @@ public class OrderQnaController extends HttpServlet {
 			Map<String, String> map = new HashMap<>();
 
 			// paging info
-			int amount = 10;
+			int amount = 5;
 			int pageNum = 1;
 
 			String sPageNum = request.getParameter("pageNum");

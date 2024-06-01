@@ -159,7 +159,11 @@ $(document).ready( function() {
 						<% for(OrderQnaDTO qna : qnaList){ %>	
 							<tr class="qna_wrap">
 								<td class="title_text"><%=qna.getTitle() %></td>
-								<td><%=qna.getPur_seq() %></td>
+								<td>
+									<a class="orderView" href="/EIBooks/admin/orderView.or?pur_seq=<%=qna.getPur_seq() %>">
+										<%=qna.getPur_seq() %>
+									</a>
+								</td>
 								<td><%=qna.getRegDate() %></td>
 								<td>
 									<div class="col">
@@ -188,27 +192,27 @@ $(document).ready( function() {
 												삭제
 											</a>
 										</div>
-										<%
-										OrderQnaDAO dao = new OrderQnaDAO();
-										OrderQnaDTO reply = dao.selectReply(qna);
-										
-										if(reply.getContent() != null) {
-										%>
-										<div class="admin_content_wrap">
-											<div class="admin_content">
-												<p><%=reply.getContent() %></p>
-											</div>
-											<div class="btn_wrap">
-												<a class="update_btn" href="<%=request.getContextPath()%>/orderQna/replyUpdate.oq?pur_q_seq=<%=reply.getPur_q_seq()%>&isReply=1&pageNum=<%=p.getPageNum() %>">
-													<span class="blind">수정</span>
-												</a>
-												<a class="delete_btn" href="javascript:delReply('<%=reply.getPur_q_seq() %>','<%=reply.getRef_seq() %>');">
-													<span class="blind">삭제</span>
-												</a>
-											</div>
-										</div>
-										<% } %> <!-- if(reply) -->
 									</div>
+									<%
+									OrderQnaDAO dao = new OrderQnaDAO();
+									OrderQnaDTO reply = dao.selectReply(qna);
+									
+									if(reply.getContent() != null) {
+									%>
+									<div class="admin_content_wrap">
+										<div class="admin_content">
+											<p><%=reply.getContent() %></p>
+										</div>
+										<div class="btn_wrap">
+											<a class="update_btn" href="<%=request.getContextPath()%>/orderQna/replyUpdate.oq?pur_q_seq=<%=reply.getPur_q_seq()%>&isReply=1&pageNum=<%=p.getPageNum() %>">
+												<span class="blind">수정</span>
+											</a>
+											<a class="delete_btn" href="javascript:delReply('<%=reply.getPur_q_seq() %>','<%=reply.getRef_seq() %>');">
+												<span class="blind">삭제</span>
+											</a>
+										</div>
+									</div>
+									<% } %> <!-- if(reply) -->
 									<div class="reply_input">
 										<% if (pur_q_seq == qna.getPur_q_seq() && isReply == 1) { %>
 											<ul class="reply_form">

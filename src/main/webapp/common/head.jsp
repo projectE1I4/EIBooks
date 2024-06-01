@@ -10,8 +10,8 @@
   <meta property="og:image" content="http://hyerin1225.dothome.co.kr/EIBooks/images/EIBooks_logo.jpg"/>
   <meta property="og:url" content="http://hyerin1225.dothome.co.kr/EIBooks"/>
   <title>EIBooks</title>
-  <link rel="icon" href="images/favicon.png">
-  <link rel="apple-touch-icon" href="images/favicon.png">
+  <link rel="icon" href="/EIBooks/styles/images/favicon.png">
+  <link rel="apple-touch-icon" href="/EIBooks/styles/images/favicon.png">
   <link rel="stylesheet" href="/EIBooks/styles/css/jquery-ui.min.css">
   <link rel="stylesheet" href="/EIBooks/styles/css/swiper-bundle.min.css">
   <link rel="stylesheet" href="/EIBooks/styles/css/aos.css">
