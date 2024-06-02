@@ -29,7 +29,7 @@ public class OrderQnaDAO {
 		int cus_seq = Integer.parseInt(map.get("cus_seq"));
 		int amount = Integer.parseInt(map.get("amount"));
 		int offset = Integer.parseInt(map.get("offset"));
-		String state = map.get("state");
+		int state = Integer.parseInt(map.get("state"));
 		
 		try {
 			//conn
@@ -45,7 +45,7 @@ public class OrderQnaDAO {
 					+ "on q.pur_i_seq = i.pur_i_seq "
 					+ "where q.cus_seq = ? and depth = 1 ";
 			
-			if (state != null) {
+			if (state != 5) {
 				sql += "and state = ? ";
 			}
 			
@@ -53,9 +53,9 @@ public class OrderQnaDAO {
 			
 			pstmt = conn.prepareStatement(sql);
 			
-			if (state != null) {
+			if (state != 5) {
 				pstmt.setInt(1, cus_seq);
-				pstmt.setString(2, state);
+				pstmt.setInt(2, state);
 				pstmt.setInt(3, amount);
 				pstmt.setInt(4, offset);
 			} else {
@@ -77,7 +77,7 @@ public class OrderQnaDAO {
 				qna.setContent(rs.getString("q.content"));
 				qna.setImageFile(rs.getString("q.imageFile"));
 				qna.setRegDate(rs.getString("q.regDate"));
-				qna.setState(rs.getString("state"));
+				qna.setState(rs.getInt("state"));
 				qna.setDepth(rs.getInt("depth"));
 				qna.setRef_seq(rs.getInt("ref_seq"));
 				
@@ -129,6 +129,10 @@ public class OrderQnaDAO {
 		if (dto != null) {
 			cus_seq = dto.getCus_seq();
 			sql += "where cus_seq = ? ";
+			
+			if (dto.getState() != 5) {
+				sql += "and state = ? ";
+			}
 		}
 
 		try {
@@ -138,6 +142,10 @@ public class OrderQnaDAO {
 			
 			if (dto != null) {
 				pstmt.setInt(1, cus_seq);
+				
+				if (dto.getState() != 5) {
+					pstmt.setInt(2, dto.getState());
+				}
 			}
 			
 			rs = pstmt.executeQuery();
@@ -170,6 +178,43 @@ public class OrderQnaDAO {
 			conn = JDBCConnect.getConnection();
 			
 			pstmt = conn.prepareStatement(sql);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				totalCount = rs.getInt("cnt");
+			}
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+			
+		} finally {
+			JDBCConnect.close(rs, pstmt, conn);
+			
+		}
+		return totalCount;
+	}
+	
+	public int selectAllCount(OrderQnaDTO dto) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;		
+
+		int totalCount = 0;
+		
+		String sql = "select count(pur_q_seq) as cnt from order_qna where depth = 1 ";
+
+		if (dto.getState() != 5) {
+			sql += "and state = ? ";
+		}
+		
+		try {
+			conn = JDBCConnect.getConnection();
+			
+			pstmt = conn.prepareStatement(sql);
+			if (dto.getState() != 5) {
+				pstmt.setInt(1, dto.getState());
+			}
 			
 			rs = pstmt.executeQuery();
 			
@@ -302,7 +347,7 @@ public class OrderQnaDAO {
 		String imageFile = dto.getImageFile(); 
 		
 		String sql= " insert into order_qna(cus_seq, book_seq, pur_seq, pur_i_seq, type, title, content, state, imageFile) "
-				+ " values(?, ?, ?, ?, ?, ?, ?, '답변대기', ?) ";
+				+ " values(?, ?, ?, ?, ?, ?, ?, 0, ?) ";
 		try {
 			//conn
 			conn = JDBCConnect.getConnection();
@@ -358,7 +403,7 @@ public class OrderQnaDAO {
 
 		int amount = Integer.parseInt(map.get("amount"));
 		int offset = Integer.parseInt(map.get("offset"));
-		String state = map.get("state");
+		int state = Integer.parseInt(map.get("state"));
 		
 		try {
 			//conn
@@ -373,7 +418,7 @@ public class OrderQnaDAO {
 					+ "join purchase_item i "
 					+ "on q.pur_i_seq = i.pur_i_seq ";
 			
-			if (state != null) {
+			if (state != 5) {
 				sql += "where state = ? ";
 			}
 			
@@ -381,8 +426,8 @@ public class OrderQnaDAO {
 			
 			pstmt = conn.prepareStatement(sql);
 			
-			if (state != null) {
-				pstmt.setString(1, state);
+			if (state != 5) {
+				pstmt.setInt(1, state);
 				pstmt.setInt(2, amount);
 				pstmt.setInt(3, offset);
 			} else {
@@ -403,7 +448,7 @@ public class OrderQnaDAO {
 				qna.setContent(rs.getString("q.content"));
 				qna.setImageFile(rs.getString("q.imageFile"));
 				qna.setRegDate(rs.getString("q.regDate"));
-				qna.setState(rs.getString("state"));
+				qna.setState(rs.getInt("state"));
 				qna.setDepth(rs.getInt("depth"));
 				qna.setRef_seq(rs.getInt("ref_seq"));
 				
@@ -475,7 +520,7 @@ public class OrderQnaDAO {
 			String sql = "update order_qna set state = ? where pur_q_seq = ?";
 			pstmt = conn.prepareStatement(sql);
 			
-			pstmt.setString(1, dto.getState());
+			pstmt.setInt(1, dto.getState());
 			pstmt.setInt(2, dto.getPur_q_seq()); 
 			
 			pstmt.executeUpdate();

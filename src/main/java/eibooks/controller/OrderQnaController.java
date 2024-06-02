@@ -55,8 +55,11 @@ public class OrderQnaController extends HttpServlet {
 			HttpSession session = request.getSession();
 			int cus_seq = (int)session.getAttribute("cus_seq");
 			
-			String state = request.getParameter("state");
-			map.put("state", state);
+			String sState = request.getParameter("state");
+			int state = 5;
+			if (sState != null) {
+				state = Integer.parseInt(sState);
+			}
 				
 			// paging info
 			int amount = 5;
@@ -69,6 +72,7 @@ public class OrderQnaController extends HttpServlet {
 			map.put("offset", offset + "");
 			map.put("amount", amount + "");
 			map.put("cus_seq", cus_seq + "");
+			map.put("state", state + "");
 			
 			OrderQnaDTO dto = new OrderQnaDTO();
 			dto.setCus_seq(cus_seq);
@@ -224,8 +228,11 @@ public class OrderQnaController extends HttpServlet {
 			HttpSession session = request.getSession();
 			int cus_seq = (int)session.getAttribute("cus_seq");
 			
-			String state = request.getParameter("state");
-			map.put("state", state);
+			String sState = request.getParameter("state");
+			int state = 5;
+			if (sState != null) {
+				state = Integer.parseInt(sState);
+			}
 				
 			// paging info
 			int amount = 5;
@@ -238,10 +245,13 @@ public class OrderQnaController extends HttpServlet {
 			map.put("offset", offset + "");
 			map.put("amount", amount + "");
 			map.put("cus_seq", cus_seq + "");
+			map.put("state", state + "");
 			
-			OrderQnaDAO dao = new OrderQnaDAO();
-            List<OrderQnaDTO> qnaList = dao.getQnaAllList(map);
-            int totalCount = dao.selectAllCount();
+			OrderQnaDTO qDto = new OrderQnaDTO();
+			qDto.setState(state);
+			OrderQnaDAO oDao = new OrderQnaDAO();
+            List<OrderQnaDTO> qnaList = oDao.getQnaAllList(map);
+            int totalCount = oDao.selectAllCount(qDto);
             
             // Paging
  			PageDTO paging = new PageDTO(pageNum, amount, totalCount);
@@ -262,6 +272,12 @@ public class OrderQnaController extends HttpServlet {
 			String sPur_q_seq = request.getParameter("pur_q_seq");
 			int pur_q_seq = Integer.parseInt(sPur_q_seq);
 			
+			String sState = request.getParameter("state");
+			int state = 5;
+			if (sState != null) {
+				state = Integer.parseInt(sState);
+			}
+			
 			Map<String, String> map = new HashMap<>();
 			
 			// paging info
@@ -275,10 +291,13 @@ public class OrderQnaController extends HttpServlet {
 			map.put("offset", offset + "");
 			map.put("amount", amount + "");
 			map.put("cus_seq", cus_seq + "");
+			map.put("state", state + "");
 			
-			OrderQnaDAO dao = new OrderQnaDAO();
-            List<OrderQnaDTO> qnaList = dao.getQnaAllList(map);
-            int totalCount = dao.selectAllCount();
+			OrderQnaDTO qDto = new OrderQnaDTO();
+			qDto.setState(state);
+			OrderQnaDAO oDao = new OrderQnaDAO();
+            List<OrderQnaDTO> qnaList = oDao.getQnaAllList(map);
+            int totalCount = oDao.selectAllCount(qDto);
 			
             // Paging
  			PageDTO paging = new PageDTO(pageNum, amount, totalCount);
@@ -287,7 +306,7 @@ public class OrderQnaController extends HttpServlet {
             request.setAttribute("paging", paging);
 			
 			// forward
-			String path = "./replyWrite.jsp?pur_q_seq=" + pur_q_seq;
+			String path = "./replyWrite.jsp?pur_q_seq=" + pur_q_seq + "&state=" + state;
 			request.getRequestDispatcher(path).forward(request, response);
 			
 		}  else if(action.equals("/replyWriteProc.oq")) {
@@ -303,6 +322,12 @@ public class OrderQnaController extends HttpServlet {
 			// 폼 값
 			String content = request.getParameter("content");
 			
+			String sState = request.getParameter("state");
+			int state = 5;
+			if (sState != null) {
+				state = Integer.parseInt(sState);
+			}
+			
 			OrderQnaDTO dto = new OrderQnaDTO();
 			dto.setCus_seq(cus_seq);
 			dto.setContent(content);
@@ -313,7 +338,7 @@ public class OrderQnaController extends HttpServlet {
 			
 			OrderQnaDTO oDto = new OrderQnaDTO();
 			oDto.setPur_q_seq(pur_q_seq);
-			oDto.setState("답변완료");
+			oDto.setState(1);
 			dao.updateState(oDto);
 			
 			// 페이징
@@ -328,9 +353,13 @@ public class OrderQnaController extends HttpServlet {
 			
 			map.put("offset", offset+"");
 			map.put("amount", amount+"");
+			map.put("state", state + "");
 			
-			List<OrderQnaDTO> qnaList = dao.getQnaAllList(map);
-            int totalCount = dao.selectAllCount();
+			OrderQnaDTO qDto = new OrderQnaDTO();
+			qDto.setState(state);
+			OrderQnaDAO oDao = new OrderQnaDAO();
+            List<OrderQnaDTO> qnaList = oDao.getQnaAllList(map);
+            int totalCount = oDao.selectAllCount(qDto);
 			
 			// paging DTO
 			PageDTO paging = new PageDTO(pageNum, amount, totalCount);
@@ -340,7 +369,7 @@ public class OrderQnaController extends HttpServlet {
 			request.setAttribute("paging", paging);
             
 			// forward
-            String path = "/EIBooks/orderQna/reply.oq?pageNum=" + pageNum;
+            String path = "/EIBooks/orderQna/reply.oq?state=" + state + "&pageNum=" + pageNum;
             response.sendRedirect(path);
             
 		} else if(action.equals("/replyUpdate.oq")) {
@@ -350,6 +379,12 @@ public class OrderQnaController extends HttpServlet {
 			
 			String sPur_q_seq = request.getParameter("pur_q_seq");
 			int pur_q_seq = Integer.parseInt(sPur_q_seq);
+			
+			String sState = request.getParameter("state");
+			int state = 5;
+			if (sState != null) {
+				state = Integer.parseInt(sState);
+			}
 			
 			Map<String, String> map = new HashMap<>();
 			
@@ -364,10 +399,13 @@ public class OrderQnaController extends HttpServlet {
 			map.put("offset", offset + "");
 			map.put("amount", amount + "");
 			map.put("cus_seq", cus_seq + "");
+			map.put("state", state + "");
 			
-			OrderQnaDAO dao = new OrderQnaDAO();
-            List<OrderQnaDTO> qnaList = dao.getQnaAllList(map);
-            int totalCount = dao.selectAllCount();
+			OrderQnaDTO qDto = new OrderQnaDTO();
+			qDto.setState(state);
+			OrderQnaDAO oDao = new OrderQnaDAO();
+            List<OrderQnaDTO> qnaList = oDao.getQnaAllList(map);
+            int totalCount = oDao.selectAllCount(qDto);
 			
             // Paging
  			PageDTO paging = new PageDTO(pageNum, amount, totalCount);
@@ -376,7 +414,7 @@ public class OrderQnaController extends HttpServlet {
             request.setAttribute("paging", paging);
 			
 			// forward
-			String path = "./replyUpdate.jsp?pur_q_seq=" + pur_q_seq;
+			String path = "./replyUpdate.jsp?pur_q_seq=" + pur_q_seq + "&state=" + state;
 			request.getRequestDispatcher(path).forward(request, response);
 			
 		}  else if(action.equals("/replyUpdateProc.oq")) {
@@ -390,6 +428,12 @@ public class OrderQnaController extends HttpServlet {
 			
 			// 폼 값
 			String content = request.getParameter("content");
+			
+			String sState = request.getParameter("state");
+			int state = 5;
+			if (sState != null) {
+				state = Integer.parseInt(sState);
+			}
 			
 			// DTO
 			OrderQnaDTO dto = new OrderQnaDTO();
@@ -412,10 +456,13 @@ public class OrderQnaController extends HttpServlet {
 			map.put("offset", offset + "");
 			map.put("amount", amount + "");
 			map.put("cus_seq", cus_seq + "");
+			map.put("state", state + "");
 			
+			OrderQnaDTO qDto = new OrderQnaDTO();
+			qDto.setState(state);
 			OrderQnaDAO oDao = new OrderQnaDAO();
             List<OrderQnaDTO> qnaList = oDao.getQnaAllList(map);
-            int totalCount = oDao.selectAllCount();
+            int totalCount = oDao.selectAllCount(qDto);
 			
             // Paging
  			PageDTO paging = new PageDTO(pageNum, amount, totalCount);
@@ -424,7 +471,7 @@ public class OrderQnaController extends HttpServlet {
             request.setAttribute("paging", paging);
             
 			// forward
-            String path = "/EIBooks/orderQna/reply.oq?pageNum=" + pageNum;
+            String path = "/EIBooks/orderQna/reply.oq?state=" + state + "&pageNum=" + pageNum;
             response.sendRedirect(path);
             
 		}  else if(action.equals("/replyDeleteProc.oq")) {
@@ -439,10 +486,16 @@ public class OrderQnaController extends HttpServlet {
 			String sRef_seq = request.getParameter("ref_seq");
 			int ref_seq = Integer.parseInt(sRef_seq);
 			
+			String sState = request.getParameter("state");
+			int state = 5;
+			if (sState != null) {
+				state = Integer.parseInt(sState);
+			}
+			
 			// 회원의 처리 상태 변경
 			OrderQnaDTO dto = new OrderQnaDTO();
 			dto.setPur_q_seq(ref_seq);
-			dto.setState("답변대기");
+			dto.setState(0);
 			
 			OrderQnaDAO dao = new OrderQnaDAO();
 			dao.updateState(dto);
@@ -464,10 +517,13 @@ public class OrderQnaController extends HttpServlet {
 			map.put("offset", offset + "");
 			map.put("amount", amount + "");
 			map.put("cus_seq", cus_seq + "");
+			map.put("state", state + "");
 			
+			OrderQnaDTO qDto = new OrderQnaDTO();
+			qDto.setState(state);
 			OrderQnaDAO oDao = new OrderQnaDAO();
             List<OrderQnaDTO> qnaList = oDao.getQnaAllList(map);
-            int totalCount = oDao.selectAllCount();
+            int totalCount = oDao.selectAllCount(qDto);
 			
             // Paging
  			PageDTO paging = new PageDTO(pageNum, amount, totalCount);
@@ -475,7 +531,12 @@ public class OrderQnaController extends HttpServlet {
             request.setAttribute("qnaList", qnaList);
             request.setAttribute("paging", paging);
 			
-			String path = "/EIBooks/orderQna/reply.oq?pageNum=" + pageNum;
+            String path = "";
+			if(totalCount > 5) {
+				path = "/EIBooks/orderQna/reply.oq?state=" + state + "&pageNum=" + pageNum;
+			} else {
+				path = "/EIBooks/orderQna/reply.oq?state=" + state + "&pageNum=" + (pageNum - 1);
+			}
 			response.sendRedirect(path);
 			
 		}  else if(action.equals("/depthOneDeleteProc.oq")) {

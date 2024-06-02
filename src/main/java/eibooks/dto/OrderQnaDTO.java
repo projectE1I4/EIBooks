@@ -12,7 +12,7 @@ public class OrderQnaDTO {
 	private String content;
 	private String imageFile;
 	private String regDate;
-	private String state;
+	private int state;
 	private int depth;
 	private int ref_seq;
 	private CustomerDTO cusInfo;
@@ -34,8 +34,6 @@ public class OrderQnaDTO {
 		this.content = content;
 		this.imageFile = imageFile;
 	}
-
-
 
 	public int getPur_q_seq() {
 		return pur_q_seq;
@@ -117,11 +115,11 @@ public class OrderQnaDTO {
 		this.regDate = regDate;
 	}
 
-	public String getState() {
+	public int getState() {
 		return state;
 	}
 
-	public void setState(String state) {
+	public void setState(int state) {
 		this.state = state;
 	}
 
@@ -163,14 +161,6 @@ public class OrderQnaDTO {
 
 	public void setOrderInfo(OrderDTO orderInfo) {
 		this.orderInfo = orderInfo;
-	}
-
-	@Override
-	public String toString() {
-		return "OrderQnaDTO [pur_q_seq=" + pur_q_seq + ", cus_seq=" + cus_seq + ", book_seq=" + book_seq + ", pur_seq="
-				+ pur_seq + ", pur_i_seq=" + pur_i_seq + ", type=" + type + ", title=" + title + ", content=" + content
-				+ ", regDate=" + regDate + ", state=" + state + ", depth=" + depth + ", ref_seq=" + ref_seq
-				+ ", cusInfo=" + cusInfo + ", bookInfo=" + bookInfo + ", orderInfo=" + orderInfo + "]";
 	}
 
 }
