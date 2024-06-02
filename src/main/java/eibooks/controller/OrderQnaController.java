@@ -161,6 +161,7 @@ public class OrderQnaController extends HttpServlet {
 			map.put("offset", offset + "");
 			map.put("amount", amount + "");
 			map.put("cus_seq", cus_seq + "");
+			map.put("state", "5");
 			
 			OrderQnaDTO oDto = new OrderQnaDTO();
 			oDto.setCus_seq(cus_seq);
