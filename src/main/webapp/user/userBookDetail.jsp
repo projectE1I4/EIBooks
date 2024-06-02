@@ -259,7 +259,10 @@ List<ReviewDTO> topReviews = (List<ReviewDTO>)request.getAttribute("topReviews")
 				<% for(QnaDTO qna : qnaList){ %>	
 					<tr class="qna_wrap">
 						<td><%= number - cnt %><% cnt++; %></td>
-						<td class="state"><%=qna.getState() %></td>
+						<td class="state">
+						<%if(qna.getState() == 0) %>답변대기
+						<%if(qna.getState() == 1) %>답변완료
+						</td>
 						<td><%=qna.getType() %></td>
 						<% if(qna.getProtect_YN().equals("N")) { %>
 						<td class="title_text"><%=qna.getTitle() %></td>
@@ -304,7 +307,7 @@ List<ReviewDTO> topReviews = (List<ReviewDTO>)request.getAttribute("topReviews")
 <% if(!qnaList.isEmpty()) { %>
 			<div class="pagination">
 				<%if(p.isPrev()) {%>
-				<a class="first arrow" href="userBookDetail.bo?book_seq=<%=book_seq %>&pageNum=1">
+				<a class="first arrow" href="userBookDetail.bo?book_seq=<%=book_seq %><%if(protect != null) { %>&protect=<%=protect %>&<%} %>pageNum=1">
 					<span class="blind">첫 페이지</span>
 				</a>
 				<%} else { %>
@@ -312,7 +315,7 @@ List<ReviewDTO> topReviews = (List<ReviewDTO>)request.getAttribute("topReviews")
 				<% } %>
 				
 				<%if(p.isPrev()) {%>
-				<a class="prev arrow" href="userBookDetail.bo?book_seq=<%=book_seq %>&pageNum=<%=p.getStartPage()-1 %>">
+				<a class="prev arrow" href="userBookDetail.bo?book_seq=<%=book_seq %><%if(protect != null) { %>&protect=<%=protect %>&<%} %>pageNum=<%=p.getStartPage()-1 %>">
 					<span class="blind">이전 페이지</span>
 				</a>
 				<%} else { %>
@@ -323,12 +326,12 @@ List<ReviewDTO> topReviews = (List<ReviewDTO>)request.getAttribute("topReviews")
 					<%if(i == p.getPageNum()) {%>
 						<a class="number active"><%=i %></a>
 					<%}else {%>
-						<a class="number" href="userBookDetail.bo?book_seq=<%=book_seq %>&pageNum=<%=i %>"><%=i %></a>
+						<a class="number" href="userBookDetail.bo?book_seq=<%=book_seq %><%if(protect != null) { %>&protect=<%=protect %>&<%} %>pageNum=<%=i %>"><%=i %></a>
 					<%} %>
 				<%} %>
 				
 				<%if(p.isNext()) {%>
-				<a class="next arrow" href="userBookDetail.bo?book_seq=<%=book_seq %>&pageNum=<%=p.getEndPage()+1 %>">
+				<a class="next arrow" href="userBookDetail.bo?book_seq=<%=book_seq %><%if(protect != null) { %>&protect=<%=protect %>&<%} %>pageNum=<%=p.getEndPage()+1 %>">
 					<span class="blind">다음 페이지</span>
 				</a>
 				<%} else {%>
@@ -336,7 +339,7 @@ List<ReviewDTO> topReviews = (List<ReviewDTO>)request.getAttribute("topReviews")
 				<%} %>
 				
 				<%if(p.isNext()) {%>
-				<a class="last arrow" href="userBookDetail.bo?pageNum=<%=p.getRealEnd() %>">
+				<a class="last arrow" href="userBookDetail.bo?book_seq=<%=book_seq %><%if(protect != null) { %>&protect=<%=protect %>&<%} %>pageNum=<%=p.getRealEnd() %>">
 					<span class="blind">마지막 페이지</span>
 				</a>
 				<%} else { %>

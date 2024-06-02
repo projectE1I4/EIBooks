@@ -49,7 +49,7 @@ function goToPage(pur_seq) {
 		<a href="/EIBooks/customer/updateMyPage.cs">회원정보 수정</a>
 	</li>
 	<li>
-		<a href="/EIBooks/qna/qnaList.qq">상품문의 내역</a>
+		<a href="/EIBooks/qna/qnaList.qq?state=5">상품문의 내역</a>
 	</li>
 	<li>
 		<a href="/EIBooks/orderQna/qnaList.oq">1:1문의 내역</a>

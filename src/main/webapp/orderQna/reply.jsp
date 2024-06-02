@@ -95,6 +95,7 @@ $(document).ready( function() {
 			<table>
 				<thead>
 					<tr>
+						<th class="cus_id">작성자</th>
 						<th class="title">내용</th>
 						<th class="pur_seq">주문 번호</th>
 						<th class="date">작성일</th>
@@ -103,10 +104,15 @@ $(document).ready( function() {
 				</thead>
 				<tbody>
 					<% if(qnaList.isEmpty()) { %>	
-						<tr><td colspan="8">&nbsp;<b>문의가 없습니다.</b></td></tr>
+						<tr><td colspan="5">&nbsp;<b>문의가 없습니다.</b></td></tr>
 					<% } else { %>
 						<% for(OrderQnaDTO qna : qnaList){ %>	
 							<tr class="qna_wrap">
+								<td>
+									<a class="cus_id" href="/EIBooks/admin/customerView.cs?cus_seq=<%=qna.getCusInfo().getCus_seq()%>">
+										<%=qna.getCusInfo().getCus_id() %>
+									</a>
+								</td>
 								<td class="title_text"><%=qna.getTitle() %></td>
 								<td>
 									<a class="orderView" href="/EIBooks/admin/orderView.or?pur_seq=<%=qna.getPur_seq() %>">
@@ -121,11 +127,10 @@ $(document).ready( function() {
 								</td>
 							</tr>
 							<tr class="reply_wrap">
-								<td colspan="4">
+								<td colspan="5">
 									<div class="reply_wrap_content">
 										<div class="cus_content">
 											<p><%=qna.getContent() %></p>
-										
 										<% if(qna.getImageFile() != null && !qna.getImageFile().isEmpty()) { %>
 											<div class="img_wrap">
 						                        <img src="<%=qna.getImageFile() %>" alt="첨부파일">
@@ -134,7 +139,7 @@ $(document).ready( function() {
 					                    </div>
 										<div class="btn_wrap">
 											<% if(qna.getState().equals("답변대기")) { %>
-											<a class="btn insert_btn" href="<%=request.getContextPath()%>/orderQna/replyWrite.oq?pur_q_seq=<%=qna.getPur_q_seq()%>&isReply=1&pageNum=<%=p.getPageNum() %>">답변 달기
+											<a class="btn insert_btn" href="<%=request.getContextPath()%>/orderQna/replyWrite.oq?pur_q_seq=<%=qna.getPur_q_seq()%>&isReply=1<%if(state != null) {%>&state=<%=state%><%}%>&pageNum=<%=p.getPageNum() %>">답변 달기
 												<span class="blind">답변 달기</span>
 											</a>
 											<% } %>
@@ -152,7 +157,7 @@ $(document).ready( function() {
 											<p><%=reply.getContent() %></p>
 										</div>
 										<div class="btn_wrap">
-											<a class="update_btn" href="<%=request.getContextPath()%>/orderQna/replyUpdate.oq?pur_q_seq=<%=reply.getPur_q_seq()%>&isReply=1&pageNum=<%=p.getPageNum() %>">
+											<a class="update_btn" href="<%=request.getContextPath()%>/orderQna/replyUpdate.oq?pur_q_seq=<%=reply.getPur_q_seq()%>&isReply=1<%if(state != null) {%>&state=<%=state%><%}%>&pageNum=<%=p.getPageNum() %>">
 												<span class="blind">수정</span>
 											</a>
 											<a class="delete_btn" href="javascript:delReply('<%=reply.getPur_q_seq() %>','<%=reply.getRef_seq() %>');">
@@ -172,7 +177,7 @@ $(document).ready( function() {
 		<% if(!qnaList.isEmpty()) { %>
 			<div class="pagination">
 				<%if(p.isPrev()) {%>
-				<a class="first arrow" href="reply.oq?pageNum=1">
+				<a class="first arrow" href="reply.oq?<%if(state != null) { %>state=<%=state %>&<%} %>pageNum=1">
 					<span class="blind">첫 페이지</span>
 				</a>
 				<%} else { %>
@@ -180,7 +185,7 @@ $(document).ready( function() {
 				<% } %>
 				
 				<%if(p.isPrev()) {%>
-				<a class="prev arrow" href="reply.oq?pageNum=<%=p.getStartPage()-1 %>">
+				<a class="prev arrow" href="reply.oq?<%if(state != null) { %>state=<%=state %>&<%} %>pageNum=<%=p.getStartPage()-1 %>">
 					<span class="blind">이전 페이지</span>
 				</a>
 				<%} else { %>
@@ -191,12 +196,12 @@ $(document).ready( function() {
 					<%if(i == p.getPageNum()) {%>
 						<a class="number active"><%=i %></a>
 					<%}else {%>
-						<a class="number" href="reply.oq?pageNum=<%=i %>"><%=i %></a>
+						<a class="number" href="reply.oq?<%if(state != null) { %>state=<%=state %>&<%} %>pageNum=<%=i %>"><%=i %></a>
 					<%} %>
 				<%} %>
 				
 				<%if(p.isNext()) {%>
-				<a class="next arrow" href="reply.oq?pageNum=<%=p.getEndPage()+1 %>">
+				<a class="next arrow" href="reply.oq?<%if(state != null) { %>state=<%=state %>&<%} %>pageNum=<%=p.getEndPage()+1 %>">
 					<span class="blind">다음 페이지</span>
 				</a>
 				<%} else {%>
@@ -204,7 +209,7 @@ $(document).ready( function() {
 				<%} %>
 				
 				<%if(p.isNext()) {%>
-				<a class="last arrow" href="reply.oq?pageNum=<%=p.getRealEnd() %>">
+				<a class="last arrow" href="reply.oq?<%if(state != null) { %>state=<%=state %>&<%} %>pageNum=<%=p.getRealEnd() %>">
 					<span class="blind">마지막 페이지</span>
 				</a>
 				<%} else { %>

@@ -10,7 +10,7 @@ public class QnaDTO {
 	private String content;
 	private String protect_YN;
 	private String regDate;
-	private String state;
+	private int state;
 	private int depth;
 	private int ref_seq;
 	private CustomerDTO cusInfo;
@@ -101,11 +101,11 @@ public class QnaDTO {
 		this.regDate = regDate;
 	}
 
-	public String getState() {
+	public int getState() {
 		return state;
 	}
 
-	public void setState(String state) {
+	public void setState(int state) {
 		this.state = state;
 	}
 
@@ -140,5 +140,7 @@ public class QnaDTO {
 	public void setBookInfo(BookDTO bookInfo) {
 		this.bookInfo = bookInfo;
 	}
+
+	
 	
 }

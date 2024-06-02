@@ -77,7 +77,7 @@
                                 <li class="book_title"><a
                                         href="/EIBooks/admin/productView.bo?book_seq=<%=dto.getBookNum()%>"><%=bDto.getTitle() %>
                                 </a></li>
-                                <li><a href="/EIBooks/customer/myOrderDetail.or?pur_seq=<%=dto.getPur_seq() %>">상세 주문
+                                <li><a href="/EIBooks/admin/orderView.or?pur_seq=<%=dto.getPur_seq() %>">상세 주문
                                     내역</a>
                                 </li>
 

@@ -27,7 +27,7 @@ public class QnaDAO {
 		int cus_seq = Integer.parseInt(map.get("cus_seq"));
 		int amount = Integer.parseInt(map.get("amount"));
 		int offset = Integer.parseInt(map.get("offset"));
-		String state = map.get("state");
+		int state = Integer.parseInt(map.get("state"));
 		
 		try {
 			//conn
@@ -41,7 +41,7 @@ public class QnaDAO {
 					+ "on q.cus_seq = c.cus_seq "
 					+ "where q.cus_seq = ? and depth = 1 ";
 			
-			if (state != null) {
+			if (state != 5) {
 				sql += "and state = ? ";
 			}
 			
@@ -49,9 +49,9 @@ public class QnaDAO {
 			
 			pstmt = conn.prepareStatement(sql);
 			
-			if (state != null) {
+			if (state != 5) {
 				pstmt.setInt(1, cus_seq);
-				pstmt.setString(2, state);
+				pstmt.setInt(2, state);
 				pstmt.setInt(3, amount);
 				pstmt.setInt(4, offset);
 			} else {
@@ -72,7 +72,7 @@ public class QnaDAO {
 				qna.setContent(rs.getString("content"));
 				qna.setProtect_YN(rs.getString("protect_YN"));
 				qna.setRegDate(rs.getString("q.regDate"));
-				qna.setState(rs.getString("state"));
+				qna.setState(rs.getInt("state"));
 				qna.setDepth(rs.getInt("depth"));
 				qna.setRef_seq(rs.getInt("ref_seq"));
 				
@@ -118,6 +118,10 @@ public class QnaDAO {
 		if (dto != null) {
 			cus_seq = dto.getCus_seq();
 			sql += "where cus_seq = ? ";
+			
+			if(dto.getState() != 5) {
+				sql += "and state = ? ";
+			}
 		}
 
 		try {
@@ -127,6 +131,10 @@ public class QnaDAO {
 			
 			if (dto != null) {
 				pstmt.setInt(1, cus_seq);
+				
+				if(dto.getState() != 5) {
+					pstmt.setInt(2, dto.getState());
+				}
 			}
 			
 			rs = pstmt.executeQuery();
@@ -269,7 +277,7 @@ public class QnaDAO {
 				qna.setContent(rs.getString("content"));
 				qna.setProtect_YN(rs.getString("protect_YN"));
 				qna.setRegDate(rs.getString("q.regDate"));
-				qna.setState(rs.getString("state"));
+				qna.setState(rs.getInt("state"));
 				qna.setDepth(rs.getInt("depth"));
 				qna.setRef_seq(rs.getInt("ref_seq"));
 				
@@ -302,12 +310,48 @@ public class QnaDAO {
 		return qnaList;
 	}
 	
+	public int selectAllCount(QnaDTO dto) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;		
+
+		int totalCount = 0;
+		
+		String sql = "select count(qna_seq) as cnt from qna where depth = 1 ";
+		
+		if (dto.getState() != 5) {
+			sql += "and state = ? ";
+		}
+
+		try {
+			conn = JDBCConnect.getConnection();
+			
+			pstmt = conn.prepareStatement(sql);
+			if (dto.getState() != 5) {
+				pstmt.setInt(1, dto.getState());
+			}
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				totalCount = rs.getInt("cnt");
+			}
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+			
+		} finally {
+			JDBCConnect.close(rs, pstmt, conn);
+			
+		}
+		return totalCount;
+	}
+	
 	public int selectAllCount() {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;		
 
-		int cus_seq = 0;
 		int totalCount = 0;
 		
 		String sql = "select count(qna_seq) as cnt from qna where depth = 1 ";
@@ -316,7 +360,6 @@ public class QnaDAO {
 			conn = JDBCConnect.getConnection();
 			
 			pstmt = conn.prepareStatement(sql);
-			
 			rs = pstmt.executeQuery();
 			
 			if(rs.next()) {
@@ -367,7 +410,7 @@ public class QnaDAO {
 			String sql = "update qna set state = ? where qna_seq = ?";
 			pstmt = conn.prepareStatement(sql);
 			
-			pstmt.setString(1, dto.getState());
+			pstmt.setInt(1, dto.getState());
 			pstmt.setInt(2, dto.getQna_seq()); 
 			
 			pstmt.executeUpdate();
@@ -462,7 +505,7 @@ public class QnaDAO {
 					qna.setContent(rs.getString("content"));
 					qna.setProtect_YN(rs.getString("protect_YN"));
 					qna.setRegDate(rs.getString("regDate_q"));
-					qna.setState(rs.getString("state"));
+					qna.setState(rs.getInt("state"));
 					qna.setDepth(rs.getInt("depth"));
 					qna.setRef_seq(rs.getInt("ref_seq"));
 					
@@ -501,7 +544,7 @@ public class QnaDAO {
 			try {
 				conn = JDBCConnect.getConnection();
 				
-				String sql = " insert into qna (book_seq, cus_seq, type, title, content, protect_YN, state) values (?, ?, ?, ?, ?, ?, '답변대기') ";
+				String sql = " insert into qna (book_seq, cus_seq, type, title, content, protect_YN, state) values (?, ?, ?, ?, ?, ?, 0) ";
 				pstmt = conn.prepareStatement(sql);
 				
 				pstmt.setInt(1, dto.getBook_seq());
@@ -527,12 +570,18 @@ public class QnaDAO {
 
 			int book_seq = 0;
 			int totalCount = 0;
+			String protect_YN = "";
 			
 			String sql = "select count(qna_seq) as cnt from qna ";
 			
 			if (dto != null) {
 				book_seq = dto.getBook_seq();
-				sql += "where book_seq = ? ";
+				sql += "where book_seq = ? and depth = 1 ";
+				
+				protect_YN = dto.getProtect_YN();
+				if (protect_YN != null) {
+					sql += "and protect_YN = ? ";
+				}
 			}
 
 			try {
@@ -542,6 +591,10 @@ public class QnaDAO {
 				
 				if (dto != null) {
 					pstmt.setInt(1, book_seq);
+					
+					if(protect_YN != null) {
+						pstmt.setString(2, dto.getProtect_YN());
+					}
 				}
 				
 				rs = pstmt.executeQuery();

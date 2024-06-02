@@ -43,13 +43,18 @@ public class QnaController extends HttpServlet {
 		String action = uri.substring(uri.lastIndexOf("/"));
 		
 		if(action.equals("/qnaList.qq")) {
+			request.setCharacterEncoding("utf-8");
 			Map<String, String> map = new HashMap<>();
 			
 			HttpSession session = request.getSession();
 			int cus_seq = (int)session.getAttribute("cus_seq");
 			
-			String state = request.getParameter("state");
-			map.put("state", state);
+			String sState = request.getParameter("state");
+			int state = 5;
+			if (sState != null) {
+				state = Integer.parseInt(sState);
+			}
+			map.put("state", state+"");
 				
 			// paging info
 			int amount = 5;
@@ -65,6 +70,7 @@ public class QnaController extends HttpServlet {
 			
 			QnaDTO dto = new QnaDTO();
 			dto.setCus_seq(cus_seq);
+			dto.setState(state);
             
 			QnaDAO dao = new QnaDAO();
             List<QnaDTO> qnaList = dao.getQnaList(map);
@@ -82,6 +88,7 @@ public class QnaController extends HttpServlet {
             request.getRequestDispatcher(path).forward(request, response);
             
 		} else if(action.equals("/deleteProc.qq")) {
+			request.setCharacterEncoding("utf-8");
 			String sBook_seq = request.getParameter("book_seq");
 			int book_seq = Integer.parseInt(sBook_seq);
 
@@ -127,13 +134,18 @@ public class QnaController extends HttpServlet {
 			response.sendRedirect(path);
 			
 		} else if(action.equals("/reply.qq")) {
+			request.setCharacterEncoding("utf-8");
 			Map<String, String> map = new HashMap<>();
 			
 			HttpSession session = request.getSession();
 			int cus_seq = (int)session.getAttribute("cus_seq");
 			
-			String state = request.getParameter("state");
-			map.put("state", state);
+			String sState = request.getParameter("state");
+			int state = 5;
+			if (sState != null) {
+				state = Integer.parseInt(sState);
+				map.put("state", state+"");
+			}
 				
 			// paging info
 			int amount = 5;
@@ -148,8 +160,9 @@ public class QnaController extends HttpServlet {
 			
 			QnaDTO dto = new QnaDTO();
 			QnaDAO dao = new QnaDAO();
+			dto.setState(state);
             List<QnaDTO> qnaList = dao.getQnaAllList(map);
-            int totalCount = dao.selectAllCount();
+            int totalCount = dao.selectAllCount(dto);
             
             // Paging
  			PageDTO paging = new PageDTO(pageNum, amount, totalCount);
@@ -163,6 +176,7 @@ public class QnaController extends HttpServlet {
             request.getRequestDispatcher(path).forward(request, response);
             
 		} else if(action.equals("/replyWrite.qq")) {
+			request.setCharacterEncoding("utf-8");
 			// 값 받기
 			String sBook_seq = request.getParameter("book_seq");
 			int book_seq = Integer.parseInt(sBook_seq);
@@ -172,6 +186,12 @@ public class QnaController extends HttpServlet {
 			
 			String sQna_seq = request.getParameter("qna_seq");
 			int qna_seq = Integer.parseInt(sQna_seq);
+			
+			String sState = request.getParameter("state");
+			int state = 5;
+			if (sState != null) {
+				state = Integer.parseInt(sState);
+			}
 			
 			// 페이징
 			int amount = 5;
@@ -185,10 +205,13 @@ public class QnaController extends HttpServlet {
 			
 			map.put("offset", offset+"");
 			map.put("amount", amount+"");
+			map.put("state", state+"");
 			
+			QnaDTO dto = new QnaDTO();
+			dto.setState(state);
 			QnaDAO dao = new QnaDAO();
             List<QnaDTO> qnaList = dao.getQnaAllList(map);
-            int totalCount = dao.selectAllCount();
+            int totalCount = dao.selectAllCount(dto);
 			
 			// paging DTO
             PageDTO paging = new PageDTO(pageNum, amount, totalCount);
@@ -196,12 +219,14 @@ public class QnaController extends HttpServlet {
 			// request - setAtt
 			request.setAttribute("qnaList", qnaList);
             request.setAttribute("paging", paging);
+            request.setAttribute("state", state);
 			
 			// forward
 			String path = "./replyWrite.jsp?book_seq=" + book_seq + "&qna_seq=" + qna_seq;
 			request.getRequestDispatcher(path).forward(request, response);
 			
 		}  else if(action.equals("/replyWriteProc.qq")) {
+			request.setCharacterEncoding("utf-8");
 			
 			// 값 받기
 			String sBook_seq = request.getParameter("book_seq");
@@ -212,6 +237,12 @@ public class QnaController extends HttpServlet {
 			
 			String sQna_seq = request.getParameter("qna_seq");
 			int qna_seq = Integer.parseInt(sQna_seq);
+			
+			String sState = request.getParameter("state");
+			int state = 5;
+			if (sState != null) {
+				state = Integer.parseInt(sState);
+			}
 			
 			// 폼 값
 			String content = request.getParameter("content");
@@ -224,7 +255,7 @@ public class QnaController extends HttpServlet {
             
             QnaDTO qDto = new QnaDTO();
             qDto.setQna_seq(qna_seq);
-            qDto.setState("답변완료");
+            qDto.setState(1);
             dao.updateState(qDto);
             
 			// 페이징
@@ -239,10 +270,13 @@ public class QnaController extends HttpServlet {
 			
 			map.put("offset", offset+"");
 			map.put("amount", amount+"");
+			map.put("state", state+"");
 			
 			// DAO
+			QnaDTO qqDto = new QnaDTO();
+			qqDto.setState(state);
 			List<QnaDTO> qnaList = dao.getQnaAllList(map);
-			int totalCount = dao.selectAllCount();
+			int totalCount = dao.selectAllCount(qqDto);
 			
 			// paging DTO
 			PageDTO paging = new PageDTO(pageNum, amount, totalCount);
@@ -250,18 +284,27 @@ public class QnaController extends HttpServlet {
 			// request - setAtt
 			request.setAttribute("qnaList", qnaList);
 			request.setAttribute("paging", paging);
+			request.setAttribute("state", state);
             
 			// forward
-            String path = "/EIBooks/qna/reply.qq?pageNum=" + pageNum;
+            String path = "/EIBooks/qna/reply.qq?state=" + state + "&pageNum=" + pageNum;
             response.sendRedirect(path);
             
 		} else if(action.equals("/replyUpdate.qq")) {
+			request.setCharacterEncoding("utf-8");
+			
 			// 값 받기
 			HttpSession session = request.getSession();
 			int cus_seq = (int)session.getAttribute("cus_seq");
 			
 			String sQna_seq = request.getParameter("qna_seq");
 			int qna_seq = Integer.parseInt(sQna_seq);
+			
+			String sState = request.getParameter("state");
+			int state = 5;
+			if (sState != null) {
+				state = Integer.parseInt(sState);
+			}
 			
 			// 페이징
 			int amount = 5;
@@ -275,11 +318,14 @@ public class QnaController extends HttpServlet {
 			
 			map.put("offset", offset+"");
 			map.put("amount", amount+"");
+			map.put("state", state+"");
 			
 			// DAO
+			QnaDTO dto = new QnaDTO();
+			dto.setState(state);
 			QnaDAO dao = new QnaDAO();
 			List<QnaDTO> qnaList = dao.getQnaAllList(map);
-			int totalCount = dao.selectAllCount();
+			int totalCount = dao.selectAllCount(dto);
 			
 			// paging DTO
 			PageDTO paging = new PageDTO(pageNum, amount, totalCount);
@@ -289,7 +335,7 @@ public class QnaController extends HttpServlet {
 			request.setAttribute("paging", paging);
 			
 			// forward
-			String path = "./replyUpdate.jsp?qna_seq=" + qna_seq;
+			String path = "./replyUpdate.jsp?qna_seq=" + qna_seq + "&state=" + state;
 			request.getRequestDispatcher(path).forward(request, response);
 			
 		}  else if(action.equals("/replyUpdateProc.qq")) {
@@ -304,6 +350,12 @@ public class QnaController extends HttpServlet {
 			
 			// 폼 값
 			String content = request.getParameter("content");
+			
+			String sState = request.getParameter("state");
+			int state = 5;
+			if (sState != null) {
+				state = Integer.parseInt(sState);
+			}
 			
 			// DTO
 			QnaDTO dto = new QnaDTO();
@@ -327,8 +379,10 @@ public class QnaController extends HttpServlet {
 			map.put("amount", amount+"");
 			
 			// DAO
+			QnaDTO qDto = new QnaDTO();
+			qDto.setState(state);
 			List<QnaDTO> qnaList = dao.getQnaAllList(map);
-			int totalCount = dao.selectAllCount();
+			int totalCount = dao.selectAllCount(qDto);
 			
 			// paging DTO
 			PageDTO paging = new PageDTO(pageNum, amount, totalCount);
@@ -338,7 +392,7 @@ public class QnaController extends HttpServlet {
 			request.setAttribute("paging", paging);
             
 			// forward
-            String path = "/EIBooks/qna/reply.qq?pageNum=" + pageNum;
+            String path = "/EIBooks/qna/reply.qq?state=" + state + "&pageNum=" + pageNum;
             response.sendRedirect(path);
             
 		}  else if(action.equals("/replyDeleteProc.qq")) {
@@ -353,14 +407,16 @@ public class QnaController extends HttpServlet {
 			String sRef_seq = request.getParameter("ref_seq");
 			int ref_seq = Integer.parseInt(sRef_seq);
 			
-			int pageNum = 1;
-			String sPageNum = request.getParameter("pageNum");
-			if(sPageNum != null) pageNum = Integer.parseInt(sPageNum);
+			String sState = request.getParameter("state");
+			int state = 5;
+			if (sState != null) {
+				state = Integer.parseInt(sState);
+			}
 			
 			// 회원의 처리 상태 변경
 			QnaDTO dto = new QnaDTO();
 			dto.setQna_seq(ref_seq);
-			dto.setState("답변대기");
+			dto.setState(0);
 			
 			QnaDAO dao = new QnaDAO();
 			dao.updateState(dto);
@@ -369,7 +425,39 @@ public class QnaController extends HttpServlet {
 			dto.setQna_seq(qna_seq);
 			dao.deleteWrite(dto);
 			
-			String path = "/EIBooks/qna/reply.qq?pageNum=" + pageNum;
+			// 페이징
+			int amount = 5;
+			int pageNum = 1;
+			
+			String sPageNum = request.getParameter("pageNum");
+			if(sPageNum != null) pageNum = Integer.parseInt(sPageNum);
+			int offset = (pageNum-1) * amount;
+			
+			Map<String, String> map = new HashMap<>();
+			
+			map.put("offset", offset+"");
+			map.put("amount", amount+"");
+			
+			// DAO
+			QnaDTO qDto = new QnaDTO();
+			qDto.setState(state);
+			List<QnaDTO> qnaList = dao.getQnaAllList(map);
+			int totalCount = dao.selectAllCount(qDto);
+			
+			// paging DTO
+			PageDTO paging = new PageDTO(pageNum, amount, totalCount);
+			
+			// request - setAtt
+			request.setAttribute("qnaList", qnaList);
+			request.setAttribute("paging", paging);
+			request.setAttribute("state", state);
+			
+			String path = "";
+			if(totalCount > 5) {
+				path = "/EIBooks/qna/reply.qq?state=" + state + "&pageNum=" + pageNum;
+			} else {
+				path = "/EIBooks/qna/reply.qq?state=" + state + "&pageNum=" + (pageNum - 1);
+			}
 			response.sendRedirect(path);
 			
 		}  else if(action.equals("/depthOneDeleteProc.qq")) {
@@ -392,6 +480,7 @@ public class QnaController extends HttpServlet {
 			response.sendRedirect(path);
 			
 		} else if(action.equals("/qnaWrite.qq")) {
+			request.setCharacterEncoding("utf-8");
 			// 값 받기
 			String sBook_seq = request.getParameter("book_seq");
 			int book_seq = Integer.parseInt(sBook_seq);
@@ -413,6 +502,8 @@ public class QnaController extends HttpServlet {
 			request.getRequestDispatcher(path).forward(request, response);
 			
 		} else if(action.equals("/qnaWriteProc.qq")) {
+			request.setCharacterEncoding("utf-8");
+			
 			HttpSession session = request.getSession();
 			int cus_seq = (int)session.getAttribute("cus_seq");
 			

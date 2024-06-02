@@ -425,6 +425,7 @@ public class BookController extends HttpServlet {
 			
 			QnaDTO qDto = new QnaDTO();
 			qDto.setBook_seq(book_seq);
+			qDto.setProtect_YN(protect_YN);
             
 			QnaDAO qDao = new QnaDAO();
             List<QnaDTO> qnaList = qDao.getQnaAllListNew(map);
@@ -435,7 +436,6 @@ public class BookController extends HttpServlet {
          			
             request.setAttribute("qnaList", qnaList);
             request.setAttribute("paging", paging);
-            request.setAttribute("totalCount", totalCount);
 
 			request.getRequestDispatcher("./userBookDetail.jsp").forward(request, response);
 		}

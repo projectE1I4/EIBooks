@@ -11,7 +11,11 @@
 <%
 List<QnaDTO> qnaList = (List<QnaDTO>)request.getAttribute("qnaList");
 PageDTO p = (PageDTO)request.getAttribute("paging");
-String state = (String)request.getAttribute("state");
+String sState = request.getParameter("state");
+int state = 5;
+if (sState != null) {
+	state = Integer.parseInt(sState);
+}
 %>  
 <!DOCTYPE html>
 <html lang="ko">
@@ -97,21 +101,21 @@ $(document).ready( function() {
 		<h1>상품 문의</h1>
 		<ul class="sort_wrap">
 				<li class="sort_main">
-				<%= "전체보기".equals(state) ? "전체보기" :
-			         "답변대기".equals(state) ? "답변대기" :
-			         "답변완료".equals(state) ? "답변완료" : "전체보기" %>
+				<%= "".equals(state) ? "전체보기" :
+			         "0".equals(state) ? "답변대기" :
+			         "1".equals(state) ? "답변완료" : "전체보기" %>
 			     	<img src="../styles/images/undo_tabler_io.svg" alt=""/>
 				</li>
 				<li class="sort_menu">
 					<ul>
 						<li>
-							<a href="/EIBooks/qna/qnaList.qq">전체보기</a>
+							<a href="/EIBooks/qna/qnaList.qq?state=5">전체보기</a>
 						</li>
 						<li>
-							<a href="/EIBooks/qna/qnaList.qq?state=답변대기">답변대기</a>
+							<a href="/EIBooks/qna/qnaList.qq?state=0">답변대기</a>
 						</li>
 						<li>
-							<a href="/EIBooks/qna/qnaList.qq?state=답변완료">답변완료</a>
+							<a href="/EIBooks/qna/qnaList.qq?state=1">답변완료</a>
 						</li>
 					</ul>
 				</li>
@@ -151,8 +155,11 @@ $(document).ready( function() {
 								<td><%=qna.getRegDate() %></td>
 								<td>
 									<div class="col">
-										<em><%=qna.getState() %></em>
-										<% if (qna.getState().equals("답변대기")) { %>
+										<em>
+										<%if(qna.getState() == 0) %>답변대기
+										<%if(qna.getState() == 1) %>답변완료
+										</em>
+										<% if (qna.getState() == 0) { %>
 											<a class="btn delete_btn" href="javascript:del('<%=qna.getBook_seq() %>','<%=qna.getQna_seq() %>');">삭제
 												<span class="blind">삭제</span>
 											</a>
@@ -189,7 +196,7 @@ $(document).ready( function() {
 		<% if(!qnaList.isEmpty()) { %>
 			<div class="pagination">
 				<%if(p.isPrev()) {%>
-				<a class="first arrow" href="qnaList.qq?pageNum=1">
+				<a class="first arrow" href="qnaList.qq?<%if(state != 5) { %>state=<%=state %>&<%} %>pageNum=1">
 					<span class="blind">첫 페이지</span>
 				</a>
 				<%} else { %>
@@ -197,7 +204,7 @@ $(document).ready( function() {
 				<% } %>
 				
 				<%if(p.isPrev()) {%>
-				<a class="prev arrow" href="qnaList.qq?pageNum=<%=p.getStartPage()-1 %>">
+				<a class="prev arrow" href="qnaList.qq?<%if(state != 5) { %>state=<%=state %>&<%} %>pageNum=<%=p.getStartPage()-1 %>">
 					<span class="blind">이전 페이지</span>
 				</a>
 				<%} else { %>
@@ -208,12 +215,12 @@ $(document).ready( function() {
 					<%if(i == p.getPageNum()) {%>
 						<a class="number active"><%=i %></a>
 					<%}else {%>
-						<a class="number" href="qnaList.qq?pageNum=<%=i %>"><%=i %></a>
+						<a class="number" href="qnaList.qq?<%if(state != 5) { %>state=<%=state %>&<%} %>pageNum=<%=i %>"><%=i %></a>
 					<%} %>
 				<%} %>
 				
 				<%if(p.isNext()) {%>
-				<a class="next arrow" href="qnaList.qq?pageNum=<%=p.getEndPage()+1 %>">
+				<a class="next arrow" href="qnaList.qq?<%if(state != 5) { %>state=<%=state %>&<%} %>pageNum=<%=p.getEndPage()+1 %>">
 					<span class="blind">다음 페이지</span>
 				</a>
 				<%} else {%>
@@ -221,7 +228,7 @@ $(document).ready( function() {
 				<%} %>
 				
 				<%if(p.isNext()) {%>
-				<a class="last arrow" href="qnaList.qq?pageNum=<%=p.getRealEnd() %>">
+				<a class="last arrow" href="qnaList.qq?<%if(state != 5) { %>state=<%=state %>&<%} %>pageNum=<%=p.getRealEnd() %>">
 					<span class="blind">마지막 페이지</span>
 				</a>
 				<%} else { %>

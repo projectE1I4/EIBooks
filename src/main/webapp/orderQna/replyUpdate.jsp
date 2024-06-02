@@ -146,6 +146,7 @@ $(document).ready( function() {
 			<table>
 				<thead>
 					<tr>
+						<th class="cus_id">작성자</th>
 						<th class="title">내용</th>
 						<th class="pur_seq">주문 번호</th>
 						<th class="date">작성일</th>
@@ -154,10 +155,15 @@ $(document).ready( function() {
 				</thead>
 				<tbody>
 					<% if(qnaList.isEmpty()) { %>	
-						<tr><td colspan="8">&nbsp;<b>문의가 없습니다.</b></td></tr>
+						<tr><td colspan="5">&nbsp;<b>문의가 없습니다.</b></td></tr>
 					<% } else { %>
 						<% for(OrderQnaDTO qna : qnaList){ %>	
 							<tr class="qna_wrap">
+								<td>
+									<a class="cus_id" href="/EIBooks/admin/customerView.cs?cus_seq=<%=qna.getCusInfo().getCus_seq()%>">
+										<%=qna.getCusInfo().getCus_id() %>
+									</a>
+								</td>
 								<td class="title_text"><%=qna.getTitle() %></td>
 								<td>
 									<a class="orderView" href="/EIBooks/admin/orderView.or?pur_seq=<%=qna.getPur_seq() %>">
@@ -172,7 +178,7 @@ $(document).ready( function() {
 								</td>
 							</tr>
 							<tr class="reply_wrap">
-								<td colspan="4">
+								<td colspan="5">
 									<div class="reply_wrap_content">
 										<div class="cus_content reply">
 											<p><%=qna.getContent() %></p>
@@ -184,7 +190,7 @@ $(document).ready( function() {
 										</div>
 										<div class="btn_wrap">
 											<% if(qna.getState().equals("답변대기") && pur_q_seq != qna.getPur_q_seq()) { %>
-											<a class="btn insert_btn" href="<%=request.getContextPath()%>/orderQna/replyWrite.oq?pur_q_seq=<%=qna.getPur_q_seq()%>&isReply=1&pageNum=<%=p.getPageNum() %>">답변 달기
+											<a class="btn insert_btn" href="<%=request.getContextPath()%>/orderQna/replyWrite.oq?pur_q_seq=<%=qna.getPur_q_seq()%>&isReply=1<%if(state != null) {%>&state=<%=state%><%}%>&pageNum=<%=p.getPageNum() %>">답변 달기
 												<span class="blind">답변 달기</span>
 											</a>
 											<% } %>
@@ -201,11 +207,12 @@ $(document).ready( function() {
 										<% if (pur_q_seq == reply.getPur_q_seq() && isReply == 1) { %>
 											<ul class="reply_form">
 												<li class="">
-													<form class="write_form" name="writeForm" method="post" action="/EIBooks/orderQna/replyUpdateProc.oq?pageNum=<%=p.getPageNum()%>">
+													<form class="write_form" name="writeForm" method="post" action="/EIBooks/orderQna/replyUpdateProc.oq?<%if(state != null) {%>state=<%=state%>&<%}%>pageNum=<%=p.getPageNum()%>">
 														<div class="text_area">
 															<textarea class="write_content" name="content" oninput="limitText(this, 500)"><%=reply.getContent() %></textarea>
 														</div>
 														<div class="write_btn_wrap">
+															<input type="hidden" name="state" value="<%=state%>">
 															<input type="hidden" name="pur_q_seq" value="<%=reply.getPur_q_seq() %>">
 															<input class="btn write_btn" type="submit" value="수정 완료" >
 															<input class="btn" type="button" value="수정 취소" onclick="goToPage()">
@@ -226,7 +233,7 @@ $(document).ready( function() {
 		<% if(!qnaList.isEmpty()) { %>
 			<div class="pagination">
 				<%if(p.isPrev()) {%>
-				<a class="first arrow" href="replyUpdate.oq?pur_q_seq=<%=pur_q_seq %>&isReply=1&pageNum=1">
+				<a class="first arrow" href="replyUpdate.oq?pur_q_seq=<%=pur_q_seq %><%if(state != null) { %>&state=<%=state %><%} %>&isReply=1&pageNum=1">
 					<span class="blind">첫 페이지</span>
 				</a>
 				<%} else { %>
@@ -234,7 +241,7 @@ $(document).ready( function() {
 				<% } %>
 				
 				<%if(p.isPrev()) {%>
-				<a class="prev arrow" href="replyUpdate.oq?pur_q_seq=<%=pur_q_seq %>&isReply=1&pageNum=<%=p.getStartPage()-1 %>">
+				<a class="prev arrow" href="replyUpdate.oq?pur_q_seq=<%=pur_q_seq %>&isReply=1<%if(state != null) { %>&state=<%=state %><%} %>&pageNum=<%=p.getStartPage()-1 %>">
 					<span class="blind">이전 페이지</span>
 				</a>
 				<%} else { %>
@@ -245,12 +252,12 @@ $(document).ready( function() {
 					<%if(i == p.getPageNum()) {%>
 						<a class="number active"><%=i %></a>
 					<%}else {%>
-						<a class="number" href="replyUpdate.oq?pur_q_seq=<%=pur_q_seq %>&isReply=1&pageNum=<%=i %>"><%=i %></a>
+						<a class="number" href="replyUpdate.oq?pur_q_seq=<%=pur_q_seq %>&isReply=1<%if(state != null) { %>&state=<%=state %><%} %>&pageNum=<%=i %>"><%=i %></a>
 					<%} %>
 				<%} %>
 				
 				<%if(p.isNext()) {%>
-				<a class="next arrow" href="replyUpdate.oq?pur_q_seq=<%=pur_q_seq %>&isReply=1&pageNum=<%=p.getEndPage()+1 %>">
+				<a class="next arrow" href="replyUpdate.oq?pur_q_seq=<%=pur_q_seq %>&isReply=1<%if(state != null) { %>&state=<%=state %><%} %>&pageNum=<%=p.getEndPage()+1 %>">
 					<span class="blind">다음 페이지</span>
 				</a>
 				<%} else {%>
@@ -258,7 +265,7 @@ $(document).ready( function() {
 				<%} %>
 				
 				<%if(p.isNext()) {%>
-				<a class="last arrow" href="replyUpdate.oq?pur_q_seq=<%=pur_q_seq %>&isReply=1&pageNum=<%=p.getRealEnd() %>">
+				<a class="last arrow" href="replyUpdate.oq?pur_q_seq=<%=pur_q_seq %>&isReply=1<%if(state != null) { %>&state=<%=state %><%} %>&pageNum=<%=p.getRealEnd() %>">
 					<span class="blind">마지막 페이지</span>
 				</a>
 				<%} else { %>

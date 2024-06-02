@@ -161,10 +161,21 @@
 }
 .reply_wrap_content .cus_content {
 	display: flex;
+	align-items: center;
 }
-.reply_wrap_content .cus_content p {
-    width: 994px;
-	padding: 30px 30px 30px 350px ;
+.reply_wrap_content .cus_content .cus_id {
+	width: 170px;
+	margin-left: 130px;
+}
+.reply_wrap_content .cus_content .cus_id a {
+	display: inline-block;
+	width: 170px;
+	height: 84px;
+	line-height: 84px;
+}
+.reply_wrap_content .cus_content .content {
+    width: 694px;
+    padding: 30px 30px 30px 50px;
 	text-align: left;
 	justify-content: center;
 	align-items: center;

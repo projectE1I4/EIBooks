@@ -82,12 +82,12 @@ int oqCnt = (int)request.getAttribute("oqCnt");
 				<h3>문의 관리</h3>
 				<div class="content">
 					<div class="box">
-						<a href="/EIBooks/qna/reply.qq">
+						<a href="/EIBooks/qna/reply.qq?state=0">
 						<strong><%=qCnt %></strong>
 						전체 상품<br>문의 확인</a>
 					</div>
 					<div class="box">
-						<a href="/EIBooks/orderQna/reply.oq">
+						<a href="/EIBooks/orderQna/reply.oq?state=0">
 						<strong><%=oqCnt %></strong>						
 						전체 1:1<br>문의 확인</a>
 					</div>
