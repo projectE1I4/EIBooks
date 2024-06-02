@@ -103,7 +103,7 @@ $(document).ready( function() {
 	function del(pur_q_seq){
 		const input = confirm("정말 삭제하시겠습니까?");
 		if(input){
-			location.href = "<%=request.getContextPath()%>/orderQna/deleteProc.oq?pur_q_seq=" + pur_q_seq;
+			location.href = "<%=request.getContextPath()%>/orderQna/deleteProc.oq?pur_q_seq=" + pur_q_seq + "&state=<%=state%>";
 		}else{
 			alert("삭제를 취소했습니다.");
 			return;

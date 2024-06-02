@@ -612,5 +612,27 @@ public class QnaDAO {
 			}
 			return totalCount;
 		}
+
+		public void deleteReply(QnaDTO dto) {
+			Connection conn = null;
+			PreparedStatement pstmt = null;
+			
+			try {
+				conn = JDBCConnect.getConnection();
+				
+				String sql = "delete from qna "
+						+ " where ref_seq = ? ";
+				pstmt = conn.prepareStatement(sql);
+				
+				pstmt.setInt(1, dto.getQna_seq());
+				
+				pstmt.executeUpdate();
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				JDBCConnect.close(pstmt, conn);
+			}
+		}
 		
 }

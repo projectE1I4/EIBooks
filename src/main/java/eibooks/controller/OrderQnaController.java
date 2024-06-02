@@ -200,6 +200,7 @@ public class OrderQnaController extends HttpServlet {
 			map.put("offset", offset+"");
 			map.put("amount", amount+"");
 			map.put("cus_seq", cus_seq + "");
+			map.put("state", "5");
 
 			OrderQnaDTO dto = new OrderQnaDTO();
 			dto.setCus_seq(cus_seq);
@@ -244,7 +245,6 @@ public class OrderQnaController extends HttpServlet {
 
 			map.put("offset", offset + "");
 			map.put("amount", amount + "");
-			map.put("cus_seq", cus_seq + "");
 			map.put("state", state + "");
 			
 			OrderQnaDTO qDto = new OrderQnaDTO();
@@ -532,11 +532,15 @@ public class OrderQnaController extends HttpServlet {
             request.setAttribute("paging", paging);
 			
             String path = "";
-			if(totalCount > 5) {
-				path = "/EIBooks/orderQna/reply.oq?state=" + state + "&pageNum=" + pageNum;
-			} else {
-				path = "/EIBooks/orderQna/reply.oq?state=" + state + "&pageNum=" + (pageNum - 1);
-			}
+            if (totalCount <= 5) {
+            	if (pageNum >= 2) {
+            		path = "/EIBooks/orderQna/reply.oq?state=" + state + "&pageNum=" + (pageNum - 1);
+            	} else {
+            		path = "/EIBooks/orderQna/reply.oq?state=" + state + "&pageNum=" + pageNum;
+            	}
+            } else  {
+            	path = "/EIBooks/orderQna/reply.oq?state=" + state + "&pageNum=" + pageNum;
+            }
 			response.sendRedirect(path);
 			
 		}  else if(action.equals("/depthOneDeleteProc.oq")) {
@@ -548,10 +552,17 @@ public class OrderQnaController extends HttpServlet {
 			String sPur_q_seq = request.getParameter("pur_q_seq");
 			int pur_q_seq = Integer.parseInt(sPur_q_seq);
 
-			OrderQnaDTO dto = new OrderQnaDTO();
-			dto.setPur_q_seq(pur_q_seq);
+			String sState = request.getParameter("state");
+			int state = 5;
+			if (sState != null) {
+				state = Integer.parseInt(sState);
+			}
 			
+			OrderQnaDTO dto = new OrderQnaDTO();
 			OrderQnaDAO dao = new OrderQnaDAO();
+			
+			dto.setPur_q_seq(pur_q_seq); 
+			dao.deleteReply(dto);
 			dao.deleteWrite(dto);
 			
 			// 페이징
@@ -568,17 +579,7 @@ public class OrderQnaController extends HttpServlet {
 			map.put("amount", amount + "");
 			map.put("cus_seq", cus_seq + "");
 			
-			OrderQnaDAO oDao = new OrderQnaDAO();
-            List<OrderQnaDTO> qnaList = oDao.getQnaAllList(map);
-            int totalCount = oDao.selectAllCount();
-			
-            // Paging
- 			PageDTO paging = new PageDTO(pageNum, amount, totalCount);
-         			
-            request.setAttribute("qnaList", qnaList);
-            request.setAttribute("paging", paging);
-			
-			String path = "/EIBooks/orderQna/reply.oq";
+			String path = "/EIBooks/orderQna/reply.oq?state=" + state;
 			response.sendRedirect(path);
 			
 		}

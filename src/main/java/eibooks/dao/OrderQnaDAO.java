@@ -392,6 +392,29 @@ public class OrderQnaDAO {
 			JDBCConnect.close(pstmt, conn);
 		}
 	}
+	
+	public void deleteReply(OrderQnaDTO dto) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		
+		try {
+			conn = JDBCConnect.getConnection();
+			
+			String sql = "delete from order_qna "
+					+ " where ref_seq = ? ";
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, dto.getPur_q_seq());
+			
+			pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			JDBCConnect.close(pstmt, conn);
+		}
+	}
+
 
 	public List<OrderQnaDTO> getQnaAllList(Map<String, String> map) {
 		List<OrderQnaDTO> qnaList = new ArrayList<>();

@@ -111,6 +111,7 @@ public class QnaController extends HttpServlet {
 			map.put("offset", offset+"");
 			map.put("amount", amount+"");
 			map.put("cus_seq", cus_seq + "");
+			map.put("state", "5");
 
 			QnaDTO dto = new QnaDTO();
 			dto.setBook_seq(book_seq);
@@ -453,11 +454,15 @@ public class QnaController extends HttpServlet {
 			request.setAttribute("state", state);
 			
 			String path = "";
-			if(totalCount > 5) {
-				path = "/EIBooks/qna/reply.qq?state=" + state + "&pageNum=" + pageNum;
-			} else {
-				path = "/EIBooks/qna/reply.qq?state=" + state + "&pageNum=" + (pageNum - 1);
-			}
+            if (totalCount <= 5) {
+            	if (pageNum >= 2) {
+            		path = "/EIBooks/qna/reply.qq?state=" + state + "&pageNum=" + (pageNum - 1);
+            	} else {
+            		path = "/EIBooks/qna/reply.qq?state=" + state + "&pageNum=" + pageNum;
+            	}
+            } else  {
+            	path = "/EIBooks/qna/reply.qq?state=" + state + "&pageNum=" + pageNum;
+            }
 			response.sendRedirect(path);
 			
 		}  else if(action.equals("/depthOneDeleteProc.qq")) {
@@ -469,14 +474,21 @@ public class QnaController extends HttpServlet {
 			// 회원의 문의 번호
 			String sQna_seq = request.getParameter("qna_seq");
 			int qna_seq = Integer.parseInt(sQna_seq);
+			
+			String sState = request.getParameter("state");
+			int state = 5;
+			if (sState != null) {
+				state = Integer.parseInt(sState);
+			}
 
 			QnaDTO dto = new QnaDTO();
-			dto.setQna_seq(qna_seq);
-			
 			QnaDAO dao = new QnaDAO();
+			
+			dto.setQna_seq(qna_seq); 
+			dao.deleteReply(dto);
 			dao.deleteWrite(dto);
 			
-			String path = "/EIBooks/qna/reply.qq";
+			String path = "/EIBooks/qna/reply.qq?state=" + state;
 			response.sendRedirect(path);
 			
 		} else if(action.equals("/qnaWrite.qq")) {

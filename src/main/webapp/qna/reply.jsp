@@ -43,7 +43,7 @@ $(document).ready( function() {
 	function del(qna_seq){
 		const input = confirm("문의를 삭제하시겠습니까?");
 		if(input){
-			location.href = "<%=request.getContextPath()%>/qna/depthOneDeleteProc.qq?qna_seq=" + qna_seq;
+			location.href = "<%=request.getContextPath()%>/qna/depthOneDeleteProc.qq?qna_seq=" + qna_seq + "&state=<%=state%>";
 		}else{
 			alert("삭제를 취소했습니다.");
 			return;
