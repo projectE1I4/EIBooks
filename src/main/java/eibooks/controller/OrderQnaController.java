@@ -76,6 +76,7 @@ public class OrderQnaController extends HttpServlet {
 			
 			OrderQnaDTO dto = new OrderQnaDTO();
 			dto.setCus_seq(cus_seq);
+			dto.setState(state);
             
 			OrderQnaDAO dao = new OrderQnaDAO();
             List<OrderQnaDTO> qnaList = dao.getQnaList(map);
@@ -207,17 +208,19 @@ public class OrderQnaController extends HttpServlet {
 			dto.setCus_seq(cus_seq);
 			
 			OrderQnaDAO dao = new OrderQnaDAO();
-			List<OrderQnaDTO> qnaList = dao.getQnaList(map);
-			int totalCount = dao.selectCount(dto);
 			
 			// paging DTO
-			PageDTO paging = new PageDTO(pageNum, amount, totalCount);
 			
 			// 리뷰 delete dao
 			OrderQnaDTO dDto = new OrderQnaDTO();
 			dDto.setPur_q_seq(pur_q_seq);
 			dao.deleteWrite(dDto);
 
+			List<OrderQnaDTO> qnaList = dao.getQnaList(map);
+			int totalCount = dao.selectCount(dto);
+			
+			PageDTO paging = new PageDTO(pageNum, amount, totalCount);
+			
 			request.setAttribute("qnaList", qnaList);
 			request.setAttribute("paging", paging);
 
