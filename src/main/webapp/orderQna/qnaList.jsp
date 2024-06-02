@@ -100,9 +100,9 @@ $(document).ready( function() {
 		</div>
 		<ul class="sort_wrap">
 				<li class="sort_main">
-				<%= "".equals(state) ? "전체보기" :
-			         "0".equals(state) ? "답변대기" :
-			         "1".equals(state) ? "답변완료" : "전체보기" %>
+				<%= state == 5 ? "전체보기" :
+			         state == 0 ? "답변대기" :
+		        	 state == 1 ? "답변완료" : "전체보기" %>
 			     	<img src="../styles/images/undo_tabler_io.svg" alt=""/>
 				</li>
 				<li class="sort_menu">
