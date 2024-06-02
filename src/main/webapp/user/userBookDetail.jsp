@@ -77,6 +77,11 @@
 <script type="text/javascript">
 function buying(book_seq){
     var cartICount = $('input[name="cartICount"]').val();
+    if (<%=dto.getStock()%> < cartICount) {
+		alert("재고 수량을 초과합니다.");
+		return;
+	}
+    
     var cus_seq = "<%=session.getAttribute("cus_seq")%>"
     var price = $('.price').text(); 
     
@@ -91,7 +96,13 @@ function goToCustomerCart(book_seq){
 	if (<%=cus_seq%> == 0) {
 		location.href="/EIBooks/auth/login.cs";
 	} else {
+		
 	    var cartICount = $('input[name="cartICount"]').val();
+		if (<%=dto.getStock()%> < cartICount) {
+			alert("재고 수량을 초과합니다.");
+			return;
+		}
+		
 	    $.ajax({
 	        type: "POST",
 	        url: "<%=request.getContextPath()%>/customerCartInsert.cc",
@@ -172,8 +183,15 @@ function decreaseBtn(bookSeq) {
            				</div>
         			</div>
         			<div class="buyBtn_wrap">
+        				<% if(dto.getStock() > 0) { %>
+        					<% if(dto.getStock() < 10) { %>
+        					<p><em><%=dto.getStock() %></em>개 남음</p>
+        					<% } %>
 						<input class="btn buyNow" type="submit" value="바로구매" onclick="buying(<%=dto.getBook_seq()%>)"/>
-						<input class="btn goCart" type="submit" value="장바구니" onclick="goToCustomerCart(<%=dto.getBook_seq()%>);"/>				        	
+						<input class="btn goCart" type="submit" value="장바구니" onclick="goToCustomerCart(<%=dto.getBook_seq()%>);"/>	
+						<% } else { %>
+						<a class="btn">품절</a>
+						<% } %>		        	
         			</div>
 				</div>
 				<div class="discription_wrap">

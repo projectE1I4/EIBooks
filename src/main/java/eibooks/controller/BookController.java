@@ -123,7 +123,7 @@ public class BookController extends HttpServlet {
 			// 1. 값 받기
 			request.setCharacterEncoding("utf-8");
 			
-			String saveDirectory = "/Users/parkjinhee/Desktop/backendStudy/mid/EIBooks/src/main/webapp/Uploads";
+			String saveDirectory = "C:/Mid/jspws/EIBooks/src/main/webapp/Uploads";
 			String encoding = "UTF-8";
 			int maxPostSize = 1024 * 1000 * 10; // 1000kb -> 1M > 10M
 
@@ -211,7 +211,7 @@ public class BookController extends HttpServlet {
 			request.setCharacterEncoding("utf-8");
 
 			request.setCharacterEncoding("utf-8");
-			String saveDirectory = "/Users/parkjinhee/Desktop/backendStudy/mid/EIBooks/src/main/webapp/Uploads";
+			String saveDirectory = "C:/Mid/jspws/EIBooks/src/main/webapp/Uploads";
 			String encoding = "UTF-8";
 			int maxPostSize = 1024 * 1000 * 10; // 1000kb -> 1M > 10M
 

@@ -226,10 +226,12 @@ public class OrderController extends HttpServlet {
 				book_seq = map.get("book_seq");
 				System.out.println(session.getAttribute("orderMap"));
 				orderdao.insertOrderList(map);
+				orderdao.updateStock(map);
 			} else if (buyMap != null) {
 				book_seq = buyMap.get("book_seq");
 				System.out.println(session.getAttribute("buyMap"));
 				orderdao.insertOrderList(buyMap);
+				orderdao.updateStock(buyMap);
 			} else {
 				System.out.println("문제 발생");
 			}
@@ -257,6 +259,7 @@ public class OrderController extends HttpServlet {
 
 			for(cartDTO c : cartList) {
 				orderdao.cartList(c);
+				orderdao.updateStock(c);
 			}
 			dao.deleteCartAll(cusSeq);
 			
