@@ -1,3 +1,12 @@
+.info_wrap .buy_wrap .buyBtn_wrap {
+	align-items: center;
+}
+.info_wrap .buy_wrap .buyBtn_wrap p {
+	margin-bottom: 10px;	
+}
+.info_wrap .buy_wrap .buyBtn_wrap p em {
+	color: var(--point-color1);
+}
 .qna {
 	margin-top: 10px;
 	border: 3px solid #eee;

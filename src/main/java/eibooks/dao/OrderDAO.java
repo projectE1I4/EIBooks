@@ -36,6 +36,7 @@ public class OrderDAO {
 			
 			String sql= "insert into purchase_item(book_seq, cus_seq, pur_i_count, pur_seq) "
 					+ "values((select book_seq from books where book_seq = ?), ?, ?, (select pur_seq from purchase where cus_seq = ? order by pur_seq desc limit 1))";
+			
 			try {
 				//conn
 				conn = JDBCConnect.getConnection();
@@ -60,6 +61,54 @@ public class OrderDAO {
 			}
 		}
 
+		public void updateStock(Map<String, Integer> map) {
+			Connection conn = null;
+			PreparedStatement pstmt = null;
+			
+			int book_seq = map.get("book_seq");
+			int pur_i_count = map.get("cartICount");
+			
+			String sql = "update books set stock = stock - ? where book_seq = ? ";
+			
+			try {
+				//conn
+				conn = JDBCConnect.getConnection();
+				
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(1, pur_i_count);
+				pstmt.setInt(2, book_seq);
+				pstmt.executeUpdate();
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+				
+			} finally {
+				JDBCConnect.close(pstmt, conn);
+			}
+		}
+		
+		public void updateStock(cartDTO dto) {
+			Connection conn = null;
+			PreparedStatement pstmt = null;
+			
+			String sql = "update books set stock = stock - ? where book_seq = ? ";
+			
+			try {
+				//conn
+				conn = JDBCConnect.getConnection();
+				
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(1, dto.getCartICount());
+				pstmt.setInt(2, dto.getBook_seq());
+				pstmt.executeUpdate();
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+				
+			} finally {
+				JDBCConnect.close(pstmt, conn);
+			}
+		}
 		
 		public void cartList(cartDTO dto){
 			Connection conn = null;
