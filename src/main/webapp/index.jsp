@@ -1,13 +1,17 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>인덱스</title>
+<html lang="ko">
+<%@ include file="/common/head.jsp" %>
 </head>
 <body>
-<%@ include file="../common/menu.jsp" %>
-집에 보내주세요
+<div id="skip_navi">
+  <a href="#container">본문바로가기</a>
+</div>
+<div id="wrap">
+  <%@ include file="/common/header.jsp" %>
+  <main id="container">
+  </main>
+  <%@ include file="common/footer.jsp"%>
+</div>
 </body>
 </html>

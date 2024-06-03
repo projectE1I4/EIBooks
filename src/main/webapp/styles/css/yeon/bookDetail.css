@@ -1,0 +1,119 @@
+.info_wrap .buy_wrap .buyBtn_wrap {
+	align-items: center;
+}
+.info_wrap .buy_wrap .buyBtn_wrap p {
+	margin-bottom: 10px;	
+}
+.info_wrap .buy_wrap .buyBtn_wrap p em {
+	color: var(--point-color1);
+}
+.qna {
+	margin-top: 10px;
+	border: 3px solid #eee;
+	border-radius: 10px;
+	margin-bottom: 10px;
+	padding: 10px;
+}
+.not {
+	font-size: 22px;
+}
+.board_list_wrap {
+	border: none;
+}
+.qna_tit {
+	height: 60px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+.qna_tit h2 {
+	font-size: 25px;
+	font-weight: 700;
+}
+.qna_tit .protect {
+	margin-right: 10px;
+}
+
+.num {
+	width: 100px;
+}
+.state {
+	width: 150px;
+}
+.type {
+	width: 150px;
+}
+.qna_title {
+	width: 404px;
+}
+.cus_id {
+	width: 200px;
+}
+.date {
+	width: 188px;
+}
+.qna_wrap {
+	cursor: pointer;
+}
+.qna_wrap .title_text {
+	text-align: left;
+	padding: 0 30px;
+}
+.qna_tit .btn_wrap {
+}
+.book_tit {
+	font-weight: 700;
+	width: 400px;
+	height: 70px;
+	line-height: 42px;
+	overflow: hidden;
+	white-space: nowrap; 
+	text-overflow: ellipsis; 
+	text-align: left;
+}
+
+.reply_wrap {
+	display: none;
+}
+
+.reply_content {
+	border-top: 1px solid #eee;
+	text-align: left;
+    word-wrap: break-word;
+}
+.cus_content p {
+	padding: 15px 30px;
+}
+.title_text {
+	overflow: hidden;
+	white-space: nowrap; 
+	text-overflow: ellipsis; 
+}
+.admin_wrap {
+	/*background-color: #f8f8f8;*/
+	display: flex;
+	justify-content: space-between;
+	padding: 30px 0;
+}
+.admin_wrap .admin1 {
+	display: flex;
+	gap: 20px;
+}
+.admin_name {
+	width: 100px;
+}
+.admin_regDate {
+	width: 290px;
+	text-align: center;
+}
+.btn_wrap {
+	padding: 10px;
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+}
+.insert_btn {
+ 	background-color: #6A5AFF;
+    color: #fff;
+    border: none;
+}

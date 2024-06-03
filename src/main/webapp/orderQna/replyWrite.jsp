@@ -1,0 +1,298 @@
+<%@page import="eibooks.dao.OrderQnaDAO"%>
+<%@page import="eibooks.common.PageDTO"%>
+<%@page import="eibooks.dto.OrderQnaDTO"%>
+<%@page import="java.util.List"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%
+List<OrderQnaDTO> qnaList = (List<OrderQnaDTO>)request.getAttribute("qnaList");
+PageDTO p = (PageDTO)request.getAttribute("paging");
+String sState = request.getParameter("state");
+int state = 5;
+if (sState != null) {
+	state = Integer.parseInt(sState);
+}
+
+String sPur_q_seq = request.getParameter("pur_q_seq");
+int pur_q_seq = Integer.parseInt(sPur_q_seq);
+
+//0이면 답글 X, 1이면 답글 O
+int isReply = 0;
+if(request.getParameter("isReply") != null) {
+	isReply = Integer.parseInt(request.getParameter("isReply"));
+}
+%>          
+<!DOCTYPE html>
+<html lang="ko">
+<%@ include file="/common/head.jsp" %>
+<link rel="stylesheet" href="/EIBooks/styles/css/yeon/qnaReply2.css?v=<?php echo time(); ?>">
+<script>
+$(document).ready( function() {
+    
+    $('.sort_main').click(function() {
+        $(this).next('.sort_menu').slideToggle();
+        $(this).toggleClass('rotate');
+    });
+    
+   $(document).click(function(e) {
+        if (!$(e.target).closest('.sort_wrap').length) {
+            $('.sort_menu').slideUp();
+        }
+    });
+   
+    $('.sort_menu ul li a').click(function(e) {
+        e.preventDefault();
+        var selectedText = $(this).text();
+        $('.sort').text(selectedText);
+        $('.sort_menu').slideUp();
+        window.location.href = $(this).attr('href');
+    });
+});
+
+	function validateForm(state) {
+		const form = document.writeForm;
+		if(state == "답변완료"){
+			console.log(reviewCount);
+			alert("이미 작성한 리뷰가 있습니다.");
+			location.href = "<%=request.getContextPath() %>/orderQna/replyUpdate.oq?pur_q_seq=<%=pur_q_seq %><%if(state != 5) {%>&state=<%=state%><%}%>&pageNum=<%=p.getPageNum()%>";
+			return;
+		}else if(form.content.value === ""){
+			alert('내용을 입력해주세요.');
+			form.content.focus();
+			return;
+		}
+		
+		form.submit();
+	}
+	
+	function goToPage() {
+		location.href = "/EIBooks/orderQna/reply.oq";
+	}
+	
+	function delReply(pur_q_seq, ref_seq){
+		const input = confirm("답변을 삭제하시겠습니까?");
+		if(input){
+			location.href = "<%=request.getContextPath()%>/orderQna/replyDeleteProc.oq?pur_q_seq=" + pur_q_seq + "&ref_seq=" + ref_seq + "&state=<%=state%>&pageNum=<%=p.getPageNum()%>";
+		}else{
+			alert("삭제를 취소했습니다.");
+			return;
+		}
+	}
+	
+	function isReply(pur_q_seq) {
+		isReply = 1;
+		location.href="replyWrite.oq?pur_q_seq=" + pur_q_seq + "&isReply=<%=isReply %><%if(state != 5) {%>&state=<%=state%><%}%>&pageNum=<%=p.getPageNum()%>";
+	}
+	
+	window.onload = function() {
+	    const targetElement = document.querySelector('.reply');
+	    if (targetElement) {
+	        targetElement.scrollIntoView({
+	            behavior: 'auto' 
+	        });
+	    }
+	}
+	
+	function limitText(field, maxLength) {
+		if (field.value.length > maxLength) {
+			field.value = field.value.substring(0, maxLength);
+			alert('답변은 최대 ' + maxLength + '자까지 작성할 수 있습니다.');
+		}
+	}
+	
+	function del(pur_q_seq){
+		const input = confirm("정말 삭제하시겠습니까?");
+		if(input){
+			location.href = "<%=request.getContextPath()%>/orderQna/deleteProc.oq?pur_q_seq=" + pur_q_seq + "&state=<%=state%>";
+		}else{
+			alert("삭제를 취소했습니다.");
+			return;
+		}
+	}
+	
+</script>
+</head>
+<body>
+
+
+<div id="skip_navi">
+  <a href="#container">본문바로가기</a>
+</div>
+<div id="wrap" class="admin">
+	<%@ include file="../common/header.jsp" %>
+	<main id="container">
+		<div class="inner">
+		<div class="tit_wrap">
+		<h1>1:1 문의</h1>
+		<ul class="sort_wrap">
+				<li class="sort_main">
+				<%= state == 0 ? "답변대기" : "답변완료" %>
+			     	<img src="../styles/images/undo_tabler_io.svg" alt=""/>
+				</li>
+				<li class="sort_menu">
+					<ul>
+						<li>
+							<a href="/EIBooks/orderQna/reply.oq?state=0">답변대기</a>
+						</li>
+						<li>
+							<a href="/EIBooks/orderQna/reply.oq?state=1">답변완료</a>
+						</li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+		<div class="board_list_wrap">
+			<table>
+				<thead>
+					<tr>
+						<th class="cus_id">작성자</th>
+						<th class="title">내용</th>
+						<th class="pur_seq">주문 번호</th>
+						<th class="date">작성일</th>
+						<th class="state">처리 상태</th>
+					</tr>
+				</thead>
+				<tbody>
+					<% if(qnaList.isEmpty()) { %>	
+						<tr><td colspan="5">&nbsp;<b>문의가 없습니다.</b></td></tr>
+					<% } else { %>
+						<% for(OrderQnaDTO qna : qnaList){ %>	
+							<tr class="qna_wrap">
+								<td>
+									<a class="cus_id" href="/EIBooks/admin/customerView.cs?cus_seq=<%=qna.getCusInfo().getCus_seq()%>">
+										<%=qna.getCusInfo().getCus_id() %>
+									</a>
+								</td>
+								<td class="title_text"><%=qna.getTitle() %></td>
+								<td>
+									<a class="orderView" href="/EIBooks/admin/orderView.or?pur_seq=<%=qna.getPur_seq() %>">
+										<%=qna.getPur_seq() %>
+									</a>
+								</td>
+								<td><%=qna.getRegDate() %></td>
+								<td>
+									<div class="col">
+										<em>
+										<%if(qna.getState() == 0) %>답변대기
+										<%if(qna.getState() == 1) %>답변완료
+										</em>
+									</div>
+								</td>
+							</tr>
+							<tr class="reply_wrap">
+								<td colspan="5">
+									<div class="reply_wrap_content">
+										<div class="cus_content">
+											<p><%=qna.getContent() %></p>
+										<% if(qna.getImageFile() != null && !qna.getImageFile().isEmpty()) { %>
+											<div class="img_wrap">
+						                        <img src="<%=qna.getImageFile() %>" alt="표지이미지">
+						                    </div>
+					                    <% } %>
+										</div>
+										<div class="btn_wrap">
+											<% if(qna.getState() == 0 && pur_q_seq != qna.getPur_q_seq()) { %>
+											<a class="btn insert_btn" href="<%=request.getContextPath()%>/orderQna/replyWrite.oq?pur_q_seq=<%=qna.getPur_q_seq()%>&isReply=1<%if(state != 5) {%>&state=<%=state%><%}%>&pageNum=<%=p.getPageNum() %>">답변 달기
+												<span class="blind">답변 달기</span>
+											</a>
+											<% } %>
+											<a class="btn" href="javascript:del('<%=qna.getPur_q_seq() %>');">
+												삭제
+											</a>
+										</div>
+									</div>
+									<%
+									OrderQnaDAO dao = new OrderQnaDAO();
+									OrderQnaDTO reply = dao.selectReply(qna);
+									
+									if(reply.getContent() != null) {
+									%>
+									<div class="admin_content_wrap reply">
+										<div class="admin_content">
+											<p><%=reply.getContent() %></p>
+										</div>
+										<div class="btn_wrap">
+											<a class="update_btn" href="<%=request.getContextPath()%>/orderQna/replyUpdate.oq?pur_q_seq=<%=reply.getPur_q_seq()%>&isReply=1<%if(state != 5) {%>&state=<%=state%><%}%>&pageNum=<%=p.getPageNum() %>">
+												<span class="blind">수정</span>
+											</a>
+											<a class="delete_btn" href="javascript:delReply('<%=reply.getPur_q_seq() %>','<%=reply.getRef_seq() %>');">
+												<span class="blind">삭제</span>
+											</a>
+										</div>
+									</div>
+									<% } %> <!-- if(reply) -->
+									<div class="reply_input">
+										<% if (pur_q_seq == qna.getPur_q_seq() && isReply == 1) { %>
+											<ul class="reply_form">
+												<li class="">
+													<form class="write_form" name="writeForm" method="post" action="/EIBooks/orderQna/replyWriteProc.oq?pur_q_seq=<%=qna.getPur_q_seq() %><%if(state != 5) {%>&state=<%=state%><%}%>&pageNum=<%=p.getPageNum()%>">
+														<div class="text_area">
+															<textarea class="write_content" name="content" oninput="limitText(this, 500)"></textarea>
+														</div>
+														<div class="write_btn_wrap">
+															<input type="hidden" name="state" value="<%=state%>">
+															<input class="btn write_btn" type="button" value="답글 등록" onclick="validateForm('<%=qna.getState() %>')">
+															<input class="btn" type="button" value="답글 취소" onclick="goToPage()">
+														</div>
+													</form>
+												</li>
+											</ul>
+										<% } %>
+									</div>
+								</td>
+							</tr>
+						<% } %>  <!-- for  -->
+					<% } %> <!-- if -->
+				</tbody>
+			</table>
+		</div>
+		
+		<% if(!qnaList.isEmpty()) { %>
+			<div class="pagination">
+				<%if(p.isPrev()) {%>
+				<a class="first arrow" href="replyWrite.oq?pur_q_seq=<%=pur_q_seq %>&isReply=1<%if(state != 5) { %>&state=<%=state %><%} %>&pageNum=1">
+					<span class="blind">첫 페이지</span>
+				</a>
+				<%} else { %>
+					<a class="first arrow off"><span class="blind">첫 페이지</span></a>
+				<% } %>
+				
+				<%if(p.isPrev()) {%>
+				<a class="prev arrow" href="replyWrite.oq?pur_q_seq=<%=pur_q_seq %>&isReply=1<%if(state != 5) { %>&state=<%=state %><%} %>&pageNum=<%=p.getStartPage()-1 %>">
+					<span class="blind">이전 페이지</span>
+				</a>
+				<%} else { %>
+					<a class="prev arrow off"><span class="blind">이전 페이지</span></a>
+				<%} %>
+				
+				<%for(int i=p.getStartPage(); i<=p.getEndPage(); i++) {%>
+					<%if(i == p.getPageNum()) {%>
+						<a class="number active"><%=i %></a>
+					<%}else {%>
+						<a class="number" href="replyWrite.oq?pur_q_seq=<%=pur_q_seq %>&isReply=1<%if(state != 5) { %>&state=<%=state %><%} %>&pageNum=<%=i %>"><%=i %></a>
+					<%} %>
+				<%} %>
+				
+				<%if(p.isNext()) {%>
+				<a class="next arrow" href="replyWrite.oq?pur_q_seq=<%=pur_q_seq %>&isReply=1<%if(state != 5) { %>&state=<%=state %><%} %>&pageNum=<%=p.getEndPage()+1 %>">
+					<span class="blind">다음 페이지</span>
+				</a>
+				<%} else {%>
+					<a class="next arrow off"><span class="blind">다음 페이지</span></a>
+				<%} %>
+				
+				<%if(p.isNext()) {%>
+				<a class="last arrow" href="replyWrite.oq?pur_q_seq=<%=pur_q_seq %>&isReply=1<%if(state != 5) { %>&state=<%=state %><%} %>&pageNum=<%=p.getRealEnd() %>">
+					<span class="blind">마지막 페이지</span>
+				</a>
+				<%} else { %>
+					<a class="last arrow off"><span class="blind">마지막 페이지</span></a>
+				<%} %>
+			</div>
+		<% } %>
+		</div>
+	</main>
+	<%@ include file="../common/footer.jsp" %>
+</div>
+</body>
+</html>

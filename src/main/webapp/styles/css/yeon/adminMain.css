@@ -1,0 +1,113 @@
+/* 컬러 변수 */
+:root {
+  --point-color1: #6a5aff;
+  --txt-color-400: #999;
+  --txt-color-500: #333;
+  --txt-color-600: #000;
+}
+
+#container {
+  margin: 0 auto;
+}
+
+.inner {
+  width: 1440px;
+  margin: 0 auto;
+}
+
+.inner .admin_do_wrap {
+  margin: 0px;
+  display: grid;
+  grid-template-columns: 260px 400px 260px;
+  grid-template-rows: 1fr 1fr;
+  gap: 20px;
+  justify-content: center;
+  width: 1280px;
+}
+
+.inner .box_wrap {
+  background-color: #fff;
+  padding: 40px 60px;
+  border-radius: 10px;
+}
+.inner .box_wrap.one_box {
+  margin: 0 auto;
+}
+.inner .box_wrap.one_box h3 {
+  text-align: center;
+}
+.inner .box_wrap h3 {
+  font-size: 24px;
+  margin-bottom: 10px;
+  font-weight: 700;
+}
+
+.box_wrap .content {
+  display: flex;
+  justify-content: space-between;
+}
+
+.box_wrap .content .box {
+  width: 127px;
+  height: 127px;
+  background-color: #efefef;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.box_wrap .content .box a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #888;
+  width: 127px;
+  height: 127px;
+}
+
+.box_wrap .content .box strong {
+  font-size: 32px;
+  color: #000;
+}
+
+.box_wrap .content .box .link_btn {
+  display: inline-block;
+  line-height: 127px;
+  color: #000;
+  font-size: 18px;
+}
+.box_wrap .content .box .link_btn2 {
+  display: inline-block;
+  padding: 38px 20px 42px;
+  color: #000;
+  font-size: 18px;
+}
+
+.inner .col {
+  background-color: #e9eaee;
+  width: 390px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 30px;
+}
+
+.inner .col .box2 {
+  background-color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 140px;
+  border-radius: 10px;
+}
+
+.inner .col .box2 a {
+  font-size: 20px;
+  display: inline-block;
+  width: 100%;
+  line-height: 140px;
+  text-align: center;
+  font-weight: 500;
+}
