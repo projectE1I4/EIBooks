@@ -90,6 +90,10 @@
   transition: background-color 0.2s;
 }
 
+.customerList tr {
+	cursor: pointer;
+}
+
 .customerList tr:hover td {
   background-color: #f6f6f6;
 }

@@ -148,7 +148,7 @@ window.onload = function() {
                                 <input type="hidden" name="cartISeq" value="<%= cartItem.getCartISeq() %>">
                                 <button type="button" onclick="decreaseBtn(<%= cartItem.getCartISeq() %>)">-</button>
                                 <input id="quantity<%= cartItem.getCartISeq() %>" type="number" name="cartICount" value="<%= cartItem.getCartICount() %>"
-                                       min="1" readonly style="width: 30px; margin: 0 10px;">
+                                       min="1" readonly margin: 0 10px;">
                                 <button type="button" onclick="increaseBtn(<%= cartItem.getCartISeq() %>)">+</button>
                             </div>
                         </form>

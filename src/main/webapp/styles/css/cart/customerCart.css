@@ -141,7 +141,7 @@ input[type="button"]:hover {
 
 .inner .quantity input[type="number"] {
     width: 50px;
-    margin: 0 10px;
+	text-align: center;
     border: none;
     font-size: 19px;
     font-weight: 600;
