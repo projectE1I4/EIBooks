@@ -39,6 +39,9 @@
 	map.put("cartICount", Integer.parseInt(request.getParameter("cartICount")));
 
 	session.setAttribute("orderMap", map);
+	
+	// 가격 형식
+	String sCartPrice = String.format("%,d", (int)request.getAttribute("totalCartPrice") -3000);
 
 %>
 <!DOCTYPE html>
@@ -95,15 +98,22 @@
 			<img src="<%=resultBook.getImageFile() %>">
 			<p class="title"><%=resultBook.getTitle() %></p>
 			<p class="quantity"><%=request.getAttribute("cartICount") %>권</p>
-			<p><%=(int)request.getAttribute("totalCartPrice") -3000 %>원</p>
+			<p>
+            <%=sCartPrice %>&nbsp;원
+			</p>
 		</div>
 		<%} %>
 	</form>
 	</div>
 <div class="right">
-	<p>상품 금액: <span id="totalPrice"><%=(int)request.getAttribute("totalCartPrice") - 3000 %>&nbsp;원</span></p>
+	<p>상품 금액: <span id="totalPrice">
+	<%=sCartPrice %>&nbsp;원
+	</span></p>
 	<p>배송비: <span>+ 3000&nbsp;원</span></p>
-	<p>최종 결제 금액: <span id="totalCartPrice"><%=(int)request.getAttribute("totalCartPrice") %>&nbsp;원</span></p>
+	<p>최종 결제 금액: <span id="totalCartPrice">
+	<%String sTotalPrice = String.format("%,d", (int)request.getAttribute("totalCartPrice")); %>
+	<%=sTotalPrice %>&nbsp;원
+	</span></p>
 	<button type="button" id="buyButton" onclick="buy();">결제하기</button>
 </div>
 </div>

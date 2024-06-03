@@ -80,6 +80,10 @@ function decreaseBtn(cartISeq) {
     updateCart(cartISeq, inputField.value); // AJAX 요청 보내기
 }
 
+function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
 // AJAX 요청 함수
 function updateCart(cartISeq, cartICount) {
 	//객체 생성
@@ -92,9 +96,9 @@ function updateCart(cartISeq, cartICount) {
     	 if (xhr.readyState == 4 && xhr.status == 200) {
     	        var response = JSON.parse(xhr.responseText);
     	        console.log("변동됨");
-    	        document.getElementById("price" + cartISeq).innerText = response.totalPrice + "원";
-    	        document.getElementById("totalPrice").innerText = response.totalCartPrice - 3000;
-    	        document.getElementById("totalCartPrice").innerText = response.totalCartPrice;
+    	        document.getElementById("price" + cartISeq).innerText =  numberWithCommas(response.totalCartPrice) + "원";
+    	        document.getElementById("totalPrice").innerText = numberWithCommas(response.totalCartPrice - 3000) + "원";
+    	        document.getElementById("totalCartPrice").innerText = numberWithCommas(response.totalCartPrice) + "원";
     	    }
     };
     var cusSeq = document.body.getAttribute('data-cus-seq'); // cusSeq 값을 읽어옵니다.
@@ -142,7 +146,10 @@ window.onload = function() {
                         <li>ISBN&nbsp;&nbsp;&nbsp;&nbsp;<%=cartItem.getBookInfo().getIsbn13() %></li>
                     </ul>
                     <ul class = "quantity"> <!-- 수량 업데이트 -->
-                        <p id="price<%= cartItem.getCartISeq() %>"><%=cartItem.getBookInfo().getPrice() * cartItem.getCartICount()%>원</p>
+                        <p id="price<%= cartItem.getCartISeq() %>">
+                        <%String sCartPrice = String.format("%,d", cartItem.getBookInfo().getPrice() * cartItem.getCartICount()); %>
+	                	<%=sCartPrice %>원
+                        </p>
                         <form id="updateForm<%= cartItem.getCartISeq() %>" action="updateCart.cc" method="post">
                             <div class=button>
                                 <input type="hidden" name="cartISeq" value="<%= cartItem.getCartISeq() %>">
@@ -174,9 +181,15 @@ window.onload = function() {
             <!-- 총 가격 표시 -->
             <div class="order_wrap">
             <div class = "order">
-                <p>상품 금액<span id="totalPrice"><%=totalCartPrice - 3000 %> 원</span></p>
-                <p>배송비<span>+ 3000 원</span></p>
-                <p>결제 예정 금액<span id="totalCartPrice"><%=totalCartPrice %> 원</span></p>
+                <p>상품 금액<span id="totalPrice">
+	                <%String sPrice = String.format("%,d", totalCartPrice - 3000); %>
+	                <%=sPrice %>원
+                </span></p>
+                <p>배송비<span>+ 3,000 원</span></p>
+                <p>결제 예정 금액<span id="totalCartPrice">
+                	<%String sTotalPrice = String.format("%,d", totalCartPrice); %>
+	                <%=sTotalPrice %>원
+                </span></p>
                 <button id="orderBtn" type="button" onclick="submitOrder()">주문하기</button>
             </div>
             </div>

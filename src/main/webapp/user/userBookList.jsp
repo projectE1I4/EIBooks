@@ -110,7 +110,11 @@ function makeSearch(data){
         			html += '<div class="right_wrap">';
         				html += '<div class="quantity_wrap">';
         					html += '<div class="price_wrap">';
-	        					html += '<div class="price' + b['book_seq'] + ' prices">' + b['price'] + '</div><div>원</div></div>';
+        					
+        					
+        					var sPrice = new Intl.NumberFormat().format(b['price']);
+        					html += '<div class="price ' + b['book_seq'] + ' prices">' + sPrice + '</div><div>원</div></div>';
+        					
         					html += '<button type="button" class="btn de_btn" onclick="decreaseBtn(' + b['book_seq'] + ')">-</button>';
                 			html += '<input id="quantity' + b['book_seq'] + '" class="quantity" type="number" name="' + b['book_seq'] + '" value="1" min="1" readonly >';
                 			html += '<button type="button" class="btn" onclick="increaseBtn(' + b['book_seq'] + ')">+</button>';
@@ -129,6 +133,7 @@ function makeSearch(data){
 		        			}
         				html += '</div></div>';
         			html += '</div></div></div>';
+      				html += '<div style="display: none" class="price' + b['book_seq'] + ' prices">' + b['price'] + '</div></div>';
     }
     $('#userBooks').html(html);
 }

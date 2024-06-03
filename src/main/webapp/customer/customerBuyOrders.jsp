@@ -39,7 +39,6 @@
 	Map<String, Integer> map = (Map<String, Integer>) session.getAttribute("map");
 	session.setAttribute("cartMap", map);
 
-
 %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -102,16 +101,25 @@
 							<img src="<%=dto.getBookInfo().getImageFile() %>">
 							<p class = "title"><%=dto.getBookInfo().getTitle() %></p>
 							<p class = "quantity"><%=dto.getCartICount() %>권</p>
-							<p><%=dto.getBookInfo().getPrice() %>원</p>
+							<p>
+							<%String sPrice = String.format("%,d", dto.getBookInfo().getPrice()); %>
+	                		<%=sPrice %>원
+							</p>
 						</div>
 						<% } %>
 					</form>
 				</div>
 				<div class="right_wrap">
 				<div class = "right">
-					<p>상품 금액<span id="totalPrice"><%=totalPrice %>&nbsp;원</span></p>
+					<p>상품 금액<span id="totalPrice">
+					<% String sTotalPrice = String.format("%,d", totalPrice); %>
+					<%=sTotalPrice %>&nbsp;원
+					</span></p>
 					<p>배송비<span>+ 3000 원</span></p>
-					<p>최종 결제 금액<span id="totalCartPrice"><%=totalPrice + 3000 %>&nbsp;원</span></p>
+					<p>최종 결제 금액<span id="totalCartPrice">
+					<% String sTotalFinalPrice = String.format("%,d", totalPrice + 3000); %>
+					<%=sTotalFinalPrice %>&nbsp;원
+					</span></p>
 					<button type="button" id="buyButton" onclick="buy();">결제하기</button>
 				</div>
 				</div>
