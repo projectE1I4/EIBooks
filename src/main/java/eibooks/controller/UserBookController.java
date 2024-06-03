@@ -56,7 +56,7 @@ public class UserBookController extends HttpServlet {
 			String sPageNum = request.getParameter("pageNum");
 			String searchWord = request.getParameter("searchWord");
 			String category = request.getParameter("category");
-			String list = request.getParameter("order");
+			String list = request.getParameter("list");
 			
 			
 			if (searchWord == null) {
