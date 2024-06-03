@@ -96,7 +96,7 @@ function updateCart(cartISeq, cartICount) {
     	 if (xhr.readyState == 4 && xhr.status == 200) {
     	        var response = JSON.parse(xhr.responseText);
     	        console.log("변동됨");
-    	        document.getElementById("price" + cartISeq).innerText =  numberWithCommas(response.totalCartPrice) + "원";
+    	        document.getElementById("price" + cartISeq).innerText =  numberWithCommas(response.totalPrice) + "원";
     	        document.getElementById("totalPrice").innerText = numberWithCommas(response.totalCartPrice - 3000) + "원";
     	        document.getElementById("totalCartPrice").innerText = numberWithCommas(response.totalCartPrice) + "원";
     	    }
