@@ -170,6 +170,8 @@ public class CartController extends HttpServlet {
             jsonResponse.put("message", message);
             jsonResponse.put("totalPrice", totalPrice);
             jsonResponse.put("totalCartPrice", totalCartPrice);
+            
+            request.setAttribute("totalCartPrice", totalCartPrice);
 
             // 응답 보내기
             response.setContentType("application/json");
