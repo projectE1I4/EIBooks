@@ -82,6 +82,7 @@
 	justify-content: space-between;
 	width: 800px;
 	height: 180px;
+	transition: 0.3s ease;
 }
 .card_wrap .numbering {
 	border: 1px solid var(--point-color1);
@@ -127,6 +128,9 @@
 	cursor: pointer;
 	transition: 0.3s ease;
 	font-size: 14px;
+}
+.card_wrap:hover {
+	background: #f5f5f5;
 }
 .card_wrap:hover .detail_btn {
 	color: #fff;

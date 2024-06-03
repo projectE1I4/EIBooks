@@ -37,31 +37,21 @@
 	border-radius: 15px;
 }
 .book_info .title_Author .book_title{
-	overflow: hidden;
-	text-overflow: ellipsis;
-	display: -webkit-box;
-	-webkit-line-clamp: 1;
-	-webkit-box-orient: vertical;
 	margin-bottom: 5px;
 	padding: 5px 10px;
 	font-size: 25px;
 	font-weight: 700;
-	position:relative;
 }
 .book_info .title_Author .book_title>p {
-	position: relative;
-	display:inline
+	  display: inline;
+      position: relative;
+      background: linear-gradient(to bottom, transparent 50%, #6a5aff57 50%);
+      background-size: 100% 1.2em; /* 줄 높이에 맞춰 조정 */
+      background-repeat: repeat;
+      line-height: 1.2em; /* 줄 높이 설정 */
 }
-.book_info .title_Author .book_title::before{
-	content: "";
-	position: absolute;
-	left:10px;
-	bottom: 10px;
-	height: 10px;
-	background: var(--point-color1);
-	opacity: 0.3;
-	margin-right: 10px;
-}
+
+
 .book_info .title_Author .book_author {
 	margin-bottom: 10px;
 	padding: 5px 10px;
