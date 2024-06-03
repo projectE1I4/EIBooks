@@ -416,7 +416,7 @@ public class OrderDAO {
 					sql += "and title like ? ";
 				}
 				
-				sql += "order by i.pur_seq desc ";
+				sql += "order by i.pur_seq ";
 				
 				if(orderBy != null && orderBy.equals("recent")) {
 					sql += "desc, i.book_seq asc ";
