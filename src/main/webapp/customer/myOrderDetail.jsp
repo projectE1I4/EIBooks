@@ -88,9 +88,8 @@
                                     </div>
                                     <div class="description">
                                         <a href="/EIBooks/user/userBookDetail.bo?book_seq=<%=orderItem.getBook_seq()%>">
-                                        	<strong><%=orderItem.getBookInfo().getTitle() %>
+                                        	<strong><%=orderItem.getBookInfo().getTitle() %></strong>
                                         </a>
-                                        </strong>
                                         <span><%=orderItem.getBookInfo().getPrice() * orderItem.getPur_i_count() %>원</span>
                                         <span><%=orderItem.getPur_i_count() %>권</span>
                                     </div>
