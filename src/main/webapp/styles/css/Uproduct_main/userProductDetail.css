@@ -152,7 +152,8 @@
 	width: 103px;
 	cursor: pointer;
 }
-.info_wrap .buyBtn_wrap>.btn:hover {
+.info_wrap .buyBtn_wrap .buyNow:hover,
+.info_wrap .buyBtn_wrap .goCart:hover {
 	color: #fff;
 	background: var(--point-color1);
 }
@@ -311,4 +312,9 @@
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
+}
+
+/* 품절 */
+.soldOut {
+	cursor: auto;
 }

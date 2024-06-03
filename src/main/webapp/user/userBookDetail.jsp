@@ -194,7 +194,7 @@ function decreaseBtn(bookSeq) {
 						<input class="btn buyNow" type="submit" value="바로구매" onclick="buying(<%=dto.getBook_seq()%>)"/>
 						<input class="btn goCart" type="submit" value="장바구니" onclick="goToCustomerCart(<%=dto.getBook_seq()%>);"/>	
 						<% } else { %>
-						<a class="btn">품절</a>
+						<a class="btn soldOut">품절</a>
 						<% } %>		        	
         			</div>
 				</div>
