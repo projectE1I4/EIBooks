@@ -79,17 +79,18 @@
 								<td colspan="3">
 									<%
 										int totalPrice = dao.selectTotalPrice(dto);
+									String Price = String.format("%,d", dao.selectTotalPrice(dto) - 3000);
 									%>
-									<%=totalPrice - 3000 %>원
+									<%=Price %>원
 								</td>
 							</tr>
 							<tr>
 								<th>배송비</th>
-								<td colspan="3">3000원</td>
+								<td colspan="3">3,000원</td>
 							</tr>
 							<tr>
 								<th>최종 결제 금액</th>
-								<td colspan="3"><%=totalPrice %>원</td>
+								<td colspan="3"><%String sPrice = String.format("%,d", dao.selectTotalPrice(dto));%><%=sPrice %>원</td>
 							</tr>
 						</table>
 
@@ -121,7 +122,10 @@
 									</ul>
 								</td>
 								<td><%=orderItem.getPur_i_count() %>권</td>
-								<td><%=orderItem.getBookInfo().getPrice() * orderItem.getPur_i_count() %>원</td>
+								<td>
+								<%String ssPrice = String.format("%,d", orderItem.getBookInfo().getPrice() * orderItem.getPur_i_count()); %>
+								<%=ssPrice %>원
+								</td>
 							</tr>
 							<% } %>
 							<% } %>
