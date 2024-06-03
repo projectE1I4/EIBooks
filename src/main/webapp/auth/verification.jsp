@@ -80,15 +80,15 @@
                 <form>
                     <div class="form-group">
                         <label for="cus_id">아이디</label>
-                        <input type="text" id="cus_id" name="cus_id" required>
+                        <input type="text" id="cus_id" name="cus_id" required placeholder="아이디를 입력해주세요">
                     </div>
                     <div class="form-group">
                         <label for="name">이름</label>
-                        <input type="text" id="name" name="name" required>
+                        <input type="text" id="name" name="name" required placeholder="이름을 입력해주세요">
                     </div>
                     <div class="form-group">
                         <label for="tel">전화번호</label>
-                        <input type="text" id="tel" name="tel" required>
+                        <input type="text" id="tel" name="tel" required placeholder="'-'를 제외한 전화번호 11자리를 입력해주세요">
                     </div>
                     <div class="error-message" style="display:none;"></div>
                     <div class="success-message" style="display:none;"></div>
