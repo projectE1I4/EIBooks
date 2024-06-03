@@ -68,7 +68,7 @@
 	
 	    $('<style>')
 	      .prop('type', 'text/css')
-	      .html('.book_title::before { width: ' + beforeElementWidth + 'px; }')
+	      .html('.book_title>p::before { width: ' + beforeElementWidth + 'px; height: ' + beforeElementHeight + 'px; }')
 	      .appendTo('head');
 	      
 	    });
