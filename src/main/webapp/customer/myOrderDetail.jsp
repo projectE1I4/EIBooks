@@ -88,9 +88,12 @@
                                     </div>
                                     <div class="description">
                                         <a href="/EIBooks/user/userBookDetail.bo?book_seq=<%=orderItem.getBook_seq()%>">
-                                        	<strong><%=orderItem.getBookInfo().getTitle() %></strong>
+                                        	<strong><%=orderItem.getBookInfo().getTitle() %></strong></strong>
                                         </a>
-                                        <span><%=orderItem.getBookInfo().getPrice() * orderItem.getPur_i_count() %>원</span>
+                                        <span>
+                                        <%String sPrice = String.format("%,d", orderItem.getBookInfo().getPrice() * orderItem.getPur_i_count()); // 천 단위로 문자열 사이에 ',' 콤마 넣는 함수 %>
+                                        <%=sPrice %>원
+                                        </span>
                                         <span><%=orderItem.getPur_i_count() %>권</span>
                                     </div>
                                 </div>

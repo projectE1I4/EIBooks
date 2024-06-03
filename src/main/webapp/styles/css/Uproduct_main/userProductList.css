@@ -325,3 +325,14 @@
 	color: #fff;
 	border: 1px solid var(--point-color1);
 }
+
+/* 품절 처리 */
+.stock p {
+    text-align: center;
+    width: 117px;
+    margin-left: auto;
+    margin-bottom: 7px;
+}
+.stock p em {
+	color: var(--point-color1);
+}

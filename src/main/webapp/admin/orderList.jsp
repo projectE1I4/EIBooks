@@ -9,6 +9,10 @@
     PageDTO p = (PageDTO) request.getAttribute("paging");
     int totalCount = (int) request.getAttribute("totalCount");
     String orderBy = (String) request.getAttribute("orderBy");
+	// 디폴트값이 오래된순이길래 첫페이지에 오래된순 텍스트가 처음부터 바뀌어있도록 아래 코드를 추가함(작업자:길현지)
+    if (orderBy == null) {
+        orderBy = "old"; // 디폴트값을 "old"로 설정
+    }
 %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -86,8 +90,9 @@
                             <td align="right">
                                 <%
                                     int totalPrice = dao.selectTotalPrice(dto);
+                                String sPrice = String.format("%,d", dao.selectTotalPrice(dto)); // 천 단위로 문자열 사이에 ',' 콤마 넣는 함수
                                 %>
-                                <%=totalPrice %>원
+                                <%=sPrice %>원
                             </td>
                             <td><%=orderItem.getOrderDate() %></td>
                         </tr>

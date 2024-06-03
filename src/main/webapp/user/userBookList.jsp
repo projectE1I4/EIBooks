@@ -114,10 +114,19 @@ function makeSearch(data){
         					html += '<button type="button" class="btn de_btn" onclick="decreaseBtn(' + b['book_seq'] + ')">-</button>';
                 			html += '<input id="quantity' + b['book_seq'] + '" class="quantity" type="number" name="' + b['book_seq'] + '" value="1" min="1" readonly >';
                 			html += '<button type="button" class="btn" onclick="increaseBtn(' + b['book_seq'] + ')">+</button>';
-            			html += '</div>'
+            			html += '</div>';
+            			html += '<div class="stock">';
+            				if(b['stock'] < 10 && b['stock'] != 0) {
+		        				html += '<p><em>' + b['stock'] + '</em>개 남음</p>';
+		        			}
+            			html += '</div>';
 		        		html += '<div class="buy_wrap">';
-        					html += '<button type="button" class="btn buy_btn" onclick="buying(' + b['book_seq'] + ');">주문하기</button>';
-        					html += '<button type="button" class="btn buy_btn" onclick="goToCustomerCart(' + b['book_seq'] + ');">장바구니</button>';
+		        			if(b['stock'] == 0) {
+		        				html += '<button type="button" class="btn buy_btn">품절</button>';
+		        			} else {
+	        					html += '<button type="button" class="btn buy_btn" onclick="buying(' + b['book_seq'] + ',' + b['stock'] + ');">주문하기</button>';
+	        					html += '<button type="button" class="btn buy_btn" onclick="goToCustomerCart(' + b['book_seq'] + ',' + b['stock'] +');">장바구니</button>';
+		        			}
         				html += '</div></div>';
         			html += '</div></div></div>';
     }
@@ -125,11 +134,16 @@ function makeSearch(data){
 }
 
 // cart에 물건 담는 함수 AJAX
-function goToCustomerCart(book_seq){
+function goToCustomerCart(book_seq, stock){
 	if(<%=cus_seq%> == 0) {
 		location.href="/EIBooks/auth/login.cs";
 	} else {
 	    var cartICount = $('input[name="'+book_seq+'"]').val();
+	    
+	    if (stock < cartICount) {
+	    	alert("재고 수량을 초과합니다.");
+	    	return;
+	    }
 	    $.ajax({
 	        type: "POST",
 	        url: "<%=request.getContextPath()%>/customerCartInsert.cc",
@@ -179,9 +193,15 @@ $(function(){
 });
 
 //  주문하기 버튼 클릭 시 주문하기 페이지로 이동
-function buying(book_seq){
+function buying(book_seq, stock){
 	var className = "cartICount" + book_seq;
     var cartICount = $('input[name="'+book_seq+'"]').val();
+    
+    if (stock < cartICount) {
+    	alert("재고 수량을 초과합니다.");
+    	return;
+    }
+    
     var cus_seq = "<%=session.getAttribute("cus_seq")%>"
     var priceClass = 'price' + book_seq;
     var price = $('.' + priceClass).text(); 
