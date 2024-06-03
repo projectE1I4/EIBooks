@@ -46,7 +46,8 @@
                         <img src="<%=dto.getImageFile() %>" alt="표지이미지">
                     </div>
                     <div class="product_info">
-                        <strong class="price"><%=dto.getPrice() %>원</strong>
+                        <strong class="price"><%String sPrice = String.format("%,d", dto.getPrice()); // 천 단위로 문자열 사이에 ',' 콤마 넣는 함수%>
+                        <%=sPrice %>원</strong>
                         <div class="flex_wrap">
                             <p class="col">도서 분류</p>
                             <p class="category"><%=dto.getCategory() %>
