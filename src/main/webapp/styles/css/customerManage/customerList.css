@@ -176,3 +176,8 @@
 .board_list_wrap .pagination {
   text-align: center;
 }
+
+.secession {
+  color: #ff0000;
+  font-weight: 500;
+}

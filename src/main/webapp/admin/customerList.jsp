@@ -112,8 +112,12 @@
                             </td>
                             <td><%=customer.getRegDate() %>
                             </td>
-                            <td><%=customer.getDel_YN() %>
+                            <% if (customer.getDel_YN().equals("Y")) { %>
+                            <td class="secession">탈퇴
                             </td>
+                            <% } else { %>
+                            <td>&nbsp;</td>
+                            <% } %>
                             <td><a class="update_btn" href="updateCustomer.cs?cus_seq=<%=customer.getCus_seq() %>"
                                    onclick="event.stopPropagation();">수정</a></td>
                             <td><a class="delete_btn" href="javascript:void(0);"
