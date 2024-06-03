@@ -87,7 +87,9 @@
                                         <img src="<%=orderItem.getBookInfo().getImageFile() %>" alt="표지이미지">
                                     </div>
                                     <div class="description">
-                                        <strong><%=orderItem.getBookInfo().getTitle() %>
+                                        <a href="/EIBooks/user/userBookDetail.bo?book_seq=<%=orderItem.getBook_seq()%>">
+                                        	<strong><%=orderItem.getBookInfo().getTitle() %>
+                                        </a>
                                         </strong>
                                         <span><%=orderItem.getBookInfo().getPrice() * orderItem.getPur_i_count() %>원</span>
                                         <span><%=orderItem.getPur_i_count() %>권</span>
