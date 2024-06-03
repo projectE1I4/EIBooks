@@ -65,6 +65,7 @@
     	  
 	  	var $pElement = $('.book_title p');
 	    var beforeElementWidth = $pElement.outerWidth(); // Get the width of the p element
+	    var beforeElementHeight = $pElement.outerHeight();
 	
 	    $('<style>')
 	      .prop('type', 'text/css')
@@ -161,10 +162,11 @@ function decreaseBtn(bookSeq) {
 				</div>
 				<div class="info_box">
 					<div class="book_price">
-						<p class="price">
+						<p class="sPrice">
 							<%String sPrice = String.format("%,d", dto.getPrice()); %>
                             <%=sPrice %>
 						</p>
+						<p class="price" style="display: none"><%=dto.getPrice() %></p>
 						<p>원</p>
 					</div>
 					<div class="publisher_wrap">

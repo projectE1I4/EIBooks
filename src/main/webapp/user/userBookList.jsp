@@ -126,7 +126,7 @@ function makeSearch(data){
             			html += '</div>';
 		        		html += '<div class="buy_wrap">';
 		        			if(b['stock'] == 0) {
-		        				html += '<button type="button" class="btn">품절</button>';
+		        				html += '<button type="button" class="btn" style="cursor: auto; width: 120px">품절</button>';
 		        			} else {
 	        					html += '<button type="button" class="btn buy_btn" onclick="buying(' + b['book_seq'] + ',' + b['stock'] + ');">주문하기</button>';
 	        					html += '<button type="button" class="btn buy_btn" onclick="goToCustomerCart(' + b['book_seq'] + ',' + b['stock'] +');">장바구니</button>';

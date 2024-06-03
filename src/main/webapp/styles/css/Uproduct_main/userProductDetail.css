@@ -315,6 +315,6 @@
 }
 
 /* 품절 */
-.soldOut {
+.info_wrap .buyBtn_wrap>.soldOut {
 	cursor: auto;
 }
