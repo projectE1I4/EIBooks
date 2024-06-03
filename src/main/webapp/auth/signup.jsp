@@ -107,7 +107,7 @@
                         <button type="button" class="btn check" onclick="checkIdAvailability()">중복 확인</button>
                     </div>
                     <div class="form-group">
-                        <label for="password">비밀번호 <span>*</span></label>
+                        <label for="password">비밀번호 <span>*  </span><span class="optional">8글자 이상,영문,숫자,특수문자(!@#$%^&*)를 포함해서 작성해주세요.</span></label>
                         <input type="password" id="password" name="password" required>
                     </div>
                     <div class="form-group">
@@ -120,15 +120,15 @@
                     <% } %>
                     <div class="form-group">
                         <label for="name">이름 <span>*</span></label>
-                        <input type="text" id="name" name="name" required placeholder="ex) 홍길동">
+                        <input type="text" id="name" name="name" required placeholder="이름을 입력해주세요">
                     </div>
                     <div class="form-group">
                         <label for="tel">전화번호 <span>*</span></label>
-                        <input type="text" id="tel" name="tel" required>
+                        <input type="text" id="tel" name="tel" placeholder="'-'를 제외한 전화번호 11자리를 입력해주세요" required>
                     </div>
                     <div class="form-group">
                         <label for="postalCode">우편번호 <span>*</span></label>
-                        <input type="text" id="postalCode" name="postalCode" required>
+                        <input type="text" id="postalCode" name="postalCode" placeholder="우편번호 5자리를 입력해주세요" required>
                     </div>
                     <div class="form-group">
                         <label for="addr">주소 <span>*</span></label>
